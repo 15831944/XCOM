@@ -1,0 +1,14 @@
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\bin\Debug\XCOM AC2012.dll.config
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\bin\Debug\XCOM AC2012.dll
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\bin\Debug\XCOM AC2012.pdb
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\bin\Debug\tr-TR\XCOM AC2012.resources.dll
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM.Commands.resources
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM.MainForm.resources
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM.ProgressForm.resources
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM.Properties.Resources.resources
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM.MainForm.tr-TR.resources
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM AC2012.csproj.GenerateResource.Cache
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\tr-TR\XCOM AC2012.resources.dll
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM AC2012.dll
+C:\Users\Ozgur\Documents\Visual Studio 2008\Projects\XCOM AC2012\XCOM AC2012\obj\Debug\XCOM AC2012.pdb
