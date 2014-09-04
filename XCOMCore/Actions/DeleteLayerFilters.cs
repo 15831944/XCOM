@@ -9,7 +9,7 @@ namespace XCOMCore
     {
         public string Name { get { return "Layer Filtrelerini Sil"; } }
         public int Order { get { return 100; } }
-        public bool Recommended { get { return true; } }
+        public bool Recommended { get { return false; } }
         public ActionInterface Interface { get { return ActionInterface.Command; } }
         public bool ShowDialog() { return true; }
 

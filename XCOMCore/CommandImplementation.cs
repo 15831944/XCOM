@@ -14,7 +14,6 @@ namespace XCOMCore
             var deploy = new Deploy();
 
             // Add purge actions
-            deploy.AddAction(new DeleteLayerFilters());
             deploy.AddAction(new PurgeDGNLS());
             deploy.AddAction(new PurgeAll());
 
