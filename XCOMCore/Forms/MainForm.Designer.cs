@@ -33,18 +33,21 @@
             this.filename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.filepath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbSource = new System.Windows.Forms.Panel();
-            this.cmdClearFiles = new System.Windows.Forms.Button();
-            this.cmdRemoveFile = new System.Windows.Forms.Button();
-            this.cmdAddFile = new System.Windows.Forms.Button();
             this.browseDWG = new System.Windows.Forms.OpenFileDialog();
             this.cmdClose = new System.Windows.Forms.Button();
             this.cmdStart = new System.Windows.Forms.Button();
             this.lbActions = new XCOMCore.CheckedListBoxWithButtons();
+            this.cmdClearFiles = new System.Windows.Forms.Button();
+            this.cmdRemoveFile = new System.Windows.Forms.Button();
+            this.cmdAddFolder = new System.Windows.Forms.Button();
+            this.cmdAddFile = new System.Windows.Forms.Button();
+            this.browseFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
             // 
             // lvSourceFiles
             // 
+            this.lvSourceFiles.AllowDrop = true;
             resources.ApplyResources(this.lvSourceFiles, "lvSourceFiles");
             this.lvSourceFiles.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.filename,
@@ -52,6 +55,8 @@
             this.lvSourceFiles.Name = "lvSourceFiles";
             this.lvSourceFiles.UseCompatibleStateImageBehavior = false;
             this.lvSourceFiles.View = System.Windows.Forms.View.Details;
+            this.lvSourceFiles.DragDrop += new System.Windows.Forms.DragEventHandler(this.lvSourceFiles_DragDrop);
+            this.lvSourceFiles.DragEnter += new System.Windows.Forms.DragEventHandler(this.lvSourceFiles_DragEnter);
             // 
             // filename
             // 
@@ -67,32 +72,9 @@
             this.gbSource.Controls.Add(this.lvSourceFiles);
             this.gbSource.Controls.Add(this.cmdClearFiles);
             this.gbSource.Controls.Add(this.cmdRemoveFile);
+            this.gbSource.Controls.Add(this.cmdAddFolder);
             this.gbSource.Controls.Add(this.cmdAddFile);
             this.gbSource.Name = "gbSource";
-            // 
-            // cmdClearFiles
-            // 
-            resources.ApplyResources(this.cmdClearFiles, "cmdClearFiles");
-            this.cmdClearFiles.Image = global::XCOMCore.Properties.Resources.cross;
-            this.cmdClearFiles.Name = "cmdClearFiles";
-            this.cmdClearFiles.UseVisualStyleBackColor = true;
-            this.cmdClearFiles.Click += new System.EventHandler(this.cmdClearFiles_Click);
-            // 
-            // cmdRemoveFile
-            // 
-            resources.ApplyResources(this.cmdRemoveFile, "cmdRemoveFile");
-            this.cmdRemoveFile.Image = global::XCOMCore.Properties.Resources.delete;
-            this.cmdRemoveFile.Name = "cmdRemoveFile";
-            this.cmdRemoveFile.UseVisualStyleBackColor = true;
-            this.cmdRemoveFile.Click += new System.EventHandler(this.cmdRemoveFile_Click);
-            // 
-            // cmdAddFile
-            // 
-            resources.ApplyResources(this.cmdAddFile, "cmdAddFile");
-            this.cmdAddFile.Image = global::XCOMCore.Properties.Resources.add;
-            this.cmdAddFile.Name = "cmdAddFile";
-            this.cmdAddFile.UseVisualStyleBackColor = true;
-            this.cmdAddFile.Click += new System.EventHandler(this.cmdAddFile_Click);
             // 
             // browseDWG
             // 
@@ -120,7 +102,43 @@
             this.lbActions.CheckOnClick = true;
             this.lbActions.FormattingEnabled = true;
             this.lbActions.Name = "lbActions";
-            this.lbActions.ButtonClick += new CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
+            this.lbActions.ButtonClick += new XCOMCore.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
+            // 
+            // cmdClearFiles
+            // 
+            resources.ApplyResources(this.cmdClearFiles, "cmdClearFiles");
+            this.cmdClearFiles.Image = global::XCOMCore.Properties.Resources.cross;
+            this.cmdClearFiles.Name = "cmdClearFiles";
+            this.cmdClearFiles.UseVisualStyleBackColor = true;
+            this.cmdClearFiles.Click += new System.EventHandler(this.cmdClearFiles_Click);
+            // 
+            // cmdRemoveFile
+            // 
+            resources.ApplyResources(this.cmdRemoveFile, "cmdRemoveFile");
+            this.cmdRemoveFile.Image = global::XCOMCore.Properties.Resources.delete;
+            this.cmdRemoveFile.Name = "cmdRemoveFile";
+            this.cmdRemoveFile.UseVisualStyleBackColor = true;
+            this.cmdRemoveFile.Click += new System.EventHandler(this.cmdRemoveFile_Click);
+            // 
+            // cmdAddFolder
+            // 
+            resources.ApplyResources(this.cmdAddFolder, "cmdAddFolder");
+            this.cmdAddFolder.Image = global::XCOMCore.Properties.Resources.folder_add;
+            this.cmdAddFolder.Name = "cmdAddFolder";
+            this.cmdAddFolder.UseVisualStyleBackColor = true;
+            this.cmdAddFolder.Click += new System.EventHandler(this.cmdAddFolder_Click);
+            // 
+            // cmdAddFile
+            // 
+            resources.ApplyResources(this.cmdAddFile, "cmdAddFile");
+            this.cmdAddFile.Image = global::XCOMCore.Properties.Resources.add;
+            this.cmdAddFile.Name = "cmdAddFile";
+            this.cmdAddFile.UseVisualStyleBackColor = true;
+            this.cmdAddFile.Click += new System.EventHandler(this.cmdAddFile_Click);
+            // 
+            // browseFolder
+            // 
+            this.browseFolder.ShowNewFolderButton = false;
             // 
             // MainForm
             // 
@@ -151,6 +169,8 @@
         private System.Windows.Forms.Button cmdStart;
         private System.Windows.Forms.ListView lvSourceFiles;
         private XCOMCore.CheckedListBoxWithButtons lbActions;
+        private System.Windows.Forms.Button cmdAddFolder;
+        private System.Windows.Forms.FolderBrowserDialog browseFolder;
 
 
     }

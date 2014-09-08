@@ -98,10 +98,7 @@ namespace XCOMCore
         {
             if (browseDWG.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
-                foreach (string file in browseDWG.FileNames)
-                {
-                    AddFile(file);
-                }
+                AddFile(browseDWG.FileNames);
             }
         }
 
@@ -113,6 +110,18 @@ namespace XCOMCore
             item.SubItems.Add(path);
             item.Tag = file;
             lvSourceFiles.Items.Add(item);
+        }
+
+        private void AddFile(string[] filenames)
+        {
+            foreach (string file in filenames)
+            {
+                string ext = Path.GetExtension(file);
+                if (string.Compare(ext, ".dwg", true) == 0)
+                {
+                    AddFile(file);
+                }
+            }
         }
 
         private void cmdRemoveFile_Click(object sender, EventArgs e)
@@ -134,6 +143,27 @@ namespace XCOMCore
             if ((action.Interface & ActionInterface.Dialog) != ActionInterface.None)
             {
                 action.ShowDialog();
+            }
+        }
+
+        private void lvSourceFiles_DragEnter(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
+        }
+
+        private void lvSourceFiles_DragDrop(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop))
+            {
+                AddFile((string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop));
+            }
+        }
+
+        private void cmdAddFolder_Click(object sender, EventArgs e)
+        {
+            if (browseFolder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                AddFile(Directory.GetFiles(browseFolder.SelectedPath, "*.dwg", SearchOption.TopDirectoryOnly));
             }
         }
     }

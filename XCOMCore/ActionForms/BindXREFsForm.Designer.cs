@@ -47,7 +47,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(165, 177);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 20;
+            this.cmdCancel.TabIndex = 2;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -59,7 +59,7 @@
             this.cmdOK.Location = new System.Drawing.Point(84, 177);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 19;
+            this.cmdOK.TabIndex = 1;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -71,7 +71,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(228, 141);
-            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Bind Seçenekleri";
             // 
@@ -83,7 +83,7 @@
             this.cbResolve.Location = new System.Drawing.Point(22, 106);
             this.cbResolve.Name = "cbResolve";
             this.cbResolve.Size = new System.Drawing.Size(101, 17);
-            this.cbResolve.TabIndex = 20;
+            this.cbResolve.TabIndex = 1;
             this.cbResolve.Text = "Resolve XREFs";
             this.cbResolve.UseVisualStyleBackColor = true;
             // 
@@ -94,7 +94,7 @@
             this.panel1.Location = new System.Drawing.Point(17, 32);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(194, 54);
-            this.panel1.TabIndex = 19;
+            this.panel1.TabIndex = 0;
             // 
             // rbInsert
             // 
@@ -102,7 +102,7 @@
             this.rbInsert.Location = new System.Drawing.Point(5, 26);
             this.rbInsert.Name = "rbInsert";
             this.rbInsert.Size = new System.Drawing.Size(51, 17);
-            this.rbInsert.TabIndex = 0;
+            this.rbInsert.TabIndex = 1;
             this.rbInsert.Text = "Insert";
             this.rbInsert.UseVisualStyleBackColor = true;
             // 

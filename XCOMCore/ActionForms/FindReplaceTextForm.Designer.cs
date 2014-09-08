@@ -63,7 +63,7 @@
             this.lvFindReplace.Location = new System.Drawing.Point(12, 82);
             this.lvFindReplace.Name = "lvFindReplace";
             this.lvFindReplace.Size = new System.Drawing.Size(490, 182);
-            this.lvFindReplace.TabIndex = 16;
+            this.lvFindReplace.TabIndex = 6;
             this.lvFindReplace.UseCompatibleStateImageBehavior = false;
             this.lvFindReplace.View = System.Windows.Forms.View.Details;
             // 
@@ -84,7 +84,7 @@
             this.btnClearFindReplace.Location = new System.Drawing.Point(410, 41);
             this.btnClearFindReplace.Name = "btnClearFindReplace";
             this.btnClearFindReplace.Size = new System.Drawing.Size(92, 23);
-            this.btnClearFindReplace.TabIndex = 14;
+            this.btnClearFindReplace.TabIndex = 5;
             this.btnClearFindReplace.Text = "Temizle";
             this.btnClearFindReplace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnClearFindReplace.UseVisualStyleBackColor = true;
@@ -97,7 +97,7 @@
             this.btnAddFindReplace.Location = new System.Drawing.Point(410, 12);
             this.btnAddFindReplace.Name = "btnAddFindReplace";
             this.btnAddFindReplace.Size = new System.Drawing.Size(92, 23);
-            this.btnAddFindReplace.TabIndex = 15;
+            this.btnAddFindReplace.TabIndex = 2;
             this.btnAddFindReplace.Text = "Ekle";
             this.btnAddFindReplace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddFindReplace.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             this.txtReplace.Location = new System.Drawing.Point(93, 43);
             this.txtReplace.Name = "txtReplace";
             this.txtReplace.Size = new System.Drawing.Size(298, 20);
-            this.txtReplace.TabIndex = 13;
+            this.txtReplace.TabIndex = 4;
             this.txtReplace.TextChanged += new System.EventHandler(this.txtReplace_TextChanged);
             // 
             // label2
@@ -118,7 +118,7 @@
             this.label2.Location = new System.Drawing.Point(9, 46);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 10;
+            this.label2.TabIndex = 3;
             this.label2.Text = "Değiştir:";
             // 
             // txtFind
@@ -126,7 +126,7 @@
             this.txtFind.Location = new System.Drawing.Point(93, 14);
             this.txtFind.Name = "txtFind";
             this.txtFind.Size = new System.Drawing.Size(298, 20);
-            this.txtFind.TabIndex = 12;
+            this.txtFind.TabIndex = 1;
             this.txtFind.TextChanged += new System.EventHandler(this.txtFind_TextChanged);
             // 
             // label1
@@ -136,7 +136,7 @@
             this.label1.Location = new System.Drawing.Point(9, 17);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(25, 13);
-            this.label1.TabIndex = 11;
+            this.label1.TabIndex = 0;
             this.label1.Text = "Bul:";
             // 
             // cmdCancel
@@ -147,7 +147,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(427, 405);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 18;
+            this.cmdCancel.TabIndex = 11;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -159,7 +159,7 @@
             this.cmdOK.Location = new System.Drawing.Point(346, 405);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 17;
+            this.cmdOK.TabIndex = 10;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -175,7 +175,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 282);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(267, 109);
-            this.groupBox1.TabIndex = 19;
+            this.groupBox1.TabIndex = 7;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Aranacak Çizim Nesneleri";
             // 
@@ -185,7 +185,7 @@
             this.cbBlock.Location = new System.Drawing.Point(148, 77);
             this.cbBlock.Name = "cbBlock";
             this.cbBlock.Size = new System.Drawing.Size(84, 17);
-            this.cbBlock.TabIndex = 0;
+            this.cbBlock.TabIndex = 5;
             this.cbBlock.Text = "Block İçeriği";
             this.cbBlock.UseVisualStyleBackColor = true;
             // 
@@ -195,7 +195,7 @@
             this.cbTable.Location = new System.Drawing.Point(148, 54);
             this.cbTable.Name = "cbTable";
             this.cbTable.Size = new System.Drawing.Size(53, 17);
-            this.cbTable.TabIndex = 0;
+            this.cbTable.TabIndex = 4;
             this.cbTable.Text = "Table";
             this.cbTable.UseVisualStyleBackColor = true;
             // 
@@ -205,7 +205,7 @@
             this.cbLeader.Location = new System.Drawing.Point(148, 31);
             this.cbLeader.Name = "cbLeader";
             this.cbLeader.Size = new System.Drawing.Size(59, 17);
-            this.cbLeader.TabIndex = 0;
+            this.cbLeader.TabIndex = 3;
             this.cbLeader.Text = "Leader";
             this.cbLeader.UseVisualStyleBackColor = true;
             // 
@@ -215,7 +215,7 @@
             this.cbDimension.Location = new System.Drawing.Point(17, 77);
             this.cbDimension.Name = "cbDimension";
             this.cbDimension.Size = new System.Drawing.Size(75, 17);
-            this.cbDimension.TabIndex = 0;
+            this.cbDimension.TabIndex = 2;
             this.cbDimension.Text = "Dimension";
             this.cbDimension.UseVisualStyleBackColor = true;
             // 
@@ -225,7 +225,7 @@
             this.cbAttribute.Location = new System.Drawing.Point(17, 54);
             this.cbAttribute.Name = "cbAttribute";
             this.cbAttribute.Size = new System.Drawing.Size(65, 17);
-            this.cbAttribute.TabIndex = 0;
+            this.cbAttribute.TabIndex = 1;
             this.cbAttribute.Text = "Attribute";
             this.cbAttribute.UseVisualStyleBackColor = true;
             // 
@@ -252,7 +252,7 @@
             this.cbWhere.Location = new System.Drawing.Point(12, 407);
             this.cbWhere.Name = "cbWhere";
             this.cbWhere.Size = new System.Drawing.Size(142, 21);
-            this.cbWhere.TabIndex = 1;
+            this.cbWhere.TabIndex = 9;
             // 
             // cbCaseSensitive
             // 
@@ -270,7 +270,7 @@
             this.cbWholeWords.Location = new System.Drawing.Point(23, 54);
             this.cbWholeWords.Name = "cbWholeWords";
             this.cbWholeWords.Size = new System.Drawing.Size(152, 17);
-            this.cbWholeWords.TabIndex = 0;
+            this.cbWholeWords.TabIndex = 1;
             this.cbWholeWords.Text = "Sadece Tam Kelimeleri Bul";
             this.cbWholeWords.UseVisualStyleBackColor = true;
             // 
@@ -280,7 +280,7 @@
             this.cbWildcards.Location = new System.Drawing.Point(23, 77);
             this.cbWildcards.Name = "cbWildcards";
             this.cbWildcards.Size = new System.Drawing.Size(92, 17);
-            this.cbWildcards.TabIndex = 0;
+            this.cbWildcards.TabIndex = 2;
             this.cbWildcards.Text = "Wildcards: * ?";
             this.cbWildcards.UseVisualStyleBackColor = true;
             // 
@@ -292,7 +292,7 @@
             this.groupBox2.Location = new System.Drawing.Point(302, 282);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(200, 109);
-            this.groupBox2.TabIndex = 20;
+            this.groupBox2.TabIndex = 8;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Seçenekler";
             // 

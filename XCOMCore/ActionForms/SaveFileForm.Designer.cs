@@ -46,7 +46,7 @@
             this.txSuffix.Location = new System.Drawing.Point(218, 102);
             this.txSuffix.Name = "txSuffix";
             this.txSuffix.Size = new System.Drawing.Size(135, 20);
-            this.txSuffix.TabIndex = 18;
+            this.txSuffix.TabIndex = 2;
             // 
             // label2
             // 
@@ -55,7 +55,7 @@
             this.label2.Location = new System.Drawing.Point(19, 105);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(86, 13);
-            this.label2.TabIndex = 17;
+            this.label2.TabIndex = 1;
             this.label2.Text = "Dosya Adına Ek:";
             // 
             // cbVersion
@@ -71,7 +71,7 @@
             this.cbVersion.Location = new System.Drawing.Point(201, 25);
             this.cbVersion.Name = "cbVersion";
             this.cbVersion.Size = new System.Drawing.Size(135, 21);
-            this.cbVersion.TabIndex = 15;
+            this.cbVersion.TabIndex = 2;
             // 
             // cmdCancel
             // 
@@ -81,7 +81,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(318, 177);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 20;
+            this.cmdCancel.TabIndex = 2;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -93,7 +93,7 @@
             this.cmdOK.Location = new System.Drawing.Point(237, 177);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 19;
+            this.cmdOK.TabIndex = 1;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -106,7 +106,7 @@
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(378, 141);
-            this.groupBox1.TabIndex = 21;
+            this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Kaydetme Seçenekleri";
             // 
@@ -118,7 +118,7 @@
             this.panel1.Location = new System.Drawing.Point(17, 32);
             this.panel1.Name = "panel1";
             this.panel1.Size = new System.Drawing.Size(348, 54);
-            this.panel1.TabIndex = 19;
+            this.panel1.TabIndex = 0;
             // 
             // rbChangeVersion
             // 
@@ -126,7 +126,7 @@
             this.rbChangeVersion.Location = new System.Drawing.Point(5, 26);
             this.rbChangeVersion.Name = "rbChangeVersion";
             this.rbChangeVersion.Size = new System.Drawing.Size(154, 17);
-            this.rbChangeVersion.TabIndex = 0;
+            this.rbChangeVersion.TabIndex = 1;
             this.rbChangeVersion.Text = "Dosya Versiyonunu Değiştir";
             this.rbChangeVersion.UseVisualStyleBackColor = true;
             // 

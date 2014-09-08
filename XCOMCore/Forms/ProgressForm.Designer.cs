@@ -49,7 +49,7 @@
             this.pgTotal.Name = "pgTotal";
             this.pgTotal.Size = new System.Drawing.Size(608, 23);
             this.pgTotal.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pgTotal.TabIndex = 0;
+            this.pgTotal.TabIndex = 1;
             // 
             // pgFile
             // 
@@ -59,7 +59,7 @@
             this.pgFile.Name = "pgFile";
             this.pgFile.Size = new System.Drawing.Size(608, 23);
             this.pgFile.Style = System.Windows.Forms.ProgressBarStyle.Continuous;
-            this.pgFile.TabIndex = 0;
+            this.pgFile.TabIndex = 3;
             // 
             // lblItem
             // 
@@ -67,7 +67,7 @@
             this.lblItem.Location = new System.Drawing.Point(3, 7);
             this.lblItem.Name = "lblItem";
             this.lblItem.Size = new System.Drawing.Size(27, 13);
-            this.lblItem.TabIndex = 1;
+            this.lblItem.TabIndex = 0;
             this.lblItem.Text = "Item";
             // 
             // lblAction
@@ -76,7 +76,7 @@
             this.lblAction.Location = new System.Drawing.Point(3, 68);
             this.lblAction.Name = "lblAction";
             this.lblAction.Size = new System.Drawing.Size(37, 13);
-            this.lblAction.TabIndex = 1;
+            this.lblAction.TabIndex = 2;
             this.lblAction.Text = "Action";
             // 
             // lvProgress
@@ -90,7 +90,7 @@
             this.lvProgress.Location = new System.Drawing.Point(12, 12);
             this.lvProgress.Name = "lvProgress";
             this.lvProgress.Size = new System.Drawing.Size(614, 257);
-            this.lvProgress.TabIndex = 7;
+            this.lvProgress.TabIndex = 0;
             this.lvProgress.UseCompatibleStateImageBehavior = false;
             this.lvProgress.View = System.Windows.Forms.View.Details;
             this.lvProgress.SelectedIndexChanged += new System.EventHandler(this.lvProgress_SelectedIndexChanged);
@@ -123,7 +123,7 @@
             this.cmdClose.Location = new System.Drawing.Point(551, 428);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
-            this.cmdClose.TabIndex = 9;
+            this.cmdClose.TabIndex = 2;
             this.cmdClose.Text = "Kapat";
             this.cmdClose.UseVisualStyleBackColor = true;
             this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
@@ -139,7 +139,7 @@
             this.pnProgress.Location = new System.Drawing.Point(12, 291);
             this.pnProgress.Name = "pnProgress";
             this.pnProgress.Size = new System.Drawing.Size(614, 118);
-            this.pnProgress.TabIndex = 10;
+            this.pnProgress.TabIndex = 1;
             // 
             // ProgressForm
             // 
