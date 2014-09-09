@@ -21,7 +21,7 @@ namespace XCOMCore
         {
             List<string> errors = new List<string>();
 
-            List<ObjectId> tables = new List<ObjectId>() {
+            ObjectId[] tables = new ObjectId[] {
                 db.BlockTableId,
                 db.DimStyleTableId,
                 db.LayerTableId,
@@ -32,7 +32,7 @@ namespace XCOMCore
                 db.ViewTableId
             };
 
-            List<ObjectId> dictionaries = new List<ObjectId>() {
+            ObjectId[] dictionaries = new ObjectId[] {
                 db.GroupDictionaryId,
                 db.MaterialDictionaryId,
                 db.MLStyleDictionaryId,
@@ -44,16 +44,50 @@ namespace XCOMCore
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
-                foreach (ObjectId tableID in tables)
+                try
                 {
-                    List<string> tableErrors = PurgeTable(tr, db, tableID);
-                    errors.AddRange(tableErrors);
-                }
+                    ObjectIdCollection idList = new ObjectIdCollection();
 
-                foreach (ObjectId dictionaryID in dictionaries)
+                    // Symbol tables
+                    foreach (ObjectId tableID in tables)
+                    {
+                        foreach (ObjectId id in CollectTableIds(tr, db, tableID))
+                        {
+                            idList.Add(id);
+                        }
+                    }
+
+                    // Dictionary entries
+                    foreach (ObjectId dictionaryID in dictionaries)
+                    {
+                        foreach (ObjectId id in CollectDictionaryIds(tr, db, dictionaryID))
+                        {
+                            idList.Add(id);
+                        }
+                    }
+
+                    // Filter purgables
+                    db.Purge(idList);
+
+                    // Step through the returned ObjectIdCollection
+                    // and erase each unreferenced symbol
+                    foreach (ObjectId id in idList)
+                    {
+                        DBObject obj = tr.GetObject(id, OpenMode.ForWrite);
+
+                        try
+                        {
+                            obj.Erase(true);
+                        }
+                        catch (System.Exception ex)
+                        {
+                            errors.Add(ex.Message);
+                        }
+                    }
+                }
+                catch (System.Exception ex)
                 {
-                    List<string> dictionaryErrors = PurgeDictionary(tr, db, dictionaryID);
-                    errors.AddRange(dictionaryErrors);
+                    errors.Add(ex.Message);
                 }
 
                 tr.Commit();
@@ -62,86 +96,32 @@ namespace XCOMCore
             return errors.ToArray();
         }
 
-        private List<string> PurgeTable(Transaction tr, Database db, ObjectId tableID)
+        private IEnumerable<ObjectId> CollectTableIds(Transaction tr, Database db, ObjectId tableID)
         {
-            List<string> errors = new List<string>();
+            List<ObjectId> idList = new List<ObjectId>();
 
-            try
+            SymbolTable table = (SymbolTable)tr.GetObject(tableID, OpenMode.ForRead);
+
+            foreach (ObjectId id in table)
             {
-                ObjectIdCollection idList = new ObjectIdCollection();
-
-                SymbolTable table = (SymbolTable)tr.GetObject(tableID, OpenMode.ForRead);
-
-                foreach (ObjectId acObjId in table)
-                {
-                    idList.Add(acObjId);
-                }
-
-                db.Purge(idList);
-
-                // Step through the returned ObjectIdCollection
-                // and erase each unreferenced symbol
-                foreach (ObjectId id in idList)
-                {
-                    SymbolTableRecord tableRecord = (SymbolTableRecord)tr.GetObject(id, OpenMode.ForWrite);
-
-                    try
-                    {
-                        tableRecord.Erase(true);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        errors.Add(ex.Message);
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                errors.Add(ex.Message);
+                idList.Add(id);
             }
 
-            return errors;
+            return idList;
         }
 
-        private List<string> PurgeDictionary(Transaction tr, Database db, ObjectId dictionaryID)
+        private IEnumerable<ObjectId> CollectDictionaryIds(Transaction tr, Database db, ObjectId dictionaryID)
         {
-            List<string> errors = new List<string>();
+            List<ObjectId> idList = new List<ObjectId>();
 
-            try
+            DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
+
+            foreach (DBDictionaryEntry entry in dictionary)
             {
-                ObjectIdCollection idList = new ObjectIdCollection();
-
-                DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
-
-                foreach (DBDictionaryEntry entry in dictionary)
-                {
-                    idList.Add(entry.Value);
-                }
-
-                db.Purge(idList);
-
-                // Step through the returned ObjectIdCollection
-                // and erase each unreferenced symbol
-                foreach (ObjectId id in idList)
-                {
-                    DBObject dictionaryRecord = (DBObject)tr.GetObject(id, OpenMode.ForWrite);
-
-                    try
-                    {
-                        dictionaryRecord.Erase(true);
-                    }
-                    catch (System.Exception ex)
-                    {
-                        errors.Add(ex.Message);
-                    }
-                }
-            }
-            catch (System.Exception ex)
-            {
-                errors.Add(ex.Message);
+                idList.Add(entry.Value);
             }
 
-            return errors;
+            return idList;
         }
     }
 }
