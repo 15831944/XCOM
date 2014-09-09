@@ -32,12 +32,28 @@ namespace XCOMCore
                 db.ViewTableId
             };
 
+            List<ObjectId> dictionaries = new List<ObjectId>() {
+                db.GroupDictionaryId,
+                db.MaterialDictionaryId,
+                db.MLStyleDictionaryId,
+                db.MLeaderStyleDictionaryId,
+                db.PlotStyleNameDictionaryId,
+                db.TableStyleDictionaryId,
+                db.VisualStyleDictionaryId
+            };
+
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 foreach (ObjectId tableID in tables)
                 {
                     List<string> tableErrors = PurgeTable(tr, db, tableID);
                     errors.AddRange(tableErrors);
+                }
+
+                foreach (ObjectId dictionaryID in dictionaries)
+                {
+                    List<string> dictionaryErrors = PurgeDictionary(tr, db, dictionaryID);
+                    errors.AddRange(dictionaryErrors);
                 }
 
                 tr.Commit();
@@ -67,11 +83,52 @@ namespace XCOMCore
                 // and erase each unreferenced symbol
                 foreach (ObjectId id in idList)
                 {
-                    SymbolTableRecord acSymTblRec = (SymbolTableRecord)tr.GetObject(id, OpenMode.ForWrite);
+                    SymbolTableRecord tableRecord = (SymbolTableRecord)tr.GetObject(id, OpenMode.ForWrite);
 
                     try
                     {
-                        acSymTblRec.Erase(true);
+                        tableRecord.Erase(true);
+                    }
+                    catch (System.Exception ex)
+                    {
+                        errors.Add(ex.Message);
+                    }
+                }
+            }
+            catch (System.Exception ex)
+            {
+                errors.Add(ex.Message);
+            }
+
+            return errors;
+        }
+
+        private List<string> PurgeDictionary(Transaction tr, Database db, ObjectId dictionaryID)
+        {
+            List<string> errors = new List<string>();
+
+            try
+            {
+                ObjectIdCollection idList = new ObjectIdCollection();
+
+                DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
+
+                foreach (DBDictionaryEntry entry in dictionary)
+                {
+                    idList.Add(entry.Value);
+                }
+
+                db.Purge(idList);
+
+                // Step through the returned ObjectIdCollection
+                // and erase each unreferenced symbol
+                foreach (ObjectId id in idList)
+                {
+                    DBObject dictionaryRecord = (DBObject)tr.GetObject(id, OpenMode.ForWrite);
+
+                    try
+                    {
+                        dictionaryRecord.Erase(true);
                     }
                     catch (System.Exception ex)
                     {
