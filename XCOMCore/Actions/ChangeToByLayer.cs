@@ -28,7 +28,6 @@ namespace XCOMCore
                 try
                 {
                     // Set the current layer to "0" and all drawing settings to BYLAYER
-                    LayerTable layerTable = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead);
                     db.Clayer = db.LayerZero;
                     db.Cecolor = Color.FromColorIndex(ColorMethod.ByLayer, 256);
                     db.Celtype = db.ByLayerLinetype;
