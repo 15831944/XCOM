@@ -182,8 +182,6 @@
             // cbShapes
             // 
             this.cbShapes.AutoSize = true;
-            this.cbShapes.Checked = true;
-            this.cbShapes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShapes.Enabled = false;
             this.cbShapes.Location = new System.Drawing.Point(193, 56);
             this.cbShapes.Name = "cbShapes";
