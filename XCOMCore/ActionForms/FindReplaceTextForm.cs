@@ -39,7 +39,6 @@ namespace XCOMCore.ActionForms
                 else if (result == System.Windows.Forms.DialogResult.Yes)
                 {
                     btnAddFindReplace_Click(null, null);
-                    textChanged = false;
                     return;
                 }
                 else
@@ -71,6 +70,7 @@ namespace XCOMCore.ActionForms
             ListViewItem item = new ListViewItem(txtFind.Text);
             item.SubItems.Add(txtReplace.Text);
             lvFindReplace.Items.Add(item);
+            textChanged = false;
         }
 
         private void btnClearFindReplace_Click(object sender, EventArgs e)
