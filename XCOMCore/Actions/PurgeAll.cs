@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Runtime;
 
 namespace XCOMCore
 {
@@ -11,6 +12,11 @@ namespace XCOMCore
         public bool Recommended { get { return true; } }
         public ActionInterface Interface { get { return ActionInterface.Command; } }
         public bool ShowDialog() { return true; }
+
+        public bool purgeRegApps = true;
+        public bool purgeEmptyTexts = true;
+        public bool purgeZeroLength = true;
+        public double zeroLengthGeometryTolerance = 1e-6;
 
         public override string ToString()
         {
@@ -42,6 +48,8 @@ namespace XCOMCore
                 db.VisualStyleDictionaryId
             };
 
+            // TODO - Purge shapes
+
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 try
@@ -63,6 +71,73 @@ namespace XCOMCore
                         foreach (ObjectId id in CollectDictionaryIds(tr, db, dictionaryID))
                         {
                             idList.Add(id);
+                        }
+                    }
+
+                    // Reg apps
+                    if (purgeRegApps)
+                    {
+                        RegAppTable regAppTable = (RegAppTable)tr.GetObject(db.RegAppTableId, OpenMode.ForRead);
+                        foreach (ObjectId id in regAppTable)
+                        {
+                            if (id.IsValid)
+                            {
+                                idList.Add(id);
+                            }
+                        }
+                    }
+
+                    // Empty text objects or zero length geometry
+                    if (purgeEmptyTexts | purgeZeroLength)
+                    {
+                        ObjectIdCollection blockIDs = new ObjectIdCollection();
+                        blockIDs.Add(SymbolUtilityServices.GetBlockModelSpaceId(db));
+                        DBDictionary layoutDict = (DBDictionary)tr.GetObject(db.LayoutDictionaryId, OpenMode.ForRead);
+                        foreach (DBDictionaryEntry entry in layoutDict)
+                        {
+                            if (entry.Key.ToUpperInvariant() != "MODEL")
+                            {
+                                Layout layout = (Layout)tr.GetObject(entry.Value, OpenMode.ForRead);
+                                blockIDs.Add(layout.BlockTableRecordId);
+                            }
+                        }
+
+                        foreach (ObjectId blockID in blockIDs)
+                        {
+                            var btr = (BlockTableRecord)tr.GetObject(blockID, OpenMode.ForRead);
+                            foreach (ObjectId id in btr)
+                            {
+                                // Empty text objects
+                                if (purgeEmptyTexts && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(DBText))))
+                                {
+                                    DBText text = (DBText)tr.GetObject(id, OpenMode.ForRead);
+                                    if (string.IsNullOrEmpty(text.TextString))
+                                    {
+                                        text.UpgradeOpen();
+                                        text.Erase(true);
+                                    }
+                                }
+                                else if (purgeEmptyTexts && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(MText))))
+                                {
+                                    MText text = (MText)tr.GetObject(id, OpenMode.ForRead);
+                                    if (string.IsNullOrEmpty(text.Text))
+                                    {
+                                        text.UpgradeOpen();
+                                        text.Erase(true);
+                                    }
+                                }
+                                // Zero length geometry
+                                else if (purgeZeroLength && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(Curve))))
+                                {
+                                    Curve curve = (Curve)tr.GetObject(id, OpenMode.ForRead);
+                                    double len = Math.Abs(curve.GetDistanceAtParameter(curve.EndParam) - curve.GetDistanceAtParameter(curve.StartParam));
+                                    if (len < zeroLengthGeometryTolerance)
+                                    {
+                                        curve.UpgradeOpen();
+                                        curve.Erase(true);
+                                    }
+                                }
+                            }
                         }
                     }
 
