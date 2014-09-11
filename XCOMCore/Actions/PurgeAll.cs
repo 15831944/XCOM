@@ -10,13 +10,33 @@ namespace XCOMCore
         public string Name { get { return "Purge All"; } }
         public int Order { get { return 10000; } }
         public bool Recommended { get { return true; } }
-        public ActionInterface Interface { get { return ActionInterface.Command; } }
-        public bool ShowDialog() { return true; }
+        public ActionInterface Interface { get { return ActionInterface.Both; } }
 
-        public bool purgeRegApps = true;
-        public bool purgeEmptyTexts = true;
-        public bool purgeZeroLength = true;
-        public double zeroLengthGeometryTolerance = 1e-6;
+        private bool purgeBlocks = true;
+        private bool purgeDimensionStyles = true;
+        private bool purgeLayers = true;
+        private bool purgeLinetypes = true;
+        private bool purgeTextStyles = true;
+        private bool purgeUCSSettings = true;
+        private bool purgeViewports = true;
+        private bool purgeViews = true;
+
+        private bool purgeGroups = true;
+        private bool purgeMaterials = true;
+        private bool purgeMlineStyles = true;
+        private bool purgeMultileaderStyles = true;
+        private bool purgePlotStyles = true;
+        private bool purgeTableStyles = true;
+        private bool purgeVisualStyles = true;
+
+        private bool purgeShapes = false;
+
+        private bool purgeZeroLengthGeometry = true;
+        private bool purgeEmptyTexts = true;
+
+        private bool purgeRegApps = true;
+
+        private double zeroLengthGeometryTolerance = 1e-6;
 
         public override string ToString()
         {
@@ -27,26 +47,24 @@ namespace XCOMCore
         {
             List<string> errors = new List<string>();
 
-            ObjectId[] tables = new ObjectId[] {
-                db.BlockTableId,
-                db.DimStyleTableId,
-                db.LayerTableId,
-                db.LinetypeTableId,
-                db.TextStyleTableId,
-                db.UcsTableId,
-                db.ViewportTableId,
-                db.ViewTableId
-            };
+            List<ObjectId> tables = new List<ObjectId>();
+            if (purgeBlocks) tables.Add(db.BlockTableId);
+            if (purgeDimensionStyles) tables.Add(db.DimStyleTableId);
+            if (purgeLayers) tables.Add(db.LayerTableId);
+            if (purgeLinetypes) tables.Add(db.LinetypeTableId);
+            if (purgeTextStyles) tables.Add(db.TextStyleTableId);
+            if (purgeUCSSettings) tables.Add(db.UcsTableId);
+            if (purgeViewports) tables.Add(db.ViewportTableId);
+            if (purgeViews) tables.Add(db.ViewTableId);
 
-            ObjectId[] dictionaries = new ObjectId[] {
-                db.GroupDictionaryId,
-                db.MaterialDictionaryId,
-                db.MLStyleDictionaryId,
-                db.MLeaderStyleDictionaryId,
-                db.PlotStyleNameDictionaryId,
-                db.TableStyleDictionaryId,
-                db.VisualStyleDictionaryId
-            };
+            List<ObjectId> dictionaries = new List<ObjectId>();
+            if (purgeGroups) dictionaries.Add(db.GroupDictionaryId);
+            if (purgeMaterials) dictionaries.Add(db.MaterialDictionaryId);
+            if (purgeMlineStyles) dictionaries.Add(db.MLStyleDictionaryId);
+            if (purgeMultileaderStyles) dictionaries.Add(db.MLeaderStyleDictionaryId);
+            if (purgePlotStyles) dictionaries.Add(db.PlotStyleNameDictionaryId);
+            if (purgeTableStyles) dictionaries.Add(db.TableStyleDictionaryId);
+            if (purgeVisualStyles) dictionaries.Add(db.VisualStyleDictionaryId);
 
             // TODO - Purge shapes
 
@@ -88,7 +106,7 @@ namespace XCOMCore
                     }
 
                     // Empty text objects or zero length geometry
-                    if (purgeEmptyTexts | purgeZeroLength)
+                    if (purgeEmptyTexts | purgeZeroLengthGeometry)
                     {
                         ObjectIdCollection blockIDs = new ObjectIdCollection();
                         blockIDs.Add(SymbolUtilityServices.GetBlockModelSpaceId(db));
@@ -127,7 +145,7 @@ namespace XCOMCore
                                     }
                                 }
                                 // Zero length geometry
-                                else if (purgeZeroLength && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(Curve))))
+                                else if (purgeZeroLengthGeometry && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(Curve))))
                                 {
                                     Curve curve = (Curve)tr.GetObject(id, OpenMode.ForRead);
                                     double len = Math.Abs(curve.GetDistanceAtParameter(curve.EndParam) - curve.GetDistanceAtParameter(curve.StartParam));
@@ -149,15 +167,7 @@ namespace XCOMCore
                     foreach (ObjectId id in idList)
                     {
                         DBObject obj = tr.GetObject(id, OpenMode.ForWrite);
-
-                        try
-                        {
-                            obj.Erase(true);
-                        }
-                        catch (System.Exception ex)
-                        {
-                            errors.Add(ex.Message);
-                        }
+                        obj.Erase(true);
                     }
                 }
                 catch (System.Exception ex)
@@ -197,6 +207,55 @@ namespace XCOMCore
             }
 
             return idList;
+        }
+
+        public bool ShowDialog()
+        {
+            XCOMCore.ActionForms.PurgeAllForm form = new ActionForms.PurgeAllForm();
+
+            form.PurgeBlocks = purgeBlocks;
+            form.PurgeVisualStyles = purgeVisualStyles;
+            form.PurgeTextStyles = purgeTextStyles;
+            form.PurgeTableStyles = purgeTableStyles;
+            form.PurgeShapes = purgeShapes;
+            form.PurgePlotStyles = purgePlotStyles;
+            form.PurgeMultileaderStyles = purgeMultileaderStyles;
+            form.PurgeMlineStyles = purgeMlineStyles;
+            form.PurgeMaterials = purgeMaterials;
+            form.PurgeLinetypes = purgeLinetypes;
+            form.PurgeLayers = purgeLayers;
+            form.PurgeGroups = purgeGroups;
+            form.PurgeDimensionStyles = purgeDimensionStyles;
+            form.PurgeUCSSettings = purgeUCSSettings;
+            form.PurgeViews = purgeViews;
+            form.PurgeViewports = purgeViewports;
+            form.PurgeZeroLengthGeometry = purgeZeroLengthGeometry;
+            form.PurgeEmptyTexts = purgeEmptyTexts;
+            form.PurgeRegApps = purgeRegApps;
+
+            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+
+            purgeBlocks = form.PurgeBlocks;
+            purgeVisualStyles = form.PurgeVisualStyles;
+            purgeTextStyles = form.PurgeTextStyles;
+            purgeTableStyles = form.PurgeTableStyles;
+            purgeShapes = form.PurgeShapes;
+            purgePlotStyles = form.PurgePlotStyles;
+            purgeMultileaderStyles = form.PurgeMultileaderStyles;
+            purgeMlineStyles = form.PurgeMlineStyles;
+            purgeMaterials = form.PurgeMaterials;
+            purgeLinetypes = form.PurgeLinetypes;
+            purgeLayers = form.PurgeLayers;
+            purgeGroups = form.PurgeGroups;
+            purgeDimensionStyles = form.PurgeDimensionStyles;
+            purgeUCSSettings = form.PurgeUCSSettings;
+            purgeViews = form.PurgeViews;
+            purgeViewports = form.PurgeViewports;
+            purgeZeroLengthGeometry = form.PurgeZeroLengthGeometry;
+            purgeEmptyTexts = form.PurgeEmptyTexts;
+            purgeRegApps = form.PurgeRegApps;
+
+            return true;
         }
     }
 }

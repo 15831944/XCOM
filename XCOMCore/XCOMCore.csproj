@@ -79,6 +79,12 @@
     <Compile Include="ActionForms\BindXREFsForm.Designer.cs">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ActionForms\PurgeAllForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionForms\PurgeAllForm.Designer.cs">
+      <DependentUpon>PurgeAllForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ActionForms\FindReplaceTextForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -135,6 +141,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ActionForms\BindXREFsForm.resx">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionForms\PurgeAllForm.resx">
+      <DependentUpon>PurgeAllForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActionForms\FindReplaceTextForm.resx">
       <DependentUpon>FindReplaceTextForm.cs</DependentUpon>
