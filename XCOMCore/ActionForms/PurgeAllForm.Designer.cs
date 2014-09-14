@@ -52,6 +52,8 @@
             this.cbEmptyTexts = new System.Windows.Forms.CheckBox();
             this.cbRegApps = new System.Windows.Forms.CheckBox();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.btnCheckAll = new System.Windows.Forms.Button();
+            this.btnUncheckAll = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -355,12 +357,34 @@
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Diğer Seçenekler";
             // 
+            // btnCheckAll
+            // 
+            this.btnCheckAll.Image = global::XCOMCore.Properties.Resources.lightbulb;
+            this.btnCheckAll.Location = new System.Drawing.Point(12, 362);
+            this.btnCheckAll.Name = "btnCheckAll";
+            this.btnCheckAll.Size = new System.Drawing.Size(23, 23);
+            this.btnCheckAll.TabIndex = 5;
+            this.btnCheckAll.UseVisualStyleBackColor = true;
+            this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
+            // 
+            // btnUncheckAll
+            // 
+            this.btnUncheckAll.Image = global::XCOMCore.Properties.Resources.lightbulb_off;
+            this.btnUncheckAll.Location = new System.Drawing.Point(34, 362);
+            this.btnUncheckAll.Name = "btnUncheckAll";
+            this.btnUncheckAll.Size = new System.Drawing.Size(23, 23);
+            this.btnUncheckAll.TabIndex = 5;
+            this.btnUncheckAll.UseVisualStyleBackColor = true;
+            this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
+            // 
             // PurgeAllForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
             this.ClientSize = new System.Drawing.Size(366, 397);
+            this.Controls.Add(this.btnUncheckAll);
+            this.Controls.Add(this.btnCheckAll);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
@@ -410,5 +434,7 @@
         private System.Windows.Forms.CheckBox cbEmptyTexts;
         private System.Windows.Forms.CheckBox cbRegApps;
         private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.Button btnCheckAll;
+        private System.Windows.Forms.Button btnUncheckAll;
     }
 }

@@ -47,5 +47,30 @@ namespace XCOMCore.ActionForms
         public bool PurgeZeroLengthGeometry { get { return cbZeroLengthGeometry.Checked; } set { cbZeroLengthGeometry.Checked = value; } }
         public bool PurgeEmptyTexts { get { return cbEmptyTexts.Checked; } set { cbEmptyTexts.Checked = value; } }
         public bool PurgeRegApps { get { return cbRegApps.Checked; } set { cbRegApps.Checked = value; } }
+
+        private void btnCheckAll_Click(object sender, EventArgs e)
+        {
+            SetChecks(this, true);
+        }
+
+        private void btnUncheckAll_Click(object sender, EventArgs e)
+        {
+            SetChecks(this, false);
+        }
+
+        private void SetChecks(Control control, bool check)
+        {
+            if (control is CheckBox)
+            {
+                ((CheckBox)control).Checked = check;
+            }
+            else if (control.Controls.Count != 0)
+            {
+                foreach (Control c in control.Controls)
+                {
+                    SetChecks(c, check);
+                }
+            }
+        }
     }
 }

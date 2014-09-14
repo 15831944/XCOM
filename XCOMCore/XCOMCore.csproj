@@ -79,6 +79,12 @@
     <Compile Include="ActionForms\BindXREFsForm.Designer.cs">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ActionForms\SaveDXFForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ActionForms\SaveDXFForm.Designer.cs">
+      <DependentUpon>SaveDXFForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ActionForms\PurgeAllForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -100,6 +106,7 @@
     <Compile Include="Actions\ChangeToLayout.cs" />
     <Compile Include="Actions\BackupFile.cs" />
     <Compile Include="Actions\BindXREFs.cs" />
+    <Compile Include="Actions\SaveDXF.cs" />
     <Compile Include="Actions\SaveFile.cs" />
     <Compile Include="Actions\FindReplaceText.cs" />
     <Compile Include="Actions\ZoomExtents.cs" />
@@ -141,6 +148,9 @@
   <ItemGroup>
     <EmbeddedResource Include="ActionForms\BindXREFsForm.resx">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ActionForms\SaveDXFForm.resx">
+      <DependentUpon>SaveDXFForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ActionForms\PurgeAllForm.resx">
       <DependentUpon>PurgeAllForm.cs</DependentUpon>
