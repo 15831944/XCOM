@@ -3,7 +3,7 @@
   SchemaVersion="1.0"
   ProductType="Application" 
   Name="XCOM" 
-  AppVersion="1.4"
+  AppVersion="1.5"
   Description="Batch processing tools" 
   Author="Özgür Özçıtak" 
   Icon="./Contents/Resources/icon.bmp">

@@ -1,7 +1,7 @@
 [Setup]
 ShowLanguageDialog=no
 AppName=XCOM x64
-AppVersion=1.4
+AppVersion=1.5
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
 DisableProgramGroupPage=yes
