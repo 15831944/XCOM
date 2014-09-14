@@ -110,6 +110,7 @@
     <Compile Include="Actions\SaveFile.cs" />
     <Compile Include="Actions\FindReplaceText.cs" />
     <Compile Include="Actions\ZoomExtents.cs" />
+    <Compile Include="FileLogger.cs" />
     <Compile Include="Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -219,6 +220,12 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\folder_add.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lightbulb.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\lightbulb_off.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

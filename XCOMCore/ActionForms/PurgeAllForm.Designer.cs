@@ -34,7 +34,6 @@
             this.cbViews = new System.Windows.Forms.CheckBox();
             this.cbViewports = new System.Windows.Forms.CheckBox();
             this.cbUCSSettings = new System.Windows.Forms.CheckBox();
-            this.cbVisualStyles = new System.Windows.Forms.CheckBox();
             this.cbTextStyles = new System.Windows.Forms.CheckBox();
             this.cbTableStyles = new System.Windows.Forms.CheckBox();
             this.cbShapes = new System.Windows.Forms.CheckBox();
@@ -89,7 +88,6 @@
             this.groupBox1.Controls.Add(this.cbViews);
             this.groupBox1.Controls.Add(this.cbViewports);
             this.groupBox1.Controls.Add(this.cbUCSSettings);
-            this.groupBox1.Controls.Add(this.cbVisualStyles);
             this.groupBox1.Controls.Add(this.cbTextStyles);
             this.groupBox1.Controls.Add(this.cbTableStyles);
             this.groupBox1.Controls.Add(this.cbShapes);
@@ -144,18 +142,6 @@
             this.cbUCSSettings.TabIndex = 12;
             this.cbUCSSettings.Text = "UCS Settings";
             this.cbUCSSettings.UseVisualStyleBackColor = true;
-            // 
-            // cbVisualStyles
-            // 
-            this.cbVisualStyles.AutoSize = true;
-            this.cbVisualStyles.Checked = true;
-            this.cbVisualStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbVisualStyles.Location = new System.Drawing.Point(193, 194);
-            this.cbVisualStyles.Name = "cbVisualStyles";
-            this.cbVisualStyles.Size = new System.Drawing.Size(85, 17);
-            this.cbVisualStyles.TabIndex = 15;
-            this.cbVisualStyles.Text = "Visual Styles";
-            this.cbVisualStyles.UseVisualStyleBackColor = true;
             // 
             // cbTextStyles
             // 
@@ -414,7 +400,6 @@
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.CheckBox cbBlocks;
-        private System.Windows.Forms.CheckBox cbVisualStyles;
         private System.Windows.Forms.CheckBox cbTextStyles;
         private System.Windows.Forms.CheckBox cbTableStyles;
         private System.Windows.Forms.CheckBox cbShapes;

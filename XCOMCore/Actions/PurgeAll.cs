@@ -27,7 +27,6 @@ namespace XCOMCore
         private bool purgeMultileaderStyles = true;
         private bool purgePlotStyles = true;
         private bool purgeTableStyles = true;
-        private bool purgeVisualStyles = true;
 
         private bool purgeShapes = false;
 
@@ -64,7 +63,6 @@ namespace XCOMCore
             if (purgeMultileaderStyles) dictionaries.Add(db.MLeaderStyleDictionaryId);
             if (purgePlotStyles) dictionaries.Add(db.PlotStyleNameDictionaryId);
             if (purgeTableStyles) dictionaries.Add(db.TableStyleDictionaryId);
-            if (purgeVisualStyles) dictionaries.Add(db.VisualStyleDictionaryId);
 
             // TODO - Purge shapes
 
@@ -199,10 +197,18 @@ namespace XCOMCore
         {
             List<ObjectId> idList = new List<ObjectId>();
 
-            DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
+            bool isMaterialDictionary = (dictionaryID == db.MaterialDictionaryId);
 
+            DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
             foreach (DBDictionaryEntry entry in dictionary)
             {
+                if (isMaterialDictionary)
+                {
+                    string name = entry.Key.ToUpperInvariant();
+                    // Default materials cannot be purged
+                    if (name == "BYLAYER" || name == "BYBLOCK" || name == "GLOBAL") continue;
+                }
+
                 idList.Add(entry.Value);
             }
 
@@ -214,7 +220,6 @@ namespace XCOMCore
             XCOMCore.ActionForms.PurgeAllForm form = new ActionForms.PurgeAllForm();
 
             form.PurgeBlocks = purgeBlocks;
-            form.PurgeVisualStyles = purgeVisualStyles;
             form.PurgeTextStyles = purgeTextStyles;
             form.PurgeTableStyles = purgeTableStyles;
             form.PurgeShapes = purgeShapes;
@@ -236,7 +241,6 @@ namespace XCOMCore
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
             purgeBlocks = form.PurgeBlocks;
-            purgeVisualStyles = form.PurgeVisualStyles;
             purgeTextStyles = form.PurgeTextStyles;
             purgeTableStyles = form.PurgeTableStyles;
             purgeShapes = form.PurgeShapes;

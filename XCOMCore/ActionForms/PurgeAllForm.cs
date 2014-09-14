@@ -29,7 +29,6 @@ namespace XCOMCore.ActionForms
         }
 
         public bool PurgeBlocks { get { return cbBlocks.Checked; } set { cbBlocks.Checked = value; } }
-        public bool PurgeVisualStyles { get { return cbVisualStyles.Checked; } set { cbVisualStyles.Checked = value; } }
         public bool PurgeTextStyles { get { return cbTextStyles.Checked; } set { cbTextStyles.Checked = value; } }
         public bool PurgeTableStyles { get { return cbTableStyles.Checked; } set { cbTableStyles.Checked = value; } }
         public bool PurgeShapes { get { return cbShapes.Checked; } set { cbShapes.Checked = value; } }
