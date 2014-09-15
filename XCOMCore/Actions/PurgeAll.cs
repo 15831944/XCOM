@@ -155,6 +155,8 @@ namespace XCOMCore
                                 blockIDs.Add(layout.BlockTableRecordId);
                             }
                         }
+                        int textCount = 0;
+                        int zeroLengthCount = 0;
 
                         foreach (ObjectId blockID in blockIDs)
                         {
@@ -169,6 +171,7 @@ namespace XCOMCore
                                     {
                                         text.UpgradeOpen();
                                         text.Erase(true);
+                                        textCount++;
                                     }
                                 }
                                 else if (purgeEmptyTexts && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(MText))))
@@ -178,6 +181,7 @@ namespace XCOMCore
                                     {
                                         text.UpgradeOpen();
                                         text.Erase(true);
+                                        textCount++;
                                     }
                                 }
                                 // Zero length geometry
@@ -189,6 +193,7 @@ namespace XCOMCore
                                     {
                                         curve.UpgradeOpen();
                                         curve.Erase(true);
+                                        zeroLengthCount++;
                                     }
                                 }
                             }
@@ -200,10 +205,12 @@ namespace XCOMCore
 
                     // Step through the returned ObjectIdCollection
                     // and erase each unreferenced symbol
+                    int purgeCount = 0;
                     foreach (ObjectId id in idList)
                     {
                         DBObject obj = tr.GetObject(id, OpenMode.ForWrite);
                         obj.Erase(true);
+                        purgeCount++;
                     }
                 }
                 catch (System.Exception ex)

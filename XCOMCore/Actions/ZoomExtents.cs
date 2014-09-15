@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.LayerManager;
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Geometry;
 
 namespace XCOMCore

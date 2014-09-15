@@ -30,38 +30,30 @@ namespace XCOMCore
             {
                 // Start by getting all the "complex" DGN linetypes
                 // from the linetype table
-
                 var linetypes = CollectComplexLinetypeIds(db, tr);
 
                 // Store a count before we start removing the ones
                 // that are referenced
-
                 var ltcnt = linetypes.Count;
 
                 // Remove any from the "to remove" list that need to be
                 // kept (as they have references from objects other
                 // than anonymous blocks)
-
-                var ltsToKeep =
-                  PurgeLinetypesReferencedNotByAnonBlocks(db, tr, linetypes);
+                var ltsToKeep = PurgeLinetypesReferencedNotByAnonBlocks(db, tr, linetypes);
 
                 // Now we collect the DGN stroke entries from the NOD
-
                 var strokes = CollectStrokeIds(db, tr);
 
                 // Store a count before we start removing the ones
                 // that are referenced
-
                 var strkcnt = strokes.Count;
 
                 // Open up each of the "keeper" linetypes, and go through
                 // their data, removing any NOD entries from the "to
                 // remove" list that are referenced
-
                 PurgeStrokesReferencedByLinetypes(tr, ltsToKeep, strokes);
 
                 // Erase each of the NOD entries that are safe to remove
-
                 int erasedStrokes = 0;
 
                 foreach (ObjectId id in strokes)
@@ -83,7 +75,6 @@ namespace XCOMCore
                 }
 
                 // And the same for the complex linetypes
-
                 int erasedLinetypes = 0;
 
                 foreach (ObjectId id in linetypes)
@@ -101,19 +92,11 @@ namespace XCOMCore
                 }
 
                 // Remove the DGN stroke dictionary from the NOD if empty
-
-                var nod =
-                  (DBDictionary)tr.GetObject(
-                    db.NamedObjectsDictionaryId, OpenMode.ForRead
-                  );
+                var nod = (DBDictionary)tr.GetObject(db.NamedObjectsDictionaryId, OpenMode.ForRead);
 
                 if (nod.Contains(dgnLsDictName))
                 {
-                    var dgnLsDict =
-                      (DBDictionary)tr.GetObject(
-                        (ObjectId)nod[dgnLsDictName],
-                        OpenMode.ForRead
-                      );
+                    var dgnLsDict = (DBDictionary)tr.GetObject((ObjectId)nod[dgnLsDictName], OpenMode.ForRead);
 
                     if (dgnLsDict.Count == 0)
                     {
@@ -190,21 +173,16 @@ namespace XCOMCore
             var keepers = new ObjectIdCollection();
 
             // Open the block table record
-
             var bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
             foreach (var btrId in bt)
             {
                 // Open each block definition in the drawing
-
-                var btr =
-                  (BlockTableRecord)tr.GetObject(btrId, OpenMode.ForRead);
+                var btr = (BlockTableRecord)tr.GetObject(btrId, OpenMode.ForRead);
 
                 // And open each entity in each block
-
                 foreach (var id in btr)
                 {
                     // Open the object and check its linetype
-
                     var obj = tr.GetObject(id, OpenMode.ForRead, true);
                     var ent = obj as Entity;
                     if (ent != null && !ent.IsErased)
@@ -213,7 +191,6 @@ namespace XCOMCore
                         {
                             // If the owner does not belong to an anonymous
                             // block, then we take it seriously as a reference
-
                             var owner = (BlockTableRecord)tr.GetObject(ent.OwnerId, OpenMode.ForRead);
                             if (
                               !owner.Name.StartsWith("*") ||
@@ -223,7 +200,6 @@ namespace XCOMCore
                             {
                                 // Move the linetype ID from the "to remove" list
                                 // to the "to keep" list
-
                                 ids.Remove(ent.LinetypeId);
                                 keepers.Add(ent.LinetypeId);
                             }
@@ -256,23 +232,19 @@ namespace XCOMCore
             if (obj.ExtensionDictionary != ObjectId.Null)
             {
                 // Get the extension dictionary
-
                 var exd = (DBDictionary)tr.GetObject(obj.ExtensionDictionary, OpenMode.ForRead);
 
                 // And the "DGN Linestyle Definition" object
-
                 if (exd.Contains(dgnLsDefName))
                 {
                     var lsdef = tr.GetObject(exd.GetAt(dgnLsDefName), OpenMode.ForRead);
 
                     // Use a DWG filer to extract the references
-
                     var refFiler = new ReferenceFiler();
                     lsdef.DwgOut(refFiler);
 
                     // Loop through the references and remove any from the
                     // list passed in
-
                     foreach (ObjectId refid in refFiler.HardPointerIds)
                     {
                         if (nodIds.Contains(refid))

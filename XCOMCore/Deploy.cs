@@ -5,6 +5,7 @@ using Autodesk.AutoCAD.Runtime;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.LayerManager;
 using Autodesk.AutoCAD.ApplicationServices;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace XCOMCore
 {

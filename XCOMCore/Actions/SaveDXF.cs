@@ -1,10 +1,6 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.LayerManager;
-using Autodesk.AutoCAD.Colors;
-using Autodesk.AutoCAD.Geometry;
 
 namespace XCOMCore
 {
@@ -43,10 +39,7 @@ namespace XCOMCore
 
         private string GetDXFFilename(string filename)
         {
-            string dir = Path.GetDirectoryName(filename);
-            string name = Path.GetFileNameWithoutExtension(filename);
-
-            return Path.Combine(dir, name + ".dxf");
+            return Path.ChangeExtension(filename, ".dxf");
         }
 
         public bool ShowDialog()
