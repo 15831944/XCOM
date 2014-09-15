@@ -53,6 +53,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnUncheckAll = new System.Windows.Forms.Button();
+            this.cbVisualStyles = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -66,7 +67,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(279, 362);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 4;
+            this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -78,13 +79,14 @@
             this.cmdOK.Location = new System.Drawing.Point(198, 362);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 3;
+            this.cmdOK.TabIndex = 4;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbVisualStyles);
             this.groupBox1.Controls.Add(this.cbViews);
             this.groupBox1.Controls.Add(this.cbViewports);
             this.groupBox1.Controls.Add(this.cbUCSSettings);
@@ -349,7 +351,7 @@
             this.btnCheckAll.Location = new System.Drawing.Point(12, 362);
             this.btnCheckAll.Name = "btnCheckAll";
             this.btnCheckAll.Size = new System.Drawing.Size(23, 23);
-            this.btnCheckAll.TabIndex = 5;
+            this.btnCheckAll.TabIndex = 2;
             this.btnCheckAll.UseVisualStyleBackColor = true;
             this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
             // 
@@ -359,9 +361,21 @@
             this.btnUncheckAll.Location = new System.Drawing.Point(34, 362);
             this.btnUncheckAll.Name = "btnUncheckAll";
             this.btnUncheckAll.Size = new System.Drawing.Size(23, 23);
-            this.btnUncheckAll.TabIndex = 5;
+            this.btnUncheckAll.TabIndex = 3;
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
+            // 
+            // cbVisualStyles
+            // 
+            this.cbVisualStyles.AutoSize = true;
+            this.cbVisualStyles.Checked = true;
+            this.cbVisualStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbVisualStyles.Location = new System.Drawing.Point(193, 194);
+            this.cbVisualStyles.Name = "cbVisualStyles";
+            this.cbVisualStyles.Size = new System.Drawing.Size(82, 17);
+            this.cbVisualStyles.TabIndex = 15;
+            this.cbVisualStyles.Text = "VisualStyles";
+            this.cbVisualStyles.UseVisualStyleBackColor = true;
             // 
             // PurgeAllForm
             // 
@@ -421,5 +435,6 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.Button btnUncheckAll;
+        private System.Windows.Forms.CheckBox cbVisualStyles;
     }
 }

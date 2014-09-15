@@ -20,6 +20,7 @@ namespace XCOMCore
         private bool purgeUCSSettings = true;
         private bool purgeViewports = true;
         private bool purgeViews = true;
+        private bool purgeVisualStyles = true;
 
         private bool purgeGroups = true;
         private bool purgeMaterials = true;
@@ -36,6 +37,42 @@ namespace XCOMCore
         private bool purgeRegApps = true;
 
         private double zeroLengthGeometryTolerance = 1e-6;
+
+        private static Dictionary<string, bool> materialsToKeep = new Dictionary<string, bool>()
+        {
+            { "BYLAYER", true },
+            { "BYBLOCK", true },
+            { "GLOBAL", true }
+        };
+        private static Dictionary<string, bool> visualStylesToKeep = new Dictionary<string, bool>()
+        {
+            { "2DWIREFRAME", true },
+            { "3D HIDDEN", true },
+            { "3DWIREFRAME", true },
+            { "BASIC", true },
+            { "BRIGHTEN", true },
+            { "COLORCHANGE", true },
+            { "CONCEPTUAL", true },
+            { "DIM", true },
+            { "EDGECOLOROFF", true },
+            { "FACEPATTERN", true },
+            { "FLAT", true },
+            { "FLATWITHEDGES", true },
+            { "GOURAUD", true },
+            { "GOURAUDWITHEDGES", true },
+            { "HIDDEN", true },
+            { "JITTEROFF", true },
+            { "LINEPATTERN", true },
+            { "OVERHANGOFF", true },
+            { "REALISTIC", true },
+            { "SHADED", true },
+            { "SHADED WITH EDGES", true },
+            { "SHADES OF GRAY", true },
+            { "SKETCHY", true },
+            { "THICKEN", true },
+            { "WIREFRAME", true },
+            { "X-RAY", true }
+        };
 
         public override string ToString()
         {
@@ -63,6 +100,7 @@ namespace XCOMCore
             if (purgeMultileaderStyles) dictionaries.Add(db.MLeaderStyleDictionaryId);
             if (purgePlotStyles) dictionaries.Add(db.PlotStyleNameDictionaryId);
             if (purgeTableStyles) dictionaries.Add(db.TableStyleDictionaryId);
+            if (purgeVisualStyles) dictionaries.Add(db.VisualStyleDictionaryId);
 
             // TODO - Purge shapes
 
@@ -198,18 +236,18 @@ namespace XCOMCore
             List<ObjectId> idList = new List<ObjectId>();
 
             bool isMaterialDictionary = (dictionaryID == db.MaterialDictionaryId);
+            bool isVisualStyleDictionary = (dictionaryID == db.VisualStyleDictionaryId);
 
             DBDictionary dictionary = (DBDictionary)tr.GetObject(dictionaryID, OpenMode.ForRead);
             foreach (DBDictionaryEntry entry in dictionary)
             {
-                if (isMaterialDictionary)
-                {
-                    string name = entry.Key.ToUpperInvariant();
-                    // Default materials cannot be purged
-                    if (name == "BYLAYER" || name == "BYBLOCK" || name == "GLOBAL") continue;
-                }
-
-                idList.Add(entry.Value);
+                // Default materials and visual styles cannot be purged
+                if (isMaterialDictionary && materialsToKeep.ContainsKey(entry.Key.ToUpperInvariant()))
+                    continue;
+                else if (isVisualStyleDictionary && visualStylesToKeep.ContainsKey(entry.Key.ToUpperInvariant()))
+                    continue;
+                else
+                    idList.Add(entry.Value);
             }
 
             return idList;
@@ -237,6 +275,7 @@ namespace XCOMCore
             form.PurgeZeroLengthGeometry = purgeZeroLengthGeometry;
             form.PurgeEmptyTexts = purgeEmptyTexts;
             form.PurgeRegApps = purgeRegApps;
+            form.PurgeVisualStyles = purgeVisualStyles;
 
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
@@ -258,6 +297,7 @@ namespace XCOMCore
             purgeZeroLengthGeometry = form.PurgeZeroLengthGeometry;
             purgeEmptyTexts = form.PurgeEmptyTexts;
             purgeRegApps = form.PurgeRegApps;
+            purgeVisualStyles = form.PurgeVisualStyles;
 
             return true;
         }
