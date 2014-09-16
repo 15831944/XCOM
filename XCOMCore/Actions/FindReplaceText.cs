@@ -98,13 +98,13 @@ namespace XCOMCore
                     {
                         FindReplaceBlock(tr, id);
                     }
-
-                    tr.Commit();
                 }
                 catch (System.Exception ex)
                 {
                     errors.Add(ex.Message);
                 }
+
+                tr.Commit();
             }
 
             return errors.ToArray();

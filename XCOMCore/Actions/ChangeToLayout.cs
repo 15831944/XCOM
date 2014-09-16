@@ -44,8 +44,6 @@ namespace XCOMCore
                                     BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bt[BlockTableRecord.PaperSpace], OpenMode.ForWrite);
                                     btr.LayoutId = layout.Id;
 
-                                    tr.Commit();
-
                                     break;
                                 }
                             }
@@ -56,6 +54,8 @@ namespace XCOMCore
                 {
                     errors.Add(ex.Message);
                 }
+
+                tr.Commit();
             }
 
             return errors.ToArray();

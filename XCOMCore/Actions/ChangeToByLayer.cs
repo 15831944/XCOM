@@ -30,13 +30,13 @@ namespace XCOMCore
                     db.Cecolor = Color.FromColorIndex(ColorMethod.ByLayer, 256);
                     db.Celtype = db.ByLayerLinetype;
                     db.Celweight = LineWeight.ByLayer;
-
-                    tr.Commit();
                 }
                 catch (System.Exception ex)
                 {
                     errors.Add(ex.Message);
                 }
+
+                tr.Commit();
             }
 
             return errors.ToArray();

@@ -82,13 +82,13 @@ namespace XCOMCore
                             db.BindXrefs(xrefs, insertMode);
                         }
                     }
-
-                    tr.Commit();
                 }
                 catch (System.Exception ex)
                 {
                     errors.Add(ex.Message);
                 }
+
+                tr.Commit();
             }
 
             return errors.ToArray();

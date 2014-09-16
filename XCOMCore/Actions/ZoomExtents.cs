@@ -32,13 +32,13 @@ namespace XCOMCore
                     ViewportTableRecord vptr = (ViewportTableRecord)tr.GetObject(vpt["*Active"], OpenMode.ForWrite);
                     ZoomToExtentsofViewport(vptr);
                     db.UpdateExt(true);
-
-                    tr.Commit();
                 }
                 catch (System.Exception ex)
                 {
                     errors.Add(ex.Message);
                 }
+
+                tr.Commit();
             }
 
             return errors.ToArray();
