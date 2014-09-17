@@ -6,7 +6,7 @@
   AppVersion="###"
   Description="Batch processing tools" 
   Author="Özgür Özçıtak" 
-  Icon="./Contents/Resources/icon.bmp">
+  Icon="./Resources/icon.bmp">
   <CompanyDetails Name="OZOZ" Email="ozcitak@yahoo.com" Url=" " Phone=" " />
   <Components Description="2012">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R18.2" SeriesMax="R18.2" />
@@ -16,7 +16,7 @@
         <Command Local="XPURGE" Global="XPURGE" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
+    <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
   <Components Description="2014">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R19.1" />
@@ -26,6 +26,6 @@
         <Command Local="XPURGE" Global="XPURGE" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
+    <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
 </ApplicationPackage>
