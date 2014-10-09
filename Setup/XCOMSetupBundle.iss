@@ -15,6 +15,7 @@ OutputDir=Bin
 DisableDirPage=yes
 DefaultDirName={userappdata}\Autodesk\ApplicationPlugins\XCOM.bundle
 UsePreviousAppDir=no
+DisableReadyPage=yes
 
 [Files]
 Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: AddVersionToPackageXML('{#ShortAppVersion}')
@@ -42,3 +43,8 @@ begin
   XMLDoc.Save(FileName);
 end;
 
+procedure CurPageChanged(CurPageID: Integer);
+begin
+  if CurPageID = wpWelcome then
+    WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
+end;
