@@ -19,7 +19,7 @@
     <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
   <Components Description="2014">
-    <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R19.1" />
+    <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R20.0" />
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/2014/XCOM2014.dll" AppDescription="Batch processing tools" LoadOnCommandInvocation="True" >
       <Commands>
         <Command Local="XCOM" Global="XCOM" />
