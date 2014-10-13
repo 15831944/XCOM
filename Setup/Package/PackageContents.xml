@@ -26,6 +26,6 @@
         <Command Local="XPURGE" Global="XPURGE" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
+    <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM_Menu.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
 </ApplicationPackage>
