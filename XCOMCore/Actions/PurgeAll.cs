@@ -164,7 +164,7 @@ namespace XCOMCore
                             foreach (ObjectId id in btr)
                             {
                                 // Empty text objects
-                                if (purgeEmptyTexts && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(DBText))))
+                                if (purgeEmptyTexts && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                                 {
                                     DBText text = (DBText)tr.GetObject(id, OpenMode.ForRead);
                                     if (string.IsNullOrEmpty(text.TextString))
@@ -174,7 +174,7 @@ namespace XCOMCore
                                         textCount++;
                                     }
                                 }
-                                else if (purgeEmptyTexts && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(MText))))
+                                else if (purgeEmptyTexts && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(MText)).UnmanagedObject)
                                 {
                                     MText text = (MText)tr.GetObject(id, OpenMode.ForRead);
                                     if (string.IsNullOrEmpty(text.Text))
