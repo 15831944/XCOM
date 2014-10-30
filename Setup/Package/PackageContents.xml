@@ -4,23 +4,13 @@
   ProductType="Application" 
   Name="XCOM" 
   AppVersion="###"
-  Description="Batch processing tools" 
+  Description="Batch processing tools and CAD utilities." 
   Author="Özgür Özçıtak" 
   Icon="./Resources/icon.bmp">
   <CompanyDetails Name="OZOZ" Email="ozcitak@yahoo.com" Url=" " Phone=" " />
-  <Components Description="2012">
-    <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R18.2" SeriesMax="R18.2" />
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/2012/XCOM2012.dll" AppDescription="Batch processing tools" LoadOnCommandInvocation="True" >
-      <Commands>
-        <Command Local="XCOM" Global="XCOM" />
-        <Command Local="XPURGE" Global="XPURGE" />
-      </Commands>
-    </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM.cuix" LoadOnAutoCADStartup="True" />	
-  </Components>
-  <Components Description="2014">
+  <Components Description="XCOM">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R20.0" />
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/2014/XCOM2014.dll" AppDescription="Batch processing tools" LoadOnCommandInvocation="True" >
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/XCOM.dll" AppDescription="Batch processing tools" LoadOnCommandInvocation="True" >
       <Commands>
         <Command Local="XCOM" Global="XCOM" />
         <Command Local="XPURGE" Global="XPURGE" />
