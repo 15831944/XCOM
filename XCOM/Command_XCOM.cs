@@ -6,36 +6,12 @@ using System.Reflection;
 
 namespace XCOM
 {
-    public class Commands
+    public class Command_XCOM
     {
-        [Autodesk.AutoCAD.Runtime.CommandMethod("KOORDINAT")]
-        public static void Coord()
-        {
-
-        }
-
-        [Autodesk.AutoCAD.Runtime.CommandMethod("XPURGE")]
-        public static void XPurge()
-        {
-            // Process active document
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
-            // Read settings
-            var deploy = new Deploy();
-
-            // Add purge actions
-            deploy.AddAction(new PurgeDGNLS());
-            deploy.AddAction(new PurgeAll());
-
-            // Start processing
-            deploy.Run(db);
-        }
-
         [Autodesk.AutoCAD.Runtime.CommandMethod("XCOM")]
         public static void XCOMBatch()
         {
-            MainForm mainForm = new MainForm();
+            XCOM.Forms.MainForm mainForm = new XCOM.Forms.MainForm();
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(mainForm) == System.Windows.Forms.DialogResult.OK)
             {
                 // Read settings
@@ -47,7 +23,7 @@ namespace XCOM
                 IXCOMAction[] actions = mainForm.SelectedActions;
                 deploy.AddActions(actions);
 
-                ProgressForm progressForm = new ProgressForm();
+                XCOM.Forms.ProgressForm progressForm = new XCOM.Forms.ProgressForm();
                 Thread thread = new Thread(() => { Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(progressForm); });
                 thread.IsBackground = true;
                 thread.Start();

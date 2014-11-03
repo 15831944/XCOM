@@ -115,23 +115,18 @@
     <Compile Include="Actions\SaveFile.cs" />
     <Compile Include="Actions\FindReplaceText.cs" />
     <Compile Include="Actions\ZoomExtents.cs" />
+    <Compile Include="Command_XCOM.cs" />
     <Compile Include="FileLogger.cs" />
     <Compile Include="Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Commands.cs" />
+    <Compile Include="Command_XPURGE.cs" />
     <Compile Include="Actions\ChangeToByLayer.cs" />
     <Compile Include="Actions\PurgeAll.cs" />
     <Compile Include="Actions\DeleteLayerFilters.cs" />
     <Compile Include="Actions\PurgeDGNLS.cs" />
     <Compile Include="Deploy.cs" />
     <Compile Include="Actions\IXCOMAction.cs" />
-    <Compile Include="Forms\CoordMain.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="Forms\CoordMain.Designer.cs">
-      <DependentUpon>CoordMain.cs</DependentUpon>
-    </Compile>
     <Compile Include="Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -171,9 +166,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ActionForms\SaveFileForm.resx">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Forms\CoordMain.resx">
-      <DependentUpon>CoordMain.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
