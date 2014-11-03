@@ -1,4 +1,4 @@
-﻿namespace XCOM
+﻿namespace XCOM.Forms
 {
     partial class MainForm
     {
