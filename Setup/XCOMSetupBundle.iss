@@ -18,17 +18,20 @@ UsePreviousAppDir=no
 DisableReadyPage=yes
 
 [Files]
-Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: AddVersionToPackageXML('{#ShortAppVersion}')
+Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
 Source: "Package\Resources\*"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
+[Tasks]
+Name: "CHK_KBSHORTCUTS"; Description: "Klavye kýsayollarýný etkinleþtir"; Flags: unchecked
+
 [Code]
-procedure AddVersionToPackageXML(Version: String);
+procedure PreparePackageXML(Version: String);
 var
-  XMLDoc, RootNode: Variant;
+  XMLDoc, RootNode, ComponentsNode, MenuNode: Variant;
   FileName: String;
 begin
   FileName := ExpandConstant(CurrentFileName);
@@ -40,11 +43,16 @@ begin
   RootNode := XMLDoc.documentElement;
   RootNode.setAttribute('AppVersion', Version);
  
+  if WizardForm.TasksList.Checked[0] then 
+  begin
+    ComponentsNode := XMLDoc.selectSingleNode('//Components');
+    MenuNode := XMLDoc.createElement('ComponentEntry');
+    MenuNode.setAttribute('AppName', 'XCOM');
+    MenuNode.setAttribute('ModuleName', './Resources/XCOM_KeyboardShortcuts.cuix');
+    MenuNode.setAttribute('LoadOnAutoCADStartup', 'True');
+    ComponentsNode.appendChild(MenuNode);
+  end;
+ 
   XMLDoc.Save(FileName);
 end;
 
-procedure CurPageChanged(CurPageID: Integer);
-begin
-  if CurPageID = wpWelcome then
-    WizardForm.NextButton.Caption := SetupMessage(msgButtonInstall);
-end;
