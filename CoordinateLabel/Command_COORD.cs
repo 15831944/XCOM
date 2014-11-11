@@ -12,52 +12,12 @@ namespace CoordinateLabel
 {
     public class Command_COORD
     {
-        private enum CoordSystem
-        {
-            WCS,
-            UCS
-        }
-
-        private class CoordPoint
-        {
-            public int N { get; set; }
-            public double X1 { get; set; }
-            public double Y1 { get; set; }
-            public double Z1 { get; set; }
-            public double X2 { get; set; }
-            public double Y2 { get; set; }
-            public double Z2 { get; set; }
-
-            public CoordPoint(int n, double x1, double y1, double z1, double x2, double y2, double z2)
-            {
-                N = n;
-                X1 = x1;
-                Y1 = y1;
-                Z1 = z1;
-                X2 = x2;
-                Y2 = y2;
-                Z2 = z2;
-            }
-
-            public CoordPoint(int n, Point3d p1, Point3d p2)
-            {
-                N = n;
-                X1 = p1.X;
-                Y1 = p1.Y;
-                Z1 = p1.Z;
-                X2 = p2.X;
-                Y2 = p2.Y;
-                Z2 = p2.Z;
-            }
-        }
-
+        private bool init;
         private List<CoordPoint> points;
-
-        private CoordSystem CoordinateSystem { get; set; }
 
         private double TextHeight { get; set; }
         private double TextRotation { get; set; }
-        private bool AutoLineLength { get; set; }
+        private bool AutoLine { get; set; }
         private double LineLength { get; set; }
 
         private int Precision { get; set; }
@@ -65,23 +25,16 @@ namespace CoordinateLabel
         private bool AutoNumbering { get; set; }
         private int CurrentNumber { get; set; }
         private string Prefix { get; set; }
-
-        private bool UseX { get; set; }
-        private string XLabel { get; set; }
-        private bool UseY { get; set; }
-        private string YLabel { get; set; }
-        private bool UseZ { get; set; }
-        private string ZLabel { get; set; }
+        private string TextStyleName { get; set; }
 
         public Command_COORD()
         {
+            init = false;
             points = new List<CoordPoint>();
-
-            CoordinateSystem = CoordSystem.WCS;
 
             TextHeight = 0.25;
             TextRotation = 0.0;
-            AutoLineLength = false;
+            AutoLine = false;
             LineLength = 1.0;
 
             Precision = 3;
@@ -90,19 +43,22 @@ namespace CoordinateLabel
             CurrentNumber = 1;
             Prefix = "";
 
-            UseX = true;
-            XLabel = "X";
-            UseY = true;
-            YLabel = "Y";
-            UseZ = false;
-            ZLabel = "Z";
-
             CurrentNumber = 1;
+
+            TextStyleName = "MTT";
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("KOORDINAT")]
         public void Coord()
         {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+            if (!init)
+            {
+                if (!ShowSettings()) return;
+            }
+
             bool flag = true;
 
             while (flag)
@@ -110,23 +66,18 @@ namespace CoordinateLabel
                 PromptPointResult pointRes = null;
                 if (AutoNumbering)
                 {
-                    PromptPointOptions pointOpts = new PromptPointOptions("\n" + CurrentNumber.ToString() + ". Koordinat yeri: [Seçenekler/Reset/Liste]", "Settings Reset List");
+                    PromptPointOptions pointOpts = new PromptPointOptions("\n" + CurrentNumber.ToString() + ". Koordinat yeri: [Reset/Liste]", "Reset List");
                     pointRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(pointOpts);
                 }
                 else
                 {
-                    PromptPointOptions pointOpts = new PromptPointOptions("\nKoordinat yeri: [Seçenekler/Reset/Liste]", "Settings Reset List");
+                    PromptPointOptions pointOpts = new PromptPointOptions("\nKoordinat yeri: [Reset]", "Reset");
                     pointRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(pointOpts);
                 }
 
                 if (pointRes.Status == PromptStatus.Cancel)
                 {
                     return;
-                }
-                else if (pointRes.Status == PromptStatus.Keyword && pointRes.StringResult == "Settings")
-                {
-                    ShowSettings();
-                    continue;
                 }
                 else if (pointRes.Status == PromptStatus.Keyword && pointRes.StringResult == "Reset")
                 {
@@ -135,37 +86,50 @@ namespace CoordinateLabel
                 }
                 else if (pointRes.Status == PromptStatus.Keyword && pointRes.StringResult == "List")
                 {
-                    ShowList();
-                    continue;
+                    PromptPointOptions listOpts = new PromptPointOptions("\nListe yeri: ");
+                    PromptPointResult listRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(listOpts);
+                    ShowList(db, listRes.Value);
+                    return;
                 }
                 else
                 {
-                    PromptPointOptions textOpts = new PromptPointOptions("\nYazı yeri: ");
-                    textOpts.BasePoint = pointRes.Value;
-                    textOpts.UseBasePoint = true;
-                    PromptPointResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(textOpts);
-
-                    if (textRes.Status == PromptStatus.Cancel)
+                    Point3d coordPt = pointRes.Value;
+                    Point3d textPt;
+                    if (AutoLine)
                     {
-                        return;
+                        PromptAngleOptions textOpts = new PromptAngleOptions("\nYazı yönü: ");
+                        textOpts.BasePoint = pointRes.Value;
+                        textOpts.UseBasePoint = true;
+                        PromptDoubleResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetAngle(textOpts);
+                        if (textRes.Status == PromptStatus.Cancel)
+                            return;
+                        else
+                            textPt = coordPt + new Vector3d(Math.Cos(textRes.Value), Math.Sin(textRes.Value), 0) * LineLength;
                     }
                     else
                     {
-                        AddPoint(pointRes.Value, textRes.Value);
+                        PromptPointOptions textOpts = new PromptPointOptions("\nYazı yeri: ");
+                        textOpts.BasePoint = pointRes.Value;
+                        textOpts.UseBasePoint = true;
+                        PromptPointResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(textOpts);
+                        if (textRes.Status == PromptStatus.Cancel)
+                            return;
+                        else
+                            textPt = textRes.Value;
                     }
+
+                    AddPoint(db, coordPt, textPt);
                 }
             }
         }
 
-        private void ShowSettings()
+        private bool ShowSettings()
         {
             CoordMainForm form = new CoordMainForm();
 
-            form.UseWCS = (CoordinateSystem == CoordSystem.WCS);
-
             form.TextHeight = TextHeight;
             form.TextRotation = TextRotation;
-            form.AutoLineLength = AutoLineLength;
+            form.AutoLineLength = AutoLine;
             form.LineLength = LineLength;
 
             form.Precision = Precision;
@@ -174,20 +138,28 @@ namespace CoordinateLabel
             form.StartingNumber = CurrentNumber;
             form.Prefix = Prefix;
 
-            form.UseX = UseX;
-            form.XLabel = XLabel;
-            form.UseY = UseY;
-            form.YLabel = YLabel;
-            form.UseZ = UseZ;
-            form.ZLabel = ZLabel;
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+            List<string> styleNames = new List<string>();
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
+            {
+                foreach (ObjectId id in bt)
+                {
+                    TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
+
+                    styleNames.Add(style.Name);
+                }
+            }
+            form.SetTextStyleNames(styleNames.ToArray());
+            form.TextStyleName = TextStyleName;
 
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
             {
-                CoordinateSystem = (form.UseWCS ? CoordSystem.WCS : CoordSystem.UCS);
-
                 TextHeight = form.TextHeight;
                 TextRotation = form.TextRotation;
-                AutoLineLength = form.AutoLineLength;
+                AutoLine = form.AutoLineLength;
                 LineLength = form.LineLength;
 
                 Precision = form.Precision;
@@ -196,32 +168,87 @@ namespace CoordinateLabel
                 CurrentNumber = form.StartingNumber;
                 Prefix = form.Prefix;
 
-                UseX = form.UseX;
-                XLabel = form.XLabel;
-                UseY = form.UseY;
-                YLabel = form.YLabel;
-                UseZ = form.UseZ;
-                ZLabel = form.ZLabel;
+                TextStyleName = form.TextStyleName;
+
+                if (form.CoordsFromDWG != null && form.CoordsFromDWG.Length > 0)
+                {
+                    bool xy = form.CoordsFromDWG[0].IsXYText;
+                    if (xy)
+                    {
+                        using (Transaction tr = db.TransactionManager.StartTransaction())
+                        {
+                            foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
+                            {
+                                string text = GetCoordText(item.X, item.Y);
+                                MText mtext = (MText)tr.GetObject(item.ID, OpenMode.ForWrite);
+                                mtext.Contents = text;
+                            }
+
+                            tr.Commit();
+                        }
+                    }
+                    else
+                    {
+                        points.Clear();
+                        foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
+                        {
+                            points.Add(new CoordPoint(item.Number, item.X, item.Y, item.Z));
+                        }
+                    }
+                }
+
+                init = true;
+
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
-        private void AddPoint(Point3d p1, Point3d p2)
+        private void AddPoint(Database db, Point3d pBase, Point3d pText)
         {
-            points.Add(new CoordPoint(CurrentNumber, p1, p2));
+            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
+            Point3d pTextWorld = pText.TransformBy(ucs2wcs);
 
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Point3d pCoord = pBaseWorld;
+
+            points.Add(new CoordPoint(CurrentNumber, pCoord));
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
             {
-                BlockTableRecord blockTableRecord = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
-
                 Line line = new Line();
-                line.StartPoint = p1;
-                line.EndPoint = p2;
+                line.StartPoint = pBaseWorld;
+                line.EndPoint = pTextWorld;
 
-                blockTableRecord.AppendEntity(line);
+                btr.AppendEntity(line);
                 tr.AddNewlyCreatedDBObject(line, true);
+
+                string text = GetCoordText(pCoord.X, pCoord.Y);
+                int lineCount = (AutoNumbering ? 1 : 2);
+                bool right = (pText.X > pBase.X); // Text to the right
+
+                MText mtext = new MText();
+                mtext.Contents = text;
+                mtext.Location = pTextWorld;
+                mtext.TextHeight = TextHeight;
+                mtext.Rotation = TextRotation;
+                if (right)
+                    mtext.Attachment = (lineCount == 1 ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+                else
+                    mtext.Attachment = (lineCount == 1 ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
+
+                TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
+                if (tt.Has(TextStyleName))
+                {
+                    mtext.TextStyleId = tt[TextStyleName];
+                }
+
+                btr.AppendEntity(mtext);
+                tr.AddNewlyCreatedDBObject(mtext, true);
 
                 tr.Commit();
             }
@@ -232,15 +259,86 @@ namespace CoordinateLabel
             }
         }
 
+        private string GetCoordText(double x, double y)
+        {
+            string text = "";
+            if (AutoNumbering)
+            {
+                text = "{\\L" + Prefix + CurrentNumber.ToString() + "}";
+            }
+            else
+            {
+                string format = "0." + new string('0', Precision);
+                if (Precision == 0) format = "0";
+
+                string xtext = "X=" + x.ToString(format);
+                string ytext = "Y=" + y.ToString(format);
+
+                int maxlen = Math.Max(xtext.Length, ytext.Length);
+                xtext += new string(' ', maxlen - xtext.Length);
+                ytext += new string(' ', maxlen - ytext.Length);
+
+                text += "{\\L" + xtext + "}" + "\\P" + ytext;
+            }
+
+            return text;
+        }
+
         private void Reset()
         {
+            init = false;
             points.Clear();
             CurrentNumber = 1;
         }
 
-        private void ShowList()
+        private void ShowList(Database db, Point3d pBase)
         {
+            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            double rotation = 2.0 * Math.PI - Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
 
+            double height = TextHeight;
+            double margin = 0.2 * TextHeight;
+            double row = height + 2 * margin;
+
+            Point3d ptt = new Point3d(pBase.X + margin, pBase.Y - margin - height, pBase.Z);
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+            {
+                // Header
+                MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), "NOKTA NO         X KOORD         Y KOORD", height, rotation);
+                ptt = new Point3d(ptt.X, ptt.Y - row, ptt.Z);
+
+                // Lines
+                foreach (CoordPoint pt in points)
+                {
+                    string text = pt.ToString(Prefix, 8, Precision, 16);
+                    MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), text, height, rotation);
+                    ptt = new Point3d(ptt.X, ptt.Y - row, ptt.Z);
+                }
+
+                tr.Commit();
+            }
+        }
+
+        private DBText MakeDBText(Transaction tr, Database db, BlockTableRecord btr, Point3d position, string text, double height, double rotation)
+        {
+            DBText dbtext = new DBText();
+            dbtext.Position = position;
+            dbtext.Height = height;
+            dbtext.Rotation = rotation;
+            dbtext.TextString = text;
+            TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
+            if (tt.Has(TextStyleName))
+            {
+                dbtext.TextStyleId = tt[TextStyleName];
+            }
+            dbtext.WidthFactor = 0.8;
+
+            btr.AppendEntity(dbtext);
+            tr.AddNewlyCreatedDBObject(dbtext, true);
+
+            return dbtext;
         }
     }
 }

@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
 [assembly: AssemblyCompany("OZOZ")]
-[assembly: AssemblyProduct("CoordinateLabel")]
+[assembly: AssemblyProduct("DrawingUtility")]
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
-[assembly: AssemblyTitle("CoordinateLabel")]
+[assembly: AssemblyTitle("DrawingUtility")]
 [assembly: AssemblyDescription("Batch processing tools and other CAD utilities.")]
 
 // Setting ComVisible to false makes the types in this assembly not visible 

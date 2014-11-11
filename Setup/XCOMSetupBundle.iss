@@ -20,7 +20,10 @@ DisableReadyPage=yes
 [Files]
 Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: AddVersionToPackageXML('{#ShortAppVersion}')
 Source: "Package\Resources\*"; DestDir: "{app}\Resources"
-Source: "..\XCOM2014\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Code]
 procedure AddVersionToPackageXML(Version: String);

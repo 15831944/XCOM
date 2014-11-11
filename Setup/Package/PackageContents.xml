@@ -16,6 +16,25 @@
         <Command Local="XPURGE" Global="XPURGE" />
       </Commands>
     </ComponentEntry>
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/CoordinateLabel.dll" AppDescription="Coordinate labeling" LoadOnCommandInvocation="True" >
+      <Commands>
+        <Command Local="KOORDINAT" Global="KOORDINAT" />
+      </Commands>
+    </ComponentEntry>
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/LevelLabel.dll" AppDescription="Level labeling" LoadOnCommandInvocation="True" >
+      <Commands>
+        <Command Local="LEVEL" Global="LEVEL" />
+      </Commands>
+    </ComponentEntry>
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnCommandInvocation="True" >
+      <Commands>
+        <Command Local="0" Global="0" />
+        <Command Local="BY" Global="BY" />
+        <Command Local="RD" Global="RD" />
+        <Command Local="RX" Global="RX" />
+        <Command Local="SF" Global="SF" />
+      </Commands>
+    </ComponentEntry>	
     <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM_Menu.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
 </ApplicationPackage>
