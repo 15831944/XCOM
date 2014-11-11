@@ -49,11 +49,11 @@ namespace LevelLabel
 
         public LevelMainForm()
         {
+            InitializeComponent();
+
             Text = "Level v" + typeof(LevelMainForm).Assembly.GetName().Version.ToString(2);
 
             basePt = Point3d.Origin;
-
-            InitializeComponent();
         }
 
         public void SetBlockNames(string[] names)

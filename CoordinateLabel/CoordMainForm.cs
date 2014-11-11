@@ -52,13 +52,13 @@ namespace CoordinateLabel
 
         public CoordMainForm()
         {
+            InitializeComponent();
+
             Text = "Koordinat v" + typeof(CoordMainForm).Assembly.GetName().Version.ToString(2);
 
             CoordsFromDWG = new CoordItem[0];
 
             Application.Idle += new EventHandler(Application_Idle);
-
-            InitializeComponent();
         }
 
         void Application_Idle(object sender, EventArgs e)
