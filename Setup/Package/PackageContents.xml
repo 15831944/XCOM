@@ -10,23 +10,23 @@
   <CompanyDetails Name="OZOZ" Email="ozcitak@yahoo.com" Url=" " Phone=" " />
   <Components Description="XCOM">
     <RuntimeRequirements OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R20.0" />
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/XCOM.dll" AppDescription="Batch processing tools" LoadOnCommandInvocation="True" >
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/XCOM.dll" AppDescription="Batch processing tools" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="XCOM" Global="XCOM" />
         <Command Local="XPURGE" Global="XPURGE" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/CoordinateLabel.dll" AppDescription="Coordinate labeling" LoadOnCommandInvocation="True" >
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/CoordinateLabel.dll" AppDescription="Coordinate labeling" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="KOORDINAT" Global="KOORDINAT" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/LevelLabel.dll" AppDescription="Level labeling" LoadOnCommandInvocation="True" >
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/LevelLabel.dll" AppDescription="Level labeling" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="LEVEL" Global="LEVEL" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnCommandInvocation="True" >
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="0" Global="0" />
         <Command Local="BY" Global="BY" />

@@ -154,6 +154,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProgressForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "XCOM";
             this.pnProgress.ResumeLayout(false);
             this.pnProgress.PerformLayout();

@@ -33,14 +33,14 @@
             this.filename = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.filepath = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.gbSource = new System.Windows.Forms.Panel();
-            this.browseDWG = new System.Windows.Forms.OpenFileDialog();
-            this.cmdClose = new System.Windows.Forms.Button();
-            this.cmdStart = new System.Windows.Forms.Button();
-            this.lbActions = new XCOM.CheckedListBoxWithButtons();
             this.cmdClearFiles = new System.Windows.Forms.Button();
             this.cmdRemoveFile = new System.Windows.Forms.Button();
             this.cmdAddFolder = new System.Windows.Forms.Button();
             this.cmdAddFile = new System.Windows.Forms.Button();
+            this.browseDWG = new System.Windows.Forms.OpenFileDialog();
+            this.cmdClose = new System.Windows.Forms.Button();
+            this.cmdStart = new System.Windows.Forms.Button();
+            this.lbActions = new XCOM.CheckedListBoxWithButtons();
             this.browseFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
@@ -76,34 +76,6 @@
             this.gbSource.Controls.Add(this.cmdAddFile);
             this.gbSource.Name = "gbSource";
             // 
-            // browseDWG
-            // 
-            resources.ApplyResources(this.browseDWG, "browseDWG");
-            this.browseDWG.Multiselect = true;
-            // 
-            // cmdClose
-            // 
-            resources.ApplyResources(this.cmdClose, "cmdClose");
-            this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cmdClose.Name = "cmdClose";
-            this.cmdClose.UseVisualStyleBackColor = true;
-            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
-            // 
-            // cmdStart
-            // 
-            resources.ApplyResources(this.cmdStart, "cmdStart");
-            this.cmdStart.Name = "cmdStart";
-            this.cmdStart.UseVisualStyleBackColor = true;
-            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
-            // 
-            // lbActions
-            // 
-            resources.ApplyResources(this.lbActions, "lbActions");
-            this.lbActions.CheckOnClick = true;
-            this.lbActions.FormattingEnabled = true;
-            this.lbActions.Name = "lbActions";
-            this.lbActions.ButtonClick += new XCOM.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
-            // 
             // cmdClearFiles
             // 
             resources.ApplyResources(this.cmdClearFiles, "cmdClearFiles");
@@ -135,6 +107,34 @@
             this.cmdAddFile.Name = "cmdAddFile";
             this.cmdAddFile.UseVisualStyleBackColor = true;
             this.cmdAddFile.Click += new System.EventHandler(this.cmdAddFile_Click);
+            // 
+            // browseDWG
+            // 
+            resources.ApplyResources(this.browseDWG, "browseDWG");
+            this.browseDWG.Multiselect = true;
+            // 
+            // cmdClose
+            // 
+            resources.ApplyResources(this.cmdClose, "cmdClose");
+            this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdClose.Name = "cmdClose";
+            this.cmdClose.UseVisualStyleBackColor = true;
+            this.cmdClose.Click += new System.EventHandler(this.cmdClose_Click);
+            // 
+            // cmdStart
+            // 
+            resources.ApplyResources(this.cmdStart, "cmdStart");
+            this.cmdStart.Name = "cmdStart";
+            this.cmdStart.UseVisualStyleBackColor = true;
+            this.cmdStart.Click += new System.EventHandler(this.cmdStart_Click);
+            // 
+            // lbActions
+            // 
+            resources.ApplyResources(this.lbActions, "lbActions");
+            this.lbActions.CheckOnClick = true;
+            this.lbActions.FormattingEnabled = true;
+            this.lbActions.Name = "lbActions";
+            this.lbActions.ButtonClick += new XCOM.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
             // 
             // browseFolder
             // 
