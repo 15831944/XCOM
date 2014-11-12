@@ -4,7 +4,6 @@
 #define ShortAppVersion Str(Version[0]) + "." + Str(Version[1])
 
 [Setup]
-ShowLanguageDialog=no
 AppName=XCOM AutoCAD Plugin x64
 AppVersion={#ShortAppVersion}
 ArchitecturesAllowed=x64
@@ -16,6 +15,10 @@ DisableDirPage=yes
 DefaultDirName={userappdata}\Autodesk\ApplicationPlugins\XCOM.bundle
 UsePreviousAppDir=no
 DisableReadyPage=yes
+
+[Languages]
+Name: "en"; MessagesFile: "compiler:Default.isl"
+Name: "tr"; MessagesFile: "Turkish.isl"
 
 [Files]
 Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
