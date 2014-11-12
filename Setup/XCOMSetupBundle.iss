@@ -1,10 +1,10 @@
 #dim Version[4]
-#expr ParseVersion("..\XCOMCore\bin\Release\XCOM.dll", Version[0], Version[1], Version[2], Version[3])
+#expr ParseVersion("..\XCOM\bin\Release\XCOM.dll", Version[0], Version[1], Version[2], Version[3])
 #define AppVersion Str(Version[0]) + "." + Str(Version[1]) + "." + Str(Version[2]) + "." + Str(Version[3])
 #define ShortAppVersion Str(Version[0]) + "." + Str(Version[1])
 
 [Setup]
-AppName=XCOM AutoCAD Plugin x64
+AppName="{cm:AppName}"
 AppVersion={#ShortAppVersion}
 ArchitecturesAllowed=x64
 ArchitecturesInstallIn64BitMode=x64
@@ -15,6 +15,11 @@ DisableDirPage=yes
 DefaultDirName={userappdata}\Autodesk\ApplicationPlugins\XCOM.bundle
 UsePreviousAppDir=no
 DisableReadyPage=yes
+ShowLanguageDialog=no
+WizardImageFile=LargelImage.bmp
+WizardSmallImageFile=SmallImage.bmp
+UsePreviousLanguage=no
+SetupIconFile=Setup.ico
 
 [Languages]
 Name: "en"; MessagesFile: "compiler:Default.isl"
@@ -22,14 +27,22 @@ Name: "tr"; MessagesFile: "Turkish.isl"
 
 [Files]
 Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
-Source: "Package\Resources\*"; DestDir: "{app}\Resources"
+Source: "Package\Resources\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
+Source: "Package\Resources\XCOM_KeyboardShortcuts.cuix"; DestDir: "{app}\Resources"
+Source: "Package\Resources\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Tasks]
-Name: "CHK_KBSHORTCUTS"; Description: "Klavye kýsayollarýný etkinleþtir"; Flags: unchecked
+Name: "CHK_KBSHORTCUTS"; Description: "{cm:KeyboardShortcuts}"; Flags: unchecked
+
+[CustomMessages]
+AppName=XCOM AutoCAD Plugin (64 bit)
+tr.AppName=XCOM AutoCAD Eklentisi (64 bit)
+KeyboardShortcuts=Install keyboard shortcuts
+tr.KeyboardShortcuts=Klavye kýsayollarýný etkinleþtir
 
 [Code]
 procedure PreparePackageXML(Version: String);
