@@ -229,13 +229,18 @@ namespace CoordinateLabel
 
                 string text = GetCoordText(pCoord.X, pCoord.Y);
                 int lineCount = (AutoNumbering ? 1 : 2);
-                bool right = (pText.X > pBase.X); // Text to the right
+
+                // Text to the right or left
+                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(TextRotation * Math.PI / 180.0, Vector3d.ZAxis);
+                Vector3d dir = (pText - pBase);
+                double rot = dir.GetAngleTo(rotatedVertical, Vector3d.ZAxis) * 180 / Math.PI;
+                bool right = (rot > 0.0 && rot < 180.0);
 
                 MText mtext = new MText();
                 mtext.Contents = text;
                 mtext.Location = pTextWorld;
                 mtext.TextHeight = TextHeight;
-                mtext.Rotation = TextRotation;
+                mtext.Rotation = TextRotation * Math.PI / 180.0;
                 if (right)
                     mtext.Attachment = (lineCount == 1 ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
                 else
