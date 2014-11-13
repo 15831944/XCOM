@@ -25,6 +25,10 @@ SetupIconFile=Setup.ico
 Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "tr"; MessagesFile: "Turkish.isl"
 
+[InstallDelete]
+Type: filesandordirs; Name: "{app}\Contents\2012"
+Type: filesandordirs; Name: "{app}\Contents\2014"
+
 [Files]
 Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
 Source: "Package\Resources\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
