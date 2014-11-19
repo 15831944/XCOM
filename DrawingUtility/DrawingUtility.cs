@@ -10,8 +10,15 @@ using Autodesk.AutoCAD.Runtime;
 
 namespace DrawingUtility
 {
-    public class DrawingUtility
+    public partial class DrawingUtility
     {
+        private int CurveSegments { get; set; }
+
+        public DrawingUtility()
+        {
+            CurveSegments = 40;
+        }
+
         [Autodesk.AutoCAD.Runtime.CommandMethod("0", CommandFlags.UsePickSet)]
         public static void ChangeLayerToZero()
         {
