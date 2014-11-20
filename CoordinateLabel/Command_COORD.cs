@@ -7,6 +7,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.GraphicsInterface;
 
 namespace CoordinateLabel
 {
@@ -93,32 +94,26 @@ namespace CoordinateLabel
                 }
                 else
                 {
-                    Point3d coordPt = pointRes.Value;
-                    Point3d textPt;
-                    if (AutoLine)
+                    ObjectId textStyleId = ObjectId.Null;
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
                     {
-                        PromptAngleOptions textOpts = new PromptAngleOptions("\nYazı yönü: ");
-                        textOpts.BasePoint = pointRes.Value;
-                        textOpts.UseBasePoint = true;
-                        PromptDoubleResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetAngle(textOpts);
-                        if (textRes.Status == PromptStatus.Cancel)
-                            return;
-                        else
-                            textPt = coordPt + new Vector3d(Math.Cos(textRes.Value), Math.Sin(textRes.Value), 0) * LineLength;
-                    }
-                    else
-                    {
-                        PromptPointOptions textOpts = new PromptPointOptions("\nYazı yeri: ");
-                        textOpts.BasePoint = pointRes.Value;
-                        textOpts.UseBasePoint = true;
-                        PromptPointResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(textOpts);
-                        if (textRes.Status == PromptStatus.Cancel)
-                            return;
-                        else
-                            textPt = textRes.Value;
+                        if (tt.Has(TextStyleName))
+                        {
+                            textStyleId = tt[TextStyleName];
+                        }
                     }
 
-                    AddPoint(db, coordPt, textPt);
+                    bool check = CoordinateJig.Jig(pointRes.Value, AutoLine, LineLength, AutoNumbering, TextHeight, TextRotation, textStyleId, Prefix, Precision, CurrentNumber);
+
+                    if (check)
+                    {
+                        Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                        Point3d pCoord = pointRes.Value.TransformBy(ucs2wcs);
+
+                        points.Add(new CoordPoint(CurrentNumber, pCoord));
+                        if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
+                    }
                 }
             }
         }
@@ -207,63 +202,6 @@ namespace CoordinateLabel
             }
         }
 
-        private void AddPoint(Database db, Point3d pBase, Point3d pText)
-        {
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
-            Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
-            Point3d pTextWorld = pText.TransformBy(ucs2wcs);
-
-            Point3d pCoord = pBaseWorld;
-
-            points.Add(new CoordPoint(CurrentNumber, pCoord));
-
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
-            {
-                Line line = new Line();
-                line.StartPoint = pBaseWorld;
-                line.EndPoint = pTextWorld;
-
-                btr.AppendEntity(line);
-                tr.AddNewlyCreatedDBObject(line, true);
-
-                string text = GetCoordText(pCoord.X, pCoord.Y);
-                int lineCount = (AutoNumbering ? 1 : 2);
-
-                // Text to the right or left
-                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(TextRotation * Math.PI / 180.0, Vector3d.ZAxis);
-                Vector3d dir = (pText - pBase);
-                double rot = dir.GetAngleTo(rotatedVertical, Vector3d.ZAxis) * 180 / Math.PI;
-                bool right = (rot > 0.0 && rot < 180.0);
-
-                MText mtext = new MText();
-                mtext.Contents = text;
-                mtext.Location = pTextWorld;
-                mtext.TextHeight = TextHeight;
-                mtext.Rotation = TextRotation * Math.PI / 180.0;
-                if (right)
-                    mtext.Attachment = (lineCount == 1 ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
-                else
-                    mtext.Attachment = (lineCount == 1 ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
-
-                TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
-                if (tt.Has(TextStyleName))
-                {
-                    mtext.TextStyleId = tt[TextStyleName];
-                }
-
-                btr.AppendEntity(mtext);
-                tr.AddNewlyCreatedDBObject(mtext, true);
-
-                tr.Commit();
-            }
-
-            if (AutoNumbering)
-            {
-                CurrentNumber = CurrentNumber + 1;
-            }
-        }
-
         private string GetCoordText(double x, double y)
         {
             string text = "";
@@ -344,6 +282,198 @@ namespace CoordinateLabel
             tr.AddNewlyCreatedDBObject(dbtext, true);
 
             return dbtext;
+        }
+
+        private class CoordinateJig : EntityJig, IDisposable
+        {
+            private Point3d mpBase = new Point3d();
+            private Point3d mpText = new Point3d();
+            private bool mAutoLine = false;
+            private double mLineLength = 1.0;
+            private double mTextHeight = 0.2;
+            private double mTextRotation = 0;
+            private Line line = null;
+
+            private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength, double textHeight, double textRotation)
+                : base(en)
+            {
+                mpBase = pBase;
+                mpText = pBase.Add(Vector3d.XAxis);
+                mAutoLine = autoLine;
+                mLineLength = lineLength;
+                mTextHeight = textHeight;
+                mTextRotation = textRotation;
+            }
+
+            protected override bool Update()
+            {
+                UpdateText();
+                return true;
+            }
+
+            protected override SamplerStatus Sampler(JigPrompts prompts)
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir), Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+
+                if (mAutoLine)
+                {
+                    JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yönü: ");
+                    textOpts.BasePoint = mpBase;
+                    textOpts.UseBasePoint = true;
+                    PromptPointResult textRes = prompts.AcquirePoint(textOpts);
+                    if (textRes.Status != PromptStatus.OK) return SamplerStatus.Cancel;
+                    Point3d pt = textRes.Value.TransformBy(wcs2ucs);
+                    Vector3d dir = (pt - mpBase);
+                    dir = dir / dir.Length * mLineLength;
+                    mpText = mpBase + dir;
+                }
+                else
+                {
+                    JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");
+                    textOpts.BasePoint = mpBase;
+                    textOpts.UseBasePoint = true;
+                    PromptPointResult textRes = prompts.AcquirePoint(textOpts);
+                    mpText = textRes.Value.TransformBy(wcs2ucs);
+                }
+                
+                return SamplerStatus.OK;
+            }
+
+            public static bool Jig(Point3d pBase, bool autoLine, double lineLength, bool autoNumbering, double textHeight, double textRotation, ObjectId textStyleId, string prefix, int precision, int currentNumber)
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
+
+                CoordinateJig jigger = new CoordinateJig(CreateText(textStyleId, pBaseWorld.X, pBaseWorld.Y, autoNumbering, prefix, precision, currentNumber), pBase, autoLine, lineLength, textHeight, textRotation);
+
+                PromptResult res = doc.Editor.Drag(jigger);
+
+                jigger.EraseLine();
+
+                if (res.Status == PromptStatus.OK)
+                {
+                    Point3d pTextWorld = jigger.mpText.TransformBy(ucs2wcs);
+
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                    {
+                        Line line = new Line();
+                        line.StartPoint = pBaseWorld;
+                        line.EndPoint = pTextWorld;
+
+                        btr.AppendEntity(line);
+                        tr.AddNewlyCreatedDBObject(line, true);
+
+                        btr.AppendEntity(jigger.Entity);
+                        tr.AddNewlyCreatedDBObject(jigger.Entity, true);
+
+                        tr.Commit();
+                    }
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            private static MText CreateText(ObjectId textStyleId, double x, double y, bool autoNumbering, string prefix, int precision, int currentNumber)
+            {
+                string text = "";
+                if (autoNumbering)
+                {
+                    text = "{\\L" + prefix + currentNumber.ToString() + "}";
+                }
+                else
+                {
+                    string format = "0." + new string('0', precision);
+                    if (precision == 0) format = "0";
+
+                    string xtext = "X=" + x.ToString(format);
+                    string ytext = "Y=" + y.ToString(format);
+
+                    int maxlen = Math.Max(xtext.Length, ytext.Length);
+                    xtext += new string(' ', maxlen - xtext.Length);
+                    ytext += new string(' ', maxlen - ytext.Length);
+
+                    text += "{\\L" + xtext + "}" + "\\P" + ytext;
+                }
+
+                MText mtext = new MText();
+                mtext.Contents = text;
+                mtext.Location = new Point3d(0, 0, 0);
+                mtext.Attachment = (autoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+                if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
+
+                return mtext;
+            }
+
+            private void UpdateText()
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
+                Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
+
+                // Text to the right or left
+                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(mTextRotation * Math.PI / 180.0, Vector3d.ZAxis);
+                Vector3d dir = (mpText - mpBase);
+                double rot = dir.GetAngleTo(rotatedVertical, Vector3d.ZAxis) * 180 / Math.PI;
+                bool right = (rot > 0.0 && rot < 180.0);
+
+                MText mtext = Entity as MText;
+                mtext.Location = pTextWorld;
+                mtext.TextHeight = mTextHeight;
+                mtext.Rotation = mTextRotation * Math.PI / 180.0;
+                bool singleLine = (mtext.Attachment == AttachmentPoint.BottomLeft || mtext.Attachment == AttachmentPoint.BottomRight);
+                if (right)
+                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+                else
+                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
+
+                if (line == null)
+                {
+                    line = new Line();
+                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, new IntegerCollection());
+                }
+                line.StartPoint = pBaseWorld;
+                line.EndPoint = pTextWorld;
+                TransientManager.CurrentTransientManager.UpdateTransient(line, new IntegerCollection());
+            }
+
+            private static Point3d Intersect(Point3d p1, Point3d p2, Point3d p3, Point3d p4)
+            {
+                using (Line3d l1 = new Line3d(p1, p2))
+                using (Line3d l2 = new Line3d(p3, p4))
+                {
+                    return l1.IntersectWith(l2)[0];
+                }
+            }
+
+            public void EraseLine()
+            {
+                if (line != null)
+                {
+                    TransientManager.CurrentTransientManager.EraseTransient(line, new IntegerCollection());
+                    line.Dispose();
+                    line = null;
+                }
+            }
+
+            public void Dispose()
+            {
+                EraseLine();
+            }
         }
     }
 }
