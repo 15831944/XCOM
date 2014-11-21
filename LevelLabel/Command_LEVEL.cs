@@ -156,6 +156,7 @@ namespace LevelLabel
                         {
                             bref.Dispose();
                             tr.Abort();
+                            return;
                         }
                     }
                 }
@@ -246,6 +247,12 @@ namespace LevelLabel
 
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
             {
+                if (string.IsNullOrEmpty (form.BlockName))
+                {
+                    MessageBox.Show("Çizimde kot bloğu bulunamadı.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
+
                 if (form.UnitMeter)
                     DrawingUnit = Units.Meters;
                 else if (form.UnitCentimeter)

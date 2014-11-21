@@ -134,6 +134,7 @@ namespace CoordinateLabel
                         {
                             mtext.Dispose();
                             tr.Abort();
+                            return;
                         }
                     }
                 }
