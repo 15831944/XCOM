@@ -241,18 +241,19 @@ namespace LevelLabel
                     blockNames.Add(block.Name);
                 }
             }
+
+            if (blockNames.Count == 0)
+            {
+                MessageBox.Show("Çizimde kot bloğu bulunamadı. Kot bloğunu INSERT yapıp yeniden deneyin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return false;
+            }
+
             form.SetBlockNames(blockNames.ToArray());
             form.BlockName = BlockName;
             form.BlockScale = BlockScale;
 
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
             {
-                if (string.IsNullOrEmpty (form.BlockName))
-                {
-                    MessageBox.Show("Çizimde kot bloğu bulunamadı.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                    return false;
-                }
-
                 if (form.UnitMeter)
                     DrawingUnit = Units.Meters;
                 else if (form.UnitCentimeter)
