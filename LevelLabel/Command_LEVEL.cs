@@ -6,6 +6,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.GraphicsInterface;
 
 namespace LevelLabel
 {
@@ -85,83 +86,79 @@ namespace LevelLabel
                     UpdateLevelBlocks(selRes.Value.GetObjectIds());
                     return;
                 }
-
-                PromptPointOptions textOpts = new PromptPointOptions("\nYazı noktası: ");
-                textOpts.BasePoint = ptRes.Value;
-                textOpts.UseBasePoint = true;
-                PromptPointResult textRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(textOpts);
-                if (textRes.Status != PromptStatus.OK) return;
-
-                Point3d pt = ptRes.Value;
-                Point3d ptt = new Point3d(textRes.Value.X, pt.Y, pt.Z);
-                string level = GetLevel(pt);
-
-                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-                Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
-                double rotation = Math.Atan2(db.Ucsxdir.Y, db.Ucsxdir.X);
-
-                Point3d ptw = pt.TransformBy(ucs2wcs);
-                Point3d pttw = ptt.TransformBy(ucs2wcs);
-
-                ObjectId blockId = ObjectId.Null;
-                bool needsMirror = false;
-
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                else
                 {
-                    Line line = new Line();
-                    line.StartPoint = ptw;
-                    line.EndPoint = pttw;
+                    Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                    Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                    btr.AppendEntity(line);
-                    tr.AddNewlyCreatedDBObject(line, true);
-
-                    BlockTable bt = db.BlockTableId.GetObject(OpenMode.ForRead) as BlockTable;
-                    if (bt.Has(BlockName))
+                    ObjectId blockId = ObjectId.Null;
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
                     {
-                        BlockTableRecord blockDef = bt[BlockName].GetObject(OpenMode.ForRead) as BlockTableRecord;
-
-                        BlockReference bref = new BlockReference(pttw, blockDef.ObjectId);
-                        bref.Rotation = rotation;
-                        bref.ScaleFactors = new Scale3d(BlockScale);
-
-                        blockId = btr.AppendEntity(bref);
-                        tr.AddNewlyCreatedDBObject(bref, true);
-
-                        foreach (ObjectId id in blockDef)
+                        if (bt.Has(BlockName))
                         {
-                            AttributeDefinition attDef = tr.GetObject(id, OpenMode.ForRead) as AttributeDefinition;
-                            if ((attDef != null) && (!attDef.Constant))
-                            {
-                                //Create a new AttributeReference
-                                using (AttributeReference attRef = new AttributeReference())
-                                {
-                                    attRef.SetAttributeFromBlock(attDef, bref.BlockTransform);
-                                    attRef.TextString = "";
-                                    bref.AttributeCollection.AppendAttribute(attRef);
-                                    tr.AddNewlyCreatedDBObject(attRef, true);
-                                }
-                            }
+                            blockId = bt[BlockName];
                         }
-                        if (ptt.X < pt.X)
-                        {
-                            needsMirror = true;
-                        }
-
-                        UpdateBlock(tr, db, bref, level);
+                        tr.Commit();
                     }
-                    else
+                    if (blockId.IsNull)
                     {
                         MessageBox.Show("Kot bloğu '" + BlockName + "' bulunamadı.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
                         return;
                     }
 
-                    tr.Commit();
-                }
+                    string level = GetLevel(ptRes.Value);
 
-                if (needsMirror) MirrorBlock(blockId);
+                    Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    Point3d ptWorld = ptRes.Value.TransformBy(ucs2wcs);
+                    double rotation = Math.Atan2(db.Ucsxdir.Y, db.Ucsxdir.X);
+
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                    {
+                        BlockReference bref = new BlockReference(ptWorld, blockId);
+                        bref.Rotation = rotation;
+                        bref.ScaleFactors = new Scale3d(BlockScale);
+
+                        btr.AppendEntity(bref);
+                        tr.AddNewlyCreatedDBObject(bref, true);
+
+                        Dictionary<AttributeReference, AttributeDefinition> dict = new Dictionary<AttributeReference, AttributeDefinition>();
+
+                        BlockTableRecord blockDef = tr.GetObject(blockId, OpenMode.ForRead) as BlockTableRecord;
+                        foreach (ObjectId id in blockDef)
+                        {
+                            AttributeDefinition attDef = tr.GetObject(id, OpenMode.ForRead) as AttributeDefinition;
+                            if ((attDef != null) && (!attDef.Constant))
+                            {
+                                // Create a new AttributeReference
+                                AttributeReference attRef = new AttributeReference();
+                                dict.Add(attRef, attDef);
+                                attRef.SetAttributeFromBlock(attDef, bref.BlockTransform);
+                                attRef.TextString = level;
+                                bref.AttributeCollection.AppendAttribute(attRef);
+                                tr.AddNewlyCreatedDBObject(attRef, true);
+                            }
+                        }
+
+                        if (LevelJig.Jig(ptRes.Value, bref, dict))
+                        {
+                            Line line = new Line();
+                            line.StartPoint = ptWorld;
+                            line.EndPoint = bref.Position;
+
+                            btr.AppendEntity(line);
+                            tr.AddNewlyCreatedDBObject(line, true);
+
+                            tr.Commit();
+                        }
+                        else
+                        {
+                            bref.Dispose();
+                            tr.Abort();
+                        }
+                    }
+                }
             }
         }
 
@@ -199,49 +196,11 @@ namespace LevelLabel
                     if (bref != null && string.Compare(bref.Name, BlockName, StringComparison.OrdinalIgnoreCase) == 0)
                     {
                         string level = GetLevel(bref.Position.TransformBy(wcs2ucs));
-                        UpdateBlock(tr, db, bref, level);
 
                         AttributeReference attRef = (AttributeReference)tr.GetObject(bref.AttributeCollection[0], OpenMode.ForWrite);
+                        attRef.TextString = level;
                     }
                 }
-                tr.Commit();
-            }
-        }
-
-        private void MirrorBlock(ObjectId id)
-        {
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis, Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
-
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
-            {
-                BlockReference bRef = tr.GetObject(id, OpenMode.ForWrite) as BlockReference;
-                if (bRef != null && string.Compare(bRef.Name, BlockName, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    for (int i = 0; i < bRef.AttributeCollection.Count; i++)
-                    {
-                        AttributeReference attRef = (AttributeReference)tr.GetObject(bRef.AttributeCollection[i], OpenMode.ForWrite);
-                        Extents3d ex = attRef.GeometricExtents;
-                        Point3d midPoint = new Point3d((ex.MinPoint.X + ex.MaxPoint.X) / 2, (ex.MinPoint.Y + ex.MaxPoint.Y) / 2, (ex.MinPoint.Z + ex.MaxPoint.Z) / 2);
-                        using (Line3d mirrorLine = new Line3d(midPoint, midPoint + db.Ucsydir))
-                        {
-                            Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
-                            attRef.TransformBy(mirroring);
-                        }
-                    }
-                }
-
-                using (Line3d mirrorLine = new Line3d(bRef.Position, bRef.Position + db.Ucsydir))
-                {
-                    Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
-                    bRef.ScaleFactors = new Scale3d(-BlockScale, BlockScale, BlockScale);
-                    bRef.TransformBy(mirroring);
-                }
-
                 tr.Commit();
             }
         }
@@ -249,12 +208,6 @@ namespace LevelLabel
         private void Reset()
         {
             init = false;
-        }
-
-        private void UpdateBlock(Transaction tr, Database db, BlockReference bref, string level)
-        {
-            AttributeReference attRef = (AttributeReference)tr.GetObject(bref.AttributeCollection[0], OpenMode.ForWrite);
-            attRef.TextString = level;
         }
 
         private bool ShowSettings()
@@ -315,6 +268,145 @@ namespace LevelLabel
             else
             {
                 return false;
+            }
+        }
+
+        private class LevelJig : EntityJig, IDisposable
+        {
+            private Point3d mpBase = new Point3d();
+            private Point3d mpText = new Point3d();
+            private Line line = null;
+            private Matrix3d lastTransform = Matrix3d.Identity;
+            private Dictionary<AttributeReference, AttributeDefinition> mAttDict = new Dictionary<AttributeReference, AttributeDefinition>();
+
+            private LevelJig(Entity en, Point3d pBase, Dictionary<AttributeReference, AttributeDefinition> attDict)
+                : base(en)
+            {
+                mpBase = pBase;
+                mpText = pBase;
+                mAttDict = attDict;
+            }
+
+            protected override bool Update()
+            {
+                UpdateBlock();
+                return true;
+            }
+
+            protected override SamplerStatus Sampler(JigPrompts prompts)
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir), Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+
+                JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");
+                textOpts.BasePoint = mpBase;
+                textOpts.UseBasePoint = true;
+                PromptPointResult textRes = prompts.AcquirePoint(textOpts);
+                mpText = textRes.Value.TransformBy(wcs2ucs);
+                mpText = new Point3d(mpText.X, mpBase.Y, mpBase.Z);
+
+                return SamplerStatus.OK;
+            }
+
+            public static bool Jig(Point3d pBase, BlockReference blockRef, Dictionary<AttributeReference, AttributeDefinition> attDict)
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                LevelJig jigger = new LevelJig(blockRef, pBase, attDict);
+
+                PromptResult res = doc.Editor.Drag(jigger);
+
+                jigger.EraseLine();
+
+                if (res.Status == PromptStatus.OK)
+                {
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            private void UpdateBlock()
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
+                Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
+
+                BlockReference bref = Entity as BlockReference;
+                bref.TransformBy(lastTransform.Inverse());
+                for (int i = 0; i < bref.AttributeCollection.Count; i++)
+                {
+                    AttributeReference attRef = bref.AttributeCollection[i].GetObject(OpenMode.ForWrite) as AttributeReference;
+                    string text = attRef.TextString;
+                    attRef.SetAttributeFromBlock(mAttDict[attRef], bref.BlockTransform);
+                    attRef.TextString = text;
+                    attRef.AdjustAlignment(db);
+                }
+
+                bref.Position = pTextWorld;
+                double scale = Math.Abs(bref.ScaleFactors[0]);
+
+                // Mirror block if text is to the left of base point
+                if (mpText.X < mpBase.X)
+                {
+                    using (Line3d mirrorLine = new Line3d(bref.Position, bref.Position + db.Ucsydir))
+                    {
+                        Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
+                        bref.TransformBy(mirroring);
+                        lastTransform = mirroring;
+                    }
+                    for (int i = 0; i < bref.AttributeCollection.Count; i++)
+                    {
+                        AttributeReference attRef = bref.AttributeCollection[i].GetObject(OpenMode.ForWrite) as AttributeReference;
+                        string text = attRef.TextString;
+                        attRef.SetAttributeFromBlock(mAttDict[attRef], bref.BlockTransform);
+                        attRef.TextString = text;
+                        Extents3d ex = attRef.GeometricExtents;
+                        Point3d midPoint = new Point3d((ex.MinPoint.X + ex.MaxPoint.X) / 2, (ex.MinPoint.Y + ex.MaxPoint.Y) / 2, (ex.MinPoint.Z + ex.MaxPoint.Z) / 2);
+                        using (Line3d mirrorLine = new Line3d(midPoint, midPoint + db.Ucsydir))
+                        {
+                            Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
+                            attRef.TransformBy(mirroring);
+                        }
+                        attRef.AdjustAlignment(db);
+                    }
+                }
+                else
+                {
+                    lastTransform = Matrix3d.Identity;
+                }
+
+                if (line == null)
+                {
+                    line = new Line();
+                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, new IntegerCollection());
+                }
+                line.StartPoint = pBaseWorld;
+                line.EndPoint = pTextWorld;
+                TransientManager.CurrentTransientManager.UpdateTransient(line, new IntegerCollection());
+            }
+
+            public void EraseLine()
+            {
+                if (line != null)
+                {
+                    TransientManager.CurrentTransientManager.EraseTransient(line, new IntegerCollection());
+                    line.Dispose();
+                    line = null;
+                }
+            }
+
+            public void Dispose()
+            {
+                EraseLine();
             }
         }
     }
