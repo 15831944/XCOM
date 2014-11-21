@@ -102,17 +102,39 @@ namespace CoordinateLabel
                         {
                             textStyleId = tt[TextStyleName];
                         }
+                        tr.Commit();
                     }
 
-                    bool check = CoordinateJig.Jig(pointRes.Value, AutoLine, LineLength, AutoNumbering, TextHeight, TextRotation, textStyleId, Prefix, Precision, CurrentNumber);
+                    Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    Point3d pCoord = pointRes.Value.TransformBy(ucs2wcs);
 
-                    if (check)
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                     {
-                        Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
-                        Point3d pCoord = pointRes.Value.TransformBy(ucs2wcs);
+                        MText mtext = CreateText(textStyleId, pCoord);
 
-                        points.Add(new CoordPoint(CurrentNumber, pCoord));
-                        if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
+                        btr.AppendEntity(mtext);
+                        tr.AddNewlyCreatedDBObject(mtext, true);
+
+                        if (CoordinateJig.Jig(pointRes.Value, mtext, AutoLine, LineLength))
+                        {
+                            points.Add(new CoordPoint(CurrentNumber, pCoord));
+                            if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
+
+                            Line line = new Line();
+                            line.StartPoint = pCoord;
+                            line.EndPoint = mtext.Location;
+
+                            btr.AppendEntity(line);
+                            tr.AddNewlyCreatedDBObject(line, true);
+
+                            tr.Commit();
+                        }
+                        else
+                        {
+                            mtext.Dispose();
+                            tr.Abort();
+                        }
                     }
                 }
             }
@@ -174,7 +196,7 @@ namespace CoordinateLabel
                         {
                             foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
                             {
-                                string text = GetCoordText(item.X, item.Y);
+                                string text = GetCoordText(new Point3d(item.X, item.Y, 0));
                                 MText mtext = (MText)tr.GetObject(item.ID, OpenMode.ForWrite);
                                 mtext.Contents = text;
                             }
@@ -202,7 +224,18 @@ namespace CoordinateLabel
             }
         }
 
-        private string GetCoordText(double x, double y)
+        private MText CreateText(ObjectId textStyleId, Point3d pt)
+        {
+            MText mtext = new MText();
+            mtext.Contents = GetCoordText(pt);
+            mtext.Location = pt;
+            mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+            if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
+
+            return mtext;
+        }
+
+        private string GetCoordText(Point3d pt)
         {
             string text = "";
             if (AutoNumbering)
@@ -214,8 +247,8 @@ namespace CoordinateLabel
                 string format = "0." + new string('0', Precision);
                 if (Precision == 0) format = "0";
 
-                string xtext = "X=" + x.ToString(format);
-                string ytext = "Y=" + y.ToString(format);
+                string xtext = "X=" + pt.X.ToString(format);
+                string ytext = "Y=" + pt.Y.ToString(format);
 
                 int maxlen = Math.Max(xtext.Length, ytext.Length);
                 xtext += new string(' ', maxlen - xtext.Length);
@@ -290,19 +323,15 @@ namespace CoordinateLabel
             private Point3d mpText = new Point3d();
             private bool mAutoLine = false;
             private double mLineLength = 1.0;
-            private double mTextHeight = 0.2;
-            private double mTextRotation = 0;
             private Line line = null;
 
-            private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength, double textHeight, double textRotation)
+            private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength)
                 : base(en)
             {
                 mpBase = pBase;
                 mpText = pBase.Add(Vector3d.XAxis);
                 mAutoLine = autoLine;
                 mLineLength = lineLength;
-                mTextHeight = textHeight;
-                mTextRotation = textRotation;
             }
 
             protected override bool Update()
@@ -339,11 +368,11 @@ namespace CoordinateLabel
                     PromptPointResult textRes = prompts.AcquirePoint(textOpts);
                     mpText = textRes.Value.TransformBy(wcs2ucs);
                 }
-                
+
                 return SamplerStatus.OK;
             }
 
-            public static bool Jig(Point3d pBase, bool autoLine, double lineLength, bool autoNumbering, double textHeight, double textRotation, ObjectId textStyleId, string prefix, int precision, int currentNumber)
+            public static bool Jig(Point3d pBase, MText mtext, bool autoLine, double lineLength)
             {
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
@@ -351,7 +380,7 @@ namespace CoordinateLabel
                 Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
                 Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
 
-                CoordinateJig jigger = new CoordinateJig(CreateText(textStyleId, pBaseWorld.X, pBaseWorld.Y, autoNumbering, prefix, precision, currentNumber), pBase, autoLine, lineLength, textHeight, textRotation);
+                CoordinateJig jigger = new CoordinateJig(mtext, pBase, autoLine, lineLength);
 
                 PromptResult res = doc.Editor.Drag(jigger);
 
@@ -359,61 +388,12 @@ namespace CoordinateLabel
 
                 if (res.Status == PromptStatus.OK)
                 {
-                    Point3d pTextWorld = jigger.mpText.TransformBy(ucs2wcs);
-
-                    using (Transaction tr = db.TransactionManager.StartTransaction())
-                    using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
-                    {
-                        Line line = new Line();
-                        line.StartPoint = pBaseWorld;
-                        line.EndPoint = pTextWorld;
-
-                        btr.AppendEntity(line);
-                        tr.AddNewlyCreatedDBObject(line, true);
-
-                        btr.AppendEntity(jigger.Entity);
-                        tr.AddNewlyCreatedDBObject(jigger.Entity, true);
-
-                        tr.Commit();
-                    }
-
                     return true;
                 }
                 else
                 {
                     return false;
                 }
-            }
-
-            private static MText CreateText(ObjectId textStyleId, double x, double y, bool autoNumbering, string prefix, int precision, int currentNumber)
-            {
-                string text = "";
-                if (autoNumbering)
-                {
-                    text = "{\\L" + prefix + currentNumber.ToString() + "}";
-                }
-                else
-                {
-                    string format = "0." + new string('0', precision);
-                    if (precision == 0) format = "0";
-
-                    string xtext = "X=" + x.ToString(format);
-                    string ytext = "Y=" + y.ToString(format);
-
-                    int maxlen = Math.Max(xtext.Length, ytext.Length);
-                    xtext += new string(' ', maxlen - xtext.Length);
-                    ytext += new string(' ', maxlen - ytext.Length);
-
-                    text += "{\\L" + xtext + "}" + "\\P" + ytext;
-                }
-
-                MText mtext = new MText();
-                mtext.Contents = text;
-                mtext.Location = new Point3d(0, 0, 0);
-                mtext.Attachment = (autoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
-                if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
-
-                return mtext;
             }
 
             private void UpdateText()
@@ -425,16 +405,15 @@ namespace CoordinateLabel
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
+                MText mtext = Entity as MText;
+
                 // Text to the right or left
-                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(mTextRotation * Math.PI / 180.0, Vector3d.ZAxis);
+                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(mtext.Rotation, Vector3d.ZAxis);
                 Vector3d dir = (mpText - mpBase);
                 double rot = dir.GetAngleTo(rotatedVertical, Vector3d.ZAxis) * 180 / Math.PI;
                 bool right = (rot > 0.0 && rot < 180.0);
 
-                MText mtext = Entity as MText;
                 mtext.Location = pTextWorld;
-                mtext.TextHeight = mTextHeight;
-                mtext.Rotation = mTextRotation * Math.PI / 180.0;
                 bool singleLine = (mtext.Attachment == AttachmentPoint.BottomLeft || mtext.Attachment == AttachmentPoint.BottomRight);
                 if (right)
                     mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
