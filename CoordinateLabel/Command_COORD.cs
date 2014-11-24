@@ -231,6 +231,8 @@ namespace CoordinateLabel
             mtext.Contents = GetCoordText(pt);
             mtext.Location = pt;
             mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+            mtext.TextHeight = TextHeight;
+            mtext.Rotation = TextRotation * Math.PI / 180;
             if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
 
             return mtext;
