@@ -13,10 +13,12 @@ namespace DrawingUtility
     public partial class DrawingUtility
     {
         private int CurveSegments { get; set; }
+        private int Precision { get; set; }
 
         public DrawingUtility()
         {
             CurveSegments = 40;
+            Precision = 2;
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("0", CommandFlags.UsePickSet)]
@@ -163,6 +165,148 @@ namespace DrawingUtility
                     }
                     tr.Commit();
                 }
+            }
+        }
+
+        [Autodesk.AutoCAD.Runtime.CommandMethod("TOPLA")]
+        public void AddTextValues()
+        {
+            PromptSelectionResult selRes = SelectWithPickFirst();
+            if (selRes.Status != PromptStatus.OK) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                double sum = 0.0;
+                foreach (ObjectId id in selRes.Value.GetObjectIds())
+                {
+                    DBText text = tr.GetObject(id, OpenMode.ForRead) as DBText;
+                    if (text != null)
+                    {
+                        string str = text.TextString;
+                        double val = 0.0;
+                        if (double.TryParse(str, out val))
+                        {
+                            sum += val;
+                        }
+                    }
+                }
+
+                PromptEntityResult entRes;
+                while (true)
+                {
+                    PromptEntityOptions opts = new PromptEntityOptions("\nSonucun yazılacağı yazı (" + sum.ToString("F" + Precision) + ") [Basamak sayısı]: ", "Precision");
+                    entRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(opts);
+
+                    if (entRes.Status == PromptStatus.Keyword && entRes.StringResult == "Precision")
+                    {
+                        PromptIntegerOptions intOpts = new PromptIntegerOptions("Basamak sayısı: ");
+                        intOpts.AllowNone = true;
+                        intOpts.AllowZero = true;
+                        intOpts.AllowNegative = false;
+                        intOpts.LowerLimit = 0;
+                        intOpts.UpperLimit = 16;
+                        intOpts.DefaultValue = Precision;
+                        intOpts.UseDefaultValue = true;
+                        PromptIntegerResult res = doc.Editor.GetInteger(intOpts);
+                        if (res.Status == PromptStatus.Cancel)
+                        {
+                            return;
+                        }
+                        else if (res.Status == PromptStatus.OK)
+                        {
+                            Precision = res.Value;
+                        }
+                    }
+                    else if (entRes.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                DBText restext = tr.GetObject(entRes.ObjectId, OpenMode.ForWrite) as DBText;
+                if (restext != null)
+                {
+                    restext.TextString = sum.ToString("F" + Precision.ToString());
+                }
+
+                tr.Commit();
+            }
+        }
+
+        [Autodesk.AutoCAD.Runtime.CommandMethod("CARP")]
+        public void MultiplyTextValues()
+        {
+            PromptSelectionResult selRes = SelectWithPickFirst();
+            if (selRes.Status != PromptStatus.OK) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                double sum = 1.0;
+                foreach (ObjectId id in selRes.Value.GetObjectIds())
+                {
+                    DBText text = tr.GetObject(id, OpenMode.ForRead) as DBText;
+                    if (text != null)
+                    {
+                        string str = text.TextString;
+                        double val = 0.0;
+                        if (double.TryParse(str, out val))
+                        {
+                            sum *= val;
+                        }
+                    }
+                }
+
+                PromptEntityResult entRes;
+                while (true)
+                {
+                    PromptEntityOptions opts = new PromptEntityOptions("\nSonucun yazılacağı yazı (" + sum.ToString("F" + Precision) + ") [Basamak sayısı]: ", "Precision");
+                    entRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(opts);
+
+                    if (entRes.Status == PromptStatus.Keyword && entRes.StringResult == "Precision")
+                    {
+                        PromptIntegerOptions intOpts = new PromptIntegerOptions("Basamak sayısı: ");
+                        intOpts.AllowNone = true;
+                        intOpts.AllowZero = true;
+                        intOpts.AllowNegative = false;
+                        intOpts.LowerLimit = 0;
+                        intOpts.UpperLimit = 16;
+                        intOpts.DefaultValue = Precision;
+                        intOpts.UseDefaultValue = true;
+                        PromptIntegerResult res = doc.Editor.GetInteger(intOpts);
+                        if (res.Status == PromptStatus.Cancel)
+                        {
+                            return;
+                        }
+                        else if (res.Status == PromptStatus.OK)
+                        {
+                            Precision = res.Value;
+                        }
+                    }
+                    else if (entRes.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+
+                DBText restext = tr.GetObject(entRes.ObjectId, OpenMode.ForWrite) as DBText;
+                if (restext != null)
+                {
+                    restext.TextString = sum.ToString("F" + Precision.ToString());
+                }
+
+                tr.Commit();
             }
         }
 
