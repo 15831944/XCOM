@@ -32,6 +32,7 @@ Type: filesandordirs; Name: "{app}\Contents\2014"
 [Files]
 Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
 Source: "..\Menu\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
+Source: "..\Menu\XCOM_Menu_light.cuix"; DestDir: "{app}\Resources"
 Source: "..\Menu\XCOM_KeyboardShortcuts.cuix"; DestDir: "{app}\Resources"
 Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
