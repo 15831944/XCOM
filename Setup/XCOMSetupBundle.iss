@@ -30,10 +30,10 @@ Type: filesandordirs; Name: "{app}\Contents\2012"
 Type: filesandordirs; Name: "{app}\Contents\2014"
 
 [Files]
-Source: "Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
-Source: "Package\Resources\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
-Source: "Package\Resources\XCOM_KeyboardShortcuts.cuix"; DestDir: "{app}\Resources"
-Source: "Package\Resources\icon.bmp"; DestDir: "{app}\Resources"
+Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
+Source: "..\Menu\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
+Source: "..\Menu\XCOM_KeyboardShortcuts.cuix"; DestDir: "{app}\Resources"
+Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
