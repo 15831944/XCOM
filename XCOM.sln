@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DrawingUtility", "DrawingUt
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LevelLabel", "LevelLabel\LevelLabel.csproj", "{63AF0A11-3725-4BE7-B9FE-CCAF3C553DAD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RebarPosCommands", "RebarPosCommands\RebarPosCommands.csproj", "{CAC7E4D1-71A4-4C05-BAC1-34201C067CF9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{63AF0A11-3725-4BE7-B9FE-CCAF3C553DAD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{63AF0A11-3725-4BE7-B9FE-CCAF3C553DAD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{63AF0A11-3725-4BE7-B9FE-CCAF3C553DAD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CAC7E4D1-71A4-4C05-BAC1-34201C067CF9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CAC7E4D1-71A4-4C05-BAC1-34201C067CF9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CAC7E4D1-71A4-4C05-BAC1-34201C067CF9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CAC7E4D1-71A4-4C05-BAC1-34201C067CF9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
