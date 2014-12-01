@@ -17,7 +17,10 @@ namespace CoordinateLabel
     public partial class CoordMainForm : Form
     {
         public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
+
         public double TextRotation { get { double v = 0; double.TryParse(txtTextAngle.Text, out v); return v; } set { txtTextAngle.Text = value.ToString(); } }
+        public bool AutoRotateText { get { return cbAutoRotateText.Checked; } set { cbAutoRotateText.Checked = value; } }
+
         public bool AutoLineLength { get { return cbDirection.Checked; } set { cbDirection.Checked = value; } }
         public double LineLength { get { double v = 0; double.TryParse(txtLineLength.Text, out v); return v; } set { txtLineLength.Text = value.ToString(); } }
 

@@ -17,7 +17,10 @@ namespace CoordinateLabel
         private List<CoordPoint> points;
 
         private double TextHeight { get; set; }
+
         private double TextRotation { get; set; }
+        private bool AutoRotateText { get; set; }
+
         private bool AutoLine { get; set; }
         private double LineLength { get; set; }
 
@@ -34,7 +37,10 @@ namespace CoordinateLabel
             points = new List<CoordPoint>();
 
             TextHeight = 0.25;
+
             TextRotation = 0.0;
+            AutoRotateText = false;
+
             AutoLine = false;
             LineLength = 1.0;
 
@@ -116,7 +122,7 @@ namespace CoordinateLabel
                         btr.AppendEntity(mtext);
                         tr.AddNewlyCreatedDBObject(mtext, true);
 
-                        if (CoordinateJig.Jig(pointRes.Value, mtext, AutoLine, LineLength))
+                        if (CoordinateJig.Jig(pointRes.Value, mtext, AutoLine, LineLength, AutoRotateText, TextRotation))
                         {
                             points.Add(new CoordPoint(CurrentNumber, pCoord));
                             if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
@@ -146,7 +152,10 @@ namespace CoordinateLabel
             CoordMainForm form = new CoordMainForm();
 
             form.TextHeight = TextHeight;
+
             form.TextRotation = TextRotation;
+            form.AutoRotateText = AutoRotateText;
+
             form.AutoLineLength = AutoLine;
             form.LineLength = LineLength;
 
@@ -176,7 +185,10 @@ namespace CoordinateLabel
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
             {
                 TextHeight = form.TextHeight;
+
                 TextRotation = form.TextRotation;
+                AutoRotateText = form.AutoRotateText;
+
                 AutoLine = form.AutoLineLength;
                 LineLength = form.LineLength;
 
@@ -232,7 +244,10 @@ namespace CoordinateLabel
             mtext.Location = pt;
             mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
             mtext.TextHeight = TextHeight;
-            mtext.Rotation = TextRotation * Math.PI / 180;
+            if (!AutoRotateText)
+            {
+                mtext.Rotation = TextRotation * Math.PI / 180;
+            }
             if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
 
             return mtext;
@@ -324,17 +339,21 @@ namespace CoordinateLabel
         {
             private Point3d mpBase = new Point3d();
             private Point3d mpText = new Point3d();
+            private bool mAutoRotateText = false;
+            private double mTextRotation = 0;
             private bool mAutoLine = false;
             private double mLineLength = 1.0;
             private Line line = null;
 
-            private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength)
+            private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength, bool autoRotateText, double textRotation)
                 : base(en)
             {
                 mpBase = pBase;
                 mpText = pBase.Add(Vector3d.XAxis);
                 mAutoLine = autoLine;
                 mLineLength = lineLength;
+                mAutoRotateText = autoRotateText;
+                mTextRotation = textRotation;
             }
 
             protected override bool Update()
@@ -375,7 +394,7 @@ namespace CoordinateLabel
                 return SamplerStatus.OK;
             }
 
-            public static bool Jig(Point3d pBase, MText mtext, bool autoLine, double lineLength)
+            public static bool Jig(Point3d pBase, MText mtext, bool autoLine, double lineLength, bool autoRotateText, double textRotation)
             {
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
@@ -383,7 +402,7 @@ namespace CoordinateLabel
                 Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
                 Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
 
-                CoordinateJig jigger = new CoordinateJig(mtext, pBase, autoLine, lineLength);
+                CoordinateJig jigger = new CoordinateJig(mtext, pBase, autoLine, lineLength, autoRotateText, textRotation);
 
                 PromptResult res = doc.Editor.Drag(jigger);
 
@@ -405,24 +424,49 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
                 Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d wcs2ucs = ucs2wcs.Inverse();
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
                 MText mtext = Entity as MText;
-
-                // Text to the right or left
-                Vector3d rotatedVertical = Vector3d.YAxis.RotateBy(mtext.Rotation, Vector3d.ZAxis);
                 Vector3d dir = (mpText - mpBase);
-                double rot = dir.GetAngleTo(rotatedVertical, Vector3d.ZAxis) * 180 / Math.PI;
-                bool right = (rot > 0.0 && rot < 180.0);
 
+                // Text attachment
                 mtext.Location = pTextWorld;
                 bool singleLine = (mtext.Attachment == AttachmentPoint.BottomLeft || mtext.Attachment == AttachmentPoint.BottomRight);
-                if (right)
-                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
-                else
-                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
 
+                // Text rotation and attachment
+                if (mAutoRotateText)
+                {
+                    double lineRotation = mTextRotation * Math.PI / 180 + Vector3d.XAxis.GetAngleTo(dir, Vector3d.ZAxis);
+                    double rot = lineRotation * 180 / Math.PI;
+
+                    if (rot > 90.0 && rot < 270.0)
+                    {
+                        lineRotation = lineRotation + Math.PI;
+                        mtext.Attachment = (singleLine ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
+                    }
+                    else
+                    {
+                        mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+                    }
+
+                    mtext.Rotation = lineRotation;
+                }
+                else
+                {
+                    mtext.Rotation = mTextRotation * Math.PI / 180;
+                }
+
+                // Text to the right or left
+                double textlineAngle = Vector3d.XAxis.RotateBy(mtext.Rotation, Vector3d.XAxis).GetAngleTo(dir) * 180 / Math.PI;
+
+                if (textlineAngle > 90.0 && textlineAngle < 270.0)
+                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
+                else
+                    mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+
+                // Create and update line
                 if (line == null)
                 {
                     line = new Line();

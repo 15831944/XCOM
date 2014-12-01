@@ -50,55 +50,55 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.btnReadCoords = new System.Windows.Forms.Button();
+            this.cbAutoRotateText = new System.Windows.Forms.CheckBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
+            this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
             // groupBox2
             // 
-            this.groupBox2.Controls.Add(this.label3);
-            this.groupBox2.Controls.Add(this.lblPrecision);
+            this.groupBox2.Controls.Add(this.cbAutoRotateText);
             this.groupBox2.Controls.Add(this.cbDirection);
-            this.groupBox2.Controls.Add(this.cbTextStyle);
-            this.groupBox2.Controls.Add(this.cbPrecision);
             this.groupBox2.Controls.Add(this.txtLineLength);
             this.groupBox2.Controls.Add(this.lblLineLength);
             this.groupBox2.Controls.Add(this.txtTextAngle);
             this.groupBox2.Controls.Add(this.label2);
             this.groupBox2.Controls.Add(this.txtTextHeight);
             this.groupBox2.Controls.Add(this.label1);
-            this.groupBox2.Location = new System.Drawing.Point(12, 12);
+            this.groupBox2.Location = new System.Drawing.Point(263, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(245, 190);
-            this.groupBox2.TabIndex = 0;
+            this.groupBox2.Size = new System.Drawing.Size(245, 244);
+            this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Yazı";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(19, 80);
+            this.label3.Location = new System.Drawing.Point(17, 34);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(46, 13);
-            this.label3.TabIndex = 4;
+            this.label3.TabIndex = 0;
             this.label3.Text = "Yazı Stili";
             // 
             // lblPrecision
             // 
             this.lblPrecision.AutoSize = true;
-            this.lblPrecision.Location = new System.Drawing.Point(19, 107);
+            this.lblPrecision.Location = new System.Drawing.Point(17, 61);
             this.lblPrecision.Name = "lblPrecision";
             this.lblPrecision.Size = new System.Drawing.Size(81, 13);
-            this.lblPrecision.TabIndex = 6;
+            this.lblPrecision.TabIndex = 2;
             this.lblPrecision.Text = "Basamak Sayısı";
             // 
             // cbDirection
             // 
             this.cbDirection.AutoSize = true;
-            this.cbDirection.Location = new System.Drawing.Point(22, 131);
+            this.cbDirection.Location = new System.Drawing.Point(20, 146);
             this.cbDirection.Name = "cbDirection";
             this.cbDirection.Size = new System.Drawing.Size(123, 17);
-            this.cbDirection.TabIndex = 8;
+            this.cbDirection.TabIndex = 5;
             this.cbDirection.Text = "Yön Belirleyerek Yaz";
             this.cbDirection.UseVisualStyleBackColor = true;
             // 
@@ -116,10 +116,10 @@
             "6 - 0.000000",
             "7 - 0.0000000",
             "8 - 0.00000000"});
-            this.cbTextStyle.Location = new System.Drawing.Point(123, 77);
+            this.cbTextStyle.Location = new System.Drawing.Point(121, 31);
             this.cbTextStyle.Name = "cbTextStyle";
             this.cbTextStyle.Size = new System.Drawing.Size(100, 21);
-            this.cbTextStyle.TabIndex = 5;
+            this.cbTextStyle.TabIndex = 1;
             // 
             // cbPrecision
             // 
@@ -135,30 +135,30 @@
             "6 - 0.000000",
             "7 - 0.0000000",
             "8 - 0.00000000"});
-            this.cbPrecision.Location = new System.Drawing.Point(123, 104);
+            this.cbPrecision.Location = new System.Drawing.Point(121, 58);
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
-            this.cbPrecision.TabIndex = 7;
+            this.cbPrecision.TabIndex = 3;
             // 
             // txtLineLength
             // 
-            this.txtLineLength.Location = new System.Drawing.Point(141, 154);
+            this.txtLineLength.Location = new System.Drawing.Point(139, 169);
             this.txtLineLength.Name = "txtLineLength";
             this.txtLineLength.Size = new System.Drawing.Size(84, 20);
-            this.txtLineLength.TabIndex = 10;
+            this.txtLineLength.TabIndex = 7;
             // 
             // lblLineLength
             // 
             this.lblLineLength.AutoSize = true;
-            this.lblLineLength.Location = new System.Drawing.Point(35, 157);
+            this.lblLineLength.Location = new System.Drawing.Point(33, 172);
             this.lblLineLength.Name = "lblLineLength";
             this.lblLineLength.Size = new System.Drawing.Size(77, 13);
-            this.lblLineLength.TabIndex = 9;
+            this.lblLineLength.TabIndex = 6;
             this.lblLineLength.Text = "Çizgi Uzunluğu";
             // 
             // txtTextAngle
             // 
-            this.txtTextAngle.Location = new System.Drawing.Point(123, 50);
+            this.txtTextAngle.Location = new System.Drawing.Point(123, 73);
             this.txtTextAngle.Name = "txtTextAngle";
             this.txtTextAngle.Size = new System.Drawing.Size(100, 20);
             this.txtTextAngle.TabIndex = 3;
@@ -166,7 +166,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 53);
+            this.label2.Location = new System.Drawing.Point(17, 76);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(52, 13);
             this.label2.TabIndex = 2;
@@ -196,10 +196,10 @@
             this.groupBox4.Controls.Add(this.lblStartNum);
             this.groupBox4.Controls.Add(this.rbNoNumbering);
             this.groupBox4.Controls.Add(this.rbAutoNumber);
-            this.groupBox4.Location = new System.Drawing.Point(263, 12);
+            this.groupBox4.Location = new System.Drawing.Point(12, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(245, 190);
-            this.groupBox4.TabIndex = 1;
+            this.groupBox4.Size = new System.Drawing.Size(245, 140);
+            this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Numaralandırma";
             // 
@@ -262,10 +262,10 @@
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdCancel.Location = new System.Drawing.Point(435, 216);
+            this.cmdCancel.Location = new System.Drawing.Point(435, 277);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 4;
+            this.cmdCancel.TabIndex = 5;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             // 
@@ -273,10 +273,10 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdOK.Location = new System.Drawing.Point(354, 216);
+            this.cmdOK.Location = new System.Drawing.Point(354, 277);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 3;
+            this.cmdOK.TabIndex = 4;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -286,14 +286,37 @@
             this.btnReadCoords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnReadCoords.Image = global::CoordinateLabel.Properties.Resources.pick_point;
             this.btnReadCoords.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.btnReadCoords.Location = new System.Drawing.Point(12, 216);
+            this.btnReadCoords.Location = new System.Drawing.Point(12, 277);
             this.btnReadCoords.Name = "btnReadCoords";
             this.btnReadCoords.Size = new System.Drawing.Size(112, 23);
-            this.btnReadCoords.TabIndex = 2;
+            this.btnReadCoords.TabIndex = 3;
             this.btnReadCoords.Text = "Çizimden Oku";
             this.btnReadCoords.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnReadCoords.UseVisualStyleBackColor = true;
             this.btnReadCoords.Click += new System.EventHandler(this.btnReadCoords_Click);
+            // 
+            // cbAutoRotateText
+            // 
+            this.cbAutoRotateText.AutoSize = true;
+            this.cbAutoRotateText.Location = new System.Drawing.Point(20, 102);
+            this.cbAutoRotateText.Name = "cbAutoRotateText";
+            this.cbAutoRotateText.Size = new System.Drawing.Size(162, 17);
+            this.cbAutoRotateText.TabIndex = 4;
+            this.cbAutoRotateText.Text = "Yazıyı Çizgi Yönünde Döndür";
+            this.cbAutoRotateText.UseVisualStyleBackColor = true;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.label3);
+            this.groupBox1.Controls.Add(this.cbTextStyle);
+            this.groupBox1.Controls.Add(this.lblPrecision);
+            this.groupBox1.Controls.Add(this.cbPrecision);
+            this.groupBox1.Location = new System.Drawing.Point(12, 158);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(245, 98);
+            this.groupBox1.TabIndex = 1;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Yazı Stili";
             // 
             // CoordMainForm
             // 
@@ -301,7 +324,8 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(522, 251);
+            this.ClientSize = new System.Drawing.Size(522, 312);
+            this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.btnReadCoords);
             this.Controls.Add(this.cmdOK);
@@ -319,6 +343,8 @@
             this.groupBox2.PerformLayout();
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -347,5 +373,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.ComboBox cbTextStyle;
         private System.Windows.Forms.Button btnReadCoords;
+        private System.Windows.Forms.CheckBox cbAutoRotateText;
+        private System.Windows.Forms.GroupBox groupBox1;
     }
 }
