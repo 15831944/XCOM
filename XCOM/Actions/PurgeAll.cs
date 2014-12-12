@@ -31,6 +31,9 @@ namespace XCOM
 
         private bool purgeShapes = false;
 
+        public bool purgeDetailViewStyles = true;
+        public bool purgeSectionViewStyles = true;
+
         private bool purgeZeroLengthGeometry = true;
         private bool purgeEmptyTexts = true;
 
@@ -101,6 +104,8 @@ namespace XCOM
             if (purgePlotStyles) dictionaries.Add(db.PlotStyleNameDictionaryId);
             if (purgeTableStyles) dictionaries.Add(db.TableStyleDictionaryId);
             if (purgeVisualStyles) dictionaries.Add(db.VisualStyleDictionaryId);
+            if (purgeDetailViewStyles) dictionaries.Add(db.DetailViewStyleDictionaryId);
+            if (purgeSectionViewStyles) dictionaries.Add(db.SectionViewStyleDictionaryId);
 
             // TODO - Purge shapes
 
@@ -283,6 +288,8 @@ namespace XCOM
             form.PurgeEmptyTexts = purgeEmptyTexts;
             form.PurgeRegApps = purgeRegApps;
             form.PurgeVisualStyles = purgeVisualStyles;
+            form.PurgeDetailViewStyles = purgeDetailViewStyles;
+            form.PurgeSectionViewStyles = purgeSectionViewStyles;
 
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
@@ -305,6 +312,8 @@ namespace XCOM
             purgeEmptyTexts = form.PurgeEmptyTexts;
             purgeRegApps = form.PurgeRegApps;
             purgeVisualStyles = form.PurgeVisualStyles;
+            purgeDetailViewStyles = form.PurgeDetailViewStyles;
+            purgeSectionViewStyles = form.PurgeSectionViewStyles;
 
             return true;
         }

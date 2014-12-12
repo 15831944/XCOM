@@ -31,6 +31,8 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbDetailViewStyles = new System.Windows.Forms.CheckBox();
+            this.cbVisualStyles = new System.Windows.Forms.CheckBox();
             this.cbViews = new System.Windows.Forms.CheckBox();
             this.cbViewports = new System.Windows.Forms.CheckBox();
             this.cbUCSSettings = new System.Windows.Forms.CheckBox();
@@ -53,7 +55,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnUncheckAll = new System.Windows.Forms.Button();
-            this.cbVisualStyles = new System.Windows.Forms.CheckBox();
+            this.cbSectionViewStyles = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -64,10 +66,10 @@
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdCancel.Location = new System.Drawing.Point(279, 362);
+            this.cmdCancel.Location = new System.Drawing.Point(279, 392);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 5;
+            this.cmdCancel.TabIndex = 6;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -76,16 +78,18 @@
             // 
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdOK.Location = new System.Drawing.Point(198, 362);
+            this.cmdOK.Location = new System.Drawing.Point(198, 392);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 4;
+            this.cmdOK.TabIndex = 5;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.cbSectionViewStyles);
+            this.groupBox1.Controls.Add(this.cbDetailViewStyles);
             this.groupBox1.Controls.Add(this.cbVisualStyles);
             this.groupBox1.Controls.Add(this.cbViews);
             this.groupBox1.Controls.Add(this.cbViewports);
@@ -104,17 +108,41 @@
             this.groupBox1.Controls.Add(this.cbBlocks);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(340, 233);
+            this.groupBox1.Size = new System.Drawing.Size(340, 273);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Çizim Veritabanı";
+            // 
+            // cbDetailViewStyles
+            // 
+            this.cbDetailViewStyles.AutoSize = true;
+            this.cbDetailViewStyles.Checked = true;
+            this.cbDetailViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbDetailViewStyles.Location = new System.Drawing.Point(193, 217);
+            this.cbDetailViewStyles.Name = "cbDetailViewStyles";
+            this.cbDetailViewStyles.Size = new System.Drawing.Size(110, 17);
+            this.cbDetailViewStyles.TabIndex = 16;
+            this.cbDetailViewStyles.Text = "Detail View Styles";
+            this.cbDetailViewStyles.UseVisualStyleBackColor = true;
+            // 
+            // cbVisualStyles
+            // 
+            this.cbVisualStyles.AutoSize = true;
+            this.cbVisualStyles.Checked = true;
+            this.cbVisualStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbVisualStyles.Location = new System.Drawing.Point(193, 171);
+            this.cbVisualStyles.Name = "cbVisualStyles";
+            this.cbVisualStyles.Size = new System.Drawing.Size(85, 17);
+            this.cbVisualStyles.TabIndex = 15;
+            this.cbVisualStyles.Text = "Visual Styles";
+            this.cbVisualStyles.UseVisualStyleBackColor = true;
             // 
             // cbViews
             // 
             this.cbViews.AutoSize = true;
             this.cbViews.Checked = true;
             this.cbViews.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbViews.Location = new System.Drawing.Point(193, 171);
+            this.cbViews.Location = new System.Drawing.Point(193, 148);
             this.cbViews.Name = "cbViews";
             this.cbViews.Size = new System.Drawing.Size(54, 17);
             this.cbViews.TabIndex = 14;
@@ -126,7 +154,7 @@
             this.cbViewports.AutoSize = true;
             this.cbViewports.Checked = true;
             this.cbViewports.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbViewports.Location = new System.Drawing.Point(193, 148);
+            this.cbViewports.Location = new System.Drawing.Point(193, 125);
             this.cbViewports.Name = "cbViewports";
             this.cbViewports.Size = new System.Drawing.Size(72, 17);
             this.cbViewports.TabIndex = 13;
@@ -138,7 +166,7 @@
             this.cbUCSSettings.AutoSize = true;
             this.cbUCSSettings.Checked = true;
             this.cbUCSSettings.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbUCSSettings.Location = new System.Drawing.Point(193, 125);
+            this.cbUCSSettings.Location = new System.Drawing.Point(193, 102);
             this.cbUCSSettings.Name = "cbUCSSettings";
             this.cbUCSSettings.Size = new System.Drawing.Size(89, 17);
             this.cbUCSSettings.TabIndex = 12;
@@ -150,10 +178,10 @@
             this.cbTextStyles.AutoSize = true;
             this.cbTextStyles.Checked = true;
             this.cbTextStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbTextStyles.Location = new System.Drawing.Point(193, 102);
+            this.cbTextStyles.Location = new System.Drawing.Point(19, 240);
             this.cbTextStyles.Name = "cbTextStyles";
             this.cbTextStyles.Size = new System.Drawing.Size(78, 17);
-            this.cbTextStyles.TabIndex = 11;
+            this.cbTextStyles.TabIndex = 9;
             this.cbTextStyles.Text = "Text Styles";
             this.cbTextStyles.UseVisualStyleBackColor = true;
             // 
@@ -162,10 +190,10 @@
             this.cbTableStyles.AutoSize = true;
             this.cbTableStyles.Checked = true;
             this.cbTableStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbTableStyles.Location = new System.Drawing.Point(193, 79);
+            this.cbTableStyles.Location = new System.Drawing.Point(19, 217);
             this.cbTableStyles.Name = "cbTableStyles";
             this.cbTableStyles.Size = new System.Drawing.Size(84, 17);
-            this.cbTableStyles.TabIndex = 10;
+            this.cbTableStyles.TabIndex = 8;
             this.cbTableStyles.Text = "Table Styles";
             this.cbTableStyles.UseVisualStyleBackColor = true;
             // 
@@ -176,7 +204,7 @@
             this.cbShapes.Location = new System.Drawing.Point(193, 56);
             this.cbShapes.Name = "cbShapes";
             this.cbShapes.Size = new System.Drawing.Size(62, 17);
-            this.cbShapes.TabIndex = 9;
+            this.cbShapes.TabIndex = 11;
             this.cbShapes.Text = "Shapes";
             this.cbShapes.UseVisualStyleBackColor = true;
             // 
@@ -188,7 +216,7 @@
             this.cbPlotStyles.Location = new System.Drawing.Point(193, 33);
             this.cbPlotStyles.Name = "cbPlotStyles";
             this.cbPlotStyles.Size = new System.Drawing.Size(75, 17);
-            this.cbPlotStyles.TabIndex = 8;
+            this.cbPlotStyles.TabIndex = 10;
             this.cbPlotStyles.Text = "Plot Styles";
             this.cbPlotStyles.UseVisualStyleBackColor = true;
             // 
@@ -292,7 +320,7 @@
             // 
             this.groupBox2.Controls.Add(this.cbZeroLengthGeometry);
             this.groupBox2.Controls.Add(this.cbEmptyTexts);
-            this.groupBox2.Location = new System.Drawing.Point(12, 260);
+            this.groupBox2.Location = new System.Drawing.Point(12, 291);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(167, 85);
             this.groupBox2.TabIndex = 1;
@@ -338,7 +366,7 @@
             // groupBox3
             // 
             this.groupBox3.Controls.Add(this.cbRegApps);
-            this.groupBox3.Location = new System.Drawing.Point(185, 260);
+            this.groupBox3.Location = new System.Drawing.Point(185, 291);
             this.groupBox3.Name = "groupBox3";
             this.groupBox3.Size = new System.Drawing.Size(167, 85);
             this.groupBox3.TabIndex = 2;
@@ -347,42 +375,44 @@
             // 
             // btnCheckAll
             // 
+            this.btnCheckAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnCheckAll.Image = global::XCOM.Properties.Resources.lightbulb;
-            this.btnCheckAll.Location = new System.Drawing.Point(12, 362);
+            this.btnCheckAll.Location = new System.Drawing.Point(12, 392);
             this.btnCheckAll.Name = "btnCheckAll";
             this.btnCheckAll.Size = new System.Drawing.Size(23, 23);
-            this.btnCheckAll.TabIndex = 2;
+            this.btnCheckAll.TabIndex = 3;
             this.btnCheckAll.UseVisualStyleBackColor = true;
             this.btnCheckAll.Click += new System.EventHandler(this.btnCheckAll_Click);
             // 
             // btnUncheckAll
             // 
+            this.btnUncheckAll.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.btnUncheckAll.Image = global::XCOM.Properties.Resources.lightbulb_off;
-            this.btnUncheckAll.Location = new System.Drawing.Point(34, 362);
+            this.btnUncheckAll.Location = new System.Drawing.Point(34, 392);
             this.btnUncheckAll.Name = "btnUncheckAll";
             this.btnUncheckAll.Size = new System.Drawing.Size(23, 23);
-            this.btnUncheckAll.TabIndex = 3;
+            this.btnUncheckAll.TabIndex = 4;
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
             // 
-            // cbVisualStyles
+            // cbSectionViewStyles
             // 
-            this.cbVisualStyles.AutoSize = true;
-            this.cbVisualStyles.Checked = true;
-            this.cbVisualStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbVisualStyles.Location = new System.Drawing.Point(193, 194);
-            this.cbVisualStyles.Name = "cbVisualStyles";
-            this.cbVisualStyles.Size = new System.Drawing.Size(82, 17);
-            this.cbVisualStyles.TabIndex = 15;
-            this.cbVisualStyles.Text = "VisualStyles";
-            this.cbVisualStyles.UseVisualStyleBackColor = true;
+            this.cbSectionViewStyles.AutoSize = true;
+            this.cbSectionViewStyles.Checked = true;
+            this.cbSectionViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSectionViewStyles.Location = new System.Drawing.Point(193, 240);
+            this.cbSectionViewStyles.Name = "cbSectionViewStyles";
+            this.cbSectionViewStyles.Size = new System.Drawing.Size(119, 17);
+            this.cbSectionViewStyles.TabIndex = 17;
+            this.cbSectionViewStyles.Text = "Section View Styles";
+            this.cbSectionViewStyles.UseVisualStyleBackColor = true;
             // 
             // PurgeAllForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(366, 397);
+            this.ClientSize = new System.Drawing.Size(366, 427);
             this.Controls.Add(this.btnUncheckAll);
             this.Controls.Add(this.btnCheckAll);
             this.Controls.Add(this.groupBox3);
@@ -436,5 +466,7 @@
         private System.Windows.Forms.Button btnCheckAll;
         private System.Windows.Forms.Button btnUncheckAll;
         private System.Windows.Forms.CheckBox cbVisualStyles;
+        private System.Windows.Forms.CheckBox cbDetailViewStyles;
+        private System.Windows.Forms.CheckBox cbSectionViewStyles;
     }
 }

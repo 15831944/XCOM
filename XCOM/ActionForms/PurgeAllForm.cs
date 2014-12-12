@@ -47,6 +47,8 @@ namespace XCOM.ActionForms
         public bool PurgeEmptyTexts { get { return cbEmptyTexts.Checked; } set { cbEmptyTexts.Checked = value; } }
         public bool PurgeRegApps { get { return cbRegApps.Checked; } set { cbRegApps.Checked = value; } }
         public bool PurgeVisualStyles { get { return cbVisualStyles.Checked; } set { cbVisualStyles.Checked = value; } }
+        public bool PurgeDetailViewStyles { get { return cbDetailViewStyles.Checked; } set { cbDetailViewStyles.Checked = value; } }
+        public bool PurgeSectionViewStyles { get { return cbSectionViewStyles.Checked; } set { cbSectionViewStyles.Checked = value; } }
 
         private void btnCheckAll_Click(object sender, EventArgs e)
         {
