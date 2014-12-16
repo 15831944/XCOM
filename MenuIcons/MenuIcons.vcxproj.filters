@@ -25,136 +25,136 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Resources\BALONSIL.png">
+    <Image Include="Resources\0.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\BALONSIL_32.png">
+    <Image Include="Resources\Add.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\LGOSTER.png">
+    <Image Include="Resources\BALONSIL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\METRAJ.png">
+    <Image Include="Resources\BALONSIL_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\METRAJSIL.png">
+    <Image Include="Resources\BY.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\METRAJSIL_32.png">
+    <Image Include="Resources\KOORDINAT.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\METRAJYARDIM.png">
+    <Image Include="Resources\LEVEL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\METRAJ_32.png">
+    <Image Include="Resources\LGOSTER.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZAYAR.png">
+    <Image Include="Resources\METRAJ.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZBENZET.png">
+    <Image Include="Resources\METRAJSIL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZBUL.png">
+    <Image Include="Resources\METRAJSIL_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZBUL_32.png">
+    <Image Include="Resources\METRAJYARDIM.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZDEGIS.png">
+    <Image Include="Resources\METRAJ_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZDEGIS_32.png">
+    <Image Include="Resources\Multiply.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZEDIT.png">
+    <Image Include="Resources\Parabola.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZEDIT_32.png">
+    <Image Include="Resources\POZAYAR.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZEKLE.png">
+    <Image Include="Resources\POZBENZET.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZKATKI.png">
+    <Image Include="Resources\POZBUL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZKONTROL.png">
+    <Image Include="Resources\POZBUL_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZKONTROL_32.png">
+    <Image Include="Resources\POZDEGIS.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZKOPYALA.png">
+    <Image Include="Resources\POZDEGIS_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZKOPYALADETAY.png">
+    <Image Include="Resources\POZEDIT.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZMIRROR.png">
+    <Image Include="Resources\POZEDIT_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZNUM.png">
+    <Image Include="Resources\POZEKLE.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\POZNUM_32.png">
+    <Image Include="Resources\POZKATKI.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\SEKILGOSTER.png">
+    <Image Include="Resources\POZKONTROL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\SEKILSIL.png">
+    <Image Include="Resources\POZKONTROL_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\SONPOZ.png">
+    <Image Include="Resources\POZKOPYALA.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\SONPOZ_32.png">
+    <Image Include="Resources\POZKOPYALADETAY.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\YENILE.png">
+    <Image Include="Resources\POZMIRROR.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\0.png">
+    <Image Include="Resources\POZNUM.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\Add.png">
+    <Image Include="Resources\POZNUM_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\BY.png">
+    <Image Include="Resources\RD.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\KOORDINAT.png">
+    <Image Include="Resources\RX.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\LEVEL.png">
+    <Image Include="Resources\SEKILGOSTER.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\Multiply.png">
+    <Image Include="Resources\SEKILSIL.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\Parabola.png">
+    <Image Include="Resources\SF.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\RD.png">
+    <Image Include="Resources\SONPOZ.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\RX.png">
+    <Image Include="Resources\SONPOZ_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\SF.png">
+    <Image Include="Resources\XCOM.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\XCOM.png">
+    <Image Include="Resources\XCOM_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\XCOM_32.png">
+    <Image Include="Resources\XPURGE.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\XPURGE.png">
+    <Image Include="Resources\XPURGE_32.ico">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Resources\XPURGE_32.png">
+    <Image Include="Resources\YENILE.ico">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
