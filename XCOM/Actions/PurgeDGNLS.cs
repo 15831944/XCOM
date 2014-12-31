@@ -228,6 +228,8 @@ namespace XCOM
 
         private void PurgeStrokesReferencedByObject(Transaction tr, ObjectIdCollection nodIds, ObjectId id)
         {
+            if (id == ObjectId.Null) return;
+
             var obj = tr.GetObject(id, OpenMode.ForRead);
             if (obj.ExtensionDictionary != ObjectId.Null)
             {
@@ -255,7 +257,10 @@ namespace XCOM
                         // We need to recurse, as linetype strokes can reference
                         // other linetype strokes
 
-                        PurgeStrokesReferencedByObject(tr, nodIds, refid);
+                        if (refid != ObjectId.Null)
+                        {
+                            PurgeStrokesReferencedByObject(tr, nodIds, refid);
+                        }
                     }
                 }
             }
