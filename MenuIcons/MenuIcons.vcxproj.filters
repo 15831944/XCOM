@@ -157,5 +157,8 @@
     <Image Include="Resources\YENILE.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\SONDAJDETAY.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

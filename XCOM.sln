@@ -17,6 +17,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuIcons", "MenuIcons\Menu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuIcons_Light", "MenuIcons_Light\MenuIcons_Light.vcxproj", "{96F4B113-DA30-46D0-892C-93FA5C10EEE5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeologyUtilities", "GeologyUtilities\GeologyUtilities.csproj", "{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -97,6 +99,16 @@ Global
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Win32.ActiveCfg = Release|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Win32.Build.0 = Release|Win32
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

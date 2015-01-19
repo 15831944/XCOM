@@ -26,6 +26,11 @@
         <Command Local="LEVEL" Global="LEVEL" />
       </Commands>
     </ComponentEntry>
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/GeologyUtilities.dll" AppDescription="Geology utilities" LoadOnAutoCADStartup="True" >
+      <Commands>
+        <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
+      </Commands>
+    </ComponentEntry>	
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="0" Global="0" />

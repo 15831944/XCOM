@@ -31,8 +31,7 @@ Type: filesandordirs; Name: "{app}\Contents\2014"
 
 [Files]
 Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
-Source: "..\Menu\XCOM_Menu.cuix"; DestDir: "{app}\Resources"
-Source: "..\Menu\XCOM_KeyboardShortcuts.cuix"; DestDir: "{app}\Resources"
+Source: "..\Menu\*.cuix"; DestDir: "{app}\Resources"
 Source: "..\MenuIcons\Release\MenuIcons.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu.dll"
 Source: "..\MenuIcons_Light\Release\MenuIcons_Light.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu_light.dll"
 Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
@@ -40,19 +39,18 @@ Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignore
 Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\GeologyUtilities\bin\Release\GeologyUtilities.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\GeologyUtilities\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Tasks]
 Name: "CHK_KBSHORTCUTS"; Description: "{cm:KeyboardShortcuts}"; Flags: unchecked
-Name: "CHK_REBARCOMMANDS"; Description: "{cm:RebarCommands}"; Flags: unchecked
 
 [CustomMessages]
 AppName=XCOM AutoCAD Plugin (64 bit)
 tr.AppName=XCOM AutoCAD Eklentisi (64 bit)
 KeyboardShortcuts=Install keyboard shortcuts
 tr.KeyboardShortcuts=Klavye kýsayollarýný etkinleþtir
-RebarCommands=Install rebar marking and scheduling commands.
-tr.RebarCommands=Donatý pozlandýrma ve metraj komutlarýný yükle.
 
 [Code]
 procedure PreparePackageXML(Version: String);
@@ -68,7 +66,8 @@ begin
   
   RootNode := XMLDoc.documentElement;
   RootNode.setAttribute('AppVersion', Version);
- 
+
+  // Keyboard shortcuts 
   if WizardForm.TasksList.Checked[0] then 
   begin
     ComponentsNode := XMLDoc.selectSingleNode('//Components');
@@ -78,17 +77,7 @@ begin
     MenuNode.setAttribute('LoadOnAutoCADStartup', 'True');
     ComponentsNode.appendChild(MenuNode);
   end;
-
-  if WizardForm.TasksList.Checked[1] then 
-  begin
-    ComponentsNode := XMLDoc.selectSingleNode('//Components');
-    MenuNode := XMLDoc.createElement('ComponentEntry');
-    MenuNode.setAttribute('AppName', 'XCOM');
-    MenuNode.setAttribute('ModuleName', './Resources/XCOM_Rebar.cuix');
-    MenuNode.setAttribute('LoadOnAutoCADStartup', 'True');
-    ComponentsNode.appendChild(MenuNode);
-  end;
-   
+     
   XMLDoc.Save(FileName);
 end;
 

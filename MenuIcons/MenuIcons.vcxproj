@@ -123,6 +123,7 @@
     <Image Include="Resources\SEKILGOSTER.ico" />
     <Image Include="Resources\SEKILSIL.ico" />
     <Image Include="Resources\SF.ico" />
+    <Image Include="Resources\SONDAJDETAY.ico" />
     <Image Include="Resources\SONPOZ.ico" />
     <Image Include="Resources\SONPOZ_32.ico" />
     <Image Include="Resources\XCOM.ico" />
