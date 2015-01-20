@@ -33,6 +33,10 @@
             this.culvertGrid = new SourceGrid.Grid();
             this.cbDrawCulvertInfo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtBaseCH = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtScale = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.txtBaseLevel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtZ = new System.Windows.Forms.TextBox();
@@ -43,34 +47,38 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnPickBasePoint = new System.Windows.Forms.Button();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtBaseCH = new System.Windows.Forms.TextBox();
-            this.label7 = new System.Windows.Forms.Label();
-            this.txtScale = new System.Windows.Forms.TextBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.txtLayer = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtTextHeight = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtHatchScale = new System.Windows.Forms.TextBox();
             this.groupBox1.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.SuspendLayout();
             // 
             // btnCancel
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(739, 494);
+            this.btnCancel.Location = new System.Drawing.Point(788, 494);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 4;
             this.btnCancel.Text = "İptal";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnOK.Location = new System.Drawing.Point(658, 494);
+            this.btnOK.Location = new System.Drawing.Point(707, 494);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 2;
+            this.btnOK.TabIndex = 3;
             this.btnOK.Text = "Tamam";
             this.btnOK.UseVisualStyleBackColor = true;
+            this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
             // culvertGrid
             // 
@@ -86,7 +94,7 @@
             this.culvertGrid.Name = "culvertGrid";
             this.culvertGrid.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.culvertGrid.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.culvertGrid.Size = new System.Drawing.Size(585, 463);
+            this.culvertGrid.Size = new System.Drawing.Size(617, 463);
             this.culvertGrid.TabIndex = 0;
             this.culvertGrid.TabStop = true;
             this.culvertGrid.ToolTipText = "";
@@ -121,20 +129,57 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnPickBasePoint);
-            this.groupBox1.Location = new System.Drawing.Point(620, 12);
+            this.groupBox1.Location = new System.Drawing.Point(646, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(194, 282);
+            this.groupBox1.Size = new System.Drawing.Size(217, 280);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seçenekler";
+            // 
+            // txtBaseCH
+            // 
+            this.txtBaseCH.Location = new System.Drawing.Point(73, 140);
+            this.txtBaseCH.Name = "txtBaseCH";
+            this.txtBaseCH.Size = new System.Drawing.Size(128, 20);
+            this.txtBaseCH.TabIndex = 9;
+            this.txtBaseCH.Text = "0+000.00";
+            this.txtBaseCH.Validating += new System.ComponentModel.CancelEventHandler(this.txtBaseCH_Validating);
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 144);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(44, 13);
+            this.label3.TabIndex = 8;
+            this.label3.Text = "Baz KM";
+            // 
+            // txtScale
+            // 
+            this.txtScale.Location = new System.Drawing.Point(73, 206);
+            this.txtScale.Name = "txtScale";
+            this.txtScale.Size = new System.Drawing.Size(128, 20);
+            this.txtScale.TabIndex = 13;
+            this.txtScale.Text = "10";
+            this.txtScale.Validating += new System.ComponentModel.CancelEventHandler(this.txtScale_Validating);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(17, 210);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(35, 13);
+            this.label7.TabIndex = 12;
+            this.label7.Text = "Ölçek";
             // 
             // txtBaseLevel
             // 
             this.txtBaseLevel.Location = new System.Drawing.Point(73, 166);
             this.txtBaseLevel.Name = "txtBaseLevel";
-            this.txtBaseLevel.Size = new System.Drawing.Size(100, 20);
+            this.txtBaseLevel.Size = new System.Drawing.Size(128, 20);
             this.txtBaseLevel.TabIndex = 11;
             this.txtBaseLevel.Text = "0";
+            this.txtBaseLevel.Validating += new System.ComponentModel.CancelEventHandler(this.txtBaseLevel_Validating);
             // 
             // label6
             // 
@@ -150,7 +195,7 @@
             this.txtZ.Location = new System.Drawing.Point(73, 99);
             this.txtZ.Name = "txtZ";
             this.txtZ.ReadOnly = true;
-            this.txtZ.Size = new System.Drawing.Size(100, 20);
+            this.txtZ.Size = new System.Drawing.Size(128, 20);
             this.txtZ.TabIndex = 7;
             // 
             // label5
@@ -167,7 +212,7 @@
             this.txtY.Location = new System.Drawing.Point(73, 73);
             this.txtY.Name = "txtY";
             this.txtY.ReadOnly = true;
-            this.txtY.Size = new System.Drawing.Size(100, 20);
+            this.txtY.Size = new System.Drawing.Size(128, 20);
             this.txtY.TabIndex = 5;
             // 
             // label4
@@ -184,7 +229,7 @@
             this.txtX.Location = new System.Drawing.Point(73, 47);
             this.txtX.Name = "txtX";
             this.txtX.ReadOnly = true;
-            this.txtX.Size = new System.Drawing.Size(100, 20);
+            this.txtX.Size = new System.Drawing.Size(128, 20);
             this.txtX.TabIndex = 3;
             // 
             // label2
@@ -215,47 +260,83 @@
             this.btnPickBasePoint.UseVisualStyleBackColor = true;
             this.btnPickBasePoint.Click += new System.EventHandler(this.btnPickBasePoint_Click);
             // 
-            // label3
+            // groupBox2
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 144);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 8;
-            this.label3.Text = "Baz KM";
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.txtHatchScale);
+            this.groupBox2.Controls.Add(this.label10);
+            this.groupBox2.Controls.Add(this.txtTextHeight);
+            this.groupBox2.Controls.Add(this.label9);
+            this.groupBox2.Controls.Add(this.txtLayer);
+            this.groupBox2.Controls.Add(this.label8);
+            this.groupBox2.Location = new System.Drawing.Point(646, 298);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(217, 120);
+            this.groupBox2.TabIndex = 2;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Görünüm";
             // 
-            // txtBaseCH
+            // label8
             // 
-            this.txtBaseCH.Location = new System.Drawing.Point(73, 140);
-            this.txtBaseCH.Name = "txtBaseCH";
-            this.txtBaseCH.Size = new System.Drawing.Size(100, 20);
-            this.txtBaseCH.TabIndex = 9;
-            this.txtBaseCH.Text = "0+000.00";
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(17, 34);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(33, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Layer";
             // 
-            // label7
+            // txtLayer
             // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(17, 210);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 12;
-            this.label7.Text = "Ölçek";
+            this.txtLayer.Location = new System.Drawing.Point(101, 31);
+            this.txtLayer.Name = "txtLayer";
+            this.txtLayer.Size = new System.Drawing.Size(100, 20);
+            this.txtLayer.TabIndex = 1;
+            this.txtLayer.Text = "MENFEZ PROFIL";
+            this.txtLayer.Validating += new System.ComponentModel.CancelEventHandler(this.txtLayer_Validating);
             // 
-            // txtScale
+            // label9
             // 
-            this.txtScale.Location = new System.Drawing.Point(73, 206);
-            this.txtScale.Name = "txtScale";
-            this.txtScale.Size = new System.Drawing.Size(100, 20);
-            this.txtScale.TabIndex = 13;
-            this.txtScale.Text = "10";
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 60);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(78, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Yazı Yüksekliği";
+            // 
+            // txtTextHeight
+            // 
+            this.txtTextHeight.Location = new System.Drawing.Point(101, 57);
+            this.txtTextHeight.Name = "txtTextHeight";
+            this.txtTextHeight.Size = new System.Drawing.Size(100, 20);
+            this.txtTextHeight.TabIndex = 3;
+            this.txtTextHeight.Text = "3";
+            this.txtTextHeight.Validating += new System.ComponentModel.CancelEventHandler(this.txtTextHeight_Validating);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(17, 86);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(73, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "Tarama Sıklığı";
+            // 
+            // txtHatchScale
+            // 
+            this.txtHatchScale.Location = new System.Drawing.Point(101, 83);
+            this.txtHatchScale.Name = "txtHatchScale";
+            this.txtHatchScale.Size = new System.Drawing.Size(100, 20);
+            this.txtHatchScale.TabIndex = 5;
+            this.txtHatchScale.Text = "1";
+            this.txtHatchScale.Validating += new System.ComponentModel.CancelEventHandler(this.txtHatchScale_Validating);
             // 
             // DrawCulvertForm
             // 
-            this.AcceptButton = this.btnOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(826, 529);
+            this.ClientSize = new System.Drawing.Size(875, 529);
+            this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.culvertGrid);
             this.Controls.Add(this.btnCancel);
@@ -268,6 +349,8 @@
             this.Text = "Güzergah Profili Üzerinde Menfez Çizimi";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -293,5 +376,12 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox txtLayer;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtHatchScale;
+        private System.Windows.Forms.Label label10;
+        private System.Windows.Forms.TextBox txtTextHeight;
+        private System.Windows.Forms.Label label9;
     }
 }

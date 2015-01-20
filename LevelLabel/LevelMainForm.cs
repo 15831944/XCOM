@@ -14,6 +14,7 @@ namespace LevelLabel
 {
     public partial class LevelMainForm : Form
     {
+        private bool basePointSelected;
         private Point3d basePt;
 
         public bool UnitMeter { get { return rbMeter.Checked; } set { rbMeter.Checked = value; rbCentimeter.Checked = !value; rbMillimeter.Checked = !value; } }
@@ -22,7 +23,7 @@ namespace LevelLabel
 
         public int Precision { get { return cbPrecision.SelectedIndex; } set { cbPrecision.SelectedIndex = Math.Min(cbPrecision.Items.Count - 1, Math.Max(0, value)); } }
 
-        public Point3d BasePoint { get { return basePt; } set { basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
+        public Point3d BasePoint { get { return basePt; } set { basePointSelected = true; basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
 
         public double BaseLevel { get { double v = 0; double.TryParse(txtBaseLevel.Text, out v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
         public string BlockName
@@ -53,6 +54,7 @@ namespace LevelLabel
 
             Text = "Level v" + typeof(LevelMainForm).Assembly.GetName().Version.ToString(2);
 
+            basePointSelected = false;
             basePt = Point3d.Origin;
         }
 
@@ -71,6 +73,11 @@ namespace LevelLabel
 
         private void cmdOK_Click(object sender, EventArgs e)
         {
+            if (!basePointSelected)
+            {
+                MessageBox.Show("Baz kotunu seçin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
             DialogResult = System.Windows.Forms.DialogResult.OK;
             Close();
         }

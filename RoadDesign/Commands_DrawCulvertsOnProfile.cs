@@ -32,6 +32,10 @@ namespace RoadDesign
                     double scale = form.ProfileScale;
                     bool drawCulvertInfo = form.DrawCulvertInfo;
 
+                    string layerName = form.LayerName;
+                    double textHeight = form.TextHeight;
+                    double hatchScale = form.HatchScale;
+
                     using (Transaction tr = db.TransactionManager.StartTransaction())
                     using (LayerTable lt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead))
                     using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
@@ -41,14 +45,14 @@ namespace RoadDesign
                             // Get layer
                             ObjectId layerId = ObjectId.Null;
 
-                            if (lt.Has("MENFEZ PROFIL"))
+                            if (lt.Has(layerName))
                             {
-                                layerId = lt["MENFEZ PROFIL"];
+                                layerId = lt[layerName];
                             }
                             else
                             {
                                 LayerTableRecord ltr = new LayerTableRecord();
-                                ltr.Name = "MENFEZ PROFIL";
+                                ltr.Name = layerName;
                                 lt.UpgradeOpen();
                                 layerId = lt.Add(ltr);
                                 tr.AddNewlyCreatedDBObject(ltr, true);
@@ -82,7 +86,7 @@ namespace RoadDesign
                                 tr.AddNewlyCreatedDBObject(innerPoly, true);
 
                                 // Hatch
-                                Hatch hatch = CreateHatch("ANSI31", 1, 0);
+                                Hatch hatch = CreateHatch("ANSI31", hatchScale, 0);
                                 hatch.LayerId = layerId;
                                 btr.AppendEntity(hatch);
                                 tr.AddNewlyCreatedDBObject(hatch, true);
@@ -97,20 +101,22 @@ namespace RoadDesign
                                 Line axis = CreateLine(new Point3d(midPt.X, basePt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 4 * scale, 0).TransformBy(ucs2wcs)
                                     );
+                                axis.LayerId = layerId;
                                 btr.AppendEntity(axis);
                                 tr.AddNewlyCreatedDBObject(axis, true);
 
                                 // Texts
-                                Point3d textBase = new Point3d(midPt.X-3.75, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 0.5 * scale, 0);
-                                string text = "KM: " + DrawCulvertForm.CulvertInfo.ChainageToString(culvert.Chainage) + 
+                                Point3d textBase = new Point3d(midPt.X - textHeight * 1.25, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 0.5 * scale, 0);
+                                string text = "KM: " + DrawCulvertForm.CulvertInfo.ChainageToString(culvert.Chainage) +
                                     "\\P" + "(" + culvert.Width.ToString("F2") + "x" + culvert.Height.ToString("F2") + ") KUTU MENFEZ";
-                                if(drawCulvertInfo)
+                                if (drawCulvertInfo)
                                 {
                                     text = text + "\\P" + "L=" + culvert.Length.ToString("F2") + " m" + " Fl=" + culvert.Level.ToString("F2") + " m" + " My=%" + culvert.Grade.ToString("F2") +
                                         "\\P" + "Verevlilik=" + culvert.Skew.ToString("F2") + " g";
                                 }
 
-                                MText mtext = CreateMText(textBase.TransformBy(ucs2wcs), text, 3, 90);
+                                MText mtext = CreateMText(textBase.TransformBy(ucs2wcs), text, textHeight, 90);
+                                mtext.LayerId = layerId;
                                 btr.AppendEntity(mtext);
                                 tr.AddNewlyCreatedDBObject(mtext, true);
                             }
