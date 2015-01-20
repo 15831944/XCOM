@@ -19,6 +19,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuIcons_Light", "MenuIcon
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeologyUtilities", "GeologyUtilities\GeologyUtilities.csproj", "{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RoadDesign", "RoadDesign\RoadDesign.csproj", "{D308EC96-D7DB-4638-84A4-B6F41691E945}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +111,16 @@ Global
 		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{7876BDC6-7E93-46B9-8B2A-E9810E8FFF6F}.Release|Win32.ActiveCfg = Release|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Debug|Win32.ActiveCfg = Debug|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{D308EC96-D7DB-4638-84A4-B6F41691E945}.Release|Win32.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

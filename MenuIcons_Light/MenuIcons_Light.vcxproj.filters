@@ -136,6 +136,9 @@
     <Image Include="Resources\YENILE.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\PROFILMENFEZ.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

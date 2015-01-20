@@ -160,5 +160,8 @@
     <Image Include="Resources\SONDAJDETAY.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\PROFILMENFEZ.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

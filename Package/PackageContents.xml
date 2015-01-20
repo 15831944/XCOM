@@ -31,6 +31,11 @@
         <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
       </Commands>
     </ComponentEntry>	
+    <ComponentEntry AppName="XCOM" ModuleName="./Contents/RoadDesign.dll" AppDescription="Road design utilities" LoadOnAutoCADStartup="True" >
+      <Commands>
+        <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
+      </Commands>
+    </ComponentEntry>	
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="0" Global="0" />

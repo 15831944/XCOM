@@ -39,8 +39,9 @@ Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignore
 Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\GeologyUtilities\bin\Release\GeologyUtilities.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\GeologyUtilities\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\GeologyUtilities\bin\Release\GeologyUtilities.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\RoadDesign\bin\Release\RoadDesign.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Tasks]
