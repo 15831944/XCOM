@@ -311,6 +311,12 @@ namespace RebarPosCommands
             }
         }
 
+        [CommandMethod("RebarPos", "POSSETTINGS", "POSSETTINGS_Local", CommandFlags.Modal)]
+        public void CMD_PosSettings()
+        {
+            PosGroups();
+        }
+
         [CommandMethod("RebarPos", "POSHELP", "POSHELP_Local", CommandFlags.Modal)]
         public void CMD_PosHelp()
         {

@@ -89,6 +89,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="Resources\0.ico" />
+    <Image Include="Resources\ACILIMLAR.ico" />
     <Image Include="Resources\Add.ico" />
     <Image Include="Resources\BALONSIL.ico" />
     <Image Include="Resources\BALONSIL_32.ico" />
