@@ -35,6 +35,7 @@ namespace GeologyUtilities
                         val = (string)obj;
                         if (string.IsNullOrEmpty(val)) return i - 1;
                         double depth = 0;
+                        val = val.Replace(',', '.');
                         if (!double.TryParse(val, out depth)) return i - 1;
                     }
                     return boreholeGrid.ColumnsCount - 1;
@@ -150,6 +151,21 @@ namespace GeologyUtilities
         {
             InitializeComponent();
 
+            Text = "Sondaj Detayları v" + typeof(DrawBoreholeDetailsForm).Assembly.GetName().Version.ToString(2);
+
+            SourceGrid.Cells.Views.Cell cellView = new SourceGrid.Cells.Views.Cell();
+            cellView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+            cellView.BackColor = Color.White;
+            cellView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+
+            SourceGrid.Cells.Views.Cell errorView = new SourceGrid.Cells.Views.Cell();
+            errorView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+            errorView.BackColor = Color.LightCoral;
+            errorView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
+
+            DoubleCellChangedEvent doubleEventController = new DoubleCellChangedEvent(cellView, errorView);
+            DoubleOrStringCellChangedEvent doubleOrStringEventController = new DoubleOrStringCellChangedEvent(cellView, errorView);
+
             boreholeGrid.BorderStyle = BorderStyle.FixedSingle;
             boreholeGrid.EnableSort = false;
 
@@ -188,14 +204,20 @@ namespace GeologyUtilities
                 boreholeGrid.Rows[i].AutoSizeMode = SourceGrid.AutoSizeMode.None;
             }
 
-            SourceGrid.Cells.Views.Cell cellView = new SourceGrid.Cells.Views.Cell();
-            cellView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
             for (int i = boreholeGrid.FixedRows; i < boreholeGrid.RowsCount; i++)
             {
                 for (int j = 0; j < boreholeGrid.ColumnsCount; j++)
                 {
                     boreholeGrid[i, j] = new SourceGrid.Cells.Cell("", typeof(string));
                     boreholeGrid[i, j].View = cellView;
+                    if ((string)boreholeGrid.Columns[j].Tag == "Depth")
+                    {
+                        boreholeGrid[i, j].AddController(doubleEventController);
+                    }
+                    else
+                    {
+                        boreholeGrid[i, j].AddController(doubleOrStringEventController);
+                    }
                 }
             }
 
@@ -212,6 +234,71 @@ namespace GeologyUtilities
             }
 
             boreholeGrid.AutoSizeCells();
+        }
+
+        public class DoubleCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
+        {
+            SourceGrid.Cells.Views.Cell cellView;
+            SourceGrid.Cells.Views.Cell errorView;
+
+            public DoubleCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
+                : base()
+            {
+                cellView = sourceCellView;
+                errorView = sourceErrorView;
+            }
+
+            public override void OnValueChanged(SourceGrid.CellContext sender, EventArgs e)
+            {
+                base.OnValueChanged(sender, e);
+
+                object val = sender.Value;
+                double res = 0;
+                if (val == null || string.IsNullOrEmpty((string)val))
+                {
+                    sender.Cell.View = cellView;
+                }
+                else if (!double.TryParse(((string)val).Replace(',', '.'), out res))
+                {
+                    sender.Cell.View = errorView;
+                }
+                else
+                {
+                    sender.Value = res.ToString();
+                    sender.Cell.View = cellView;
+                }
+            }
+        }
+
+        public class DoubleOrStringCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
+        {
+            SourceGrid.Cells.Views.Cell cellView;
+            SourceGrid.Cells.Views.Cell errorView;
+
+            public DoubleOrStringCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
+                : base()
+            {
+                cellView = sourceCellView;
+                errorView = sourceErrorView;
+            }
+
+            public override void OnValueChanged(SourceGrid.CellContext sender, EventArgs e)
+            {
+                base.OnValueChanged(sender, e);
+
+                object val = sender.Value;
+                if (val == null || string.IsNullOrEmpty((string)val))
+                {
+                    sender.Cell.View = cellView;
+                }
+                else
+                {
+                    string res = (string)val;
+                    res = res.Replace(',', '.');
+                    sender.Value = res;
+                    sender.Cell.View = cellView;
+                }
+            }
         }
 
         private void boreholeGrid_MouseDown(object sender, MouseEventArgs e)

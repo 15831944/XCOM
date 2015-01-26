@@ -65,8 +65,8 @@ namespace GeologyUtilities
                         // Header underline
                         if (data.Count > 0)
                         {
-                            Point3d pt1 = new Point3d(pt.X - xSpacing, pt.Y - 0.75, pt.Z);
-                            Point3d pt2 = new Point3d(pt.X + xSpacing * data.Count - xSpacing, pt.Y - 0.75, pt.Z);
+                            Point3d pt1 = new Point3d(pt.X - xSpacing, pt.Y - 0.25, pt.Z);
+                            Point3d pt2 = new Point3d(pt.X + xSpacing * data.Count - xSpacing, pt.Y - 0.25, pt.Z);
                             Line line = CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             line.Color = headerColor;
