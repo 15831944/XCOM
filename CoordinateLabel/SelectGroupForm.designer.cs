@@ -133,7 +133,7 @@
             this.label1.Size = new System.Drawing.Size(248, 45);
             this.label1.TabIndex = 0;
             this.label1.Text = "Seçilen yazılarda birden fazla koordinat grubu bulundu. Uygulanacak koordinat gru" +
-                "bunu seçin.";
+    "bunu seçin.";
             // 
             // SelectGroupForm
             // 
@@ -153,7 +153,7 @@
             this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Koordinat";
+            this.Text = "Koordinat Grubu Seç";
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.ResumeLayout(false);

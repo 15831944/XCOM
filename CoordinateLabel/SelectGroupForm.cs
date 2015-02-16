@@ -25,8 +25,6 @@ namespace CoordinateLabel
         {
             InitializeComponent();
 
-            Text = "Koordinat v" + typeof(CoordMainForm).Assembly.GetName().Version.ToString(2);
-
             Application.Idle += new EventHandler(Application_Idle);
         }
 

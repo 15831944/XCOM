@@ -62,6 +62,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Command_COORD.cs" />
+    <Compile Include="SelectObjectsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="SelectObjectsForm.designer.cs">
+      <DependentUpon>SelectObjectsForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CoordMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="SelectObjectsForm.resx">
+      <DependentUpon>SelectObjectsForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CoordMainForm.resx">
       <DependentUpon>CoordMainForm.cs</DependentUpon>
     </EmbeddedResource>
