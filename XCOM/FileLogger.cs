@@ -23,5 +23,13 @@ namespace XCOM
                 w.WriteLine(message);
             }
         }
+
+        public static void Log(Exception ex)
+        {
+            using (System.IO.StreamWriter w = new System.IO.StreamWriter(LogFilename, true))
+            {
+                w.WriteLine(ex.ToString());
+            }
+        }
     }
 }
