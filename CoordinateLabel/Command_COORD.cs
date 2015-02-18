@@ -43,7 +43,7 @@ namespace CoordinateLabel
             {
                 points = new List<Point3d>();
                 ucs2wcs = ucs;
-                wcs2ucs = wcs2ucs.Inverse();
+                wcs2ucs = ucs2wcs.Inverse();
                 rotation = textRotation;
                 length = lineLength;
             }
