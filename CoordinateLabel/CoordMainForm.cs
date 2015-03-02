@@ -30,6 +30,8 @@ namespace CoordinateLabel
         public int StartingNumber { get { int v = 0; int.TryParse(txtStartNum.Text, out v); return v; } set { txtStartNum.Text = value.ToString(); } }
         public string Prefix { get { return txtPrefix.Text; } set { txtPrefix.Text = value; } }
 
+        public bool ShowZCoordinate { get { return cbZCoord.Checked; } set { cbZCoord.Checked = value; } }
+
         public CoordItem[] CoordsFromDWG { get; private set; }
 
         public string TextStyleName

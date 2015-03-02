@@ -31,6 +31,8 @@ namespace CoordinateLabel
         private string Prefix { get; set; }
         private string TextStyleName { get; set; }
 
+        private bool ShowZCoordinate { get; set; }
+
         private class TextPositioner
         {
             private Matrix3d wcs2ucs;
@@ -134,6 +136,8 @@ namespace CoordinateLabel
             CurrentNumber = 1;
 
             TextStyleName = "MTT";
+
+            ShowZCoordinate = false;
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("KOORDINAT")]
@@ -384,6 +388,8 @@ namespace CoordinateLabel
             form.StartingNumber = CurrentNumber;
             form.Prefix = Prefix;
 
+            form.ShowZCoordinate = ShowZCoordinate;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
@@ -416,6 +422,8 @@ namespace CoordinateLabel
                 AutoNumbering = form.AutoNumbering;
                 CurrentNumber = form.StartingNumber;
                 Prefix = form.Prefix;
+
+                ShowZCoordinate = form.ShowZCoordinate;
 
                 TextStyleName = form.TextStyleName;
 
@@ -486,12 +494,17 @@ namespace CoordinateLabel
 
                 string xtext = "X=" + pt.X.ToString(format);
                 string ytext = "Y=" + pt.Y.ToString(format);
+                string ztext = "Z=" + pt.Z.ToString(format);
 
                 int maxlen = Math.Max(xtext.Length, ytext.Length);
                 xtext += new string(' ', maxlen - xtext.Length);
                 ytext += new string(' ', maxlen - ytext.Length);
+                ztext += new string(' ', maxlen - ztext.Length);
 
-                text += "{\\L" + xtext + "}" + "\\P" + ytext;
+                if (ShowZCoordinate)
+                    text = "\\P" + "{\\L" + xtext + "}" + "\\P" + ytext + "\\P" + ztext;
+                else
+                    text = "{\\L" + xtext + "}" + "\\P" + ytext;
             }
 
             return text;
@@ -519,13 +532,16 @@ namespace CoordinateLabel
             using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
             {
                 // Header
-                MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), "NOKTA NO         X KOORD         Y KOORD", height, rotation);
+                if (ShowZCoordinate)
+                    MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), "NOKTA NO         X KOORD         Y KOORD         Z KOORD", height, rotation);
+                else
+                    MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), "NOKTA NO         X KOORD         Y KOORD", height, rotation);
                 ptt = new Point3d(ptt.X, ptt.Y - row, ptt.Z);
 
                 // Lines
                 foreach (CoordPoint pt in points)
                 {
-                    string text = pt.ToString(Prefix, 8, Precision, 16);
+                    string text = pt.ToString(Prefix, 8, Precision, 16, ShowZCoordinate);
                     MakeDBText(tr, db, btr, ptt.TransformBy(ucs2wcs), text, height, rotation);
                     ptt = new Point3d(ptt.X, ptt.Y - row, ptt.Z);
                 }

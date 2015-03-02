@@ -29,7 +29,7 @@ namespace CoordinateLabel
             ;
         }
 
-        public string ToString(string prefix, int nwidth, int coordprecision, int coordwidth)
+        public string ToString(string prefix, int nwidth, int coordprecision, int coordwidth, bool showZ)
         {
             string n = prefix + N.ToString();
             if (n.Length < nwidth) n = new string(' ', nwidth - n.Length) + n;
@@ -39,11 +39,16 @@ namespace CoordinateLabel
 
             string xtext = X.ToString(format);
             string ytext = Y.ToString(format);
+            string ztext = Z.ToString(format);
 
             if (xtext.Length < coordwidth) xtext = new string(' ', coordwidth - xtext.Length) + xtext;
             if (ytext.Length < coordwidth) ytext = new string(' ', coordwidth - ytext.Length) + ytext;
+            if (ztext.Length < coordwidth) ztext = new string(' ', coordwidth - ztext.Length) + ztext;
 
-            return n + xtext + ytext;
+            if (showZ)
+                return n + xtext + ytext + ztext;
+            else
+                return n + xtext + ytext;
         }
     }
 }

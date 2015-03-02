@@ -29,17 +29,18 @@
         private void InitializeComponent()
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.lblPrecision = new System.Windows.Forms.Label();
+            this.cbAutoRotateText = new System.Windows.Forms.CheckBox();
             this.cbDirection = new System.Windows.Forms.CheckBox();
-            this.cbTextStyle = new System.Windows.Forms.ComboBox();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
             this.txtLineLength = new System.Windows.Forms.TextBox();
             this.lblLineLength = new System.Windows.Forms.Label();
             this.txtTextAngle = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.lblPrecision = new System.Windows.Forms.Label();
+            this.cbTextStyle = new System.Windows.Forms.ComboBox();
+            this.cbPrecision = new System.Windows.Forms.ComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtPrefix = new System.Windows.Forms.TextBox();
             this.lblPrefix = new System.Windows.Forms.Label();
@@ -50,8 +51,8 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.btnReadCoords = new System.Windows.Forms.Button();
-            this.cbAutoRotateText = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbZCoord = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -60,6 +61,7 @@
             // groupBox2
             // 
             this.groupBox2.Controls.Add(this.cbAutoRotateText);
+            this.groupBox2.Controls.Add(this.cbZCoord);
             this.groupBox2.Controls.Add(this.cbDirection);
             this.groupBox2.Controls.Add(this.txtLineLength);
             this.groupBox2.Controls.Add(this.lblLineLength);
@@ -74,23 +76,15 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Yazı";
             // 
-            // label3
+            // cbAutoRotateText
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(17, 34);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Yazı Stili";
-            // 
-            // lblPrecision
-            // 
-            this.lblPrecision.AutoSize = true;
-            this.lblPrecision.Location = new System.Drawing.Point(17, 61);
-            this.lblPrecision.Name = "lblPrecision";
-            this.lblPrecision.Size = new System.Drawing.Size(81, 13);
-            this.lblPrecision.TabIndex = 2;
-            this.lblPrecision.Text = "Basamak Sayısı";
+            this.cbAutoRotateText.AutoSize = true;
+            this.cbAutoRotateText.Location = new System.Drawing.Point(20, 102);
+            this.cbAutoRotateText.Name = "cbAutoRotateText";
+            this.cbAutoRotateText.Size = new System.Drawing.Size(162, 17);
+            this.cbAutoRotateText.TabIndex = 4;
+            this.cbAutoRotateText.Text = "Yazıyı Çizgi Yönünde Döndür";
+            this.cbAutoRotateText.UseVisualStyleBackColor = true;
             // 
             // cbDirection
             // 
@@ -101,44 +95,6 @@
             this.cbDirection.TabIndex = 5;
             this.cbDirection.Text = "Yön Belirleyerek Yaz";
             this.cbDirection.UseVisualStyleBackColor = true;
-            // 
-            // cbTextStyle
-            // 
-            this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbTextStyle.FormattingEnabled = true;
-            this.cbTextStyle.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
-            this.cbTextStyle.Location = new System.Drawing.Point(121, 31);
-            this.cbTextStyle.Name = "cbTextStyle";
-            this.cbTextStyle.Size = new System.Drawing.Size(100, 21);
-            this.cbTextStyle.TabIndex = 1;
-            // 
-            // cbPrecision
-            // 
-            this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
-            this.cbPrecision.Location = new System.Drawing.Point(121, 58);
-            this.cbPrecision.Name = "cbPrecision";
-            this.cbPrecision.Size = new System.Drawing.Size(100, 21);
-            this.cbPrecision.TabIndex = 3;
             // 
             // txtLineLength
             // 
@@ -187,6 +143,62 @@
             this.label1.Size = new System.Drawing.Size(78, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Yazı Yüksekliği";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(17, 34);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Yazı Stili";
+            // 
+            // lblPrecision
+            // 
+            this.lblPrecision.AutoSize = true;
+            this.lblPrecision.Location = new System.Drawing.Point(17, 61);
+            this.lblPrecision.Name = "lblPrecision";
+            this.lblPrecision.Size = new System.Drawing.Size(81, 13);
+            this.lblPrecision.TabIndex = 2;
+            this.lblPrecision.Text = "Basamak Sayısı";
+            // 
+            // cbTextStyle
+            // 
+            this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTextStyle.FormattingEnabled = true;
+            this.cbTextStyle.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbTextStyle.Location = new System.Drawing.Point(121, 31);
+            this.cbTextStyle.Name = "cbTextStyle";
+            this.cbTextStyle.Size = new System.Drawing.Size(100, 21);
+            this.cbTextStyle.TabIndex = 1;
+            // 
+            // cbPrecision
+            // 
+            this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPrecision.FormattingEnabled = true;
+            this.cbPrecision.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbPrecision.Location = new System.Drawing.Point(121, 58);
+            this.cbPrecision.Name = "cbPrecision";
+            this.cbPrecision.Size = new System.Drawing.Size(100, 21);
+            this.cbPrecision.TabIndex = 3;
             // 
             // groupBox4
             // 
@@ -295,16 +307,6 @@
             this.btnReadCoords.UseVisualStyleBackColor = true;
             this.btnReadCoords.Click += new System.EventHandler(this.btnReadCoords_Click);
             // 
-            // cbAutoRotateText
-            // 
-            this.cbAutoRotateText.AutoSize = true;
-            this.cbAutoRotateText.Location = new System.Drawing.Point(20, 102);
-            this.cbAutoRotateText.Name = "cbAutoRotateText";
-            this.cbAutoRotateText.Size = new System.Drawing.Size(162, 17);
-            this.cbAutoRotateText.TabIndex = 4;
-            this.cbAutoRotateText.Text = "Yazıyı Çizgi Yönünde Döndür";
-            this.cbAutoRotateText.UseVisualStyleBackColor = true;
-            // 
             // groupBox1
             // 
             this.groupBox1.Controls.Add(this.label3);
@@ -317,6 +319,16 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Yazı Stili";
+            // 
+            // cbZCoord
+            // 
+            this.cbZCoord.AutoSize = true;
+            this.cbZCoord.Location = new System.Drawing.Point(20, 208);
+            this.cbZCoord.Name = "cbZCoord";
+            this.cbZCoord.Size = new System.Drawing.Size(123, 17);
+            this.cbZCoord.TabIndex = 8;
+            this.cbZCoord.Text = "Z Koordinatını Yazdır";
+            this.cbZCoord.UseVisualStyleBackColor = true;
             // 
             // CoordMainForm
             // 
@@ -375,5 +387,6 @@
         private System.Windows.Forms.Button btnReadCoords;
         private System.Windows.Forms.CheckBox cbAutoRotateText;
         private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.CheckBox cbZCoord;
     }
 }
