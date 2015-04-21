@@ -101,7 +101,7 @@ namespace XCOM
                 }
                 catch (System.Exception ex)
                 {
-                    errors.Add(ex.Message);
+                    errors.Add(ex.ToString());
                 }
 
                 tr.Commit();

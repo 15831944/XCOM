@@ -113,6 +113,7 @@
     <Compile Include="Actions\ChangeToLayout.cs" />
     <Compile Include="Actions\BackupFile.cs" />
     <Compile Include="Actions\BindXREFs.cs" />
+    <Compile Include="Actions\ProtectDrawing.cs" />
     <Compile Include="Actions\SaveDXF.cs" />
     <Compile Include="Actions\SaveFile.cs" />
     <Compile Include="Actions\FindReplaceText.cs" />
