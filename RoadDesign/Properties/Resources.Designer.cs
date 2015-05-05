@@ -61,6 +61,31 @@ namespace RoadDesign.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to ID	X	Y	Z
+        ///1	430165.533	4177744.092	9.384
+        ///2	430166.312	4177746.033	9.751
+        ///3	430166.464	4177744.676	7.922
+        ///4	430166.47	4177743.254	7.813
+        ///5	430166.65	4177739.625	7.442
+        ///6	430166.937	4177741.644	7.345
+        ///7	430167.128	4177738.649	6.582
+        ///8	430167.36	4177739.757	6.707
+        ///9	430167.522	4177736.334	6.046
+        ///10	430167.646	4177737.579	5.988
+        ///11	430168.003	4177742.563	7.405
+        ///12	430168.167	4177733.449	4.855
+        ///13	430168.279	4177742.596	7.395
+        ///14	430168.329	4177739.589	6.528
+        ///15	430168.364	4177735.472	5.064
+        ///16	430168.374	41777 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DemoSurface {
+            get {
+                return ResourceManager.GetString("DemoSurface", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
         internal static System.Drawing.Bitmap pick {
