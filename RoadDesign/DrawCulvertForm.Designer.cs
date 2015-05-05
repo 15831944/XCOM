@@ -48,12 +48,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnPickBasePoint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.txtLayer = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtTextHeight = new System.Windows.Forms.TextBox();
-            this.label10 = new System.Windows.Forms.Label();
             this.txtHatchScale = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtTextHeight = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.txtLayer = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -276,41 +276,14 @@
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Görünüm";
             // 
-            // label8
+            // txtHatchScale
             // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(17, 34);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(33, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Layer";
-            // 
-            // txtLayer
-            // 
-            this.txtLayer.Location = new System.Drawing.Point(101, 31);
-            this.txtLayer.Name = "txtLayer";
-            this.txtLayer.Size = new System.Drawing.Size(100, 20);
-            this.txtLayer.TabIndex = 1;
-            this.txtLayer.Text = "MENFEZ PROFIL";
-            this.txtLayer.Validating += new System.ComponentModel.CancelEventHandler(this.txtLayer_Validating);
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(17, 60);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(78, 13);
-            this.label9.TabIndex = 2;
-            this.label9.Text = "Yazı Yüksekliği";
-            // 
-            // txtTextHeight
-            // 
-            this.txtTextHeight.Location = new System.Drawing.Point(101, 57);
-            this.txtTextHeight.Name = "txtTextHeight";
-            this.txtTextHeight.Size = new System.Drawing.Size(100, 20);
-            this.txtTextHeight.TabIndex = 3;
-            this.txtTextHeight.Text = "3";
-            this.txtTextHeight.Validating += new System.ComponentModel.CancelEventHandler(this.txtTextHeight_Validating);
+            this.txtHatchScale.Location = new System.Drawing.Point(101, 83);
+            this.txtHatchScale.Name = "txtHatchScale";
+            this.txtHatchScale.Size = new System.Drawing.Size(100, 20);
+            this.txtHatchScale.TabIndex = 5;
+            this.txtHatchScale.Text = "1";
+            this.txtHatchScale.Validating += new System.ComponentModel.CancelEventHandler(this.txtHatchScale_Validating);
             // 
             // label10
             // 
@@ -321,14 +294,41 @@
             this.label10.TabIndex = 4;
             this.label10.Text = "Tarama Sıklığı";
             // 
-            // txtHatchScale
+            // txtTextHeight
             // 
-            this.txtHatchScale.Location = new System.Drawing.Point(101, 83);
-            this.txtHatchScale.Name = "txtHatchScale";
-            this.txtHatchScale.Size = new System.Drawing.Size(100, 20);
-            this.txtHatchScale.TabIndex = 5;
-            this.txtHatchScale.Text = "1";
-            this.txtHatchScale.Validating += new System.ComponentModel.CancelEventHandler(this.txtHatchScale_Validating);
+            this.txtTextHeight.Location = new System.Drawing.Point(101, 57);
+            this.txtTextHeight.Name = "txtTextHeight";
+            this.txtTextHeight.Size = new System.Drawing.Size(100, 20);
+            this.txtTextHeight.TabIndex = 3;
+            this.txtTextHeight.Text = "3";
+            this.txtTextHeight.Validating += new System.ComponentModel.CancelEventHandler(this.txtTextHeight_Validating);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 60);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(78, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "Yazı Yüksekliği";
+            // 
+            // txtLayer
+            // 
+            this.txtLayer.Location = new System.Drawing.Point(101, 31);
+            this.txtLayer.Name = "txtLayer";
+            this.txtLayer.Size = new System.Drawing.Size(100, 20);
+            this.txtLayer.TabIndex = 1;
+            this.txtLayer.Text = "MENFEZ PROFIL";
+            this.txtLayer.Validating += new System.ComponentModel.CancelEventHandler(this.txtLayer_Validating);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(17, 34);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(33, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Layer";
             // 
             // DrawCulvertForm
             // 
@@ -346,6 +346,7 @@
             this.MinimizeBox = false;
             this.Name = "DrawCulvertForm";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Güzergah Profili Üzerinde Menfez Çizimi";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
