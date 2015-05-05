@@ -114,6 +114,7 @@
             this.MinimizeBox = false;
             this.Name = "DrawBoreholeDetailsForm";
             this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Sondaj Detayları";
             this.ResumeLayout(false);
             this.PerformLayout();
