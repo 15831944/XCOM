@@ -103,6 +103,7 @@
     <Image Include="Resources\METRAJYARDIM.ico" />
     <Image Include="Resources\METRAJ_32.ico" />
     <Image Include="Resources\Multiply.ico" />
+    <Image Include="Resources\NOKTABULUTU.ico" />
     <Image Include="Resources\Parabola.ico" />
     <Image Include="Resources\POZAYAR.ico" />
     <Image Include="Resources\POZBENZET.ico" />
@@ -135,6 +136,8 @@
     <Image Include="Resources\XPURGE.ico" />
     <Image Include="Resources\XPURGE_32.ico" />
     <Image Include="Resources\YENILE.ico" />
+    <Image Include="Resources\YUZEYCIZ.ico" />
+    <Image Include="Resources\YUZEYOLUSTUR.ico" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -142,6 +142,15 @@
     <Image Include="Resources\ACILIMLAR.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\NOKTABULUTU.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\YUZEYCIZ.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\YUZEYOLUSTUR.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
