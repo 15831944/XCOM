@@ -42,6 +42,7 @@ Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Cont
 Source: "..\GeologyUtilities\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\GeologyUtilities\bin\Release\GeologyUtilities.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RoadDesign\bin\Release\RoadDesign.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\RoadDesign\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Tasks]
