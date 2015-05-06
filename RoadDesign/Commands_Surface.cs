@@ -16,21 +16,32 @@ namespace RoadDesign
         TriangleNet.Mesh mesh;
         List<Autodesk.AutoCAD.GraphicsInterface.Drawable> temporaryGraphics;
 
-        private bool selectPoints = true;
-        private bool selectLines = false;
-        private bool selectPolylines = false;
-        private bool selectTexts = false;
-        private bool selectTextsWithZ = false;
-        private bool selectBlocks = false;
-        private bool select3DFace = false;
-        private bool selectSolid = false;
-        private bool eraseEntities = false;
+        private bool SelectPoints { get; set; }
+        private bool SelectLines { get; set; }
+        private bool SelectPolylines { get; set; }
+        private bool SelectTexts { get; set; }
+        private bool SelectTextsWithZ { get; set; }
+        private bool SelectBlocks { get; set; }
+        private bool Select3DFace { get; set; }
+        private bool SelectSolid { get; set; }
+        private bool EraseEntities { get; set; }
 
         public SurfaceCommands()
         {
             mesh = new TriangleNet.Mesh();
             temporaryGraphics = new List<Autodesk.AutoCAD.GraphicsInterface.Drawable>();
             Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.CommandWillStart += MdiActiveDocument_CommandWillStart;
+
+            SelectPoints = true;
+            SelectPoints = false;
+            SelectLines = false;
+            SelectPolylines = false;
+            SelectTexts = false;
+            SelectTextsWithZ = false;
+            SelectBlocks = false;
+            Select3DFace = false;
+            SelectSolid = false;
+            EraseEntities = false;
         }
 
         void MdiActiveDocument_CommandWillStart(object sender, Autodesk.AutoCAD.ApplicationServices.CommandEventArgs e)
@@ -45,27 +56,27 @@ namespace RoadDesign
         {
             using (CreateSurfaceForm form = new CreateSurfaceForm())
             {
-                form.SelectPoints = selectPoints;
-                form.SelectLines = selectLines;
-                form.SelectPolylines = selectPolylines;
-                form.SelectTexts = selectTexts;
-                form.SelectTextsWithZ = selectTextsWithZ;
-                form.SelectBlocks = selectBlocks;
-                form.Select3DFace = select3DFace;
-                form.SelectSolid = selectSolid;
-                form.EraseEntities = eraseEntities;
+                form.SelectPoints = SelectPoints;
+                form.SelectLines = SelectLines;
+                form.SelectPolylines = SelectPolylines;
+                form.SelectTexts = SelectTexts;
+                form.SelectTextsWithZ = SelectTextsWithZ;
+                form.SelectBlocks = SelectBlocks;
+                form.Select3DFace = Select3DFace;
+                form.SelectSolid = SelectSolid;
+                form.EraseEntities = EraseEntities;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
-                    selectPoints = form.SelectPoints;
-                    selectLines = form.SelectLines;
-                    selectTexts = form.SelectPolylines;
-                    selectTexts = form.SelectTexts;
-                    selectTextsWithZ = form.SelectTextsWithZ;
-                    selectBlocks = form.SelectBlocks;
-                    select3DFace = form.Select3DFace;
-                    selectSolid = form.SelectSolid;
-                    eraseEntities = form.EraseEntities;
+                    SelectPoints = form.SelectPoints;
+                    SelectLines = form.SelectLines;
+                    SelectPolylines = form.SelectPolylines;
+                    SelectTexts = form.SelectTexts;
+                    SelectTextsWithZ = form.SelectTextsWithZ;
+                    SelectBlocks = form.SelectBlocks;
+                    Select3DFace = form.Select3DFace;
+                    SelectSolid = form.SelectSolid;
+                    EraseEntities = form.EraseEntities;
 
                     return true;
                 }
@@ -83,14 +94,14 @@ namespace RoadDesign
 
             List<TypedValue> tvs = new List<TypedValue>();
             tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
-            if (selectPoints) tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
-            if (selectLines) tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
-            if (selectPolylines) tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
-            if (selectPolylines) tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
-            if (selectTexts || selectTextsWithZ) tvs.Add(new TypedValue((int)DxfCode.Start, "TEXT"));
-            if (selectBlocks) tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
-            if (select3DFace) tvs.Add(new TypedValue((int)DxfCode.Start, "3DFACE"));
-            if (selectSolid) tvs.Add(new TypedValue((int)DxfCode.Start, "SOLID"));
+            if (SelectPoints) tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
+            if (SelectLines) tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
+            if (SelectPolylines) tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
+            if (SelectPolylines) tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
+            if (SelectTexts || SelectTextsWithZ) tvs.Add(new TypedValue((int)DxfCode.Start, "TEXT"));
+            if (SelectBlocks) tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
+            if (Select3DFace) tvs.Add(new TypedValue((int)DxfCode.Start, "3DFACE"));
+            if (SelectSolid) tvs.Add(new TypedValue((int)DxfCode.Start, "SOLID"));
             tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
 
             if (tvs.Count == 2) return new ObjectId[0];
@@ -116,20 +127,20 @@ namespace RoadDesign
                     foreach (ObjectId id in items)
                     {
                         // Point
-                        if (selectPoints && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBPoint)).UnmanagedObject)
+                        if (SelectPoints && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBPoint)).UnmanagedObject)
                         {
                             DBPoint item = (DBPoint)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.Position);
                         }
                         // Line
-                        else if (selectLines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Line)).UnmanagedObject)
+                        else if (SelectLines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Line)).UnmanagedObject)
                         {
                             Line item = (Line)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.StartPoint);
                             points.Add(item.EndPoint);
                         }
                         // LW Polyline
-                        else if (selectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline)).UnmanagedObject)
+                        else if (SelectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline)).UnmanagedObject)
                         {
                             Polyline item = (Polyline)tr.GetObject(id, OpenMode.ForRead);
                             for (int i = 0; i < item.NumberOfVertices; i++)
@@ -138,7 +149,7 @@ namespace RoadDesign
                             }
                         }
                         // 2D Polyline
-                        else if (selectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline2d)).UnmanagedObject)
+                        else if (SelectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline2d)).UnmanagedObject)
                         {
                             Polyline2d item = (Polyline2d)tr.GetObject(id, OpenMode.ForRead);
                             foreach (ObjectId vId in item)
@@ -148,7 +159,7 @@ namespace RoadDesign
                             }
                         }
                         // 3D Polyline
-                        else if (selectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline3d)).UnmanagedObject)
+                        else if (SelectPolylines && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Polyline3d)).UnmanagedObject)
                         {
                             Polyline3d item = (Polyline3d)tr.GetObject(id, OpenMode.ForRead);
                             foreach (ObjectId vId in item)
@@ -158,13 +169,13 @@ namespace RoadDesign
                             }
                         }
                         // Text
-                        else if (selectTexts && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
+                        else if (SelectTexts && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                         {
                             DBText item = (DBText)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.Position);
                         }
                         // Text with Z
-                        else if (selectTextsWithZ && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
+                        else if (SelectTextsWithZ && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                         {
                             DBText item = (DBText)tr.GetObject(id, OpenMode.ForRead);
                             double z = 0;
@@ -175,13 +186,13 @@ namespace RoadDesign
                             }
                         }
                         // Blocks
-                        else if (selectBlocks && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(BlockReference)).UnmanagedObject)
+                        else if (SelectBlocks && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(BlockReference)).UnmanagedObject)
                         {
                             BlockReference item = (BlockReference)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.Position);
                         }
                         // 3DFace
-                        else if (select3DFace && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Face)).UnmanagedObject)
+                        else if (Select3DFace && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Face)).UnmanagedObject)
                         {
                             Face item = (Face)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.GetVertexAt(0));
@@ -190,7 +201,7 @@ namespace RoadDesign
                             points.Add(item.GetVertexAt(3));
                         }
                         // Solid (2D)
-                        else if (selectSolid && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Solid)).UnmanagedObject)
+                        else if (SelectSolid && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(Solid)).UnmanagedObject)
                         {
                             Solid item = (Solid)tr.GetObject(id, OpenMode.ForRead);
                             points.Add(item.GetPointAt(0));
@@ -233,7 +244,7 @@ namespace RoadDesign
             }
         }
 
-        private void EraseEntities(IEnumerable<ObjectId> items)
+        private void EraseSelectedEntities(IEnumerable<ObjectId> items)
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
@@ -323,9 +334,9 @@ namespace RoadDesign
                         MessageBox.Show(mesh.Triangles.Count.ToString() + " adet üçgen oluşturuldu.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     }
 
-                    if (eraseEntities)
+                    if (EraseEntities)
                     {
-                        EraseEntities(items);
+                        EraseSelectedEntities(items);
                     }
                 }
                 catch (System.Exception ex)
@@ -359,9 +370,9 @@ namespace RoadDesign
                             tr.AddNewlyCreatedDBObject(point, true);
                         }
 
-                        if (eraseEntities)
+                        if (EraseEntities)
                         {
-                            EraseEntities(items);
+                            EraseSelectedEntities(items);
                         }
                     }
                     catch (System.Exception ex)
