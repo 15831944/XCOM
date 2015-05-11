@@ -151,6 +151,9 @@
     <Image Include="Resources\YUZEYOLUSTUR.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\NUMARALANDIR.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

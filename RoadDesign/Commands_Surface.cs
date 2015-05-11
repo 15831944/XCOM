@@ -549,13 +549,13 @@ namespace RoadDesign
             Color midColor = Color.FromRgb(168, 221, 181);
             Color minColor = Color.FromRgb(67, 162, 202);
 
-            double ratio = (z - zmin) / (zmax - zmin);
-
             if (zmax == zmin)
             {
                 return minColor;
             }
-            else if (ratio > 0.5)
+
+            double ratio = (z - zmin) / (zmax - zmin);
+            if (ratio > 0.5)
             {
                 ratio = (ratio - 0.5) * 2;
                 byte r = (byte)(ratio * (double)(maxColor.Red - midColor.Red) + (double)midColor.Red);

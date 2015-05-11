@@ -29,7 +29,7 @@ namespace RebarPosCommands
     {
         public event MultiPosShapeViewClickEventHandler ShapeClick;
 
-        private FlowLayoutPanel layoutPanel;
+        private DoubleBufferedFlowLayoutPanel layoutPanel;
 
         private string mSelectedShape;
         public string SelectedShape { get { return mSelectedShape; } set { mSelectedShape = value; UpdateCells(); } }
@@ -71,7 +71,7 @@ namespace RebarPosCommands
             this.Size = new System.Drawing.Size(900, 450);
             this.SuspendLayout();
 
-            this.layoutPanel = new FlowLayoutPanel();
+            this.layoutPanel = new DoubleBufferedFlowLayoutPanel();
             this.layoutPanel.Dock = DockStyle.Fill;
             this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
             this.layoutPanel.AutoScroll = true;
@@ -86,7 +86,7 @@ namespace RebarPosCommands
 
         public void SetShapes(IEnumerable<string> shapes)
         {
-            this.layoutPanel.SuspendLayout();
+            this.layoutPanel.Suspend();
 
             this.layoutPanel.Controls.Clear();
 
@@ -100,7 +100,7 @@ namespace RebarPosCommands
                 this.layoutPanel.Controls.Add(cell);
             }
 
-            this.layoutPanel.ResumeLayout();
+            this.layoutPanel.Resume();
         }
 
         public void SetPieceLengths(int index, string a, string b, string c, string d, string e, string f)
@@ -114,7 +114,8 @@ namespace RebarPosCommands
 
         public void UpdateCells()
         {
-            this.layoutPanel.SuspendLayout();
+            this.layoutPanel.Suspend();
+
             foreach (Control item in layoutPanel.Controls)
             {
                 PosShapeView cell = (PosShapeView)item;
@@ -124,9 +125,8 @@ namespace RebarPosCommands
                 cell.Size = mCellSize;
                 cell.Refresh();
             }
-            this.layoutPanel.ResumeLayout();
 
-            Refresh();
+            this.layoutPanel.Resume();
         }
 
         void cell_Click(object sender, EventArgs e)

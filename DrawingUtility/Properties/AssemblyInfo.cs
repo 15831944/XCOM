@@ -27,4 +27,4 @@ using System.Runtime.InteropServices;
 #endif
 
 // Assembly version
-[assembly: AssemblyVersion("1.3.*")]
+[assembly: AssemblyVersion("1.4.*")]

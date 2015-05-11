@@ -104,6 +104,7 @@
     <Image Include="Resources\METRAJ_32.ico" />
     <Image Include="Resources\Multiply.ico" />
     <Image Include="Resources\NOKTABULUTU.ico" />
+    <Image Include="Resources\NUMARALANDIR.ico" />
     <Image Include="Resources\Parabola.ico" />
     <Image Include="Resources\POZAYAR.ico" />
     <Image Include="Resources\POZBENZET.ico" />
