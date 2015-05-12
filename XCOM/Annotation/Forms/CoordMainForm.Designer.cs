@@ -296,7 +296,7 @@
             // btnReadCoords
             // 
             this.btnReadCoords.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.btnReadCoords.Image = global::CoordinateLabel.Properties.Resources.pick_point;
+            this.btnReadCoords.Image = global::XCOM.Properties.Resources.pick;
             this.btnReadCoords.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.btnReadCoords.Location = new System.Drawing.Point(12, 277);
             this.btnReadCoords.Name = "btnReadCoords";

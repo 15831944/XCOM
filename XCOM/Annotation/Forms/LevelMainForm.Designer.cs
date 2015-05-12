@@ -289,7 +289,7 @@
             // 
             // btnPickBasePoint
             // 
-            this.btnPickBasePoint.Image = global::LevelLabel.Properties.Resources.pick;
+            this.btnPickBasePoint.Image = global::XCOM.Properties.Resources.pick;
             this.btnPickBasePoint.Location = new System.Drawing.Point(18, 23);
             this.btnPickBasePoint.Name = "btnPickBasePoint";
             this.btnPickBasePoint.Size = new System.Drawing.Size(23, 23);

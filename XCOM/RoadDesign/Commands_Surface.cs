@@ -275,7 +275,7 @@ namespace RoadDesign
             {
                 // Read demo surface from resource
                 List<Tuple<double, double, double>> points = new List<Tuple<double, double, double>>();
-                using (System.IO.StringReader reader = new System.IO.StringReader(Properties.Resources.DemoSurface))
+                using (System.IO.StringReader reader = new System.IO.StringReader(XCOM.Properties.Resources.DemoSurface))
                 {
                     string line = reader.ReadLine(); // Skip header
                     while (line != null)

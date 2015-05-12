@@ -36,14 +36,9 @@ Source: "..\MenuIcons\Release\MenuIcons.dll"; DestDir: "{app}\Resources"; DestNa
 Source: "..\MenuIcons_Light\Release\MenuIcons_Light.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu_light.dll"
 Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\CoordinateLabel\bin\Release\CoordinateLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\LevelLabel\bin\Release\LevelLabel.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\DrawingUtility\bin\Release\DrawingUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\GeologyUtilities\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\GeologyUtilities\bin\Release\GeologyUtilities.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\RoadDesign\bin\Release\RoadDesign.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\RoadDesign\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\XCOM\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\XCOM\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 
 [Tasks]
 Name: "CHK_KBSHORTCUTS"; Description: "{cm:KeyboardShortcuts}"; Flags: unchecked

@@ -83,10 +83,46 @@ namespace XCOM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap cursor {
+            get {
+                object obj = ResourceManager.GetObject("cursor", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap delete {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to ID	X	Y	Z
+        ///1	421000	391166.6667	1454
+        ///2	421166.6667	391166.6667	1459
+        ///3	421333.3333	391166.6667	1465
+        ///4	421500	391166.6667	1461
+        ///5	421666.6667	391166.6667	1467
+        ///6	421833.3333	391166.6667	1461
+        ///7	422000	391166.6667	1461
+        ///8	422166.6667	391166.6667	1469
+        ///9	422333.3333	391166.6667	1479
+        ///10	422500	391166.6667	1486
+        ///11	422666.6667	391166.6667	1488
+        ///12	422833.3333	391166.6667	1498
+        ///13	423000	391166.6667	1506
+        ///14	423166.6667	391166.6667	1512
+        ///15	423333.3333	391166.6667	1523
+        ///16	423500	391166.6667	1543
+        ///17	423666.666 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string DemoSurface {
+            get {
+                return ResourceManager.GetString("DemoSurface", resourceCulture);
             }
         }
         
@@ -136,6 +172,16 @@ namespace XCOM.Properties {
         internal static System.Drawing.Bitmap lightbulb_off {
             get {
                 object obj = ResourceManager.GetObject("lightbulb_off", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
+        internal static System.Drawing.Bitmap pick {
+            get {
+                object obj = ResourceManager.GetObject("pick", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }

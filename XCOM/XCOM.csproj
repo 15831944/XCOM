@@ -68,6 +68,11 @@
       <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationCore" />
+    <Reference Include="PresentationFramework" />
+    <Reference Include="SourceGrid">
+      <HintPath>..\packages\SourceGrid.4.4.0\lib\net35\SourceGrid.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
       <RequiredTargetFramework>3.5</RequiredTargetFramework>
@@ -77,69 +82,129 @@
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
+    <Reference Include="Triangle">
+      <HintPath>Libraries\Triangle.NET\Triangle.dll</HintPath>
+    </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ActionForms\BindXREFsForm.cs">
+    <Compile Include="Annotation\Command_COORD.cs" />
+    <Compile Include="Annotation\Command_LEVEL.cs" />
+    <Compile Include="Annotation\CoordPoint.cs" />
+    <Compile Include="Annotation\Forms\CoordMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActionForms\BindXREFsForm.Designer.cs">
+    <Compile Include="Annotation\Forms\CoordMainForm.Designer.cs">
+      <DependentUpon>CoordMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Annotation\Forms\LevelMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\LevelMainForm.Designer.cs">
+      <DependentUpon>LevelMainForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Annotation\Forms\NumberingForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\NumberingForm.designer.cs">
+      <DependentUpon>NumberingForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Annotation\Forms\SelectGroupForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\SelectGroupForm.designer.cs">
+      <DependentUpon>SelectGroupForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Annotation\Forms\SelectObjectsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\SelectObjectsForm.designer.cs">
+      <DependentUpon>SelectObjectsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
+    <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
+    <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
+    <Compile Include="Geology\Commands_DrawBoreholeDetails.cs" />
+    <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
+      <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoadDesign\Commands_DrawCulvertsOnProfile.cs" />
+    <Compile Include="RoadDesign\Commands_Surface.cs" />
+    <Compile Include="RoadDesign\Forms\CreateSurfaceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoadDesign\Forms\CreateSurfaceForm.Designer.cs">
+      <DependentUpon>CreateSurfaceForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoadDesign\Forms\DrawCulvertForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoadDesign\Forms\DrawCulvertForm.Designer.cs">
+      <DependentUpon>DrawCulvertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="XCOM\ActionForms\BindXREFsForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XCOM\ActionForms\BindXREFsForm.Designer.cs">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActionForms\SaveDXFForm.cs">
+    <Compile Include="XCOM\ActionForms\SaveDXFForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActionForms\SaveDXFForm.Designer.cs">
+    <Compile Include="XCOM\ActionForms\SaveDXFForm.Designer.cs">
       <DependentUpon>SaveDXFForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActionForms\PurgeAllForm.cs">
+    <Compile Include="XCOM\ActionForms\PurgeAllForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActionForms\PurgeAllForm.Designer.cs">
+    <Compile Include="XCOM\ActionForms\PurgeAllForm.Designer.cs">
       <DependentUpon>PurgeAllForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActionForms\FindReplaceTextForm.cs">
+    <Compile Include="XCOM\ActionForms\FindReplaceTextForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActionForms\FindReplaceTextForm.Designer.cs">
+    <Compile Include="XCOM\ActionForms\FindReplaceTextForm.Designer.cs">
       <DependentUpon>FindReplaceTextForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="ActionForms\SaveFileForm.cs">
+    <Compile Include="XCOM\ActionForms\SaveFileForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="ActionForms\SaveFileForm.Designer.cs">
+    <Compile Include="XCOM\ActionForms\SaveFileForm.Designer.cs">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Actions\ChangeToLayout.cs" />
-    <Compile Include="Actions\BackupFile.cs" />
-    <Compile Include="Actions\BindXREFs.cs" />
-    <Compile Include="Actions\ProtectDrawing.cs" />
-    <Compile Include="Actions\SaveDXF.cs" />
-    <Compile Include="Actions\SaveFile.cs" />
-    <Compile Include="Actions\FindReplaceText.cs" />
-    <Compile Include="Actions\ZoomExtents.cs" />
-    <Compile Include="Command_XCOM.cs" />
+    <Compile Include="XCOM\Actions\ChangeToLayout.cs" />
+    <Compile Include="XCOM\Actions\BackupFile.cs" />
+    <Compile Include="XCOM\Actions\BindXREFs.cs" />
+    <Compile Include="XCOM\Actions\ProtectDrawing.cs" />
+    <Compile Include="XCOM\Actions\SaveDXF.cs" />
+    <Compile Include="XCOM\Actions\SaveFile.cs" />
+    <Compile Include="XCOM\Actions\FindReplaceText.cs" />
+    <Compile Include="XCOM\Actions\ZoomExtents.cs" />
+    <Compile Include="XCOM\Command_XCOM.cs" />
     <Compile Include="FileLogger.cs" />
-    <Compile Include="Forms\CheckedListBoxWithButtons.cs">
+    <Compile Include="XCOM\Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Command_XPURGE.cs" />
-    <Compile Include="Actions\ChangeToByLayer.cs" />
-    <Compile Include="Actions\PurgeAll.cs" />
-    <Compile Include="Actions\DeleteLayerFilters.cs" />
-    <Compile Include="Actions\PurgeDGNLS.cs" />
-    <Compile Include="Deploy.cs" />
-    <Compile Include="Actions\IXCOMAction.cs" />
-    <Compile Include="Forms\MainForm.cs">
+    <Compile Include="XCOM\Command_XPURGE.cs" />
+    <Compile Include="XCOM\Actions\ChangeToByLayer.cs" />
+    <Compile Include="XCOM\Actions\PurgeAll.cs" />
+    <Compile Include="XCOM\Actions\DeleteLayerFilters.cs" />
+    <Compile Include="XCOM\Actions\PurgeDGNLS.cs" />
+    <Compile Include="XCOM\Deploy.cs" />
+    <Compile Include="XCOM\Actions\IXCOMAction.cs" />
+    <Compile Include="XCOM\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\MainForm.Designer.cs">
+    <Compile Include="XCOM\Forms\MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Forms\ProgressForm.cs">
+    <Compile Include="XCOM\Forms\ProgressForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Forms\ProgressForm.Designer.cs">
+    <Compile Include="XCOM\Forms\ProgressForm.Designer.cs">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
@@ -155,28 +220,52 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="ActionForms\BindXREFsForm.resx">
+    <EmbeddedResource Include="Annotation\Forms\CoordMainForm.resx">
+      <DependentUpon>CoordMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Annotation\Forms\LevelMainForm.resx">
+      <DependentUpon>LevelMainForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Annotation\Forms\NumberingForm.resx">
+      <DependentUpon>NumberingForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Annotation\Forms\SelectGroupForm.resx">
+      <DependentUpon>SelectGroupForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Annotation\Forms\SelectObjectsForm.resx">
+      <DependentUpon>SelectObjectsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Geology\Forms\DrawBoreholeDetailsForm.resx">
+      <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoadDesign\Forms\CreateSurfaceForm.resx">
+      <DependentUpon>CreateSurfaceForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoadDesign\Forms\DrawCulvertForm.resx">
+      <DependentUpon>DrawCulvertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XCOM\ActionForms\BindXREFsForm.resx">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActionForms\SaveDXFForm.resx">
+    <EmbeddedResource Include="XCOM\ActionForms\SaveDXFForm.resx">
       <DependentUpon>SaveDXFForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActionForms\PurgeAllForm.resx">
+    <EmbeddedResource Include="XCOM\ActionForms\PurgeAllForm.resx">
       <DependentUpon>PurgeAllForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActionForms\FindReplaceTextForm.resx">
+    <EmbeddedResource Include="XCOM\ActionForms\FindReplaceTextForm.resx">
       <DependentUpon>FindReplaceTextForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="ActionForms\SaveFileForm.resx">
+    <EmbeddedResource Include="XCOM\ActionForms\SaveFileForm.resx">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.resx">
+    <EmbeddedResource Include="XCOM\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\MainForm.tr-TR.resx">
+    <EmbeddedResource Include="XCOM\Forms\MainForm.tr-TR.resx">
       <DependentUpon>MainForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Forms\ProgressForm.resx">
+    <EmbeddedResource Include="XCOM\Forms\ProgressForm.resx">
       <DependentUpon>ProgressForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -185,6 +274,7 @@
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
+    <None Include="packages.config" />
     <None Include="Resources\add.png" />
   </ItemGroup>
   <ItemGroup>
@@ -233,6 +323,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\lightbulb_off.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\pick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\cursor.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\DemoSurface.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

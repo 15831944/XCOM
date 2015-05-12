@@ -14,16 +14,22 @@
       <Commands>
         <Command Local="XCOM" Global="XCOM" />
         <Command Local="XPURGE" Global="XPURGE" />
-      </Commands>
-    </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/CoordinateLabel.dll" AppDescription="Coordinate labeling" LoadOnAutoCADStartup="True" >
-      <Commands>
         <Command Local="KOORDINAT" Global="KOORDINAT" />
-      </Commands>
-    </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/LevelLabel.dll" AppDescription="Level labeling" LoadOnAutoCADStartup="True" >
-      <Commands>
         <Command Local="LEVEL" Global="LEVEL" />
+        <Command Local="NUMARALANDIR" Global="NUMARALANDIR" />
+        <Command Local="PARABOLA" Global="PARABOLA" />
+        <Command Local="0" Global="0" />
+        <Command Local="BY" Global="BY" />
+        <Command Local="RD" Global="RD" />
+        <Command Local="RX" Global="RX" />
+        <Command Local="SF" Global="SF" />
+        <Command Local="TOPLA" Global="TOPLA" />
+        <Command Local="CARP" Global="CARP" />
+        <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
+        <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
+        <Command Local="NOKTABULUTU" Global="NOKTABULUTU" />
+        <Command Local="YUZEYOLUSTUR" Global="YUZEYOLUSTUR" />
+        <Command Local="YUZEYCIZ" Global="YUZEYCIZ" />
       </Commands>
     </ComponentEntry>
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/RebarPos.dll" AppDescription="Rebar marking and scheduling utilities" LoadOnAutoCADStartup="True" >
@@ -49,25 +55,6 @@
         <Command Local="POZAYAR" Global="POSSETTINGS" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/GeologyUtilities.dll" AppDescription="Geology utilities" LoadOnAutoCADStartup="True" >
-      <Commands>
-        <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
-      </Commands>
-    </ComponentEntry>	
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/RoadDesign.dll" AppDescription="Road design utilities" LoadOnAutoCADStartup="True" >
-      <Commands>
-        <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
-      </Commands>
-    </ComponentEntry>	
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/DrawingUtility.dll" AppDescription="Drawing utilities" LoadOnAutoCADStartup="True" >
-      <Commands>
-        <Command Local="0" Global="0" />
-        <Command Local="BY" Global="BY" />
-        <Command Local="RD" Global="RD" />
-        <Command Local="RX" Global="RX" />
-        <Command Local="SF" Global="SF" />
-      </Commands>
-    </ComponentEntry>	
     <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM_Menu.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
 </ApplicationPackage>
