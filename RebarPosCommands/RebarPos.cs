@@ -462,7 +462,7 @@ namespace RebarPosCommands
                 foreach (string part in parts)
                 {
                     double partval = 0;
-                    if (Calculator.TryEvaluate(value, out partval))
+                    if (Calculator.TryEvaluate(part, out partval))
                     {
                         vals.Add(partval);
                     }

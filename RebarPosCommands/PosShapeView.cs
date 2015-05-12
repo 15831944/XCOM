@@ -183,7 +183,7 @@ namespace RebarPosCommands
             // Convert the text alignment point to pixel coordinates
             PointF[] ptPixel = new PointF[] { pt, new PointF(pt.X, pt.Y + textHeight) };
             g.TransformPoints(CoordinateSpace.Device, CoordinateSpace.World, ptPixel);
-            float heightPixel = Math.Abs(ptPixel[1].Y - ptPixel[0].Y);
+            float heightPixel = Math.Abs(ptPixel[1].Y - ptPixel[0].Y) * 1.5f;
             PointF ptBase = new PointF(ptPixel[0].X, ptPixel[0].Y - heightPixel);
 
             // Revert transformation to identity while drawing text

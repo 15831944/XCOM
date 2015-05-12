@@ -118,6 +118,9 @@
     <Compile Include="ConfimMessageBox.Designer.cs">
       <DependentUpon>ConfimMessageBox.cs</DependentUpon>
     </Compile>
+    <Compile Include="DoubleBufferedFlowLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="MultiPosShapeView.cs">
       <SubType>Component</SubType>
     </Compile>

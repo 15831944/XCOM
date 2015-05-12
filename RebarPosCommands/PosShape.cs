@@ -377,7 +377,10 @@ namespace RebarPosCommands
                         }
                     }
 
-                    Shapes.Add(name, shape);
+                    if (!Shapes.ContainsKey(name))
+                    {
+                        Shapes.Add(name, shape);
+                    }
                 }
             }
         }
