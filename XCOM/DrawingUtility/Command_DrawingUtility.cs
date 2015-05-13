@@ -272,7 +272,7 @@ namespace DrawingUtility
 
                     if (entRes.Status == PromptStatus.Keyword && entRes.StringResult == "Precision")
                     {
-                        PromptIntegerOptions intOpts = new PromptIntegerOptions("Basamak sayısı: ");
+                        PromptIntegerOptions intOpts = new PromptIntegerOptions("\nBasamak sayısı: ");
                         intOpts.AllowNone = true;
                         intOpts.AllowZero = true;
                         intOpts.AllowNegative = false;

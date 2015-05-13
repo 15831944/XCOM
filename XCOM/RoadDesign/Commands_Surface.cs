@@ -393,6 +393,7 @@ namespace RoadDesign
 
             // Object type
             PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Geçici/3dFace/Point/polyfaceMesh] <Geçici>: ", "Temporary 3dFace Point polyfaceMesh");
+            opts.Keywords.Default = "Temporary";
             opts.AllowNone = true;
             PromptResult res = doc.Editor.GetKeywords(opts);
             string outputType = res.StringResult;
@@ -407,6 +408,7 @@ namespace RoadDesign
 
             // Color option
             opts = new PromptKeywordOptions("\nRenkli çizim [E/H] <E>: ", "Yes No");
+            opts.Keywords.Default = "Yes";
             opts.AllowNone = true;
             res = doc.Editor.GetKeywords(opts);
             bool useColor = true;

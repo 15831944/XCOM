@@ -154,6 +154,9 @@
     <Image Include="Resources\NUMARALANDIR.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\SEVTARAMA.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

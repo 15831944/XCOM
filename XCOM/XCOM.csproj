@@ -122,6 +122,7 @@
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
+    <Compile Include="Common\Common.cs" />
     <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
     <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
     <Compile Include="Geology\Commands_DrawBoreholeDetails.cs" />
@@ -131,6 +132,7 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoadDesign\Commands_SEVTARAMA.cs" />
     <Compile Include="RoadDesign\Commands_DrawCulvertsOnProfile.cs" />
     <Compile Include="RoadDesign\Commands_Surface.cs" />
     <Compile Include="RoadDesign\Forms\CreateSurfaceForm.cs">
