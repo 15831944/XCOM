@@ -79,7 +79,7 @@ namespace DrawingUtility
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("RD", CommandFlags.UsePickSet)]
-        public static void Rotate90()
+        public static void Rotate90CCW()
         {
             PromptSelectionResult selRes = SelectWithPickFirst();
             if (selRes.Status != PromptStatus.OK) return;
@@ -92,6 +92,34 @@ namespace DrawingUtility
             Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
             Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
             Matrix3d trans = Matrix3d.Rotation(Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                foreach (ObjectId id in selRes.Value.GetObjectIds())
+                {
+                    Entity en = tr.GetObject(id, OpenMode.ForWrite) as Entity;
+                    if (en != null)
+                    {
+                        en.TransformBy(trans);
+                    }
+                }
+                tr.Commit();
+            }
+        }
+
+        [Autodesk.AutoCAD.Runtime.CommandMethod("RDD", CommandFlags.UsePickSet)]
+        public static void Rotate90CW()
+        {
+            PromptSelectionResult selRes = SelectWithPickFirst();
+            if (selRes.Status != PromptStatus.OK) return;
+
+            PromptPointResult ptRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nBase point: ");
+            if (ptRes.Status != PromptStatus.OK) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
+            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
+            Matrix3d trans = Matrix3d.Rotation(-Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 foreach (ObjectId id in selRes.Value.GetObjectIds())

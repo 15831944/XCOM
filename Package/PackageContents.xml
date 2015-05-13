@@ -21,6 +21,7 @@
         <Command Local="0" Global="0" />
         <Command Local="BY" Global="BY" />
         <Command Local="RD" Global="RD" />
+        <Command Local="RDD" Global="RDD" />
         <Command Local="RX" Global="RX" />
         <Command Local="SF" Global="SF" />
         <Command Local="TOPLA" Global="TOPLA" />
