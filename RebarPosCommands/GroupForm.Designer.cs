@@ -240,7 +240,7 @@
             this.Name = "GroupForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "Poz Grupları";
+            this.Text = "Poz Ayarları";
             this.gbOptions.ResumeLayout(false);
             this.gbOptions.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udPrecision)).EndInit();
