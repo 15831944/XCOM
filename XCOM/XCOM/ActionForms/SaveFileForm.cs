@@ -58,19 +58,22 @@ namespace XCOM.ActionForms
                 Autodesk.AutoCAD.DatabaseServices.DwgVersion version;
                 switch (cbVersion.SelectedIndex)
                 {
-                    case 0: // 2010
+                    case 0: // 2013
+                        version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1027;
+                        break;
+                    case 1: // 2010
                         version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1024;
                         break;
-                    case 1: // 2007
+                    case 2: // 2007
                         version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1021;
                         break;
-                    case 2: // 2004
+                    case 3: // 2004
                         version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1800;
                         break;
-                    case 3: // 2000
+                    case 4: // 2000
                         version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1015;
                         break;
-                    case 4: // R14
+                    case 5: // R14
                         version = Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1014;
                         break;
                     default:
@@ -84,23 +87,26 @@ namespace XCOM.ActionForms
                 // Dwg version
                 switch (value)
                 {
-                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1024: // 2010
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1027: // 2013
                         cbVersion.SelectedIndex = 0;
                         break;
-                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1021: // 2007
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1024: // 2010
                         cbVersion.SelectedIndex = 1;
                         break;
-                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1800: // 2004
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1021: // 2007
                         cbVersion.SelectedIndex = 2;
                         break;
-                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1015: // 2000
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1800: // 2004
                         cbVersion.SelectedIndex = 3;
                         break;
-                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1014: // R14
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1015: // 2000
                         cbVersion.SelectedIndex = 4;
                         break;
+                    case Autodesk.AutoCAD.DatabaseServices.DwgVersion.AC1014: // R14
+                        cbVersion.SelectedIndex = 5;
+                        break;
                     default:
-                        cbVersion.SelectedIndex = 0;
+                        cbVersion.SelectedIndex = 1;
                         break;
                 }
             }

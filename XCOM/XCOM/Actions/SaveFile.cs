@@ -29,7 +29,7 @@ namespace XCOM
             string tempFilename = Path.GetDirectoryName(filename) + "\\____xcom_save.tmp";
             try
             {
-                db.SaveAs(tempFilename, (keepCurrentVersion ? DwgVersion.Current : version));
+                db.SaveAs(tempFilename, (keepCurrentVersion ? db.OriginalFileVersion : version));
             }
             catch (System.Exception ex)
             {

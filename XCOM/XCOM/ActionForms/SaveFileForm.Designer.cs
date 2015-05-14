@@ -63,6 +63,7 @@
             this.cbVersion.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbVersion.FormattingEnabled = true;
             this.cbVersion.Items.AddRange(new object[] {
+            "Autocad 2013",
             "Autocad 2010",
             "Autocad 2007",
             "Autocad 2004",
