@@ -89,6 +89,7 @@ namespace XCOM.Commands.Annotation
         public string Prefix { get { return txtPrefix.Text; } set { txtPrefix.Text = value; } }
         public int StartNumber { get { return (int)numStart.Value; } set { numStart.Value = value; } }
         public int Increment { get { return (int)numIncrement.Value; } set { numIncrement.Value = value; } }
+        public int Digits { get { return (int)numDigits.Value; } set { numDigits.Value = value; } }
         public string Suffix { get { return txtSuffix.Text; } set { txtSuffix.Text = value; } }
 
         public NumberingForm()

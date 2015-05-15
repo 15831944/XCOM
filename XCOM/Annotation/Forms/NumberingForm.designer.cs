@@ -47,11 +47,14 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbSelectBlock = new System.Windows.Forms.RadioButton();
             this.rbSelectText = new System.Windows.Forms.RadioButton();
+            this.label5 = new System.Windows.Forms.Label();
+            this.numDigits = new System.Windows.Forms.NumericUpDown();
             this.groupBox4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -80,9 +83,11 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.numDigits);
             this.groupBox4.Controls.Add(this.numIncrement);
             this.groupBox4.Controls.Add(this.numStart);
             this.groupBox4.Controls.Add(this.txtSuffix);
+            this.groupBox4.Controls.Add(this.label5);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.txtPrefix);
@@ -98,6 +103,11 @@
             // numIncrement
             // 
             this.numIncrement.Location = new System.Drawing.Point(138, 74);
+            this.numIncrement.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
             this.numIncrement.Name = "numIncrement";
             this.numIncrement.Size = new System.Drawing.Size(100, 20);
             this.numIncrement.TabIndex = 5;
@@ -110,6 +120,11 @@
             // numStart
             // 
             this.numStart.Location = new System.Drawing.Point(138, 51);
+            this.numStart.Maximum = new decimal(new int[] {
+            1410065408,
+            2,
+            0,
+            0});
             this.numStart.Name = "numStart";
             this.numStart.Size = new System.Drawing.Size(100, 20);
             this.numStart.TabIndex = 3;
@@ -121,18 +136,18 @@
             // 
             // txtSuffix
             // 
-            this.txtSuffix.Location = new System.Drawing.Point(138, 99);
+            this.txtSuffix.Location = new System.Drawing.Point(138, 126);
             this.txtSuffix.Name = "txtSuffix";
             this.txtSuffix.Size = new System.Drawing.Size(100, 20);
-            this.txtSuffix.TabIndex = 7;
+            this.txtSuffix.TabIndex = 9;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(20, 102);
+            this.label2.Location = new System.Drawing.Point(20, 129);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 6;
+            this.label2.TabIndex = 8;
             this.label2.Text = "Son Ek:";
             // 
             // label4
@@ -257,6 +272,22 @@
             this.rbSelectText.Text = "Text, MText";
             this.rbSelectText.UseVisualStyleBackColor = true;
             // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 102);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Basamak Sayısı:";
+            // 
+            // numDigits
+            // 
+            this.numDigits.Location = new System.Drawing.Point(138, 100);
+            this.numDigits.Name = "numDigits";
+            this.numDigits.Size = new System.Drawing.Size(100, 20);
+            this.numDigits.TabIndex = 7;
+            // 
             // NumberingForm
             // 
             this.AcceptButton = this.cmdOK;
@@ -285,6 +316,7 @@
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -310,5 +342,7 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.RadioButton rbSelectBlock;
         private System.Windows.Forms.RadioButton rbSelectText;
+        private System.Windows.Forms.NumericUpDown numDigits;
+        private System.Windows.Forms.Label label5;
     }
 }

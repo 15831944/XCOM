@@ -88,10 +88,13 @@ namespace XCOM.Commands.Annotation
                             });
                             // Write coordinates
                             int num = form.StartNumber;
+                            int digits = form.Digits;
                             foreach (Tuple<ObjectId, Point3d> item in items)
                             {
                                 ObjectId id = item.Item1;
-                                string text = form.Prefix + num.ToString() + form.Suffix;
+                                string numstr = num.ToString();
+                                while (numstr.Length < digits) numstr = "0" + numstr;
+                                string text = form.Prefix + numstr + form.Suffix;
                                 if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                                 {
                                     DBText obj = tr.GetObject(id, OpenMode.ForWrite) as DBText;
