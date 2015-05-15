@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class ProtectDrawing : IXCOMAction
     {

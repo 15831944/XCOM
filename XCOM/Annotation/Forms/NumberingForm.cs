@@ -12,7 +12,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using System.Text.RegularExpressions;
 
-namespace DrawingUtility
+namespace XCOM.Commands.Annotation
 {
     public partial class NumberingForm : Form
     {

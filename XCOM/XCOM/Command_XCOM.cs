@@ -4,14 +4,14 @@ using System.Collections.Generic;
 using System.Threading;
 using System.Reflection;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class Command_XCOM
     {
         [Autodesk.AutoCAD.Runtime.CommandMethod("XCOM")]
         public static void XCOMBatch()
         {
-            XCOM.Forms.MainForm mainForm = new XCOM.Forms.MainForm();
+            MainForm mainForm = new MainForm();
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(mainForm) == System.Windows.Forms.DialogResult.OK)
             {
                 // Read settings
@@ -23,7 +23,7 @@ namespace XCOM
                 IXCOMAction[] actions = mainForm.SelectedActions;
                 deploy.AddActions(actions);
 
-                XCOM.Forms.ProgressForm progressForm = new XCOM.Forms.ProgressForm();
+                ProgressForm progressForm = new ProgressForm();
                 Thread thread = new Thread(() => { Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(progressForm); });
                 thread.IsBackground = true;
                 thread.Start();

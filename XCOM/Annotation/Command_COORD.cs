@@ -9,10 +9,56 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
 
-namespace CoordinateLabel
+namespace XCOM.Commands.Annotation
 {
     public class Command_COORD
     {
+        private class CoordPoint
+        {
+            public int N { get; set; }
+
+            public double X { get; set; }
+            public double Y { get; set; }
+            public double Z { get; set; }
+
+            public CoordPoint(int n, double x, double y, double z)
+            {
+                N = n;
+
+                X = x;
+                Y = y;
+                Z = z;
+            }
+
+            public CoordPoint(int n, Point3d p)
+                : this(n, p.X, p.Y, p.Z)
+            {
+                ;
+            }
+
+            public string ToString(string prefix, int nwidth, int coordprecision, int coordwidth, bool showZ)
+            {
+                string n = prefix + N.ToString();
+                if (n.Length < nwidth) n = new string(' ', nwidth - n.Length) + n;
+
+                string format = "0." + new string('0', coordprecision);
+                if (coordprecision == 0) format = "0";
+
+                string xtext = X.ToString(format);
+                string ytext = Y.ToString(format);
+                string ztext = Z.ToString(format);
+
+                if (xtext.Length < coordwidth) xtext = new string(' ', coordwidth - xtext.Length) + xtext;
+                if (ytext.Length < coordwidth) ytext = new string(' ', coordwidth - ytext.Length) + ytext;
+                if (ztext.Length < coordwidth) ztext = new string(' ', coordwidth - ztext.Length) + ztext;
+
+                if (showZ)
+                    return n + xtext + ytext + ztext;
+                else
+                    return n + xtext + ytext;
+            }
+        }
+
         private bool init;
         private List<CoordPoint> points;
 
@@ -163,7 +209,7 @@ namespace CoordinateLabel
                 }
                 tr.Commit();
             }
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
 
             while (flag)
             {
@@ -522,7 +568,7 @@ namespace CoordinateLabel
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
             double rotation = 2.0 * Math.PI - Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
 
             double height = TextHeight;
@@ -605,8 +651,7 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
-                Matrix3d wcs2ucs = ucs2wcs.Inverse();
+                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
 
                 if (mAutoLine)
                 {
@@ -658,8 +703,8 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
-                Matrix3d wcs2ucs = ucs2wcs.Inverse();
+                Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
@@ -702,7 +747,7 @@ namespace CoordinateLabel
                     mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
 
                 // Create and update line
-                IntegerCollection vpNumbers = XCOM.Graphics.GetActiveViewportNumbers();
+                IntegerCollection vpNumbers = XCOM.Utility.Graphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();

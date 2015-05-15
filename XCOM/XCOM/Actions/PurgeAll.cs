@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class PurgeAll : IXCOMAction
     {
@@ -267,7 +267,7 @@ namespace XCOM
 
         public bool ShowDialog()
         {
-            XCOM.ActionForms.PurgeAllForm form = new ActionForms.PurgeAllForm();
+            PurgeAllForm form = new PurgeAllForm();
 
             form.PurgeBlocks = purgeBlocks;
             form.PurgeTextStyles = purgeTextStyles;

@@ -12,7 +12,7 @@ using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using System.Text.RegularExpressions;
 
-namespace CoordinateLabel
+namespace XCOM.Commands.Annotation
 {
     public partial class CoordMainForm : Form
     {

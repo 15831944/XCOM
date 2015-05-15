@@ -7,10 +7,21 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XCOM
+namespace XCOM.Utility
 {
     public static class Graphics
     {
+        public static Matrix3d UcsToWcs()
+        {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            return doc.Editor.CurrentUserCoordinateSystem;
+        }
+
+        public static Matrix3d WcsToUcs()
+        {
+            return UcsToWcs().Inverse();
+        }
+
         public static IntegerCollection GetActiveViewportNumbers()
         {
             Document doc = Application.DocumentManager.MdiActiveDocument;

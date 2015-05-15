@@ -1,4 +1,4 @@
-﻿namespace CoordinateLabel
+﻿namespace XCOM.Commands.Annotation
 {
     partial class SelectGroupForm
     {

@@ -9,13 +9,13 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 using System.Windows.Forms;
 
-namespace RoadDesign
+namespace XCOM.Commands.RoadDesign
 {
-    public class GradeLines
+    public class Command_SEVTARAMA
     {
         private double LineSpacing { get; set; }
 
-        public GradeLines()
+        public Command_SEVTARAMA()
         {
             LineSpacing = 1;
         }
@@ -81,7 +81,7 @@ namespace RoadDesign
                             Point3d endPt = rev ? pt1 : pt2;
                             if (half) endPt = new LineSegment3d(startPt, endPt).MidPoint;
 
-                            Line ln = XCOM.Common.CreateLine(startPt, endPt);
+                            Line ln = XCOM.Utility.Entity.CreateLine(startPt, endPt);
                             btr.AppendEntity(ln);
                             tr.AddNewlyCreatedDBObject(ln, true);
 

@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class ZoomExtents : IXCOMAction
     {

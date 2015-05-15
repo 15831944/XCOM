@@ -5,7 +5,7 @@ using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace XCOM.Forms
+namespace XCOM.Commands.XCommand
 {
     public partial class MainForm : Form
     {

@@ -9,17 +9,17 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 using System.Windows.Forms;
 
-namespace DrawingUtility
+namespace XCOM.Commands.Annotation
 {
-    public partial class DrawingUtility
+    public partial class Command_NUMARALANDIR
     {
         [Autodesk.AutoCAD.Runtime.CommandMethod("NUMARALANDIR", CommandFlags.UsePickSet)]
         public void Numbering()
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
-            Matrix3d wcs2ucs = ucs2wcs.Inverse();
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
 
             NumberingForm form = new NumberingForm();
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)

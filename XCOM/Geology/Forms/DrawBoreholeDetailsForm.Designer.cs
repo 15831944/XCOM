@@ -1,4 +1,4 @@
-﻿namespace GeologyUtilities
+﻿namespace XCOM.Commands.Geology
 {
     partial class DrawBoreholeDetailsForm
     {

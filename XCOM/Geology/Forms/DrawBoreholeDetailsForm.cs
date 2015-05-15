@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace GeologyUtilities
+namespace XCOM.Commands.Geology
 {
     public partial class DrawBoreholeDetailsForm : Form
     {

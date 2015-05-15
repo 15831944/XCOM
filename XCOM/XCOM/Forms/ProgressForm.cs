@@ -4,7 +4,7 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 
-namespace XCOM.Forms
+namespace XCOM.Commands.XCommand
 {
     public partial class ProgressForm : Form
     {

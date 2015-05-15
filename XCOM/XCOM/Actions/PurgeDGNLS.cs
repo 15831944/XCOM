@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Runtime;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.Geometry;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class PurgeDGNLS : IXCOMAction
     {

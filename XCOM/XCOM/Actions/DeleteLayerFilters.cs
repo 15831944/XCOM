@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.LayerManager;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class DeleteLayerFilters : IXCOMAction
     {

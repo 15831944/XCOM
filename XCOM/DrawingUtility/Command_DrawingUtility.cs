@@ -8,16 +8,14 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 
-namespace DrawingUtility
+namespace XCOM.Commands.Drawing
 {
-    public partial class DrawingUtility
+    public partial class Command_DrawingUtility
     {
-        private int CurveSegments { get; set; }
         private int Precision { get; set; }
 
-        public DrawingUtility()
+        public Command_DrawingUtility()
         {
-            CurveSegments = 40;
             Precision = 2;
         }
 
@@ -89,7 +87,7 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -117,7 +115,7 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(-Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -145,7 +143,7 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -170,7 +168,7 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             while (true)
             {

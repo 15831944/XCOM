@@ -8,9 +8,9 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 
-namespace GeologyUtilities
+namespace XCOM.Commands.Geology
 {
-    public class GeologyUtilities
+    public class Command_DrawBoreholeDetails
     {
         [Autodesk.AutoCAD.Runtime.CommandMethod("SONDAJDETAY")]
         public static void DrawBoreholeDetails()
@@ -31,7 +31,7 @@ namespace GeologyUtilities
                     bool hasGW = form.HasGroundwater;
                     double gwLevel = form.GroundwaterLevel;
 
-                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
 
                     double xSpacing = 4;
                     using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -67,7 +67,7 @@ namespace GeologyUtilities
                         {
                             Point3d pt1 = new Point3d(pt.X - xSpacing, pt.Y - 0.25, pt.Z);
                             Point3d pt2 = new Point3d(pt.X + xSpacing * data.Count - xSpacing, pt.Y - 0.25, pt.Z);
-                            Line line = XCOM.Common.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             line.Color = headerColor;
                             btr.AppendEntity(line);
@@ -88,7 +88,7 @@ namespace GeologyUtilities
                                 Point3d ptText = new Point3d(pt.X + xSpacing * j - xSpacing / 2, pt.Y - depths[0] + 0.5 + lines.Length * 1.0, pt.Z);
                                 foreach (string line in lines)
                                 {
-                                    DBText dbtext = XCOM.Common.CreateText(ptText.TransformBy(ucs2wcs), line, 0.75, 0, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
+                                    DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), line, 0.75, 0, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
                                     dbtext.LayerId = layerId;
                                     dbtext.Color = headerColor;
                                     btr.AppendEntity(dbtext);
@@ -106,7 +106,7 @@ namespace GeologyUtilities
                                     // Item text
                                     double depth = depths[i];
                                     Point3d ptText = new Point3d(pt.X + xSpacing * j, pt.Y - depth, pt.Z);
-                                    DBText dbtext = XCOM.Common.CreateText(ptText.TransformBy(ucs2wcs), text, 0.75, 0, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
+                                    DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), text, 0.75, 0, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
                                     dbtext.LayerId = layerId;
                                     btr.AppendEntity(dbtext);
                                     tr.AddNewlyCreatedDBObject(dbtext, true);
@@ -116,7 +116,7 @@ namespace GeologyUtilities
                                     {
                                         Point3d pt1 = new Point3d(ptText.X + 0.25, ptText.Y, ptText.Z);
                                         Point3d pt2 = new Point3d(ptText.X + 0.25 + tickSize, ptText.Y, ptText.Z);
-                                        Line line = XCOM.Common.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                                        Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                                         line.LayerId = layerId;
                                         btr.AppendEntity(line);
                                         tr.AddNewlyCreatedDBObject(line, true);
@@ -135,7 +135,7 @@ namespace GeologyUtilities
                         {
                             Point3d pt1 = new Point3d(depthLineTop.X + tickSize / 2, depthLineTop.Y, depthLineTop.Z);
                             Point3d pt2 = new Point3d(depthLineBottom.X + tickSize / 2, depthLineBottom.Y, depthLineBottom.Z);
-                            Line line = XCOM.Common.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             btr.AppendEntity(line);
                             tr.AddNewlyCreatedDBObject(line, true);
@@ -147,7 +147,7 @@ namespace GeologyUtilities
                             // Horizontal line
                             Point3d pt1 = new Point3d(pt.X + 0.25 - 5, pt.Y - gwLevel, pt.Z);
                             Point3d pt2 = new Point3d(pt.X + 0.25, pt.Y - gwLevel, pt.Z);
-                            Line line = XCOM.Common.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             line.Color = gwColor;
                             btr.AppendEntity(line);
@@ -176,7 +176,7 @@ namespace GeologyUtilities
 
                             // GW text
                             Point3d ptText = new Point3d(pt.X + 0.25 - 5 + 1.5, pt.Y - gwLevel + 0.6, pt.Z);
-                            DBText dbtext = XCOM.Common.CreateText(ptText.TransformBy(ucs2wcs), gwLevel.ToString(), 0.75, 0, TextHorizontalMode.TextCenter, TextVerticalMode.TextBottom);
+                            DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), gwLevel.ToString(), 0.75, 0, TextHorizontalMode.TextCenter, TextVerticalMode.TextBottom);
                             dbtext.LayerId = layerId;
                             dbtext.Color = gwColor;
                             btr.AppendEntity(dbtext);

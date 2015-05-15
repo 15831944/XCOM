@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class BackupFile : IXCOMAction
     {

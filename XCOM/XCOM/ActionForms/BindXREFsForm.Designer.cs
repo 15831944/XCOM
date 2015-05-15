@@ -1,4 +1,4 @@
-﻿namespace XCOM.ActionForms
+﻿namespace XCOM.Commands.XCommand
 {
     partial class BindXREFsForm
     {

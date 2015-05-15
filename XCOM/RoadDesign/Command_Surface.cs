@@ -9,9 +9,9 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 using System.Windows.Forms;
 
-namespace RoadDesign
+namespace XCOM.Commands.RoadDesign
 {
-    public class SurfaceCommands
+    public class Command_Surface
     {
         TriangleNet.Mesh mesh;
         List<Autodesk.AutoCAD.GraphicsInterface.Drawable> temporaryGraphics;
@@ -26,7 +26,7 @@ namespace RoadDesign
         private bool SelectSolid { get; set; }
         private bool EraseEntities { get; set; }
 
-        public SurfaceCommands()
+        public Command_Surface()
         {
             mesh = new TriangleNet.Mesh();
             temporaryGraphics = new List<Autodesk.AutoCAD.GraphicsInterface.Drawable>();

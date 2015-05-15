@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.ComponentModel;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class CheckedListBoxWithButtons : CheckedListBox
     {

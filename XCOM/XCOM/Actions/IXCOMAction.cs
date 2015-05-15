@@ -1,7 +1,7 @@
 ﻿using System;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     [Flags]
     public enum ActionInterface

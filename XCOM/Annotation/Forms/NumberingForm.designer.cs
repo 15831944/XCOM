@@ -1,4 +1,4 @@
-﻿namespace DrawingUtility
+﻿namespace XCOM.Commands.Annotation
 {
     partial class NumberingForm
     {

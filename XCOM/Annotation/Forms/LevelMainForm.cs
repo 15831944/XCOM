@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace LevelLabel
+namespace XCOM.Commands.Annotation
 {
     public partial class LevelMainForm : Form
     {

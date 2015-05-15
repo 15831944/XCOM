@@ -3,7 +3,7 @@ using System.IO;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class SaveFile : IXCOMAction
     {
@@ -72,7 +72,7 @@ namespace XCOM
 
         public bool ShowDialog()
         {
-            XCOM.ActionForms.SaveFileForm form = new ActionForms.SaveFileForm();
+            SaveFileForm form = new SaveFileForm();
             form.KeepCurrentDwgVersion = keepCurrentVersion;
             form.DwgVersion = version;
             form.FilenameSuffix = suffix;

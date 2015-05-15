@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class SaveDXF : IXCOMAction
     {
@@ -44,7 +44,7 @@ namespace XCOM
 
         public bool ShowDialog()
         {
-            XCOM.ActionForms.SaveDXFForm form = new ActionForms.SaveDXFForm();
+            SaveDXFForm form = new SaveDXFForm();
             form.DXFVersion = version;
 
             if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;

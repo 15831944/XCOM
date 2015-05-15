@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class BindXREFs : IXCOMAction
     {
@@ -20,7 +20,7 @@ namespace XCOM
 
         public bool ShowDialog() 
         {
-            XCOM.ActionForms.BindXREFsForm form = new ActionForms.BindXREFsForm();
+            BindXREFsForm form = new BindXREFsForm();
             form.ResolveXREFs = resolveXREFs;
             form.InsertMode = insertMode;
 

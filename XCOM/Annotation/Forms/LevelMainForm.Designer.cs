@@ -1,4 +1,4 @@
-﻿namespace LevelLabel
+﻿namespace XCOM.Commands.Annotation
 {
     partial class LevelMainForm
     {

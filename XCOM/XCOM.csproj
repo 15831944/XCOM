@@ -90,7 +90,6 @@
   <ItemGroup>
     <Compile Include="Annotation\Command_COORD.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
-    <Compile Include="Annotation\CoordPoint.cs" />
     <Compile Include="Annotation\Forms\CoordMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -122,20 +121,20 @@
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
-    <Compile Include="Common\Graphics.cs" />
-    <Compile Include="Common\Entity.cs" />
+    <Compile Include="Utility\Graphics.cs" />
+    <Compile Include="Utility\Entity.cs" />
     <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
     <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
-    <Compile Include="Geology\Commands_DrawBoreholeDetails.cs" />
+    <Compile Include="Geology\Command_DrawBoreholeDetails.cs" />
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Commands_SEVTARAMA.cs" />
-    <Compile Include="RoadDesign\Commands_DrawCulvertsOnProfile.cs" />
-    <Compile Include="RoadDesign\Commands_Surface.cs" />
+    <Compile Include="RoadDesign\Command_SEVTARAMA.cs" />
+    <Compile Include="RoadDesign\Command_DrawCulvertsOnProfile.cs" />
+    <Compile Include="RoadDesign\Command_Surface.cs" />
     <Compile Include="RoadDesign\Forms\CreateSurfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -187,7 +186,7 @@
     <Compile Include="XCOM\Actions\FindReplaceText.cs" />
     <Compile Include="XCOM\Actions\ZoomExtents.cs" />
     <Compile Include="XCOM\Command_XCOM.cs" />
-    <Compile Include="FileLogger.cs" />
+    <Compile Include="Utility\FileLogger.cs" />
     <Compile Include="XCOM\Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>

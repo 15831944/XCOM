@@ -6,9 +6,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace XCOM
+namespace XCOM.Utility
 {
-    public static class Common
+    public static class Entity
     {
         public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId)
         {
@@ -81,9 +81,7 @@ namespace XCOM
 
         public static Polyline CreatePolyLine(bool closed, params Point3d[] points)
         {
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
 
             Polyline pline = new Polyline(1);
             pline.Normal = ucs2wcs.CoordinateSystem3d.Zaxis;
@@ -107,9 +105,7 @@ namespace XCOM
 
         public static Hatch CreateHatch(string patternName, double patternScale, double patternAngle)
         {
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
 
             Hatch hatch = new Hatch();
 

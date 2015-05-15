@@ -9,9 +9,9 @@ using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
 using System.Windows.Forms;
 
-namespace RoadDesign
+namespace XCOM.Commands.RoadDesign
 {
-    public class RoadDesign
+    public class Command_DrawCulvertsOnProfile
     {
         [Autodesk.AutoCAD.Runtime.CommandMethod("PROFILMENFEZ")]
         public static void DrawCulvertsOnProfile()
@@ -23,7 +23,7 @@ namespace RoadDesign
                     Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                     Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
 
                     List<DrawCulvertForm.CulvertInfo> data = form.GetData();
                     Point3d basePt = form.BasePoint;
@@ -64,7 +64,7 @@ namespace RoadDesign
                                 Point3d midPt = new Point3d(basePt.X + culvert.Chainage - baseCH, basePt.Y + (culvert.Level - baseLevel) * scale, 0);
 
                                 // Outer polyline
-                                Polyline outerPoly = XCOM.Common.CreatePolyLine(true,
+                                Polyline outerPoly = XCOM.Utility.Entity.CreatePolyLine(true,
                                     new Point3d(midPt.X - culvert.Width / 2 - culvert.Wall, midPt.Y - culvert.BottomSlab * scale, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2 + culvert.Wall, midPt.Y - culvert.BottomSlab * scale, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2 + culvert.Wall, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale, 0).TransformBy(ucs2wcs),
@@ -75,7 +75,7 @@ namespace RoadDesign
                                 tr.AddNewlyCreatedDBObject(outerPoly, true);
 
                                 // Inner polyline
-                                Polyline innerPoly = XCOM.Common.CreatePolyLine(true,
+                                Polyline innerPoly = XCOM.Utility.Entity.CreatePolyLine(true,
                                     new Point3d(midPt.X - culvert.Width / 2, midPt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2, midPt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2, midPt.Y + culvert.Height * scale, 0).TransformBy(ucs2wcs),
@@ -86,7 +86,7 @@ namespace RoadDesign
                                 tr.AddNewlyCreatedDBObject(innerPoly, true);
 
                                 // Hatch
-                                Hatch hatch = XCOM.Common.CreateHatch("ANSI31", hatchScale, 0);
+                                Hatch hatch = XCOM.Utility.Entity.CreateHatch("ANSI31", hatchScale, 0);
                                 hatch.LayerId = layerId;
                                 btr.AppendEntity(hatch);
                                 tr.AddNewlyCreatedDBObject(hatch, true);
@@ -98,7 +98,7 @@ namespace RoadDesign
                                 hatch.EvaluateHatch(true);
 
                                 // Axis
-                                Line axis = XCOM.Common.CreateLine(new Point3d(midPt.X, basePt.Y, 0).TransformBy(ucs2wcs),
+                                Line axis = XCOM.Utility.Entity.CreateLine(new Point3d(midPt.X, basePt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 4 * scale, 0).TransformBy(ucs2wcs)
                                     );
                                 axis.LayerId = layerId;
@@ -115,7 +115,7 @@ namespace RoadDesign
                                         "\\P" + "Verevlilik=" + culvert.Skew.ToString("F2") + " g";
                                 }
 
-                                MText mtext = XCOM.Common.CreateMText(textBase.TransformBy(ucs2wcs), text, textHeight, 90);
+                                MText mtext = XCOM.Utility.Entity.CreateMText(textBase.TransformBy(ucs2wcs), text, textHeight, 90);
                                 mtext.LayerId = layerId;
                                 btr.AppendEntity(mtext);
                                 tr.AddNewlyCreatedDBObject(mtext, true);

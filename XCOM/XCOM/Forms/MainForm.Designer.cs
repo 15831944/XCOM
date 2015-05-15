@@ -1,4 +1,4 @@
-﻿namespace XCOM.Forms
+﻿namespace XCOM.Commands.XCommand
 {
     partial class MainForm
     {
@@ -40,7 +40,7 @@
             this.browseDWG = new System.Windows.Forms.OpenFileDialog();
             this.cmdClose = new System.Windows.Forms.Button();
             this.cmdStart = new System.Windows.Forms.Button();
-            this.lbActions = new XCOM.CheckedListBoxWithButtons();
+            this.lbActions = new CheckedListBoxWithButtons();
             this.browseFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
@@ -134,7 +134,7 @@
             this.lbActions.CheckOnClick = true;
             this.lbActions.FormattingEnabled = true;
             this.lbActions.Name = "lbActions";
-            this.lbActions.ButtonClick += new XCOM.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
+            this.lbActions.ButtonClick += new CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
             // 
             // browseFolder
             // 
@@ -168,7 +168,7 @@
         private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.Button cmdStart;
         private System.Windows.Forms.ListView lvSourceFiles;
-        private XCOM.CheckedListBoxWithButtons lbActions;
+        private CheckedListBoxWithButtons lbActions;
         private System.Windows.Forms.Button cmdAddFolder;
         private System.Windows.Forms.FolderBrowserDialog browseFolder;
 

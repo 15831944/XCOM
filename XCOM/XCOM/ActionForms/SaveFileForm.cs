@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace XCOM.ActionForms
+namespace XCOM.Commands.XCommand
 {
     public partial class SaveFileForm : Form
     {

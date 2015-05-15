@@ -8,7 +8,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Windows.Forms;
 using Autodesk.AutoCAD.GraphicsInterface;
 
-namespace LevelLabel
+namespace XCOM.Commands.Annotation
 {
     public class Command_LEVEL
     {
@@ -109,7 +109,7 @@ namespace LevelLabel
 
                     string level = GetLevel(ptRes.Value);
 
-                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
                     Point3d ptWorld = ptRes.Value.TransformBy(ucs2wcs);
                     double rotation = Math.Atan2(ucs2wcs.CoordinateSystem3d.Xaxis.Y, ucs2wcs.CoordinateSystem3d.Xaxis.X);
 
@@ -186,7 +186,7 @@ namespace LevelLabel
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-            Matrix3d wcs2ucs = doc.Editor.CurrentUserCoordinateSystem.Inverse();
+            Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -305,14 +305,13 @@ namespace LevelLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d wcs2ucs = doc.Editor.CurrentUserCoordinateSystem;
-                Matrix3d ucs2wcs = wcs2ucs.Inverse();
+                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
 
                 JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");
                 textOpts.BasePoint = mpBase;
                 textOpts.UseBasePoint = true;
                 PromptPointResult textRes = prompts.AcquirePoint(textOpts);
-                mpText = textRes.Value.TransformBy(ucs2wcs);
+                mpText = textRes.Value.TransformBy(wcs2ucs);
                 mpText = new Point3d(mpText.X, mpBase.Y, mpBase.Z);
 
                 return SamplerStatus.OK;
@@ -344,7 +343,7 @@ namespace LevelLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+                Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
@@ -392,7 +391,7 @@ namespace LevelLabel
                     lastTransform = Matrix3d.Identity;
                 }
 
-                IntegerCollection vpNumbers = XCOM.Graphics.GetActiveViewportNumbers();
+                IntegerCollection vpNumbers = XCOM.Utility.Graphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();

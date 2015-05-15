@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public class FindReplaceText : IXCOMAction
     {
@@ -115,7 +115,7 @@ namespace XCOM
             string[] find;
             string[] replace;
 
-            XCOM.ActionForms.FindReplaceTextForm form = new ActionForms.FindReplaceTextForm();
+            FindReplaceTextForm form = new FindReplaceTextForm();
             form.SearchText = frText;
             form.SearchAttribute = frAttribute;
             form.SearchDimension = frDimension;

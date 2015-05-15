@@ -1,4 +1,4 @@
-﻿namespace XCOM.Forms
+﻿namespace XCOM.Commands.XCommand
 {
     partial class ProgressForm
     {

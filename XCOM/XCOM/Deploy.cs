@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.LayerManager;
 using Autodesk.AutoCAD.ApplicationServices;
 using Autodesk.AutoCAD.EditorInput;
 
-namespace XCOM
+namespace XCOM.Commands.XCommand
 {
     public delegate void DeployStartedEventHandler(object sender, EventArgs e);
     public delegate void DeployCompletedEventHandler(object sender, EventArgs e);
