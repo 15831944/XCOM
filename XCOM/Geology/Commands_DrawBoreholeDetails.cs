@@ -31,7 +31,7 @@ namespace GeologyUtilities
                     bool hasGW = form.HasGroundwater;
                     double gwLevel = form.GroundwaterLevel;
 
-                    Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
 
                     double xSpacing = 4;
                     using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -155,7 +155,7 @@ namespace GeologyUtilities
 
                             // GW marker
                             Polyline pline = new Polyline(1);
-                            pline.Normal = db.Ucsxdir.CrossProduct(db.Ucsydir);
+                            pline.Normal = ucs2wcs.CoordinateSystem3d.Zaxis;
                             pline.AddVertexAt(0, new Point2d(0, 0), 0, 0, 0);
                             Plane plinePlane = new Plane(Point3d.Origin, pline.Normal);
                             pline.Reset(false, 3);

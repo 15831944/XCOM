@@ -83,10 +83,10 @@ namespace XCOM
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
 
             Polyline pline = new Polyline(1);
-            pline.Normal = db.Ucsxdir.CrossProduct(db.Ucsydir);
+            pline.Normal = ucs2wcs.CoordinateSystem3d.Zaxis;
             pline.AddVertexAt(0, new Point2d(0, 0), 0, 0, 0);
             Plane plinePlane = new Plane(Point3d.Origin, pline.Normal);
             pline.Reset(false, points.Length);
@@ -109,13 +109,13 @@ namespace XCOM
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
 
             Hatch hatch = new Hatch();
 
             hatch.SetHatchPattern(HatchPatternType.PreDefined, patternName);
 
-            hatch.Normal = db.Ucsxdir.CrossProduct(db.Ucsydir);
+            hatch.Normal = ucs2wcs.CoordinateSystem3d.Zaxis;
             hatch.Elevation = 0.0;
             hatch.PatternScale = patternScale;
             hatch.PatternAngle = patternAngle;

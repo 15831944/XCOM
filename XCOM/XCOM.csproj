@@ -122,7 +122,8 @@
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
-    <Compile Include="Common\Common.cs" />
+    <Compile Include="Common\Graphics.cs" />
+    <Compile Include="Common\Entity.cs" />
     <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
     <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
     <Compile Include="Geology\Commands_DrawBoreholeDetails.cs" />

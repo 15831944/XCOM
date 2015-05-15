@@ -89,8 +89,8 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -117,8 +117,8 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(-Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -145,8 +145,8 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -170,8 +170,8 @@ namespace DrawingUtility
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis);
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+            Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             while (true)
             {
                 PromptSelectionResult selRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection();

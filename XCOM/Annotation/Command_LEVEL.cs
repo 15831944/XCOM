@@ -109,9 +109,9 @@ namespace LevelLabel
 
                     string level = GetLevel(ptRes.Value);
 
-                    Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
                     Point3d ptWorld = ptRes.Value.TransformBy(ucs2wcs);
-                    double rotation = Math.Atan2(db.Ucsxdir.Y, db.Ucsxdir.X);
+                    double rotation = Math.Atan2(ucs2wcs.CoordinateSystem3d.Xaxis.Y, ucs2wcs.CoordinateSystem3d.Xaxis.X);
 
                     using (Transaction tr = db.TransactionManager.StartTransaction())
                     using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
@@ -186,8 +186,7 @@ namespace LevelLabel
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-            Vector3d zAxis = db.Ucsxdir.CrossProduct(db.Ucsydir);
-            Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, zAxis, Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+            Matrix3d wcs2ucs = doc.Editor.CurrentUserCoordinateSystem.Inverse();
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -306,13 +305,14 @@ namespace LevelLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir), Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+                Matrix3d wcs2ucs = doc.Editor.CurrentUserCoordinateSystem;
+                Matrix3d ucs2wcs = wcs2ucs.Inverse();
 
                 JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");
                 textOpts.BasePoint = mpBase;
                 textOpts.UseBasePoint = true;
                 PromptPointResult textRes = prompts.AcquirePoint(textOpts);
-                mpText = textRes.Value.TransformBy(wcs2ucs);
+                mpText = textRes.Value.TransformBy(ucs2wcs);
                 mpText = new Point3d(mpText.X, mpBase.Y, mpBase.Z);
 
                 return SamplerStatus.OK;
@@ -344,7 +344,7 @@ namespace LevelLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
@@ -365,7 +365,7 @@ namespace LevelLabel
                 // Mirror block if text is to the left of base point
                 if (mpText.X < mpBase.X)
                 {
-                    using (Line3d mirrorLine = new Line3d(bref.Position, bref.Position + db.Ucsydir))
+                    using (Line3d mirrorLine = new Line3d(bref.Position, bref.Position + ucs2wcs.CoordinateSystem3d.Yaxis))
                     {
                         Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
                         bref.TransformBy(mirroring);
@@ -379,7 +379,7 @@ namespace LevelLabel
                         attRef.TextString = text;
                         Extents3d ex = attRef.GeometricExtents;
                         Point3d midPoint = new Point3d((ex.MinPoint.X + ex.MaxPoint.X) / 2, (ex.MinPoint.Y + ex.MaxPoint.Y) / 2, (ex.MinPoint.Z + ex.MaxPoint.Z) / 2);
-                        using (Line3d mirrorLine = new Line3d(midPoint, midPoint + db.Ucsydir))
+                        using (Line3d mirrorLine = new Line3d(midPoint, midPoint + ucs2wcs.CoordinateSystem3d.Yaxis))
                         {
                             Matrix3d mirroring = Matrix3d.Mirroring(mirrorLine);
                             attRef.TransformBy(mirroring);
@@ -392,14 +392,15 @@ namespace LevelLabel
                     lastTransform = Matrix3d.Identity;
                 }
 
+                IntegerCollection vpNumbers = XCOM.Graphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();
-                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, new IntegerCollection());
+                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, vpNumbers);
                 }
                 line.StartPoint = pBaseWorld;
                 line.EndPoint = pTextWorld;
-                TransientManager.CurrentTransientManager.UpdateTransient(line, new IntegerCollection());
+                TransientManager.CurrentTransientManager.UpdateTransient(line, vpNumbers);
             }
 
             public void EraseLine()

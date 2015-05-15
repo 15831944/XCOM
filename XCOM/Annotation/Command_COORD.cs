@@ -163,7 +163,7 @@ namespace CoordinateLabel
                 }
                 tr.Commit();
             }
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
 
             while (flag)
             {
@@ -192,7 +192,7 @@ namespace CoordinateLabel
                 {
                     PromptPointOptions listOpts = new PromptPointOptions("\nListe yeri: ");
                     PromptPointResult listRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(listOpts);
-                    ShowList(db, listRes.Value);
+                    ShowList(listRes.Value);
                     return;
                 }
                 else if (pointRes.Status == PromptStatus.Keyword && pointRes.StringResult == "Select")
@@ -517,9 +517,12 @@ namespace CoordinateLabel
             CurrentNumber = 1;
         }
 
-        private void ShowList(Database db, Point3d pBase)
+        private void ShowList(Point3d pBase)
         {
-            Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+            Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
             double rotation = 2.0 * Math.PI - Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
 
             double height = TextHeight;
@@ -602,8 +605,8 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
-                Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir), Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
+                Matrix3d wcs2ucs = ucs2wcs.Inverse();
 
                 if (mAutoLine)
                 {
@@ -634,9 +637,6 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
-                Point3d pBaseWorld = pBase.TransformBy(ucs2wcs);
-
                 CoordinateJig jigger = new CoordinateJig(mtext, pBase, autoLine, lineLength, autoRotateText, textRotation);
 
                 PromptResult res = doc.Editor.Drag(jigger);
@@ -658,7 +658,7 @@ namespace CoordinateLabel
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
                 Matrix3d wcs2ucs = ucs2wcs.Inverse();
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
@@ -702,14 +702,15 @@ namespace CoordinateLabel
                     mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
 
                 // Create and update line
+                IntegerCollection vpNumbers = XCOM.Graphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();
-                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, new IntegerCollection());
+                    TransientManager.CurrentTransientManager.AddTransient(line, TransientDrawingMode.DirectShortTerm, 0, vpNumbers);
                 }
                 line.StartPoint = pBaseWorld;
                 line.EndPoint = pTextWorld;
-                TransientManager.CurrentTransientManager.UpdateTransient(line, new IntegerCollection());
+                TransientManager.CurrentTransientManager.UpdateTransient(line, vpNumbers);
             }
 
             private static Point3d Intersect(Point3d p1, Point3d p2, Point3d p3, Point3d p4)

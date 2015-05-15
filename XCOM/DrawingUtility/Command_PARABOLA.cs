@@ -90,14 +90,14 @@ namespace DrawingUtility
             protected override SamplerStatus Sampler(JigPrompts prompts)
             {
                 JigPromptPointOptions t2Opts = new JigPromptPointOptions("\nEnd Tangent: ");
+                t2Opts.UserInputControls = UserInputControls.GovernedByUCSDetect | UserInputControls.UseBasePointElevation | UserInputControls.Accept3dCoordinates;
                 t2Opts.BasePoint = mp2;
                 t2Opts.UseBasePoint = true;
                 PromptPointResult t2Res = prompts.AcquirePoint(t2Opts);
                 if (t2Res.Status != PromptStatus.OK) return SamplerStatus.Cancel;
-
+                
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-                Matrix3d wcs2ucs = Matrix3d.AlignCoordinateSystem(db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir), Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis);
+                Matrix3d wcs2ucs = doc.Editor.CurrentUserCoordinateSystem.Inverse();
                 mt2 = t2Res.Value.TransformBy(wcs2ucs);
 
                 return SamplerStatus.OK;
@@ -137,7 +137,7 @@ namespace DrawingUtility
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
                 Polyline pline = new Polyline(1);
-                pline.Normal = db.Ucsxdir.CrossProduct(db.Ucsydir);
+                pline.Normal = doc.Editor.CurrentUserCoordinateSystem.CoordinateSystem3d.Zaxis;
                 pline.AddVertexAt(0, new Point2d(0, 0), 0, 0, 0);
 
                 return pline;
@@ -148,7 +148,7 @@ namespace DrawingUtility
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
                 Plane ucsPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
                 Point2d p1 = Intersect(mp0.Convert2d(ucsPlane), mt0.Convert2d(ucsPlane), mp2.Convert2d(ucsPlane), mt2.Convert2d(ucsPlane));
                 

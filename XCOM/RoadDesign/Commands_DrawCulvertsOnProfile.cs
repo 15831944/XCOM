@@ -23,7 +23,7 @@ namespace RoadDesign
                     Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                     Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                    Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    Matrix3d ucs2wcs = doc.Editor.CurrentUserCoordinateSystem;
 
                     List<DrawCulvertForm.CulvertInfo> data = form.GetData();
                     Point3d basePt = form.BasePoint;
