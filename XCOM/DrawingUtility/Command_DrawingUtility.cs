@@ -169,7 +169,6 @@ namespace XCOM.Commands.Drawing
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
             Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
-            Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             while (true)
             {
                 PromptSelectionResult selRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection();

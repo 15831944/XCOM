@@ -111,8 +111,15 @@ namespace XCOM.Commands.RoadDesign
                                     "\\P" + "(" + culvert.Width.ToString("F2") + "x" + culvert.Height.ToString("F2") + ") KUTU MENFEZ";
                                 if (drawCulvertInfo)
                                 {
-                                    text = text + "\\P" + "L=" + culvert.Length.ToString("F2") + " m" + " Fl=" + culvert.Level.ToString("F2") + " m" + " My=%" + culvert.Grade.ToString("F2") +
-                                        "\\P" + "Verevlilik=" + culvert.Skew.ToString("F2") + " g";
+                                    text = text + "\\P" + "L=" + culvert.Length.ToString("F2") + " m" + " FL=" + culvert.Level.ToString("F2") + " m" + " My=%" + culvert.Grade.ToString("F2") + "\\P";
+
+                                    if (culvert.Skew == 0)
+                                        text = text + "V=DİK";
+                                    else
+                                        text = text + "V=" + culvert.Skew.ToString("F2") + " g";
+
+                                    if (culvert.WellLength != 0)
+                                        text = text + " Kuyu Boyu=" + culvert.WellLength.ToString("F2") + " m";
                                 }
 
                                 MText mtext = XCOM.Utility.Entity.CreateMText(textBase.TransformBy(ucs2wcs), text, textHeight, 90);

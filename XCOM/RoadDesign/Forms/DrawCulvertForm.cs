@@ -77,6 +77,7 @@ namespace XCOM.Commands.RoadDesign
                 culvert.Skew = double.Parse((string)culvertGrid[i, 4].Value);
                 culvert.Width = double.Parse((string)culvertGrid[i, 5].Value);
                 culvert.Height = double.Parse((string)culvertGrid[i, 6].Value);
+                culvert.WellLength = double.Parse((string)culvertGrid[i, 7].Value);
                 items.Add(culvert);
             }
 
@@ -108,7 +109,7 @@ namespace XCOM.Commands.RoadDesign
             culvertGrid.BorderStyle = BorderStyle.FixedSingle;
             culvertGrid.EnableSort = false;
 
-            culvertGrid.ColumnsCount = 7;
+            culvertGrid.ColumnsCount = 8;
             culvertGrid.RowsCount = 1024;
 
             culvertGrid.FixedRows = 1;
@@ -120,6 +121,7 @@ namespace XCOM.Commands.RoadDesign
             culvertGrid[0, 4] = new SourceGrid.Cells.ColumnHeader("Verevlilik");
             culvertGrid[0, 5] = new SourceGrid.Cells.ColumnHeader("Genişlik (m)");
             culvertGrid[0, 6] = new SourceGrid.Cells.ColumnHeader("Yükseklik (m)");
+            culvertGrid[0, 7] = new SourceGrid.Cells.ColumnHeader("Kuyu Boyu (m)");
 
             culvertGrid.Columns[0].Tag = "CH";
             culvertGrid.Columns[1].Tag = "Level";
@@ -128,6 +130,7 @@ namespace XCOM.Commands.RoadDesign
             culvertGrid.Columns[4].Tag = "Skew";
             culvertGrid.Columns[5].Tag = "Width";
             culvertGrid.Columns[6].Tag = "Height";
+            culvertGrid.Columns[7].Tag = "WellLength";
 
             for (int j = 0; j < culvertGrid.ColumnsCount; j++)
             {
@@ -256,6 +259,7 @@ namespace XCOM.Commands.RoadDesign
             public double Wall { get { return 0.3; } }
             public double TopSlab { get { return 0.4; } }
             public double BottomSlab { get { return 0.4; } }
+            public double WellLength { get; set; }
 
             public static double ChainageFromString(string text)
             {
