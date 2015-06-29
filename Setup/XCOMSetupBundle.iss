@@ -4,6 +4,7 @@
 #define ShortAppVersion Str(Version[0]) + "." + Str(Version[1])
 
 [Setup]
+PrivilegesRequired=none
 AppName="{cm:AppName}"
 AppVersion={#ShortAppVersion}
 ArchitecturesAllowed=x64
