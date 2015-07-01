@@ -25,7 +25,7 @@ namespace RebarPosCommands
         public string d;
         public string e;
         public string f;
-         
+
         public string shapename;
 
         public double scale;
@@ -113,6 +113,8 @@ namespace RebarPosCommands
                 foreach (ObjectId id in items)
                 {
                     RebarPos pos = RebarPos.FromObjectId(tr, id);
+                    BlockReference bref = (BlockReference)tr.GetObject(id, OpenMode.ForRead);
+
                     if (pos != null)
                     {
                         // Skip empty pos numbers
@@ -149,9 +151,9 @@ namespace RebarPosCommands
                             {
                                 copy.count += pos.Properties.Count * pos.Multiplier;
                             }
-                            copy.scale = Math.Max(copy.scale, pos.Scale);
-                            copy.x = Math.Min(copy.x, pos.BasePoint.X);
-                            copy.y = Math.Min(copy.y, pos.BasePoint.Y);
+                            copy.scale = Math.Max(copy.scale, Math.Abs(bref.ScaleFactors[0]));
+                            copy.x = Math.Min(copy.x, bref.Position.X);
+                            copy.y = Math.Min(copy.y, bref.Position.Y);
                         }
                         else
                         {
@@ -198,9 +200,9 @@ namespace RebarPosCommands
                             copy.length2 = calc.Length.Maximum;
                             copy.isVarLength = calc.Length.IsVariable;
 
-                            copy.scale = pos.Scale;
-                            copy.x = pos.BasePoint.X;
-                            copy.y = pos.BasePoint.Y;
+                            copy.scale = Math.Abs(bref.ScaleFactors[0]);
+                            copy.x = bref.Position.X;
+                            copy.y = bref.Position.Y;
                             copy.shapename = pos.ShapeName;
                             PosShape shape = PosShape.Shapes[copy.shapename];
                             if (shape != null)

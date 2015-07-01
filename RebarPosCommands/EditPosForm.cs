@@ -844,26 +844,28 @@ namespace RebarPosCommands
                     Vector3d dir = new Vector3d();
                     Database db = HostApplicationServices.WorkingDatabase;
                     Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                    BlockReference bref = null;
                     using (Transaction tr = db.TransactionManager.StartTransaction())
                     {
+                        bref = (BlockReference)tr.GetObject(m_Pos.ID, OpenMode.ForRead);
                         Curve curve = (Curve)tr.GetObject(id, OpenMode.ForRead);
                         pt = curve.GetClosestPointTo(pt.TransformBy(ucs2wcs), curve.GetPlane().Normal, false);
                         dir = curve.GetFirstDerivative(pt);
                         tr.Commit();
                     }
 
-                    Vector3d posNormal = m_Pos.BlockRef.Normal;
-                    Vector3d posDir = Vector3d.XAxis.RotateBy(m_Pos.BlockRef.Rotation, posNormal);
-                    Vector3d posUp = posDir.CrossProduct(posNormal);
-                    Vector3d up = dir.CrossProduct(posNormal);
+                    Vector3d up = dir.CrossProduct(bref.Normal);
                     dir = dir / dir.Length;
                     up = up / up.Length;
+
+                    Vector3d posDir = Vector3d.XAxis.RotateBy(bref.Rotation, bref.Normal);
+                    Vector3d posUp = posDir.CrossProduct(bref.Normal);
 
                     bool isPosUp = (dir.DotProduct(posUp) > 0);
 
                     double offset = 0.0;
                     double offset1 = -0.0;
-                    double offset2 = Math.Abs(57 * m_Pos.BlockRef.ScaleFactors[0]);
+                    double offset2 = Math.Abs(57 * bref.ScaleFactors[0]);
                     if (isPosUp)
                     {
                         AlignPos(pt + offset1 * up, dir);
@@ -875,16 +877,18 @@ namespace RebarPosCommands
                         offset = offset1;
                     }
 
-                    AddTransient(m_Pos.BlockRef);
+                    AddTransient(bref);
+
                     ed.UpdateScreen();
 
                     PromptKeywordOptions kopts = new PromptKeywordOptions("\nDiğer tarafa yerleştirilsin mi? [Evet/Hayır] <Hayir>: ", "Yes No");
                     kopts.AllowNone = true;
+                    kopts.Keywords.Default = "No";
                     PromptResult kres = ed.GetKeywords(kopts);
-                    if (kres.Status == PromptStatus.OK || kres.StringResult == "Yes")
+                    if (kres.Status == PromptStatus.OK && kres.StringResult == "Yes")
                     {
                         AlignPos(pt + offset * up, dir);
-                        UpdateTransient(m_Pos.BlockRef);
+                        UpdateTransient(bref);
                         ed.UpdateScreen();
                     }
                 }
@@ -893,73 +897,78 @@ namespace RebarPosCommands
 
         private void AlignPos(Point3d pt, Vector3d direction)
         {
-            BlockReference block = m_Pos.BlockRef;
-            block.UpgradeOpen();
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                BlockReference block = (BlockReference)tr.GetObject(m_Pos.ID, OpenMode.ForWrite);
 
-            block.TransformBy(Matrix3d.Displacement(new Vector3d(-block.Position.X, -block.Position.Y, -block.Position.Z)));
-            block.TransformBy(Matrix3d.Rotation(-block.Rotation, block.Normal, Point3d.Origin));
+                block.TransformBy(Matrix3d.Displacement(new Vector3d(-block.Position.X, -block.Position.Y, -block.Position.Z)));
+                block.TransformBy(Matrix3d.Rotation(-block.Rotation, block.Normal, Point3d.Origin));
 
-            block.TransformBy(Matrix3d.Rotation(Vector3d.XAxis.GetAngleTo(direction, Vector3d.ZAxis), block.Normal, Point3d.Origin));
-            block.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
+                block.TransformBy(Matrix3d.Rotation(Vector3d.XAxis.GetAngleTo(direction, Vector3d.ZAxis), block.Normal, Point3d.Origin));
+                block.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
 
-            block.DowngradeOpen();
+                tr.Commit();
+            }
         }
 
         private void rbAlignLengthTop_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.LengthRef, 0, 57);
+            AlignAttribute(m_Pos.LengthID, 0, 57);
         }
 
         private void rbAlignLengthBottom_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.LengthRef, 0, -25);
+            AlignAttribute(m_Pos.LengthID, 0, -25);
         }
 
         private void rbAlignLengthRight_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.LengthRef, 190, 16);
+            AlignAttribute(m_Pos.LengthID, 190, 16);
         }
 
         private void rbAlignNoteTop_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.NoteRef, 0, 57);
+            AlignAttribute(m_Pos.NoteID, 0, 57);
         }
 
         private void rbAlignNoteBottom_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.NoteRef, 0, -25);
+            AlignAttribute(m_Pos.NoteID, 0, -25);
         }
 
         private void rbAlignNoteRight_Click(object sender, EventArgs e)
         {
-            AlignAttribute(m_Pos.NoteRef, 190, 16);
+            AlignAttribute(m_Pos.NoteID, 190, 16);
         }
 
-        private void AlignAttribute(AttributeReference attRef, double xOffset, double yOffset)
+        private void AlignAttribute(ObjectId attID, double xOffset, double yOffset)
         {
-            if (attRef == null) return;
-
+            if (attID.IsNull) return;
             Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                BlockReference block = (BlockReference)tr.GetObject(m_Pos.ID, OpenMode.ForRead);
 
-            BlockReference block = m_Pos.BlockRef;
+                Vector3d posDir = Vector3d.XAxis.RotateBy(block.Rotation, block.Normal);
+                Vector3d posUp = block.Normal.CrossProduct(posDir);
 
-            Vector3d posNormal = m_Pos.BlockRef.Normal;
-            Vector3d posDir = Vector3d.XAxis.RotateBy(m_Pos.BlockRef.Rotation, posNormal);
-            Vector3d posUp = posNormal.CrossProduct(posDir);
+                AttributeReference attRef = (AttributeReference)tr.GetObject(attID, OpenMode.ForWrite);
 
-            xOffset = xOffset * Math.Abs(m_Pos.BlockRef.ScaleFactors[0]);
-            yOffset = yOffset * Math.Abs(m_Pos.BlockRef.ScaleFactors[0]);
-            Point3d pt = block.Position + xOffset * posDir + yOffset * posUp;
+                xOffset = xOffset * Math.Abs(block.ScaleFactors[0]);
+                yOffset = yOffset * Math.Abs(block.ScaleFactors[0]);
+                Point3d pt = block.Position + xOffset * posDir + yOffset * posUp;
 
-            attRef.UpgradeOpen();
+                attRef.TransformBy(Matrix3d.Displacement(new Vector3d(-attRef.Position.X, -attRef.Position.Y, -attRef.Position.Z)));
+                attRef.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
 
-            attRef.TransformBy(Matrix3d.Displacement(new Vector3d(-attRef.Position.X, -attRef.Position.Y, -attRef.Position.Z)));
-            attRef.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
+                System.Windows.Forms.MessageBox.Show("XOff:" + xOffset.ToString() + ", Yoff:" + yOffset.ToString() + ", Dir:" + posDir.ToString() + ", Up:" + posUp.ToString() + ", Normal:" + block.Normal.ToString());
 
-            attRef.DowngradeOpen();
-
-            AddTransient(m_Pos.BlockRef);
-            ed.UpdateScreen();
+                AddTransient(block);
+                ed.UpdateScreen();
+                tr.Commit();
+            }
         }
 
         private void AddTransient(Autodesk.AutoCAD.GraphicsInterface.Drawable item)
@@ -987,8 +996,9 @@ namespace RebarPosCommands
         {
             foreach (Autodesk.AutoCAD.GraphicsInterface.Drawable item in transients)
             {
-                EraseTransient(item);
+                Autodesk.AutoCAD.GraphicsInterface.TransientManager.CurrentTransientManager.EraseTransient(item, new IntegerCollection());
             }
+            transients.Clear();
         }
     }
 }

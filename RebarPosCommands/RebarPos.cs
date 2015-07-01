@@ -26,18 +26,14 @@ namespace RebarPosCommands
         }
 
         public ObjectId ID { get; private set; }
-        public BlockReference BlockRef { get; private set; }
-        public AttributeReference NoteRef { get; private set; }
-        public AttributeReference LengthRef { get; private set; }
+        public ObjectId NoteID { get; private set; }
+        public ObjectId LengthID { get; private set; }
 
         public string Pos { get; set; }
         public string Diameter { get; set; }
         public string Count { get; set; }
         public string Spacing { get; set; }
         public string Note { get; set; }
-
-        public Point3d BasePoint { get; set; }
-        public double Scale { get; set; }
 
         public string ShapeName { get; set; }
         public PosShape Shape
@@ -119,12 +115,11 @@ namespace RebarPosCommands
             }
         }
 
-        private RebarPos(BlockReference bref, ObjectId id)
+        private RebarPos(ObjectId id)
         {
             ID = id;
-            BlockRef = bref;
-            NoteRef = null;
-            LengthRef = null;
+            NoteID = ObjectId.Null;
+            LengthID = ObjectId.Null;
         }
 
         public HitTestResult HitTest(Point3d pt)
@@ -152,9 +147,8 @@ namespace RebarPosCommands
             }
             else
             {
-                RebarPos pos = new RebarPos(bref, id);
-                pos.BasePoint = bref.Position;
-                pos.Scale = Math.Abs(bref.ScaleFactors[0]);
+                RebarPos pos = new RebarPos(id);
+
                 foreach (ObjectId attId in bref.AttributeCollection)
                 {
                     AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForRead);
@@ -197,7 +191,7 @@ namespace RebarPosCommands
                         case "not":
                             pos.Note = attRef.TextString;
                             pos.HasNoteAttribute = true;
-                            pos.NoteRef = attRef;
+                            pos.NoteID = attId;
                             break;
                         case "yazi":
                             string txt = attRef.TextString;
@@ -235,7 +229,7 @@ namespace RebarPosCommands
                             break;
                         case "boy":
                             pos.HasLengthAttribute = true;
-                            pos.LengthRef = attRef;
+                            pos.LengthID = attId;
                             break;
                     }
                 }
@@ -311,69 +305,72 @@ namespace RebarPosCommands
 
             string len = Properties.Length.ConvertToString(PosGroup.Current.Precision, '~');
 
-            foreach (ObjectId attId in BlockRef.AttributeCollection)
+            using (BlockReference blockRef = (BlockReference)tr.GetObject(ID, OpenMode.ForRead))
             {
-                AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForWrite);
-                switch (attRef.Tag.ToLowerInvariant())
+                foreach (ObjectId attId in blockRef.AttributeCollection)
                 {
-                    case "poz":
-                        attRef.TextString = Pos;
-                        break;
-                    case "boya":
-                        attRef.TextString = A;
-                        break;
-                    case "boyb":
-                        attRef.TextString = B;
-                        break;
-                    case "boyc":
-                        attRef.TextString = C;
-                        break;
-                    case "boyd":
-                        attRef.TextString = D;
-                        break;
-                    case "boye":
-                        attRef.TextString = E;
-                        break;
-                    case "boyf":
-                        attRef.TextString = F;
-                        break;
-                    case "sekil":
-                        attRef.TextString = ShapeName;
-                        break;
-                    case "carpan":
-                        attRef.TextString = Multiplier.ToString();
-                        break;
-                    case "boygoster":
-                        attRef.TextString = (ShowLength ? "1" : "0");
-                        break;
-                    case "not":
-                        attRef.TextString = Note;
-                        break;
-                    case "boy":
-                        if (ShowLength && !string.IsNullOrEmpty(len))
-                        {
-                            attRef.TextString = "L=" + len;
-                        }
-                        else
-                        {
-                            attRef.TextString = "";
-                        }
-                        break;
-                    case "yazi":
-                        string txt = Count;
-                        if (!string.IsNullOrEmpty(Diameter)) txt += DiameterSymbol + Diameter;
-                        if (!string.IsNullOrEmpty(Spacing)) txt += SpacingSymbol + Spacing;
-                        if (!HasNoteAttribute && !string.IsNullOrEmpty(Note))
-                        {
-                            txt += " " + Note;
-                        }
-                        if (!HasLengthAttribute && ShowLength && !string.IsNullOrEmpty(len))
-                        {
-                            txt += " L=" + len;
-                        }
-                        attRef.TextString = txt;
+                    AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForWrite);
+                    switch (attRef.Tag.ToLowerInvariant())
+                    {
+                        case "poz":
+                            attRef.TextString = Pos;
+                            break;
+                        case "boya":
+                            attRef.TextString = A;
+                            break;
+                        case "boyb":
+                            attRef.TextString = B;
+                            break;
+                        case "boyc":
+                            attRef.TextString = C;
+                            break;
+                        case "boyd":
+                            attRef.TextString = D;
+                            break;
+                        case "boye":
+                            attRef.TextString = E;
+                            break;
+                        case "boyf":
+                            attRef.TextString = F;
+                            break;
+                        case "sekil":
+                            attRef.TextString = ShapeName;
+                            break;
+                        case "carpan":
+                            attRef.TextString = Multiplier.ToString();
+                            break;
+                        case "boygoster":
+                            attRef.TextString = (ShowLength ? "1" : "0");
+                            break;
+                        case "not":
+                            attRef.TextString = Note;
+                            break;
+                        case "boy":
+                            if (ShowLength && !string.IsNullOrEmpty(len))
+                            {
+                                attRef.TextString = "L=" + len;
+                            }
+                            else
+                            {
+                                attRef.TextString = "";
+                            }
+                            break;
+                        case "yazi":
+                            string txt = Count;
+                            if (!string.IsNullOrEmpty(Diameter)) txt += DiameterSymbol + Diameter;
+                            if (!string.IsNullOrEmpty(Spacing)) txt += SpacingSymbol + Spacing;
+                            if (!HasNoteAttribute && !string.IsNullOrEmpty(Note))
+                            {
+                                txt += " " + Note;
+                            }
+                            if (!HasLengthAttribute && ShowLength && !string.IsNullOrEmpty(len))
+                            {
+                                txt += " L=" + len;
+                            }
+                            attRef.TextString = txt;
 
-                        break;
+                            break;
+                    }
                 }
             }
         }
