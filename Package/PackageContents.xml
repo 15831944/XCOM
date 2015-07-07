@@ -32,6 +32,7 @@
         <Command Local="YUZEYOLUSTUR" Global="YUZEYOLUSTUR" />
         <Command Local="YUZEYCIZ" Global="YUZEYCIZ" />
         <Command Local="SEVTARAMA" Global="SEVTARAMA" />
+        <Command Local="XCLOSEALL" Global="XCLOSEALL" />
       </Commands>
     </ComponentEntry>
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/RebarPos.dll" AppDescription="Rebar marking and scheduling utilities" LoadOnAutoCADStartup="True" >

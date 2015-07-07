@@ -160,6 +160,9 @@
     <Image Include="Resources\RDD.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\XCLOSEALL.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

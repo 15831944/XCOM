@@ -187,6 +187,7 @@
     <Compile Include="XCOM\Actions\ZoomExtents.cs" />
     <Compile Include="XCOM\Command_XCOM.cs" />
     <Compile Include="Utility\FileLogger.cs" />
+    <Compile Include="XCOM\Command_XCLOSEALL.cs" />
     <Compile Include="XCOM\Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>
