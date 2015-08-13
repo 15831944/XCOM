@@ -16,6 +16,9 @@ namespace XCOM.Commands.Geology
         private int columnDragIndex = -1;
         private int columnOverIndex = -1;
 
+        public string LayerName { get { return txtLayer.Text; } set { txtLayer.Text = value; } }
+        public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
+
         public bool HasGroundwater { get { return cbGroundwater.Checked; } }
         public double GroundwaterLevel { get { double val = -1; double.TryParse(txtGroundwater.Text, out val); return val; } }
 
