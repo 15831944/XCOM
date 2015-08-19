@@ -569,8 +569,8 @@ namespace XCOM.Commands.Annotation
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
             Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
-            double rotation = 2.0 * Math.PI - Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
-
+            double rotation = Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
+            
             double height = TextHeight;
             double margin = 0.2 * TextHeight;
             double row = height + 2 * margin;
