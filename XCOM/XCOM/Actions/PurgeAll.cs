@@ -29,7 +29,7 @@ namespace XCOM.Commands.XCommand
         private bool purgePlotStyles = true;
         private bool purgeTableStyles = true;
 
-        private bool purgeShapes = false;
+        private bool purgeShapes = true;
 
         public bool purgeDetailViewStyles = true;
         public bool purgeSectionViewStyles = true;
@@ -91,7 +91,7 @@ namespace XCOM.Commands.XCommand
             if (purgeDimensionStyles) tables.Add(db.DimStyleTableId);
             if (purgeLayers) tables.Add(db.LayerTableId);
             if (purgeLinetypes) tables.Add(db.LinetypeTableId);
-            if (purgeTextStyles) tables.Add(db.TextStyleTableId);
+            if (purgeTextStyles || purgeShapes) tables.Add(db.TextStyleTableId);
             if (purgeUCSSettings) tables.Add(db.UcsTableId);
             if (purgeViewports) tables.Add(db.ViewportTableId);
             if (purgeViews) tables.Add(db.ViewTableId);
@@ -107,8 +107,6 @@ namespace XCOM.Commands.XCommand
             if (purgeDetailViewStyles) dictionaries.Add(db.DetailViewStyleDictionaryId);
             if (purgeSectionViewStyles) dictionaries.Add(db.SectionViewStyleDictionaryId);
 
-            // TODO - Purge shapes
-
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 try
@@ -120,7 +118,19 @@ namespace XCOM.Commands.XCommand
                     {
                         foreach (ObjectId id in CollectTableIds(tr, db, tableID))
                         {
-                            idList.Add(id);
+                            if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(TextStyleTableRecord)).UnmanagedObject)
+                            {
+                                // Seperate font styles and shapes
+                                TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
+                                if (purgeTextStyles && !style.IsShapeFile)
+                                    idList.Add(id);
+                                else if (purgeShapes && style.IsShapeFile)
+                                    idList.Add(id);
+                            }
+                            else
+                            {
+                                idList.Add(id);
+                            }
                         }
                     }
 

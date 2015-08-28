@@ -31,6 +31,7 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.cbSectionViewStyles = new System.Windows.Forms.CheckBox();
             this.cbDetailViewStyles = new System.Windows.Forms.CheckBox();
             this.cbVisualStyles = new System.Windows.Forms.CheckBox();
             this.cbViews = new System.Windows.Forms.CheckBox();
@@ -55,7 +56,6 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.btnCheckAll = new System.Windows.Forms.Button();
             this.btnUncheckAll = new System.Windows.Forms.Button();
-            this.cbSectionViewStyles = new System.Windows.Forms.CheckBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -112,6 +112,18 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Çizim Veritabanı";
+            // 
+            // cbSectionViewStyles
+            // 
+            this.cbSectionViewStyles.AutoSize = true;
+            this.cbSectionViewStyles.Checked = true;
+            this.cbSectionViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.cbSectionViewStyles.Location = new System.Drawing.Point(193, 240);
+            this.cbSectionViewStyles.Name = "cbSectionViewStyles";
+            this.cbSectionViewStyles.Size = new System.Drawing.Size(119, 17);
+            this.cbSectionViewStyles.TabIndex = 17;
+            this.cbSectionViewStyles.Text = "Section View Styles";
+            this.cbSectionViewStyles.UseVisualStyleBackColor = true;
             // 
             // cbDetailViewStyles
             // 
@@ -200,7 +212,8 @@
             // cbShapes
             // 
             this.cbShapes.AutoSize = true;
-            this.cbShapes.Enabled = false;
+            this.cbShapes.Checked = true;
+            this.cbShapes.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbShapes.Location = new System.Drawing.Point(193, 56);
             this.cbShapes.Name = "cbShapes";
             this.cbShapes.Size = new System.Drawing.Size(62, 17);
@@ -394,18 +407,6 @@
             this.btnUncheckAll.TabIndex = 4;
             this.btnUncheckAll.UseVisualStyleBackColor = true;
             this.btnUncheckAll.Click += new System.EventHandler(this.btnUncheckAll_Click);
-            // 
-            // cbSectionViewStyles
-            // 
-            this.cbSectionViewStyles.AutoSize = true;
-            this.cbSectionViewStyles.Checked = true;
-            this.cbSectionViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.cbSectionViewStyles.Location = new System.Drawing.Point(193, 240);
-            this.cbSectionViewStyles.Name = "cbSectionViewStyles";
-            this.cbSectionViewStyles.Size = new System.Drawing.Size(119, 17);
-            this.cbSectionViewStyles.TabIndex = 17;
-            this.cbSectionViewStyles.Text = "Section View Styles";
-            this.cbSectionViewStyles.UseVisualStyleBackColor = true;
             // 
             // PurgeAllForm
             // 
