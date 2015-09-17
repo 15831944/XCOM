@@ -317,7 +317,7 @@ namespace RebarPosCommands
                     shape.Formula = formula;
                     shape.FormulaBending = formulabending;
                     shape.IsBuiltIn = builtIn;
-
+                    
                     for (int i = 0; i < count; i++)
                     {
                         line = reader.ReadLine();
