@@ -12,34 +12,7 @@ namespace RebarPosCommands
     {
         private int GetLastPosNumber(IEnumerable<ObjectId> list)
         {
-            int num = -1;
-            Database db = HostApplicationServices.WorkingDatabase;
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                try
-                {
-                    foreach (ObjectId id in list)
-                    {
-                        RebarPos pos = RebarPos.FromObjectId(tr, id);
-                        if (pos != null)
-                        {
-                            int i = -1;
-                            if (int.TryParse(pos.Pos, out i))
-                            {
-                                num = Math.Max(i, num);
-                            }
-                        }
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    MessageBox.Show("Error: " + ex.ToString(), "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
-
-                tr.Commit();
-            }
-
-            return num;
+            return DWGUtility.GetMaximumPosNumber(list);
         }
     }
 }

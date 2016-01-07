@@ -118,6 +118,39 @@ namespace RebarPosCommands
             return list.ToArray();
         }
 
+        // Returns the maximum pos number within the given pos blocks.
+        public static int GetMaximumPosNumber(IEnumerable<ObjectId> ids)
+        {
+            int num = -1;
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    foreach (ObjectId id in ids)
+                    {
+                        RebarPos pos = RebarPos.FromObjectId(tr, id);
+                        if (pos != null)
+                        {
+                            int i = -1;
+                            if (int.TryParse(pos.Pos, out i))
+                            {
+                                num = Math.Max(i, num);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return num;
+        }
+
         // Returns all text styles
         public static Dictionary<string, ObjectId> GetTextStyles()
         {

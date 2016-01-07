@@ -92,6 +92,7 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnDetach = new System.Windows.Forms.Button();
             this.btnAlign = new System.Windows.Forms.Button();
+            this.btnLastPos = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.pnlAlignLength.SuspendLayout();
             this.pnlAlignNote.SuspendLayout();
@@ -107,6 +108,7 @@
             this.groupBox1.Controls.Add(this.cbPosDiameter);
             this.groupBox1.Controls.Add(this.chkIncludePos);
             this.groupBox1.Controls.Add(this.btnPickSpacing);
+            this.groupBox1.Controls.Add(this.btnLastPos);
             this.groupBox1.Controls.Add(this.btnPickNumber);
             this.groupBox1.Controls.Add(this.txtPosMultiplier);
             this.groupBox1.Controls.Add(this.label14);
@@ -771,6 +773,17 @@
             this.btnAlign.UseVisualStyleBackColor = true;
             this.btnAlign.Click += new System.EventHandler(this.btnAlign_Click);
             // 
+            // btnLastPos
+            // 
+            this.btnLastPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLastPos.Image = global::RebarPosCommands.Properties.Resources.add;
+            this.btnLastPos.Location = new System.Drawing.Point(202, 17);
+            this.btnLastPos.Name = "btnLastPos";
+            this.btnLastPos.Size = new System.Drawing.Size(24, 24);
+            this.btnLastPos.TabIndex = 4;
+            this.btnLastPos.UseVisualStyleBackColor = true;
+            this.btnLastPos.Click += new System.EventHandler(this.btnLastPos_Click);
+            // 
             // EditPosForm
             // 
             this.AcceptButton = this.btnOK;
@@ -867,5 +880,6 @@
         private System.Windows.Forms.Button rbAlignLengthBottom;
         private System.Windows.Forms.Button rbAlignLengthTop;
         private System.Windows.Forms.Button btnAlign;
+        private System.Windows.Forms.Button btnLastPos;
     }
 }

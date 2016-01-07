@@ -728,6 +728,23 @@ namespace RebarPosCommands
             GetLengthFromMeasurement(txtF);
         }
 
+        private void btnLastPos_Click(object sender, EventArgs e)
+        {
+            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
+            using (EditorUserInteraction UI = ed.StartUserInteraction(this))
+            {
+                PromptSelectionResult sel = DWGUtility.SelectAllPosUser();
+                if (sel.Status != PromptStatus.OK) return;
+                ObjectId[] items = sel.Value.GetObjectIds();
+                int lastNum = DWGUtility.GetMaximumPosNumber(items);
+
+                if (lastNum != -1)
+                {
+                    txtPosMarker.Text = (lastNum + 1).ToString();
+                }
+            }
+        }
+
         private void btnPickNumber_Click(object sender, EventArgs e)
         {
             Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
