@@ -199,6 +199,7 @@ namespace RebarPosCommands
                             copy.length1 = calc.Length.Minimum;
                             copy.length2 = calc.Length.Maximum;
                             copy.isVarLength = calc.Length.IsVariable;
+                            copy.length = calc.Length.ConvertToString(0, '~');
 
                             copy.scale = Math.Abs(bref.ScaleFactors[0]);
                             copy.x = bref.Position.X;

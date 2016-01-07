@@ -496,7 +496,7 @@ namespace RebarPosCommands
             PosCopy old = m_PosList[i];
             string num = (int.Parse(old.newpos) + 1).ToString();
             old.newpos = num;
-            PosCopy swold = m_PosList[i - 1];
+            PosCopy swold = m_PosList[i + 1];
             string swnum = (int.Parse(swold.newpos) - 1).ToString();
             swold.newpos = swnum;
 
