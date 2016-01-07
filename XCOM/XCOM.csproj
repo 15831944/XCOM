@@ -177,6 +177,7 @@
     <Compile Include="XCOM\ActionForms\SaveFileForm.Designer.cs">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="XCOM\Actions\StripXREFPaths.cs" />
     <Compile Include="XCOM\Actions\ChangeToLayout.cs" />
     <Compile Include="XCOM\Actions\BackupFile.cs" />
     <Compile Include="XCOM\Actions\BindXREFs.cs" />
@@ -336,6 +337,7 @@
   <ItemGroup>
     <Resource Include="Resources\DemoSurface.txt" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
