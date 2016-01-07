@@ -31,7 +31,7 @@ Type: filesandordirs; Name: "{app}\Contents\2012"
 Type: filesandordirs; Name: "{app}\Contents\2014"
 
 [Files]
-Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
+Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
 Source: "..\Menu\*.cuix"; DestDir: "{app}\Resources"
 Source: "..\MenuIcons\Release\MenuIcons.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu.dll"
 Source: "..\MenuIcons_Light\Release\MenuIcons_Light.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu_light.dll"
