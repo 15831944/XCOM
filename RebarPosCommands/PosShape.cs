@@ -47,7 +47,7 @@ namespace RebarPosCommands
         public void SetShapeTexts(string a, string b, string c, string d, string e, string f)
         {
             A = a;
-            B = a;
+            B = b;
             C = c;
             D = d;
             E = e;
@@ -141,34 +141,31 @@ namespace RebarPosCommands
             }
         }
 
-        public Drawable[] ToDrawable()
+        public IEnumerable<Entity> ToDrawable(bool showInvisible, Point3d basePoint, double scale, double rotation)
         {
-            List<Drawable> res = new List<Drawable>();
+            List<Entity> res = new List<Entity>();
+            ObjectId hiddenLayerId = DWGUtility.GetDefpointsLayer();
 
             foreach (Shape obj in Items)
             {
-                if (!obj.Visible) continue;
+                if (!showInvisible && !obj.Visible) continue;
+
+                Entity en = null;
 
                 if (obj is ShapeLine)
                 {
                     ShapeLine line = (ShapeLine)obj;
-                    Line dline = new Line(new Point3d(line.X1, line.Y1, 0), new Point3d(line.X2, line.Y2, 0));
-                    dline.Color = obj.Color;
-                    res.Add(dline);
+                    en = new Line(new Point3d(line.X1, line.Y1, 0), new Point3d(line.X2, line.Y2, 0));
                 }
                 else if (obj is ShapeArc)
                 {
                     ShapeArc arc = (ShapeArc)obj;
-                    Arc darc = new Arc(new Point3d(arc.X, arc.Y, 0), Vector3d.ZAxis, arc.R, arc.StartAngle, arc.EndAngle);
-                    darc.Color = obj.Color;
-                    res.Add(darc);
+                    en = new Arc(new Point3d(arc.X, arc.Y, 0), Vector3d.ZAxis, arc.R, arc.StartAngle, arc.EndAngle);
                 }
                 else if (obj is ShapeCircle)
                 {
                     ShapeCircle circle = (ShapeCircle)obj;
-                    Circle dcircle = new Circle(new Point3d(circle.X, circle.Y, 0), Vector3d.ZAxis, circle.R);
-                    dcircle.Color = obj.Color;
-                    res.Add(dcircle);
+                    en = new Circle(new Point3d(circle.X, circle.Y, 0), Vector3d.ZAxis, circle.R);
                 }
                 else if (obj is ShapeText)
                 {
@@ -185,23 +182,51 @@ namespace RebarPosCommands
                     DBText dtext = new DBText();
                     dtext.Color = obj.Color;
                     dtext.TextString = txt;
+                    dtext.Position = new Point3d(text.X, text.Y, 0);
+                    dtext.TextStyleId = DWGUtility.CreateTextStyle("PosShapeTextStyle_" + Name, text.Font, text.Width);
                     dtext.Height = text.Height;
                     dtext.WidthFactor = text.Width;
                     dtext.HorizontalMode = text.HorizontalAlignment;
-                    dtext.VerticalMode = text.VerticalAlignment;
-                    if ((text.VerticalAlignment == TextVerticalMode.TextBase) && ((text.HorizontalAlignment == TextHorizontalMode.TextLeft) || (text.HorizontalAlignment == TextHorizontalMode.TextAlign) || (text.HorizontalAlignment == TextHorizontalMode.TextFit)))
-                    {
-                        dtext.Position = new Point3d(text.X, text.Y, 0);
-                    }
+                    if (text.VerticalAlignment == TextVerticalMode.TextBottom)
+                        dtext.VerticalMode = TextVerticalMode.TextBase;
                     else
+                        dtext.VerticalMode = text.VerticalAlignment;
+
+                    if (dtext.HorizontalMode != TextHorizontalMode.TextLeft || dtext.VerticalMode != TextVerticalMode.TextBase)
                     {
                         dtext.AlignmentPoint = new Point3d(text.X, text.Y, 0);
                     }
-                    res.Add(dtext);
+
+                    en = dtext;
+                }
+
+                if (en != null)
+                {
+                    en.Color = obj.Color;
+                    if (!obj.Visible) en.LayerId = hiddenLayerId;
+                    res.Add(en);
                 }
             }
 
-            return res.ToArray();
+            Extents3d bounds = Bounds;
+            Point3d p1 = bounds.MinPoint;
+            Point3d p2 = bounds.MaxPoint;
+            if (Math.Abs(p2.Y - p1.Y) > double.Epsilon)
+            {
+                scale = scale / (p2.Y - p1.Y);
+            }
+
+            Matrix3d trans = Matrix3d.Identity;
+            trans = trans.PreMultiplyBy(Matrix3d.Displacement(basePoint - p1));
+            trans = trans.PreMultiplyBy(Matrix3d.Scaling(scale, basePoint));
+            trans = trans.PreMultiplyBy(Matrix3d.Rotation(rotation, Vector3d.ZAxis, basePoint));
+
+            foreach (Entity en in res)
+            {
+                en.TransformBy(trans);
+            }
+
+            return res;
         }
 
         #region Static Methods
@@ -317,7 +342,7 @@ namespace RebarPosCommands
                     shape.Formula = formula;
                     shape.FormulaBending = formulabending;
                     shape.IsBuiltIn = builtIn;
-                    
+
                     for (int i = 0; i < count; i++)
                     {
                         line = reader.ReadLine();

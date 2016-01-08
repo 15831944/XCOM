@@ -147,7 +147,7 @@ namespace RebarPosCommands
             }
             else
             {
-                RebarPos pos = new RebarPos(id);
+                RebarPos pos = new RebarPos(bref.Id);
 
                 foreach (ObjectId attId in bref.AttributeCollection)
                 {

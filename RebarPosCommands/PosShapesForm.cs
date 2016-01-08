@@ -13,9 +13,9 @@ namespace RebarPosCommands
 {
     public partial class PosShapesForm : Form
     {
-        private List<PosShape> m_Copies;
+        public bool ShowShapes { get { return chkShowShapes.Checked; } set { chkShowShapes.Checked = value; } }
 
-        public bool ShowShapes { get { return chkShowShapes.Checked; } }
+        private List<PosShape> m_Copies;
 
         public PosShapesForm()
         {
@@ -27,16 +27,16 @@ namespace RebarPosCommands
 
         public bool Init(bool showShapes)
         {
-            chkShowShapes.Checked = showShapes;
-
             if (PosShape.Shapes.Count == 0)
             {
                 return false;
             }
 
+            chkShowShapes.Checked = showShapes;
+
             try
             {
-                foreach (KeyValuePair <string,PosShape > item in PosShape.Shapes)
+                foreach (KeyValuePair<string, PosShape> item in PosShape.Shapes)
                 {
                     m_Copies.Add(item.Value);
                 }
@@ -458,7 +458,7 @@ namespace RebarPosCommands
             }
             if (result.Status == PromptStatus.OK)
             {
-                DWGUtility.DrawShape(GetSelected(), result.Value, 75);
+                DWGUtility.DrawShape(GetSelected(), true, result.Value, 75, 0);
 
                 MessageBox.Show("Açılımı şablon çerçevesi içine çizin ve tekrar bu diyalog kutusuna dönüp çizimden al düğmesini tıklayın.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

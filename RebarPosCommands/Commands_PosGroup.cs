@@ -15,7 +15,7 @@ namespace RebarPosCommands
                 {
                     if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == DialogResult.OK)
                     {
-                        DWGUtility.RefreshAllPos();
+                        Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.Regen();
                     }
                 }
             }

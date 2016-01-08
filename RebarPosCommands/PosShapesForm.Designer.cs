@@ -46,18 +46,18 @@
             this.btnAdd = new System.Windows.Forms.Button();
             this.chkUserOnly = new System.Windows.Forms.CheckBox();
             this.lbShapes = new System.Windows.Forms.ListView();
-            this.chName = new System.Windows.Forms.ColumnHeader();
-            this.chFields = new System.Windows.Forms.ColumnHeader();
-            this.chFormula = new System.Windows.Forms.ColumnHeader();
-            this.chFormulaBending = new System.Windows.Forms.ColumnHeader();
+            this.chName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chFields = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chFormula = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.chFormulaBending = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.lShapes = new System.Windows.Forms.ImageList(this.components);
             this.gbDisplay = new System.Windows.Forms.GroupBox();
             this.btnDrawShapes = new System.Windows.Forms.Button();
             this.btnSelectShapes = new System.Windows.Forms.Button();
             this.posShapeView = new RebarPosCommands.PosShapeView();
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.chkShowShapes = new System.Windows.Forms.CheckBox();
             this.btnOK = new System.Windows.Forms.Button();
+            this.chkShowShapes = new System.Windows.Forms.CheckBox();
             this.gbOptions.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udPriority)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.udFields)).BeginInit();
@@ -147,8 +147,8 @@
             this.txtFormulaBending.ReadOnly = true;
             this.txtFormulaBending.Size = new System.Drawing.Size(166, 20);
             this.txtFormulaBending.TabIndex = 5;
-            this.txtFormulaBending.Validated += new System.EventHandler(this.txtFormulaBending_Validated);
             this.txtFormulaBending.Validating += new System.ComponentModel.CancelEventHandler(this.txtFormulaBending_Validating);
+            this.txtFormulaBending.Validated += new System.EventHandler(this.txtFormulaBending_Validated);
             // 
             // label2
             // 
@@ -166,8 +166,8 @@
             this.txtFormula.ReadOnly = true;
             this.txtFormula.Size = new System.Drawing.Size(166, 20);
             this.txtFormula.TabIndex = 3;
-            this.txtFormula.Validated += new System.EventHandler(this.txtFormula_Validated);
             this.txtFormula.Validating += new System.ComponentModel.CancelEventHandler(this.txtFormula_Validating);
+            this.txtFormula.Validated += new System.EventHandler(this.txtFormula_Validated);
             // 
             // label1
             // 
@@ -192,9 +192,9 @@
             // 
             // groupBox2
             // 
-            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox2.Controls.Add(this.btnRename);
             this.groupBox2.Controls.Add(this.btnDelete);
             this.groupBox2.Controls.Add(this.btnAdd);
@@ -254,9 +254,9 @@
             // 
             // lbShapes
             // 
-            this.lbShapes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.lbShapes.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.lbShapes.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.chName,
             this.chFields,
@@ -308,8 +308,8 @@
             // 
             // gbDisplay
             // 
-            this.gbDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.gbDisplay.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.gbDisplay.Controls.Add(this.btnDrawShapes);
             this.gbDisplay.Controls.Add(this.btnSelectShapes);
             this.gbDisplay.Controls.Add(this.posShapeView);
@@ -346,14 +346,18 @@
             // 
             // posShapeView
             // 
-            this.posShapeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
-                        | System.Windows.Forms.AnchorStyles.Left)
-                        | System.Windows.Forms.AnchorStyles.Right)));
+            this.posShapeView.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this.posShapeView.BackColor = System.Drawing.SystemColors.Control;
             this.posShapeView.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.posShapeView.ForeColor = System.Drawing.SystemColors.ControlText;
             this.posShapeView.Location = new System.Drawing.Point(20, 31);
             this.posShapeView.Name = "posShapeView";
+            this.posShapeView.Selected = false;
+            this.posShapeView.SelectionColor = System.Drawing.SystemColors.Highlight;
+            this.posShapeView.Shape = null;
+            this.posShapeView.ShowShapeName = false;
             this.posShapeView.Size = new System.Drawing.Size(268, 132);
             this.posShapeView.TabIndex = 0;
             // 
@@ -361,16 +365,6 @@
             // 
             this.errorProvider.ContainerControl = this;
             this.errorProvider.Icon = ((System.Drawing.Icon)(resources.GetObject("errorProvider.Icon")));
-            // 
-            // chkShowShapes
-            // 
-            this.chkShowShapes.AutoSize = true;
-            this.chkShowShapes.Location = new System.Drawing.Point(12, 441);
-            this.chkShowShapes.Name = "chkShowShapes";
-            this.chkShowShapes.Size = new System.Drawing.Size(172, 17);
-            this.chkShowShapes.TabIndex = 3;
-            this.chkShowShapes.Text = "Poz Açılımlarını Ekranda Göster";
-            this.chkShowShapes.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
@@ -384,6 +378,18 @@
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
             // 
+            // chkShowShapes
+            // 
+            this.chkShowShapes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this.chkShowShapes.AutoSize = true;
+            this.chkShowShapes.Location = new System.Drawing.Point(12, 441);
+            this.chkShowShapes.Name = "chkShowShapes";
+            this.chkShowShapes.Size = new System.Drawing.Size(125, 17);
+            this.chkShowShapes.TabIndex = 1;
+            this.chkShowShapes.Text = "Poz Şekillerini &Göster";
+            this.chkShowShapes.UseVisualStyleBackColor = true;
+            this.chkShowShapes.CheckedChanged += new System.EventHandler(this.chkUserOnly_CheckedChanged);
+            // 
             // PosShapesForm
             // 
             this.AcceptButton = this.btnOK;
@@ -392,9 +398,9 @@
             this.CancelButton = this.btnCancel;
             this.ClientSize = new System.Drawing.Size(718, 475);
             this.Controls.Add(this.btnOK);
-            this.Controls.Add(this.chkShowShapes);
             this.Controls.Add(this.gbDisplay);
             this.Controls.Add(this.groupBox2);
+            this.Controls.Add(this.chkShowShapes);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.gbOptions);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -436,7 +442,6 @@
         private System.Windows.Forms.TextBox txtFormulaBending;
         private System.Windows.Forms.Label label2;
         private PosShapeView posShapeView;
-        private System.Windows.Forms.CheckBox chkShowShapes;
         private System.Windows.Forms.CheckBox chkUserOnly;
         private System.Windows.Forms.Button btnRename;
         private System.Windows.Forms.Button btnDelete;
@@ -447,5 +452,6 @@
         private System.Windows.Forms.ColumnHeader chFormulaBending;
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.Button btnDrawShapes;
+        private System.Windows.Forms.CheckBox chkShowShapes;
     }
 }

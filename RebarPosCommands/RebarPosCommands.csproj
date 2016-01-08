@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Calculator.cs" />
+    <Compile Include="Commands_ShowShapes.cs" />
     <Compile Include="Commands_NewPos.cs" />
     <Compile Include="Commands.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -196,6 +197,7 @@
     <Compile Include="SelectShapeForm.Designer.cs">
       <DependentUpon>SelectShapeForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ShowShapesOverrule.cs" />
     <Compile Include="SpacingTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -246,6 +248,7 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\1CamBam_Stick_2.ttf" />
     <None Include="Resources\arrow_left.png" />
   </ItemGroup>

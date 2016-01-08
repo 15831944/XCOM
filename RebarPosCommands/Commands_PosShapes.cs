@@ -12,13 +12,12 @@ namespace RebarPosCommands
         {
             using (PosShapesForm form = new PosShapesForm())
             {
-                if (form.Init(ShowShapes))
+                if (form.Init(ShowShapesOverrule.Instance.ShowShapes))
                 {
                     if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == DialogResult.OK)
                     {
-                        ShowShapes = form.ShowShapes;
-
-                        DWGUtility.RefreshAllPos();
+                        ShowShapesOverrule.Instance.ShowShapes = form.ShowShapes;
+                        DWGUtility.Regen();
                     }
                 }
             }

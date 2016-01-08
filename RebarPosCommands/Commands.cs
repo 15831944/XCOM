@@ -60,11 +60,13 @@ namespace RebarPosCommands
                 }
                 tr.Commit();
             }
+
+            // Shape overrule
+            Overrule.AddOverrule(RXObject.GetClass(typeof(BlockReference)), ShowShapesOverrule.Instance, false);
+            Overrule.Overruling = true;
         }
 
         public Point3d MonitoredPoint { get; private set; }
-
-        private bool ShowShapes { get; set; }
 
         [CommandMethod("RebarPos", "POS", "POS_Local", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]
         public void CMD_Pos()
@@ -227,25 +229,16 @@ namespace RebarPosCommands
             PosShapes();
         }
 
-        [CommandMethod("RebarPos", "TOGGLESHAPES", "TOGGLESHAPES_Local", CommandFlags.Modal)]
-        public void CMD_ToggleShapes()
-        {
-            ShowShapes = !ShowShapes;
-            DWGUtility.RefreshAllPos();
-        }
-
         [CommandMethod("RebarPos", "SHOWSHAPES", "SHOWSHAPES_Local", CommandFlags.Modal)]
         public void CMD_ShowShapes()
         {
-            ShowShapes = true;
-            DWGUtility.RefreshAllPos();
+            ShowShapes(true);
         }
 
         [CommandMethod("RebarPos", "HIDESHAPES", "HIDESHAPES_Local", CommandFlags.Modal)]
         public void CMD_HideShapes()
         {
-            ShowShapes = false;
-            DWGUtility.RefreshAllPos();
+            ShowShapes(false);
         }
 
         [CommandMethod("RebarPos", "POSLENGTH", "POSLENGTH_Local", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]

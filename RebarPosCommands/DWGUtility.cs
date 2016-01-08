@@ -362,19 +362,14 @@ namespace RebarPosCommands
             return PosGroup.Current.MaxBarLength;
         }
 
-        public static void DrawShape(string name, Point3d inspt, double height)
+        public static void DrawShape(string name, bool showInvisible, Point3d inspt, double height, double rotation)
         {
-            DrawShape(PosShape.Shapes[name], inspt, height);
+            DrawShape(PosShape.Shapes[name], showInvisible, inspt, height, rotation);
         }
 
-        public static void DrawShape(PosShape shape, Point3d inspt, double height)
+        public static void DrawShape(PosShape shape, bool showInvisible, Point3d inspt, double height, double rotation)
         {
-            Extents3d bounds = shape.Bounds;
-            Point3d p1 = bounds.MinPoint;
-            Point3d p2 = bounds.MaxPoint;
-            double scale = height / (p2.Y - p1.Y);
-            Matrix3d trans = Matrix3d.AlignCoordinateSystem(p1, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis,
-                inspt, Vector3d.XAxis * scale, Vector3d.YAxis * scale, Vector3d.ZAxis * scale);
+            IEnumerable<Entity> items = shape.ToDrawable(showInvisible, inspt, height, rotation);
 
             Database db = HostApplicationServices.WorkingDatabase;
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -383,69 +378,10 @@ namespace RebarPosCommands
                 {
                     BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
 
-                    Point3dCollection vertices = new Point3dCollection(new Point3d[]{
-                            new Point3d(p1.X, p1.Y, 0),
-                            new Point3d(p2.X, p1.Y, 0),
-                            new Point3d(p2.X, p2.Y, 0),
-                            new Point3d(p1.X, p2.Y, 0),
-                        });
-                    Polyline2d rec = new Polyline2d(Poly2dType.SimplePoly, vertices, 0, true, 0, 0, null);
-                    rec.TransformBy(trans);
-                    btr.AppendEntity(rec);
-                    tr.AddNewlyCreatedDBObject(rec, true);
-
-                    ObjectId hiddenLayer = GetDefpointsLayer();
-
-                    foreach (PosShape.Shape item in shape.Items)
+                    foreach (Entity en in items)
                     {
-                        Entity en = null;
-
-                        if (item is PosShape.ShapeLine)
-                        {
-                            PosShape.ShapeLine line = (PosShape.ShapeLine)item;
-                            en = new Line(new Point3d(line.X1, line.Y1, 0), new Point3d(line.X2, line.Y2, 0));
-                        }
-                        else if (item is PosShape.ShapeArc)
-                        {
-                            PosShape.ShapeArc arc = (PosShape.ShapeArc)item;
-                            en = new Arc(new Point3d(arc.X, arc.Y, 0), arc.R, arc.StartAngle, arc.EndAngle);
-                        }
-                        else if (item is PosShape.ShapeCircle)
-                        {
-                            PosShape.ShapeCircle circle = (PosShape.ShapeCircle)item;
-                            en = new Circle(new Point3d(circle.X, circle.Y, 0), Vector3d.ZAxis, circle.R);
-                        }
-                        else if (item is PosShape.ShapeText)
-                        {
-                            PosShape.ShapeText text = (PosShape.ShapeText)item;
-                            DBText dbobj = new DBText();
-                            dbobj.TextString = text.Text;
-                            dbobj.Position = new Point3d(text.X, text.Y, 0);
-                            dbobj.TextStyleId = CreateTextStyle("ShapeDump_" + shape.Name, text.Font, text.Width);
-                            dbobj.Height = text.Height;
-                            dbobj.WidthFactor = text.Width;
-                            dbobj.HorizontalMode = text.HorizontalAlignment;
-                            if (text.VerticalAlignment == TextVerticalMode.TextBottom)
-                                dbobj.VerticalMode = TextVerticalMode.TextBase;
-                            else
-                                dbobj.VerticalMode = text.VerticalAlignment;
-
-                            if (dbobj.HorizontalMode != TextHorizontalMode.TextLeft || dbobj.VerticalMode != TextVerticalMode.TextBase)
-                            {
-                                dbobj.AlignmentPoint = new Point3d(text.X, text.Y, 0);
-                            }
-                            en = dbobj;
-                        }
-
-                        if (en != null)
-                        {
-                            en.Color = item.Color;
-                            if (!item.Visible) en.LayerId = hiddenLayer;
-                            en.TransformBy(trans);
-
-                            btr.AppendEntity(en);
-                            tr.AddNewlyCreatedDBObject(en, true);
-                        }
+                        btr.AppendEntity(en);
+                        tr.AddNewlyCreatedDBObject(en, true);
                     }
                 }
                 catch (System.Exception ex)
@@ -455,6 +391,11 @@ namespace RebarPosCommands
 
                 tr.Commit();
             }
+        }
+
+        public static Point3d Polar(Point3d pt, double angle, double distance)
+        {
+            return new Point3d(pt.X + distance * Math.Cos(angle), pt.Y + distance * Math.Sin(angle), pt.Z);
         }
     }
 }
