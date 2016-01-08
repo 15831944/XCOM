@@ -57,6 +57,12 @@ namespace RebarPosCommands
                                 wd.Geometry.Draw(en);
                                 en.Dispose();
                             }
+                            foreach (ObjectId attId in bref.AttributeCollection)
+                            {
+                                AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForRead);
+                                Extents3d ex = attRef.GeometricExtents;
+                                wd.Geometry.Draw(new Line(ex.MinPoint, ex.MaxPoint));
+                            }
                         }
                     }
                     catch

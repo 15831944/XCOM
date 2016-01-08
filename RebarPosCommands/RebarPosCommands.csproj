@@ -248,7 +248,6 @@
     <None Include="app.config" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="ClassDiagram1.cd" />
     <None Include="Resources\1CamBam_Stick_2.ttf" />
     <None Include="Resources\arrow_left.png" />
   </ItemGroup>

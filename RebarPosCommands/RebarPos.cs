@@ -124,16 +124,42 @@ namespace RebarPosCommands
 
         public HitTestResult HitTest(Point3d pt)
         {
-            /*
-            BlockReference bref = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
-            if (bref == null) return HitTestResult.None;
-            foreach (ObjectId attId in bref.AttributeCollection)
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
             {
-                AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForRead);
-                Extents3d ex = attRef.GeometricExtents;
-                
+                try
+                {
+                    BlockReference bref = tr.GetObject(ID, OpenMode.ForRead) as BlockReference;
+                    if (bref == null) return HitTestResult.None;
+                    foreach (ObjectId attId in bref.AttributeCollection)
+                    {
+                        AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForRead);
+                        Extents3d ex = attRef.GeometricExtents;
+                        if (pt.X > ex.MinPoint.X && pt.X < ex.MaxPoint.X && pt.Y > ex.MinPoint.Y && pt.Y < ex.MaxPoint.Y)
+                        {
+                            switch (attRef.Tag.ToLowerInvariant())
+                            {
+                                case "poz":
+                                    return HitTestResult.Pos;
+                                case "boy":
+                                    return HitTestResult.Length;
+                                case "not":
+                                    return HitTestResult.Note;
+                                case "yazi":
+                                    return HitTestResult.Count;
+                            }
+                        }
+                    }
+
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
             }
-             * */
+
             return HitTestResult.None;
         }
 
