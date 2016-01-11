@@ -244,7 +244,7 @@ namespace RebarPosCommands
         [CommandMethod("RebarPos", "POSLENGTH", "POSLENGTH_Local", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]
         public void CMD_PosLength()
         {
-            PromptSelectionResult selresult = DWGUtility.SelectAllPosUser();
+            DWGUtility.PromptRebarSelectionResult selresult = DWGUtility.SelectAllPosUser();
             if (selresult.Status != PromptStatus.OK) return;
 
             PromptKeywordOptions opts = new PromptKeywordOptions("L boyunu [Göster/giZle]: ", "Show Hide");
@@ -268,7 +268,7 @@ namespace RebarPosCommands
         [CommandMethod("RebarPos", "INCLUDEPOS", "INCLUDEPOS_Local", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]
         public void CMD_IncludePos()
         {
-            PromptSelectionResult selresult = DWGUtility.SelectAllPosUser();
+            DWGUtility.PromptRebarSelectionResult selresult = DWGUtility.SelectAllPosUser();
             if (selresult.Status != PromptStatus.OK) return;
 
             PromptKeywordOptions opts = new PromptKeywordOptions("Metraja [Dahil et/metrajdan Cikar]: ", "Add Remove");
@@ -292,7 +292,7 @@ namespace RebarPosCommands
         [CommandMethod("RebarPos", "LASTPOSNUMBER", "LASTPOSNUMBER_Local", CommandFlags.Modal | CommandFlags.UsePickSet | CommandFlags.Redraw)]
         public void CMD_LastPosNumber()
         {
-            PromptSelectionResult sel = DWGUtility.SelectAllPosUser();
+            DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser();
             if (sel.Status != PromptStatus.OK) return;
             ObjectId[] items = sel.Value.GetObjectIds();
 

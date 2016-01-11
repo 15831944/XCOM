@@ -8,7 +8,7 @@ namespace RebarPosCommands
     {
         private void EmptyBalloons()
         {
-            PromptSelectionResult result = DWGUtility.SelectAllPosUser(true);
+            DWGUtility.PromptRebarSelectionResult result = DWGUtility.SelectAllPosUser(true);
             if (result.Status == PromptStatus.OK)
             {
                 Database db = HostApplicationServices.WorkingDatabase;

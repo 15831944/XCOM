@@ -11,13 +11,12 @@ namespace RebarPosCommands
     {
         private void PosCheck()
         {
-            PromptSelectionResult sel = DWGUtility.SelectAllPosUser(true);
+            DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser(true);
             if (sel.Status != PromptStatus.OK) return;
-            ObjectId[] items = sel.Value.GetObjectIds();
 
             using (CheckForm form = new CheckForm())
             {
-                if (form.Init(items))
+                if (form.Init(sel.Value.GetObjectIds()))
                 {
                     Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false);
                 }

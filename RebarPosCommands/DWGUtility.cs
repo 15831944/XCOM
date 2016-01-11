@@ -11,21 +11,31 @@ namespace RebarPosCommands
 {
     public static class DWGUtility
     {
+        public class PromptRebarSelectionResult
+        {
+            public PromptStatus Status { get; private set; }
+            public SelectionSet Value { get; private set; }
+
+            public PromptRebarSelectionResult(PromptStatus s, SelectionSet v)
+            {
+                Status = s;
+                Value = v;
+            }
+        }
+
         private static SelectionFilter SSPosFilter(bool includeDetached)
         {
             if (includeDetached)
             {
                 TypedValue[] tvs = new TypedValue[] {
-                    new TypedValue((int)DxfCode.Start, "INSERT"),
-                    new TypedValue((int)(DxfCode.BlockName), MyCommands.BlockName)
+                    new TypedValue((int)DxfCode.Start, "INSERT")
                 };
                 return new SelectionFilter(tvs);
             }
             else
             {
                 TypedValue[] tvs = new TypedValue[] {
-                    new TypedValue((int)DxfCode.Start, "INSERT"),
-                    new TypedValue((int)(DxfCode.BlockName), MyCommands.BlockName)
+                    new TypedValue((int)DxfCode.Start, "INSERT")
                 };
                 return new SelectionFilter(tvs);
             }
@@ -36,25 +46,102 @@ namespace RebarPosCommands
             return SSPosFilter(false);
         }
 
-        public static PromptSelectionResult SelectAllPosUser(bool includeDetached)
+        public static PromptRebarSelectionResult SelectAllPosUser(bool includeDetached)
         {
             try
             {
-                return Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(SSPosFilter(includeDetached));
+                PromptSelectionResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(SSPosFilter(includeDetached));
+                if (res.Status == PromptStatus.OK)
+                {
+                    IEnumerable<ObjectId> idList = FilterBlocks(res.Value.GetObjectIds());
+                    SelectionSet set = SelectionSet.FromObjectIds(new List<ObjectId>(idList).ToArray());
+                    return new PromptRebarSelectionResult(res.Status, set);
+                }
             }
             catch (System.Exception ex)
             {
                 MessageBox.Show("Error: " + ex.ToString(), "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return null;
             }
+
+            return new PromptRebarSelectionResult(PromptStatus.Error, SelectionSet.FromObjectIds(new ObjectId[0]));
         }
 
-        public static PromptSelectionResult SelectAllPosUser()
+        public static PromptRebarSelectionResult SelectAllPosUser()
         {
             return SelectAllPosUser(false);
         }
 
-        public static ObjectId[] GetAllPos()
+        private static string GetBlockName(ObjectId id)
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    BlockReference blockRef = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
+
+                    BlockTableRecord block = null;
+                    if (blockRef.IsDynamicBlock)
+                    {
+                        block = tr.GetObject(blockRef.DynamicBlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+
+                    }
+                    else
+                    {
+                        block = tr.GetObject(blockRef.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                    }
+
+                    if (block != null) return block.Name;
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return "";
+        }
+
+        private static IEnumerable<ObjectId> FilterBlocks(IEnumerable<ObjectId> idList)
+        {
+            List<ObjectId> result = new List<ObjectId>();
+
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    foreach (ObjectId id in idList)
+                    {
+                        BlockReference blockRef = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
+
+                        BlockTableRecord block = null;
+                        if (blockRef.IsDynamicBlock)
+                        {
+                            block = tr.GetObject(blockRef.DynamicBlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                        }
+                        else
+                        {
+                            block = tr.GetObject(blockRef.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
+                        }
+
+                        if (string.Compare(block.Name, MyCommands.BlockName, StringComparison.OrdinalIgnoreCase) == 0) result.Add(id);
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<ObjectId> GetAllPos()
         {
             List<ObjectId> list = new List<ObjectId>();
             Database db = HostApplicationServices.WorkingDatabase;
@@ -67,7 +154,7 @@ namespace RebarPosCommands
                     {
                         while (it.MoveNext())
                         {
-                            if (it.Current.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(RebarPos)))
+                            if (it.Current.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(BlockReference)))
                             {
                                 list.Add(it.Current);
                             }
@@ -81,10 +168,11 @@ namespace RebarPosCommands
 
                 tr.Commit();
             }
-            return list.ToArray();
+
+            return FilterBlocks(list);
         }
 
-        public static ObjectId[] GetPosWithShape(string shape)
+        public static IEnumerable<ObjectId> GetPosWithShape(string shape)
         {
             List<ObjectId> list = new List<ObjectId>();
             Database db = HostApplicationServices.WorkingDatabase;
@@ -115,7 +203,8 @@ namespace RebarPosCommands
 
                 tr.Commit();
             }
-            return list.ToArray();
+
+            return list;
         }
 
         // Returns the maximum pos number within the given pos blocks.

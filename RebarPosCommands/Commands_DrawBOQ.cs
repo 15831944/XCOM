@@ -14,7 +14,7 @@ namespace RebarPosCommands
             using (DrawBOQForm form = new DrawBOQForm())
             {
                 // Pos error check
-                PromptSelectionResult sel = DWGUtility.SelectAllPosUser();
+                DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser();
                 if (sel.Status != PromptStatus.OK) return false;
                 ObjectId[] items = sel.Value.GetObjectIds();
 
@@ -78,12 +78,22 @@ namespace RebarPosCommands
 
                 Database db = HostApplicationServices.WorkingDatabase;
                 using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                 {
                     try
                     {
                         double lengthScale = 1.0;
 
+                        // Create table
+                        Table tb = new Table();
+                        tb.TableStyle = db.Tablestyle;
+                        tb.SetSize(posList.Count, 3);
+                        tb.SetRowHeight(3);
+                        tb.SetColumnWidth(15);
+                        tb.Position = result.Value;
+
                         // Add rows
+                        int i = 0;
                         foreach (PosCopy copy in posList)
                         {
                             if (copy.existing)
@@ -120,15 +130,22 @@ namespace RebarPosCommands
                                 else
                                     f = (copy.minF * lengthScale).ToString("F0");
 
-                                //table.Items.Add(int.Parse(copy.pos), copy.count, double.Parse(copy.diameter), copy.length1, copy.length2, copy.isVarLength, copy.shapename, a, b, c, d, e, f);
+                                // rows.Add(new BOQRow(int.Parse(copy.pos), copy.count, double.Parse(copy.diameter), copy.length1, copy.length2, copy.isVarLength, copy.shapename, a, b, c, d, e, f));
+
+                                tb.Cells[i, 0].TextString = copy.pos;
+                                tb.Cells[i, 0].TextHeight = 1;
+                                tb.Cells[i, 0].Alignment = CellAlignment.MiddleCenter;
+                                i++;
                             }
                             else
                             {
-                                //table.Items.Add(int.Parse(copy.pos));
+                                // rows.Add(new BOQRow(int.Parse(copy.pos)));
                             }
                         }
 
-                        // Create table
+                        // Add table to db
+                        btr.AppendEntity(tb);
+                        tr.AddNewlyCreatedDBObject(tb, true);
                     }
                     catch (System.Exception ex)
                     {
