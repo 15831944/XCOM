@@ -981,8 +981,6 @@ namespace RebarPosCommands
                 attRef.TransformBy(Matrix3d.Displacement(new Vector3d(-attRef.Position.X, -attRef.Position.Y, -attRef.Position.Z)));
                 attRef.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
 
-                System.Windows.Forms.MessageBox.Show("XOff:" + xOffset.ToString() + ", Yoff:" + yOffset.ToString() + ", Dir:" + posDir.ToString() + ", Up:" + posUp.ToString() + ", Normal:" + block.Normal.ToString());
-
                 AddTransient(block);
                 ed.UpdateScreen();
                 tr.Commit();
