@@ -31,16 +31,20 @@ Type: filesandordirs; Name: "{app}\Contents\2012"
 Type: filesandordirs; Name: "{app}\Contents\2014"
 
 [Files]
+; Application manifest
 Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: PreparePackageXML('{#ShortAppVersion}')
+; Menu resources
 Source: "..\Menu\*.cuix"; DestDir: "{app}\Resources"
 Source: "..\MenuIcons\Release\MenuIcons.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu.dll"
 Source: "..\MenuIcons_Light\Release\MenuIcons_Light.dll"; DestDir: "{app}\Resources"; DestName: "XCOM_Menu_light.dll"
 Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
+; Libraries
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-Source: "..\RebarPosCommands\SupportFiles\*.dwg"; DestDir: "{app}\Resources";
 Source: "..\XCOM\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+; Support files
+Source: "..\RebarPosCommands\SupportFiles\*.dwg"; DestDir: "{app}\Resources";
 
 [Tasks]
 Name: "CHK_KBSHORTCUTS"; Description: "{cm:KeyboardShortcuts}"; Flags: unchecked
