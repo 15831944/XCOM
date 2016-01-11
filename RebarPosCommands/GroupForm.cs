@@ -57,6 +57,7 @@ namespace RebarPosCommands
             udPrecision.Value = mCopy.Precision;
             txtMaxLength.Text = mCopy.MaxBarLength.ToString();
             chkBending.Checked = mCopy.Bending;
+            txtDiameterList.Text = string.Join<int>(" ", mCopy.StandardDiameters);
         }
 
         private void cbDrawingUnit_SelectedIndexChanged(object sender, EventArgs e)
