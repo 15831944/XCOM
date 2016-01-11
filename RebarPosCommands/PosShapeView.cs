@@ -91,7 +91,12 @@ namespace RebarPosCommands
         protected override void OnPaint(PaintEventArgs e)
         {
             Graphics g = e.Graphics;
-            g.Clear(BackColor);
+
+            if (Enabled)
+                g.Clear(BackColor);
+            else
+                g.Clear(SystemColors.Control);
+
             if (mShape == null) return;
 
             g.SmoothingMode = SmoothingMode.HighQuality;
