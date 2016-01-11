@@ -19,7 +19,7 @@ namespace RebarPosCommands
     // is implicitly per-document!
     public partial class MyCommands
     {
-        public static string BlockName = "POZ_5";
+        public static string BlockName = "RebarPos_Marker";
 
         // The CommandMethod attribute can be applied to any public  member 
         // function of any public class.

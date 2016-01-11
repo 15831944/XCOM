@@ -423,6 +423,7 @@ namespace RebarPosCommands
         {
             if (!chkIncludePos.Checked)
             {
+                txtPosMultiplier.Text = "0";
                 txtPosMultiplier.Enabled = false;
             }
             else

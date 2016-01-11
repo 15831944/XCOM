@@ -38,6 +38,7 @@ Source: "..\MenuIcons_Light\Release\MenuIcons_Light.dll"; DestDir: "{app}\Resour
 Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\RebarPosCommands\SupportFiles\*.dwg"; DestDir: "{app}\Resources";
 Source: "..\XCOM\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 

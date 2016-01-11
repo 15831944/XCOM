@@ -12,6 +12,10 @@ namespace RebarPosCommands
         private static char DiameterSymbol = 'ƒ';
         private static char SpacingSymbol = '/';
 
+        private static string MultiplierDPName = "METRAJ_CARPAN";
+        private static string MultiplierDPValue_0 = "METRAJA_DAHIL_DEGIL";
+        private static string MultiplierDPValue_1 = "METRAJA_DAHIL";
+
         public enum HitTestResult
         {
             None = 0,
@@ -333,6 +337,7 @@ namespace RebarPosCommands
 
             using (BlockReference blockRef = (BlockReference)tr.GetObject(ID, OpenMode.ForRead))
             {
+                // Set attributes
                 foreach (ObjectId attId in blockRef.AttributeCollection)
                 {
                     AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForWrite);
@@ -396,6 +401,20 @@ namespace RebarPosCommands
                             attRef.TextString = txt;
 
                             break;
+                    }
+                }
+                // Set dynamic block peroperties
+                if (blockRef.IsDynamicBlock)
+                {
+                    foreach (DynamicBlockReferenceProperty prop in blockRef.DynamicBlockReferencePropertyCollection)
+                    {
+                        if (!prop.ReadOnly && prop.PropertyName == MultiplierDPName)
+                        {
+                            if (Multiplier == 0)
+                                prop.Value = MultiplierDPValue_0;
+                            else
+                                prop.Value = MultiplierDPValue_1;
+                        }
                     }
                 }
             }
