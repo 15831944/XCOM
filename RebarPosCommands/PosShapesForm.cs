@@ -11,7 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace RebarPosCommands
 {
-    public partial class PosShapesForm : Form
+    public partial class PosShapesForm : VersionDisplayForm
     {
         public bool ShowShapes { get { return chkShowShapes.Checked; } set { chkShowShapes.Checked = value; } }
 

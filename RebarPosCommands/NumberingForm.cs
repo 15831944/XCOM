@@ -6,7 +6,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace RebarPosCommands
 {
-    public partial class NumberingForm : Form
+    public partial class NumberingForm : VersionDisplayForm
     {
         public enum Ordering
         {

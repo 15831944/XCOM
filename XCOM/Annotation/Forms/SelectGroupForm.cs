@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class SelectGroupForm : Form
+    public partial class SelectGroupForm : XCOM.Utility.VersionDisplayForm
     {
         public bool HasXY { get; set; }
         public bool UseXY { get { return rbXY.Checked; } set { rbXY.Checked = value; rbPrefix.Checked = !value; } }

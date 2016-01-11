@@ -11,7 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace RebarPosCommands
 {
-    public partial class EditPosForm : Form
+    public partial class EditPosForm : VersionDisplayForm
     {
         private enum UpdateLengthResult
         {

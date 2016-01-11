@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.RoadDesign
 {
-    public partial class DrawCulvertForm : Form
+    public partial class DrawCulvertForm : XCOM.Utility.VersionDisplayForm
     {
         private bool basePointSelected;
         private Point3d basePt;
@@ -89,8 +89,6 @@ namespace XCOM.Commands.RoadDesign
         public DrawCulvertForm()
         {
             InitializeComponent();
-
-            Text = "Güzergah Profili Üzerinde Menfez Çizimi v" + typeof(DrawCulvertForm).Assembly.GetName().Version.ToString(2);
 
             basePointSelected = false;
             basePt = Point3d.Origin;

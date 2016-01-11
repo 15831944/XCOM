@@ -10,7 +10,7 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace RebarPosCommands
 {
-    public partial class FindReplaceForm : Form
+    public partial class FindReplaceForm : VersionDisplayForm
     {
         private static string VarText = "*DEGISKEN*";
 

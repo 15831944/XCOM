@@ -201,6 +201,9 @@
     <Compile Include="SpacingTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="VersionDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Commands.resx">

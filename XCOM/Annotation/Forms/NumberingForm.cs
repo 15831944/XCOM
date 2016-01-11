@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class NumberingForm : Form
+    public partial class NumberingForm : XCOM.Utility.VersionDisplayForm
     {
         public enum SelectNumberingObjects
         {

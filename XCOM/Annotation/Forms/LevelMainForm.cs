@@ -12,7 +12,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class LevelMainForm : Form
+    public partial class LevelMainForm : XCOM.Utility.VersionDisplayForm
     {
         private bool basePointSelected;
         private Point3d basePt;
@@ -51,8 +51,6 @@ namespace XCOM.Commands.Annotation
         public LevelMainForm()
         {
             InitializeComponent();
-
-            Text = "Level v" + typeof(LevelMainForm).Assembly.GetName().Version.ToString(2);
 
             basePointSelected = false;
             basePt = Point3d.Origin;

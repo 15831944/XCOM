@@ -7,7 +7,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace RebarPosCommands
 {
-    public partial class CheckForm : Form
+    public partial class CheckForm : VersionDisplayForm
     {
         List<ObjectId> m_Items;
         List<PosCheckResult> m_PosList;

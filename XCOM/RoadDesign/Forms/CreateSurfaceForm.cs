@@ -12,7 +12,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.RoadDesign
 {
-    public partial class CreateSurfaceForm : Form
+    public partial class CreateSurfaceForm : XCOM.Utility.VersionDisplayForm
     {
         public bool SelectPoints { get { return chSelectPoint.Checked; } set { chSelectPoint.Checked = value; } }
         public bool SelectLines { get { return chSelectLine.Checked; } set { chSelectLine.Checked = value; } }
@@ -27,8 +27,6 @@ namespace XCOM.Commands.RoadDesign
         public CreateSurfaceForm()
         {
             InitializeComponent();
-
-            Text = "Arazi Yüzeyi Oluştur v" + typeof(CreateSurfaceForm).Assembly.GetName().Version.ToString(2);
         }
 
         private void btnOK_Click(object sender, EventArgs e)

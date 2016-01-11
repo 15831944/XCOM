@@ -11,7 +11,7 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace RebarPosCommands
 {
-    public partial class EditDetachedPosForm : Form
+    public partial class EditDetachedPosForm : VersionDisplayForm
     {
         RebarPos m_Pos;
 

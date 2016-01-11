@@ -7,18 +7,16 @@ using System.Collections.Generic;
 
 namespace XCOM.Commands.XCommand
 {
-    public partial class MainForm : Form
+    public partial class MainForm : XCOM.Utility.VersionDisplayForm
     {
         public MainForm()
         {
             InitializeComponent();
 
-            Text = "XCOM v" + typeof(MainForm).Assembly.GetName().Version.ToString(2);
-
             Application.Idle += new EventHandler(Application_Idle);
 
             // Find and add actions
-            Assembly assembly = Assembly.GetAssembly(typeof(MainForm));
+            Assembly assembly = Assembly.GetExecutingAssembly();
             List<IXCOMAction> actions = new List<IXCOMAction>();
             foreach (Type type in assembly.GetTypes())
             {

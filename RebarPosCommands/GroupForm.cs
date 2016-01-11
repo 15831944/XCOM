@@ -9,7 +9,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace RebarPosCommands
 {
-    public partial class GroupForm : Form
+    public partial class GroupForm : VersionDisplayForm
     {
         private class GroupCopy
         {

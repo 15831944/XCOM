@@ -147,6 +147,9 @@
     <Compile Include="RoadDesign\Forms\DrawCulvertForm.Designer.cs">
       <DependentUpon>DrawCulvertForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Utility\VersionDisplayForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
     <Compile Include="XCOM\ActionForms\BindXREFsForm.cs">
       <SubType>Form</SubType>
     </Compile>

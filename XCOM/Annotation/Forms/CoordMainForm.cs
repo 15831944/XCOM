@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class CoordMainForm : Form
+    public partial class CoordMainForm : XCOM.Utility.VersionDisplayForm
     {
         public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
 
@@ -58,8 +58,6 @@ namespace XCOM.Commands.Annotation
         public CoordMainForm()
         {
             InitializeComponent();
-
-            Text = "Koordinat v" + typeof(CoordMainForm).Assembly.GetName().Version.ToString(2);
 
             CoordsFromDWG = new CoordItem[0];
 

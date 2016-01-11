@@ -5,7 +5,7 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace RebarPosCommands
 {
-    public partial class DrawBOQForm : Form
+    public partial class DrawBOQForm : VersionDisplayForm
     {
         public string TableNote { get { return txtNote.Text; } }
         public string TableHeader { get { return txtHeader.Text; } }

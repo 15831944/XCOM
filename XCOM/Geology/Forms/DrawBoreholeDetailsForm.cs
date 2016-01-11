@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Geology
 {
-    public partial class DrawBoreholeDetailsForm : Form
+    public partial class DrawBoreholeDetailsForm : XCOM.Utility.VersionDisplayForm
     {
         private bool columnDrag = false;
         private int columnDragIndex = -1;
@@ -153,8 +153,6 @@ namespace XCOM.Commands.Geology
         public DrawBoreholeDetailsForm()
         {
             InitializeComponent();
-
-            Text = "Sondaj Detayları v" + typeof(DrawBoreholeDetailsForm).Assembly.GetName().Version.ToString(2);
 
             SourceGrid.Cells.Views.Cell cellView = new SourceGrid.Cells.Views.Cell();
             cellView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
