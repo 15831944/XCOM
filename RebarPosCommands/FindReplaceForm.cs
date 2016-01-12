@@ -349,7 +349,12 @@ namespace RebarPosCommands
         {
             using (SelectShapeForm form = new SelectShapeForm())
             {
+                string pos = (string)cbFindPosNumber.SelectedItem;
+                SelectedPos copy = null;
+                if (!m_PosProperties.TryGetValue(pos, out copy)) return;
+
                 form.SetShapes(m_FindShape, m_ShapeList.Keys);
+                form.SetPieceLengths(copy.A, copy.B, copy.C, copy.D, copy.E, copy.F);
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
                     SetFindShape(form.Current);
@@ -361,7 +366,12 @@ namespace RebarPosCommands
         {
             using (SelectShapeForm form = new SelectShapeForm())
             {
+                string pos = (string)cbFindPosNumber.SelectedItem;
+                SelectedPos copy = null;
+                if (!m_PosProperties.TryGetValue(pos, out copy)) return;
+
                 form.SetShapes(m_ReplaceShape);
+                form.SetPieceLengths(copy.A, copy.B, copy.C, copy.D, copy.E, copy.F);
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
                     SetReplaceShape(form.Current);

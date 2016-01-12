@@ -46,8 +46,6 @@ namespace RebarPosCommands
         private Color mSelectionColor;
         public Color SelectionColor { get { return mSelectionColor; } set { mSelectionColor = value; UpdateCells(); } }
 
-        private Dictionary<int, List<string>> pieceLengths;
-
         protected bool IsDesigner
         {
             get
@@ -80,8 +78,6 @@ namespace RebarPosCommands
             this.ResumeLayout(false);
 
             mSelectedShape = string.Empty;
-
-            pieceLengths = new Dictionary<int, List<string>>();
         }
 
         public void SetShapes(IEnumerable<string> shapes)
@@ -96,7 +92,6 @@ namespace RebarPosCommands
                 cell.Size = mCellSize;
                 cell.Shape = PosShape.Shapes[shape];
                 cell.Click += new EventHandler(cell_Click);
-                cell.Paint += new PaintEventHandler(cell_Paint);
                 this.layoutPanel.Controls.Add(cell);
             }
 
@@ -105,11 +100,28 @@ namespace RebarPosCommands
 
         public void SetPieceLengths(int index, string a, string b, string c, string d, string e, string f)
         {
-            List<string> lengths = new List<string>() { a, b, c, d, e, f };
-            if (pieceLengths.ContainsKey(index))
-                pieceLengths[index] = lengths;
-            else
-                pieceLengths.Add(index, lengths);
+            if (index > 0 && index < layoutPanel.Controls.Count)
+            {
+                PosShapeView cell = layoutPanel.Controls[index] as PosShapeView;
+                if (cell != null)
+                {
+                    PosShape shape = cell.Shape;
+                    shape.SetShapeTexts(a, b, c, d, e, f);
+                }
+            }
+        }
+
+        public void SetPieceLengths(string a, string b, string c, string d, string e, string f)
+        {
+            for (int i = 0; i < layoutPanel.Controls.Count; i++)
+            {
+                PosShapeView cell = layoutPanel.Controls[i] as PosShapeView;
+                if (cell != null)
+                {
+                    PosShape shape = cell.Shape;
+                    shape.SetShapeTexts(a, b, c, d, e, f);
+                }
+            }
         }
 
         public void UpdateCells()
@@ -135,22 +147,6 @@ namespace RebarPosCommands
 
             if (ShapeClick != null)
                 ShapeClick(this, new MultiPosShapeViewClickEventArgs(mSelectedShape));
-        }
-
-        void cell_Paint(object sender, PaintEventArgs e)
-        {
-            if (!Disposing && !IsDesigner)
-            {
-                PosShapeView cell = (PosShapeView)sender;
-                int index = layoutPanel.Controls.IndexOf(cell);
-                PosShape shape = cell.Shape;
-                List<string> lengths = new List<string>();
-                if (pieceLengths.TryGetValue(index, out lengths) && (lengths.Count == 6))
-                {
-                    shape.SetShapeTexts(lengths[0], lengths[1], lengths[2], lengths[3], lengths[4], lengths[5]);
-                }
-                shape.ClearShapeTexts();
-            }
         }
     }
 }

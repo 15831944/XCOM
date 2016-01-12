@@ -159,6 +159,8 @@ namespace RebarPosCommands
             return true;
         }
 
+
+
         private List<PosCopy> AddMissing(List<PosCopy> list)
         {
             list = RemoveEmpty(list);

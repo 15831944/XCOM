@@ -338,6 +338,15 @@
   <ItemGroup>
     <Resource Include="Resources\pick.png" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOQ_Language_TR.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\BOQ_Language_EN.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Resources\BOQ_Language_RU.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

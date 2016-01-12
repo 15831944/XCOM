@@ -55,6 +55,11 @@ namespace RebarPosCommands
             shapesView.SetPieceLengths(index, a, b, c, d, e, f);
         }
 
+        public void SetPieceLengths(string a, string b, string c, string d, string e, string f)
+        {
+            shapesView.SetPieceLengths(a, b, c, d, e, f);
+        }
+
         private void posShapeView_Click(object sender, MultiPosShapeViewClickEventArgs e)
         {
             m_Current = e.Shape;
