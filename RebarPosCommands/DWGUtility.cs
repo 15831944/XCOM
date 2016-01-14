@@ -270,78 +270,6 @@ namespace RebarPosCommands
             return list;
         }
 
-        // Creates a new text style
-        public static ObjectId CreateTextStyle(string name, string filename, double scale)
-        {
-            ObjectId id = ObjectId.Null;
-
-            Database db = HostApplicationServices.WorkingDatabase;
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                try
-                {
-                    TextStyleTable table = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
-                    if (table.Has(name))
-                    {
-                        id = table[name];
-                    }
-                    else
-                    {
-                        table.UpgradeOpen();
-                        TextStyleTableRecord style = new TextStyleTableRecord();
-                        style.Name = name;
-                        style.FileName = filename;
-                        style.XScale = scale;
-                        id = table.Add(style);
-                        tr.AddNewlyCreatedDBObject(style, true);
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error: " + ex.ToString(), "RebarPos", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
-
-                tr.Commit();
-            }
-
-            return id;
-        }
-
-        // Returns the id of the Defpoints layer
-        public static ObjectId GetDefpointsLayer()
-        {
-            ObjectId id = ObjectId.Null;
-
-            Database db = HostApplicationServices.WorkingDatabase;
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                try
-                {
-                    LayerTable table = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead);
-                    if (table.Has("Defpoints"))
-                    {
-                        id = table["Defpoints"];
-                    }
-                    else
-                    {
-                        table.UpgradeOpen();
-                        LayerTableRecord layer = new LayerTableRecord();
-                        layer.Name = "Defpoints";
-                        id = table.Add(layer);
-                        tr.AddNewlyCreatedDBObject(layer, true);
-                    }
-                }
-                catch (System.Exception ex)
-                {
-                    System.Windows.Forms.MessageBox.Show("Error: " + ex.ToString(), "RebarPos", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
-                }
-
-                tr.Commit();
-            }
-
-            return id;
-        }
-
         // Refreshes given items
         public static void RefreshPos(IEnumerable<ObjectId> ids)
         {
@@ -485,6 +413,250 @@ namespace RebarPosCommands
         public static Point3d Polar(Point3d pt, double angle, double distance)
         {
             return new Point3d(pt.X + distance * Math.Cos(angle), pt.Y + distance * Math.Sin(angle), pt.Z);
+        }
+
+        // Graphics utilities
+        public static class Graphics
+        {
+            public static Matrix3d UcsToWcs
+            {
+                get
+                {
+                    Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                    return doc.Editor.CurrentUserCoordinateSystem;
+                }
+            }
+
+            public static Matrix3d WcsToUcs
+            {
+                get
+                {
+                    return UcsToWcs.Inverse();
+                }
+            }
+        }
+
+        // Entity creation
+        public static class CreateEntity
+        {
+            // Returns the id of the Defpoints layer (Creates the layer if it does not exist)
+            public static ObjectId GetOrCreateDefpointsLayer()
+            {
+                return GetOrCreateLayer("Defpoints", null);
+            }
+
+            // Returns the id of the layer (Creates the layer if it does not exist)
+            public static ObjectId GetOrCreateLayer(string layerName)
+            {
+                return GetOrCreateLayer(layerName, null);
+            }
+
+            // Returns the id of the layer (Creates the layer if it does not exist)
+            public static ObjectId GetOrCreateLayer(string layerName, Autodesk.AutoCAD.Colors.Color color)
+            {
+                ObjectId id = ObjectId.Null;
+
+                Database db = HostApplicationServices.WorkingDatabase;
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        LayerTable table = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead);
+                        if (table.Has(layerName))
+                        {
+                            id = table[layerName];
+                        }
+                        else
+                        {
+                            table.UpgradeOpen();
+                            LayerTableRecord layer = new LayerTableRecord();
+                            layer.Name = layerName;
+                            if (color != null) layer.Color = color;
+                            id = table.Add(layer);
+                            tr.AddNewlyCreatedDBObject(layer, true);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Error: " + ex.ToString(), "RebarPos", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+
+                    tr.Commit();
+                }
+
+                return id;
+            }
+
+            // Creates a new text style
+            public static ObjectId CreateTextStyle(string name, string filename, double scale)
+            {
+                ObjectId id = ObjectId.Null;
+
+                Database db = HostApplicationServices.WorkingDatabase;
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        TextStyleTable table = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
+                        if (table.Has(name))
+                        {
+                            id = table[name];
+                        }
+                        else
+                        {
+                            table.UpgradeOpen();
+                            TextStyleTableRecord style = new TextStyleTableRecord();
+                            style.Name = name;
+                            style.FileName = filename;
+                            style.XScale = scale;
+                            id = table.Add(style);
+                            tr.AddNewlyCreatedDBObject(style, true);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Error: " + ex.ToString(), "RebarPos", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+
+                    tr.Commit();
+                }
+
+                return id;
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId, ObjectId layerId)
+            {
+                DBText dbtext = new DBText();
+                dbtext.TextString = text;
+                dbtext.Height = textHeight;
+                dbtext.Rotation = rotation;
+                dbtext.WidthFactor = widthFactor;
+                dbtext.HorizontalMode = horizontalMode;
+                dbtext.VerticalMode = verticalMode;
+                /*
+                 * If vertical mode is AcDb::kTextBase and horizontal mode is either AcDb::kTextLeft, AcDb::kTextAlign, or AcDb::kTextFit, 
+                 * then the position point (DXF group code 10) is the insertion point for the text object and, for AcDb::kTextLeft, 
+                 * the alignment point is automatically calculated based on the other parameters in the text object. Any setting made by this function are 
+                 * replaced by the newly calculated value.
+                 * 
+                 * For all other vertical and horizontal mode combinations, the alignment point is used as the insertion point of the text 
+                 * and the position point is automatically calculated based on the other parameters in the text object.
+                */
+
+                if ((verticalMode == TextVerticalMode.TextBase) &&
+                    (horizontalMode == TextHorizontalMode.TextLeft || horizontalMode == TextHorizontalMode.TextAlign || horizontalMode == TextHorizontalMode.TextFit))
+                {
+                    dbtext.Position = pt;
+                }
+                else
+                {
+                    dbtext.AlignmentPoint = pt;
+                }
+
+                if (!textStyleId.IsNull) dbtext.TextStyleId = textStyleId;
+                if (!layerId.IsNull) dbtext.LayerId = layerId;
+
+                return dbtext;
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId)
+            {
+                return CreateText(pt, text, textHeight, rotation, widthFactor, horizontalMode, verticalMode, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode)
+            {
+                return CreateText(pt, text, textHeight, rotation, widthFactor, horizontalMode, verticalMode, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation, double widthFactor)
+            {
+                return CreateText(pt, text, textHeight, rotation, widthFactor, TextHorizontalMode.TextLeft, TextVerticalMode.TextBase, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight, double rotation)
+            {
+                return CreateText(pt, text, textHeight, rotation, 1.0, TextHorizontalMode.TextLeft, TextVerticalMode.TextBase, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static DBText CreateText(Point3d pt, string text, double textHeight)
+            {
+                return CreateText(pt, text, textHeight, 0.0, 1.0, TextHorizontalMode.TextLeft, TextVerticalMode.TextBase, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static MText CreateMText(Point3d pt, string text, double textHeight, double rotation, AttachmentPoint attachmentPoint, ObjectId textStyleId, ObjectId layerId)
+            {
+                MText mtext = new MText();
+                mtext.Contents = text;
+                mtext.Location = pt;
+                mtext.TextHeight = textHeight;
+                mtext.Rotation = rotation;
+                mtext.Attachment = attachmentPoint;
+
+                if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
+                if (!layerId.IsNull) mtext.LayerId = layerId;
+
+                return mtext;
+            }
+
+            public static MText CreateMText(Point3d pt, string text, double textHeight, double rotation, AttachmentPoint attachmentPoint, ObjectId textStyleId)
+            {
+                return CreateMText(pt, text, textHeight, rotation, attachmentPoint, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static MText CreateMText(Point3d pt, string text, double textHeight, double rotation, AttachmentPoint attachmentPoint)
+            {
+                return CreateMText(pt, text, textHeight, rotation, attachmentPoint, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static MText CreateMText(Point3d pt, string text, double textHeight, double rotation)
+            {
+                return CreateMText(pt, text, textHeight, rotation, AttachmentPoint.TopLeft, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static MText CreateMText(Point3d pt, string text, double textHeight)
+            {
+                return CreateMText(pt, text, textHeight, 0, AttachmentPoint.TopLeft, ObjectId.Null, ObjectId.Null);
+            }
+
+            public static Line CreateLine(Point3d pt1, Point3d pt2, ObjectId layerId)
+            {
+                Line line = new Line();
+                line.StartPoint = pt1;
+                line.EndPoint = pt2;
+                if (!layerId.IsNull) line.LayerId = layerId;
+
+                return line;
+            }
+
+            public static Line CreateLine(Point3d pt1, Point3d pt2)
+            {
+                return CreateLine(pt1, pt2, ObjectId.Null);
+            }
+
+            public static Line[] CreateMLine(Point3d pt1, Point3d pt2, double thickness, ObjectId layerId)
+            {
+                Vector3d dir = (pt2 - pt1).GetPerpendicularVector();
+                if (dir.Length > double.Epsilon) dir /= dir.Length;
+                dir *= thickness / 2.0;
+
+                Line line1 = new Line();
+                line1.StartPoint = pt1 + dir;
+                line1.EndPoint = pt2 + dir;
+                if (!layerId.IsNull) line1.LayerId = layerId;
+
+                Line line2 = new Line();
+                line2.StartPoint = pt1 - dir;
+                line2.EndPoint = pt2 - dir;
+                if (!layerId.IsNull) line2.LayerId = layerId;
+
+                return new Line[] { line1, line2 };
+            }
+
+            public static Line[] CreateMLine(Point3d pt1, Point3d pt2, double thickness)
+            {
+                return CreateMLine(pt1, pt2, thickness, ObjectId.Null);
+            }
         }
     }
 }

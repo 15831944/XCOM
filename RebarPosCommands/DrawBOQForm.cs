@@ -5,42 +5,47 @@ using Autodesk.AutoCAD.DatabaseServices;
 using System.Resources;
 using System.Globalization;
 using System.Collections;
+using System.Linq;
 
 namespace RebarPosCommands
 {
     public partial class DrawBOQForm : VersionDisplayForm
     {
-        public class BOQLanguage
-        {
-            public string Code { get; private set; }
-            public string Name { get; private set; }
-            public string[] Lines { get; private set; }
-
-            public BOQLanguage(string resourceKey, string resourceVal)
-            {
-                string[] items = resourceVal.Split(new char[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-                Name = items[0];
-                Lines = new string[items.Length - 1];
-                Array.Copy(items, 1, Lines, 0, Lines.Length);
-                Code = resourceKey.Substring(13);
-            }
-
-            public override string ToString()
-            {
-                return Code + " (" + Name + ")";
-            }
-        }
-
-        public List<string> SelectedLanguages
+        public BOQLanguage[] SelectedLanguages
         {
             get
             {
-                List<string> sel = new List<string>();
+                List<BOQLanguage> sel = new List<BOQLanguage>();
                 foreach (object item in lbLanguage.CheckedItems)
                 {
-                    sel.Add(((BOQLanguage)item).Code);
+                    sel.Add((BOQLanguage)item);
                 }
-                return sel;
+                return sel.ToArray();
+            }
+        }
+
+        public BOQLanguage EffectiveLanguage
+        {
+            get
+            {
+                string displayUnit = "";
+                switch (PosGroup.Current.DisplayUnit)
+                {
+                    case PosGroup.DrawingUnits.Millimeter:
+                        displayUnit = "(mm)";
+                        break;
+                    case PosGroup.DrawingUnits.Centimeter:
+                        displayUnit = "(cm)";
+                        break;
+                    case PosGroup.DrawingUnits.Decimeter:
+                        displayUnit = "(dm)";
+                        break;
+                    case PosGroup.DrawingUnits.Meter:
+                        displayUnit = "(m)";
+                        break;
+                }
+
+                return BOQLanguage.GetEffectiveLanguage(SelectedLanguages, Multiplier, displayUnit);
             }
         }
 
@@ -53,7 +58,6 @@ namespace RebarPosCommands
         public bool HideMissing { get { return chkHideMissing.Checked; } }
         public bool HideUnusedDiameters { get { return chkHideUnusedDiameters.Checked; } }
 
-        public string TableNote { get { return txtNote.Text; } }
         public string TableHeader { get { return txtHeader.Text; } }
         public string TableFooter { get { return txtFooter.Text; } }
 
@@ -65,28 +69,8 @@ namespace RebarPosCommands
         public bool Init()
         {
             lbLanguage.Items.Clear();
-            Dictionary<string, int> languageList = new Dictionary<string, int>();
-            int i = 0;
-            foreach (string lang in Properties.Settings.Default.DrawBOQ_LanguageOrder.Split(' '))
-            {
-                languageList.Add(lang, i);
-                i++;
-            }
-            ResourceSet resourceSet = Properties.Resources.ResourceManager.GetResourceSet(CultureInfo.InvariantCulture, false, false);
-            SortedList<int, BOQLanguage> lbItems = new SortedList<int, BOQLanguage>();
-            foreach (DictionaryEntry entry in resourceSet)
-            {
-                string resourceKey = (string)entry.Key;
-                if (resourceKey.StartsWith("BOQ_Language_"))
-                {
-                    BOQLanguage lang = new BOQLanguage(resourceKey, (string)entry.Value);
-                    int n = int.MaxValue;
-                    languageList.TryGetValue(lang.Code, out n);
-                    lbItems.Add(n, lang);
-                }
-            }
-
-            foreach (BOQLanguage lang in lbItems.Values)
+            BOQLanguage[] languages = BOQLanguage.FromResource("BOQ_Language_", Properties.Settings.Default.DrawBOQ_LanguageOrder.Split(' '));
+            foreach (BOQLanguage lang in languages)
             {
                 lbLanguage.Items.Add(lang);
             }
@@ -100,9 +84,11 @@ namespace RebarPosCommands
             chkHideUnusedDiameters.Checked = Properties.Settings.Default.DrawBOQ_HideUnusedDiameters;
 
             List<string> selLang = new List<string>(Properties.Settings.Default.DrawBOQ_SelectedLanguages.Split(' '));
-            foreach (BOQLanguage lang in lbItems.Values)
+            int i = 0;
+            foreach (BOQLanguage lang in languages)
             {
-                if (selLang.Contains(lang.Code)) lbLanguage.SetItemChecked(lbItems.IndexOfValue(lang), true);
+                if (selLang.Contains(lang.Code)) lbLanguage.SetItemChecked(i, true);
+                i++;
             }
             if (lbLanguage.CheckedItems.Count == 0) lbLanguage.SetItemChecked(0, true);
             lbLanguage.SelectedIndex = 0;
@@ -120,7 +106,7 @@ namespace RebarPosCommands
             Properties.Settings.Default.DrawBOQ_HideMissing = chkHideMissing.Checked;
             Properties.Settings.Default.DrawBOQ_HideUnusedDiameters = chkHideUnusedDiameters.Checked;
 
-            Properties.Settings.Default.DrawBOQ_SelectedLanguages = string.Join(" ", SelectedLanguages);
+            Properties.Settings.Default.DrawBOQ_SelectedLanguages = string.Join(" ", SelectedLanguages.Select(lang => lang.Code));
 
             Properties.Settings.Default.Save();
 
@@ -157,7 +143,18 @@ namespace RebarPosCommands
             }
         }
 
-
-
+        private void lbLanguage_Validating(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            if (lbLanguage.CheckedItems.Count == 0)
+            {
+                errorProvider.SetError(lbLanguage, "Lütfen en az bir dil seçin.");
+                errorProvider.SetIconAlignment(lbLanguage, ErrorIconAlignment.MiddleLeft);
+                e.Cancel = true;
+            }
+            else
+            {
+                errorProvider.SetError(lbLanguage, "");
+            }
+        }
     }
 }

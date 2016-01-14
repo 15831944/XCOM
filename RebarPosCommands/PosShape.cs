@@ -144,7 +144,7 @@ namespace RebarPosCommands
         public IEnumerable<Entity> ToDrawable(bool showInvisible, Point3d basePoint, double scale, double rotation)
         {
             List<Entity> res = new List<Entity>();
-            ObjectId hiddenLayerId = DWGUtility.GetDefpointsLayer();
+            ObjectId hiddenLayerId = DWGUtility.CreateEntity.GetOrCreateDefpointsLayer();
 
             foreach (Shape obj in Items)
             {
@@ -183,7 +183,7 @@ namespace RebarPosCommands
                     dtext.Color = obj.Color;
                     dtext.TextString = txt;
                     dtext.Position = new Point3d(text.X, text.Y, 0);
-                    dtext.TextStyleId = DWGUtility.CreateTextStyle("PosShapeTextStyle_" + Name, text.Font, text.Width);
+                    dtext.TextStyleId = DWGUtility.CreateEntity.CreateTextStyle("PosShapeTextStyle_" + Name, text.Font, text.Width);
                     dtext.Height = text.Height;
                     dtext.WidthFactor = text.Width;
                     dtext.HorizontalMode = text.HorizontalAlignment;

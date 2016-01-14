@@ -9,8 +9,8 @@ namespace RebarPosCommands
 {
     public class RebarPos
     {
-        private static char DiameterSymbol = 'ƒ';
-        private static char SpacingSymbol = '/';
+        public static char DiameterSymbol = 'ƒ';
+        public static char SpacingSymbol = '/';
 
         private static string MultiplierDPName = "METRAJ_CARPAN";
         private static string MultiplierDPValue_0 = "METRAJA_DAHIL_DEGIL";
