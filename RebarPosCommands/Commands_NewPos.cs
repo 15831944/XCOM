@@ -16,7 +16,7 @@ namespace RebarPosCommands
             if (result.Status == PromptStatus.OK)
             {
                 Database db = HostApplicationServices.WorkingDatabase;
-                Matrix3d ucs2wcs = Matrix3d.AlignCoordinateSystem(Point3d.Origin, Vector3d.XAxis, Vector3d.YAxis, Vector3d.ZAxis, db.Ucsorg, db.Ucsxdir, db.Ucsydir, db.Ucsxdir.CrossProduct(db.Ucsydir));
+                Matrix3d ucs2wcs = DWGUtility.Graphics.UcsToWcs;
                 Point3d pt = result.Value.TransformBy(ucs2wcs);
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
@@ -38,10 +38,16 @@ namespace RebarPosCommands
 
                         using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                         {
-                            BlockReference bref = new BlockReference(pt, blockId);
+                            BlockReference bref = new BlockReference(Point3d.Origin, blockId);
 
                             btr.AppendEntity(bref);
                             tr.AddNewlyCreatedDBObject(bref, true);
+
+                            Matrix3d trans = Matrix3d.Identity;
+                            trans = trans.PreMultiplyBy(Matrix3d.Displacement(pt - Point3d.Origin));
+                            Vector3d ucsx = Vector3d.XAxis.TransformBy(DWGUtility.Graphics.UcsToWcs);
+                            trans = trans.PreMultiplyBy(Matrix3d.Rotation(ucsx.GetAngleTo(Vector3d.XAxis), Vector3d.ZAxis, pt));
+                            bref.TransformBy(trans);
 
                             Dictionary<AttributeReference, AttributeDefinition> dict = new Dictionary<AttributeReference, AttributeDefinition>();
 
