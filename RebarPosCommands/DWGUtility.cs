@@ -386,7 +386,7 @@ namespace RebarPosCommands
 
         public static void DrawShape(PosShape shape, bool showInvisible, Point3d inspt, double height, double rotation)
         {
-            IEnumerable<Entity> items = shape.ToDrawable(showInvisible, inspt, height, rotation);
+            IEnumerable<Entity> items = shape.ToDrawable(inspt, height, rotation, showInvisible);
 
             Database db = HostApplicationServices.WorkingDatabase;
             using (Transaction tr = db.TransactionManager.StartTransaction())

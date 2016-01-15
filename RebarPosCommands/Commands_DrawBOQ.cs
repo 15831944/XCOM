@@ -44,12 +44,6 @@ namespace RebarPosCommands
                     }
                 }
 
-                if (!form.Init())
-                    return false;
-
-                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) != System.Windows.Forms.DialogResult.OK)
-                    return true;
-
                 List<PosCopy> posList = new List<PosCopy>();
                 try
                 {
@@ -66,6 +60,12 @@ namespace RebarPosCommands
                     MessageBox.Show("Seçilen grupta poz mevcut değil.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Information);
                     return false;
                 }
+
+                if (!form.Init(posList[0].scale * 25.0))
+                    return false;
+
+                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) != System.Windows.Forms.DialogResult.OK)
+                    return true;
 
                 posList = RemoveEmpty(posList);
                 if (!form.HideMissing)
@@ -113,6 +113,8 @@ namespace RebarPosCommands
                 ObjectId textLayerId = DWGUtility.CreateEntity.GetOrCreateLayer("S-METRAJ_YAZI1", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 1));
                 ObjectId lineLayerId = DWGUtility.CreateEntity.GetOrCreateLayer("S-METRAJ_CIZGI1", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 4));
                 ObjectId innerLineLayerId = DWGUtility.CreateEntity.GetOrCreateLayer("S-METRAJ_CIZGI2", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 3));
+                ObjectId shapeLineLayerId = DWGUtility.CreateEntity.GetOrCreateLayer("S-METRAJ_CIZGI3", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 4));
+                ObjectId shapeTextLayerId = DWGUtility.CreateEntity.GetOrCreateLayer("S-METRAJ_YAZI2", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 1));
 
                 // Draw table
                 BOQLanguage lang = form.EffectiveLanguage;
@@ -230,6 +232,16 @@ namespace RebarPosCommands
                         }
                         off += diameterWidths[diaIndex] / 2.0;
                         entities.Add(DWGUtility.CreateEntity.CreateText(DWGUtility.Polar(pt, 0, 20 + colOffset + off), totalLengthM, 1.0, 0, 0.7, TextHorizontalMode.TextCenter, TextVerticalMode.TextVerticalMid, cellStyleId, textLayerId));
+
+                        // Draw the shape
+                        if (form.DrawShapes)
+                        {
+                            PosShape shape = PosShape.Shapes[copy.shapename];
+                            Point3d position = DWGUtility.Polar(DWGUtility.Polar(pt, 0, 20), 1.5 * Math.PI, 1.5);
+
+                            shape.SetShapeTexts(a, b, c, d, e, f);
+                            entities.AddRange(shape.ToDrawable(position, 3.0, 0, false, shapeLineLayerId, shapeTextLayerId));
+                        }
                     }
                     else if (!form.HideMissing)
                     {

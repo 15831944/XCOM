@@ -51,7 +51,7 @@ namespace RebarPosCommands
 
                             PosShape shape = pos.Shape;
                             shape.SetShapeTexts(pos.A, pos.B, pos.C, pos.D, pos.E, pos.F);
-                            IEnumerable<Entity> entities = shape.ToDrawable(false, position, scale, rotation);
+                            IEnumerable<Entity> entities = shape.ToDrawable(position, scale, rotation, false);
                             foreach (Entity en in entities)
                             {
                                 wd.Geometry.Draw(en);

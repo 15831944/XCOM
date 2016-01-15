@@ -66,7 +66,7 @@ namespace RebarPosCommands
             InitializeComponent();
         }
 
-        public bool Init()
+        public bool Init(double scale)
         {
             lbLanguage.Items.Clear();
             BOQLanguage[] languages = BOQLanguage.FromResource("BOQ_Language_", Properties.Settings.Default.DrawBOQ_LanguageOrder.Split(' '));
@@ -76,7 +76,7 @@ namespace RebarPosCommands
             }
 
             // Read from settings
-            txtTextHeight.Text = Properties.Settings.Default.DrawBOQ_TextHeight.ToString();
+            txtTextHeight.Text = scale.ToString();
             cbPrecision.SelectedIndex = Properties.Settings.Default.DrawBOQ_Precision;
 
             chkDrawShapes.Checked = Properties.Settings.Default.DrawBOQ_DrawShapes;
@@ -99,7 +99,6 @@ namespace RebarPosCommands
         private void btnOK_Click(object sender, EventArgs e)
         {
             // Save to settings
-            Properties.Settings.Default.DrawBOQ_TextHeight = double.Parse(txtTextHeight.Text);
             Properties.Settings.Default.DrawBOQ_Precision = cbPrecision.SelectedIndex;
 
             Properties.Settings.Default.DrawBOQ_DrawShapes = chkDrawShapes.Checked;

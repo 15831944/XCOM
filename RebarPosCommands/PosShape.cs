@@ -141,7 +141,7 @@ namespace RebarPosCommands
             }
         }
 
-        public IEnumerable<Entity> ToDrawable(bool showInvisible, Point3d basePoint, double scale, double rotation)
+        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation, bool showInvisible, ObjectId lineLayerId, ObjectId textLayerId)
         {
             List<Entity> res = new List<Entity>();
             ObjectId hiddenLayerId = DWGUtility.CreateEntity.GetOrCreateDefpointsLayer();
@@ -156,16 +156,29 @@ namespace RebarPosCommands
                 {
                     ShapeLine line = (ShapeLine)obj;
                     en = new Line(new Point3d(line.X1, line.Y1, 0), new Point3d(line.X2, line.Y2, 0));
+
+                    if (!lineLayerId.IsNull) 
+                        en.LayerId = lineLayerId;
+                    else
+                        en.Color = obj.Color;
                 }
                 else if (obj is ShapeArc)
                 {
                     ShapeArc arc = (ShapeArc)obj;
                     en = new Arc(new Point3d(arc.X, arc.Y, 0), Vector3d.ZAxis, arc.R, arc.StartAngle, arc.EndAngle);
+                    if (!lineLayerId.IsNull)
+                        en.LayerId = lineLayerId;
+                    else
+                        en.Color = obj.Color;
                 }
                 else if (obj is ShapeCircle)
                 {
                     ShapeCircle circle = (ShapeCircle)obj;
                     en = new Circle(new Point3d(circle.X, circle.Y, 0), Vector3d.ZAxis, circle.R);
+                    if (!lineLayerId.IsNull)
+                        en.LayerId = lineLayerId;
+                    else
+                        en.Color = obj.Color;
                 }
                 else if (obj is ShapeText)
                 {
@@ -180,7 +193,6 @@ namespace RebarPosCommands
                     if (!string.IsNullOrEmpty(F)) txt = txt.Replace("F", F);
 
                     DBText dtext = new DBText();
-                    dtext.Color = obj.Color;
                     dtext.TextString = txt;
                     dtext.Position = new Point3d(text.X, text.Y, 0);
                     dtext.TextStyleId = DWGUtility.CreateEntity.CreateTextStyle("PosShapeTextStyle_" + Name, text.Font, text.Width);
@@ -198,11 +210,14 @@ namespace RebarPosCommands
                     }
 
                     en = dtext;
+                    if (!textLayerId.IsNull)
+                        en.LayerId = textLayerId;
+                    else
+                        en.Color = obj.Color;
                 }
 
                 if (en != null)
                 {
-                    en.Color = obj.Color;
                     if (!obj.Visible) en.LayerId = hiddenLayerId;
                     res.Add(en);
                 }
@@ -227,6 +242,26 @@ namespace RebarPosCommands
             }
 
             return res;
+        }
+
+        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation, bool showInvisible)
+        {
+            return ToDrawable(basePoint, scale, rotation, showInvisible, ObjectId.Null, ObjectId.Null);
+        }
+
+        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation)
+        {
+            return ToDrawable(basePoint, scale, rotation, false, ObjectId.Null, ObjectId.Null);
+        }
+
+        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale)
+        {
+            return ToDrawable(basePoint, scale, 0, false, ObjectId.Null, ObjectId.Null);
+        }
+
+        public IEnumerable<Entity> ToDrawable(Point3d basePoint)
+        {
+            return ToDrawable(basePoint, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
         }
 
         #region Static Methods

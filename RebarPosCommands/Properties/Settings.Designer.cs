@@ -37,18 +37,6 @@ namespace RebarPosCommands.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("25")]
-        public double DrawBOQ_TextHeight {
-            get {
-                return ((double)(this["DrawBOQ_TextHeight"]));
-            }
-            set {
-                this["DrawBOQ_TextHeight"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("0")]
         public int DrawBOQ_DisplayUnit {
             get {

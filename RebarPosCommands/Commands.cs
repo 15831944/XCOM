@@ -1,11 +1,11 @@
-﻿using Autodesk.AutoCAD.Runtime;
-using Autodesk.AutoCAD.ApplicationServices;
+﻿using System;
+using System.Windows.Forms;
+using System.IO;
+
+using Autodesk.AutoCAD.Runtime;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.DatabaseServices;
-using System.Windows.Forms;
-using System.IO;
-using System;
 
 
 // This line is not mandatory, but improves loading performances
@@ -62,8 +62,15 @@ namespace RebarPosCommands
             }
 
             // Shape overrule
-            Overrule.AddOverrule(RXObject.GetClass(typeof(BlockReference)), ShowShapesOverrule.Instance, false);
-            Overrule.Overruling = true;
+            try
+            {
+                Overrule.AddOverrule(RXObject.GetClass(typeof(BlockReference)), ShowShapesOverrule.Instance, false);
+                Overrule.Overruling = true;
+            }
+            catch (System.Exception ex)
+            {
+                MessageBox.Show("Error: " + ex.ToString(), "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         public Point3d MonitoredPoint { get; private set; }
