@@ -12,7 +12,7 @@ namespace RebarPosCommands
         private void ShowShapes(bool show)
         {
             ShowShapesOverrule.Instance.ShowShapes = show;
-            DWGUtility.Regen();
+            AcadUtility.AcadGraphics.Regen();
         }
     }
 }

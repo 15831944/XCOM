@@ -92,8 +92,8 @@ namespace RebarPosCommands
             m_FindFields = 0;
             m_ReplaceFields = 0;
 
-            psvFind.BackColor = DWGUtility.ModelBackgroundColor();
-            psvReplace.BackColor = DWGUtility.ModelBackgroundColor();
+            psvFind.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
+            psvReplace.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
         }
 
         public bool Init(ObjectId[] items)
@@ -354,7 +354,6 @@ namespace RebarPosCommands
                 if (!m_PosProperties.TryGetValue(pos, out copy)) return;
 
                 form.SetShapes(m_FindShape, m_ShapeList.Keys);
-                form.SetPieceLengths(copy.A, copy.B, copy.C, copy.D, copy.E, copy.F);
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
                     SetFindShape(form.Current);
@@ -371,7 +370,6 @@ namespace RebarPosCommands
                 if (!m_PosProperties.TryGetValue(pos, out copy)) return;
 
                 form.SetShapes(m_ReplaceShape);
-                form.SetPieceLengths(copy.A, copy.B, copy.C, copy.D, copy.E, copy.F);
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
                     SetReplaceShape(form.Current);
@@ -788,7 +786,7 @@ namespace RebarPosCommands
                     }
 
                     // Zoom
-                    DWGUtility.ZoomToObjects(list);
+                    AcadUtility.AcadGraphics.ZoomToObjects(HostApplicationServices.WorkingDatabase, list);
                 }
                 catch (System.Exception ex)
                 {

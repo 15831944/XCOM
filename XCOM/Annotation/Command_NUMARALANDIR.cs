@@ -18,8 +18,8 @@ namespace XCOM.Commands.Annotation
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
-            Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
+            Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
             NumberingForm form = new NumberingForm();
             if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)

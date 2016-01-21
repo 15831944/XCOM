@@ -17,7 +17,7 @@ namespace RebarPosCommands
                     if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == DialogResult.OK)
                     {
                         ShowShapesOverrule.Instance.ShowShapes = form.ShowShapes;
-                        DWGUtility.Regen();
+                        AcadUtility.AcadGraphics.Regen();
                     }
                 }
             }

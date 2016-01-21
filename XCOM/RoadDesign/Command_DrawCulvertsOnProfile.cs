@@ -23,7 +23,7 @@ namespace XCOM.Commands.RoadDesign
                     Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                     Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                    Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
                     List<DrawCulvertForm.CulvertInfo> data = form.GetData();
                     Point3d basePt = form.BasePoint;
@@ -64,7 +64,7 @@ namespace XCOM.Commands.RoadDesign
                                 Point3d midPt = new Point3d(basePt.X + culvert.Chainage - baseCH, basePt.Y + (culvert.Level - baseLevel) * scale, 0);
 
                                 // Outer polyline
-                                Polyline outerPoly = XCOM.Utility.Entity.CreatePolyLine(true,
+                                Polyline outerPoly = AcadUtility.AcadEntity.CreatePolyLine(db, true,
                                     new Point3d(midPt.X - culvert.Width / 2 - culvert.Wall, midPt.Y - culvert.BottomSlab * scale, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2 + culvert.Wall, midPt.Y - culvert.BottomSlab * scale, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2 + culvert.Wall, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale, 0).TransformBy(ucs2wcs),
@@ -75,7 +75,7 @@ namespace XCOM.Commands.RoadDesign
                                 tr.AddNewlyCreatedDBObject(outerPoly, true);
 
                                 // Inner polyline
-                                Polyline innerPoly = XCOM.Utility.Entity.CreatePolyLine(true,
+                                Polyline innerPoly = AcadUtility.AcadEntity.CreatePolyLine(db, true,
                                     new Point3d(midPt.X - culvert.Width / 2, midPt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2, midPt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X + culvert.Width / 2, midPt.Y + culvert.Height * scale, 0).TransformBy(ucs2wcs),
@@ -86,7 +86,7 @@ namespace XCOM.Commands.RoadDesign
                                 tr.AddNewlyCreatedDBObject(innerPoly, true);
 
                                 // Hatch
-                                Hatch hatch = XCOM.Utility.Entity.CreateHatch("ANSI31", hatchScale, 0);
+                                Hatch hatch = AcadUtility.AcadEntity.CreateHatch(db, "ANSI31", hatchScale, 0);
                                 hatch.LayerId = layerId;
                                 btr.AppendEntity(hatch);
                                 tr.AddNewlyCreatedDBObject(hatch, true);
@@ -98,7 +98,7 @@ namespace XCOM.Commands.RoadDesign
                                 hatch.EvaluateHatch(true);
 
                                 // Axis
-                                Line axis = XCOM.Utility.Entity.CreateLine(new Point3d(midPt.X, basePt.Y, 0).TransformBy(ucs2wcs),
+                                Line axis = AcadUtility.AcadEntity.CreateLine(db, new Point3d(midPt.X, basePt.Y, 0).TransformBy(ucs2wcs),
                                     new Point3d(midPt.X, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 4 * scale, 0).TransformBy(ucs2wcs)
                                     );
                                 axis.LayerId = layerId;
@@ -122,7 +122,7 @@ namespace XCOM.Commands.RoadDesign
                                         text = text + " Kuyu Boyu=" + culvert.WellLength.ToString("F2") + " m";
                                 }
 
-                                MText mtext = XCOM.Utility.Entity.CreateMText(textBase.TransformBy(ucs2wcs), text, textHeight, 90);
+                                MText mtext = AcadUtility.AcadEntity.CreateMText(db, textBase.TransformBy(ucs2wcs), text, textHeight, 90);
                                 mtext.LayerId = layerId;
                                 btr.AppendEntity(mtext);
                                 tr.AddNewlyCreatedDBObject(mtext, true);

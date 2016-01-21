@@ -59,7 +59,7 @@ namespace RebarPosCommands
             if (IsDesigner)
                 mCellBackColor = System.Drawing.SystemColors.Control;
             else
-                mCellBackColor = DWGUtility.ModelBackgroundColor();
+                mCellBackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
             mSelectedShape = string.Empty;
             mCellSize = new Size(300, 150);
             mSelectionColor = SystemColors.Highlight;
@@ -71,7 +71,7 @@ namespace RebarPosCommands
 
             this.layoutPanel = new DoubleBufferedFlowLayoutPanel();
             this.layoutPanel.Dock = DockStyle.Fill;
-            this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.TopDown;
+            this.layoutPanel.FlowDirection = System.Windows.Forms.FlowDirection.LeftToRight;
             this.layoutPanel.AutoScroll = true;
             this.Controls.Add(layoutPanel);
 
@@ -120,6 +120,32 @@ namespace RebarPosCommands
                 {
                     PosShape shape = cell.Shape;
                     shape.SetShapeTexts(a, b, c, d, e, f);
+                }
+            }
+        }
+
+        public void ClearPieceLengths(int index)
+        {
+            if (index > 0 && index < layoutPanel.Controls.Count)
+            {
+                PosShapeView cell = layoutPanel.Controls[index] as PosShapeView;
+                if (cell != null)
+                {
+                    PosShape shape = cell.Shape;
+                    shape.ClearShapeTexts();
+                }
+            }
+        }
+
+        public void ClearPieceLengths()
+        {
+            for (int i = 0; i < layoutPanel.Controls.Count; i++)
+            {
+                PosShapeView cell = layoutPanel.Controls[i] as PosShapeView;
+                if (cell != null)
+                {
+                    PosShape shape = cell.Shape;
+                    shape.ClearShapeTexts();
                 }
             }
         }

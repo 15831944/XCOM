@@ -129,7 +129,7 @@
             // 
             // txtFindF
             // 
-            this.txtFindF.Location = new System.Drawing.Point(172, 386);
+            this.txtFindF.Location = new System.Drawing.Point(177, 386);
             this.txtFindF.Name = "txtFindF";
             this.txtFindF.Size = new System.Drawing.Size(70, 20);
             this.txtFindF.TabIndex = 27;
@@ -138,7 +138,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(139, 389);
+            this.label10.Location = new System.Drawing.Point(144, 389);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(13, 13);
             this.label10.TabIndex = 26;
@@ -146,7 +146,7 @@
             // 
             // txtFindE
             // 
-            this.txtFindE.Location = new System.Drawing.Point(172, 360);
+            this.txtFindE.Location = new System.Drawing.Point(177, 360);
             this.txtFindE.Name = "txtFindE";
             this.txtFindE.Size = new System.Drawing.Size(70, 20);
             this.txtFindE.TabIndex = 25;
@@ -155,7 +155,7 @@
             // label9
             // 
             this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(139, 363);
+            this.label9.Location = new System.Drawing.Point(144, 363);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(14, 13);
             this.label9.TabIndex = 24;
@@ -163,7 +163,7 @@
             // 
             // txtFindD
             // 
-            this.txtFindD.Location = new System.Drawing.Point(172, 334);
+            this.txtFindD.Location = new System.Drawing.Point(177, 334);
             this.txtFindD.Name = "txtFindD";
             this.txtFindD.Size = new System.Drawing.Size(70, 20);
             this.txtFindD.TabIndex = 23;
@@ -172,7 +172,7 @@
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(139, 337);
+            this.label8.Location = new System.Drawing.Point(144, 337);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(15, 13);
             this.label8.TabIndex = 22;
@@ -240,7 +240,7 @@
             this.psvFind.SelectionColor = System.Drawing.SystemColors.Highlight;
             this.psvFind.Shape = null;
             this.psvFind.ShowShapeName = false;
-            this.psvFind.Size = new System.Drawing.Size(220, 89);
+            this.psvFind.Size = new System.Drawing.Size(225, 90);
             this.psvFind.TabIndex = 15;
             this.psvFind.Click += new System.EventHandler(this.psvFind_Click);
             // 
@@ -325,7 +325,7 @@
             // 
             this.cbFindMultiplier.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindMultiplier.FormattingEnabled = true;
-            this.cbFindMultiplier.Location = new System.Drawing.Point(125, 154);
+            this.cbFindMultiplier.Location = new System.Drawing.Point(130, 154);
             this.cbFindMultiplier.Name = "cbFindMultiplier";
             this.cbFindMultiplier.Size = new System.Drawing.Size(117, 21);
             this.cbFindMultiplier.TabIndex = 11;
@@ -334,7 +334,7 @@
             // 
             this.cbFindNote.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindNote.FormattingEnabled = true;
-            this.cbFindNote.Location = new System.Drawing.Point(125, 127);
+            this.cbFindNote.Location = new System.Drawing.Point(130, 127);
             this.cbFindNote.Name = "cbFindNote";
             this.cbFindNote.Size = new System.Drawing.Size(117, 21);
             this.cbFindNote.TabIndex = 9;
@@ -343,7 +343,7 @@
             // 
             this.cbFindSpacing.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindSpacing.FormattingEnabled = true;
-            this.cbFindSpacing.Location = new System.Drawing.Point(125, 100);
+            this.cbFindSpacing.Location = new System.Drawing.Point(130, 100);
             this.cbFindSpacing.Name = "cbFindSpacing";
             this.cbFindSpacing.Size = new System.Drawing.Size(117, 21);
             this.cbFindSpacing.TabIndex = 7;
@@ -352,7 +352,7 @@
             // 
             this.cbFindDiameter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindDiameter.FormattingEnabled = true;
-            this.cbFindDiameter.Location = new System.Drawing.Point(125, 73);
+            this.cbFindDiameter.Location = new System.Drawing.Point(130, 73);
             this.cbFindDiameter.Name = "cbFindDiameter";
             this.cbFindDiameter.Size = new System.Drawing.Size(117, 21);
             this.cbFindDiameter.TabIndex = 5;
@@ -361,7 +361,7 @@
             // 
             this.cbFindCount.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindCount.FormattingEnabled = true;
-            this.cbFindCount.Location = new System.Drawing.Point(125, 46);
+            this.cbFindCount.Location = new System.Drawing.Point(130, 46);
             this.cbFindCount.Name = "cbFindCount";
             this.cbFindCount.Size = new System.Drawing.Size(117, 21);
             this.cbFindCount.TabIndex = 3;
@@ -370,7 +370,7 @@
             // 
             this.cbFindPosNumber.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbFindPosNumber.FormattingEnabled = true;
-            this.cbFindPosNumber.Location = new System.Drawing.Point(125, 19);
+            this.cbFindPosNumber.Location = new System.Drawing.Point(130, 19);
             this.cbFindPosNumber.Name = "cbFindPosNumber";
             this.cbFindPosNumber.Size = new System.Drawing.Size(117, 21);
             this.cbFindPosNumber.TabIndex = 1;
@@ -411,7 +411,7 @@
             // 
             // txtReplaceMultiplier
             // 
-            this.txtReplaceMultiplier.Location = new System.Drawing.Point(125, 155);
+            this.txtReplaceMultiplier.Location = new System.Drawing.Point(129, 154);
             this.txtReplaceMultiplier.Name = "txtReplaceMultiplier";
             this.txtReplaceMultiplier.Size = new System.Drawing.Size(117, 20);
             this.txtReplaceMultiplier.TabIndex = 9;
@@ -419,14 +419,14 @@
             // 
             // txtReplaceNote
             // 
-            this.txtReplaceNote.Location = new System.Drawing.Point(125, 127);
+            this.txtReplaceNote.Location = new System.Drawing.Point(129, 126);
             this.txtReplaceNote.Name = "txtReplaceNote";
             this.txtReplaceNote.Size = new System.Drawing.Size(117, 20);
             this.txtReplaceNote.TabIndex = 7;
             // 
             // txtReplaceSpacing
             // 
-            this.txtReplaceSpacing.Location = new System.Drawing.Point(125, 101);
+            this.txtReplaceSpacing.Location = new System.Drawing.Point(129, 100);
             this.txtReplaceSpacing.Name = "txtReplaceSpacing";
             this.txtReplaceSpacing.Size = new System.Drawing.Size(117, 20);
             this.txtReplaceSpacing.TabIndex = 5;
@@ -434,7 +434,7 @@
             // 
             // txtReplaceCount
             // 
-            this.txtReplaceCount.Location = new System.Drawing.Point(125, 47);
+            this.txtReplaceCount.Location = new System.Drawing.Point(129, 46);
             this.txtReplaceCount.Name = "txtReplaceCount";
             this.txtReplaceCount.Size = new System.Drawing.Size(117, 20);
             this.txtReplaceCount.TabIndex = 1;
@@ -442,7 +442,7 @@
             // 
             // txtReplaceF
             // 
-            this.txtReplaceF.Location = new System.Drawing.Point(171, 386);
+            this.txtReplaceF.Location = new System.Drawing.Point(176, 386);
             this.txtReplaceF.Name = "txtReplaceF";
             this.txtReplaceF.Size = new System.Drawing.Size(70, 20);
             this.txtReplaceF.TabIndex = 25;
@@ -451,7 +451,7 @@
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(138, 389);
+            this.label1.Location = new System.Drawing.Point(143, 389);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(13, 13);
             this.label1.TabIndex = 24;
@@ -459,7 +459,7 @@
             // 
             // txtReplaceE
             // 
-            this.txtReplaceE.Location = new System.Drawing.Point(171, 360);
+            this.txtReplaceE.Location = new System.Drawing.Point(176, 360);
             this.txtReplaceE.Name = "txtReplaceE";
             this.txtReplaceE.Size = new System.Drawing.Size(70, 20);
             this.txtReplaceE.TabIndex = 23;
@@ -468,7 +468,7 @@
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(138, 363);
+            this.label2.Location = new System.Drawing.Point(143, 363);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(14, 13);
             this.label2.TabIndex = 22;
@@ -476,7 +476,7 @@
             // 
             // txtReplaceD
             // 
-            this.txtReplaceD.Location = new System.Drawing.Point(171, 334);
+            this.txtReplaceD.Location = new System.Drawing.Point(176, 334);
             this.txtReplaceD.Name = "txtReplaceD";
             this.txtReplaceD.Size = new System.Drawing.Size(70, 20);
             this.txtReplaceD.TabIndex = 21;
@@ -485,7 +485,7 @@
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(138, 337);
+            this.label3.Location = new System.Drawing.Point(143, 337);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(15, 13);
             this.label3.TabIndex = 20;
@@ -553,7 +553,7 @@
             this.psvReplace.SelectionColor = System.Drawing.SystemColors.Highlight;
             this.psvReplace.Shape = null;
             this.psvReplace.ShowShapeName = false;
-            this.psvReplace.Size = new System.Drawing.Size(220, 89);
+            this.psvReplace.Size = new System.Drawing.Size(225, 90);
             this.psvReplace.TabIndex = 13;
             this.psvReplace.Click += new System.EventHandler(this.psvReplace_Click);
             // 
@@ -627,7 +627,7 @@
             // 
             this.cbReplaceDiameter.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbReplaceDiameter.FormattingEnabled = true;
-            this.cbReplaceDiameter.Location = new System.Drawing.Point(125, 73);
+            this.cbReplaceDiameter.Location = new System.Drawing.Point(129, 72);
             this.cbReplaceDiameter.Name = "cbReplaceDiameter";
             this.cbReplaceDiameter.Size = new System.Drawing.Size(117, 21);
             this.cbReplaceDiameter.TabIndex = 3;

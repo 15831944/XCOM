@@ -68,119 +68,55 @@ namespace RebarPosCommands
         {
             get
             {
-                Extents3d ext = new Extents3d();
-                foreach (Shape obj in Items)
-                {
-                    if (obj is ShapeLine)
-                    {
-                        ShapeLine line = (ShapeLine)obj;
-                        ext.AddPoint(new Point3d(line.X1, line.Y1, 0));
-                        ext.AddPoint(new Point3d(line.X2, line.Y2, 0));
-                    }
-                    else if (obj is ShapeArc)
-                    {
-                        ShapeArc arc = (ShapeArc)obj;
-
-                        double da = (arc.EndAngle - arc.StartAngle) / 10.0;
-                        int i = 0;
-                        double a = arc.StartAngle;
-                        for (i = 0; i < 10; i++)
-                        {
-                            double x = arc.X + Math.Cos(a) * arc.R;
-                            double y = arc.Y + Math.Sin(a) * arc.R;
-                            ext.AddPoint(new Point3d(x, y, 0));
-                            a += da;
-                        }
-                    }
-                    else if (obj is ShapeCircle)
-                    {
-                        ShapeCircle circle = (ShapeCircle)obj;
-                        ext.AddPoint(new Point3d(circle.X - circle.R, circle.Y - circle.R, 0));
-                        ext.AddPoint(new Point3d(circle.X - circle.R, circle.Y + circle.R, 0));
-                        ext.AddPoint(new Point3d(circle.X + circle.R, circle.Y + circle.R, 0));
-                        ext.AddPoint(new Point3d(circle.X + circle.R, circle.Y - circle.R, 0));
-                    }
-                    else if (obj is ShapeText)
-                    {
-                        ShapeText text = (ShapeText)obj;
-
-                        string txt = text.Text;
-                        if (!string.IsNullOrEmpty(A)) txt = txt.Replace("A", A);
-                        if (!string.IsNullOrEmpty(B)) txt = txt.Replace("B", B);
-                        if (!string.IsNullOrEmpty(C)) txt = txt.Replace("C", C);
-                        if (!string.IsNullOrEmpty(D)) txt = txt.Replace("D", D);
-                        if (!string.IsNullOrEmpty(E)) txt = txt.Replace("E", E);
-                        if (!string.IsNullOrEmpty(F)) txt = txt.Replace("F", F);
-
-                        Autodesk.AutoCAD.GraphicsInterface.TextStyle style = new Autodesk.AutoCAD.GraphicsInterface.TextStyle(text.Font, "", text.Height, text.Width, 0, 0, false, false, false, false, false, false, "");
-                        Extents2d extents = style.ExtentsBox(txt, false, true, null);
-                        double width = extents.MaxPoint.X - extents.MinPoint.X;
-                        double height = extents.MaxPoint.Y - extents.MinPoint.Y;
-
-                        double xoff = 0.0;
-                        if (text.HorizontalAlignment == TextHorizontalMode.TextLeft)
-                            xoff = 0.0;
-                        else if (text.HorizontalAlignment == TextHorizontalMode.TextRight)
-                            xoff = -width;
-                        else // horizontal center
-                            xoff = -width / 2.0;
-
-                        double yoff = 0.0;
-                        if (text.VerticalAlignment == TextVerticalMode.TextTop)
-                            yoff = -height;
-                        else if (text.VerticalAlignment == TextVerticalMode.TextBase || text.VerticalAlignment == TextVerticalMode.TextBottom)
-                            yoff = 0.0;
-                        else // vertical middle
-                            yoff = -height / 2.0;
-
-                        ext.AddPoint(new Point3d(text.X + xoff, text.Y + yoff, 0));
-                        ext.AddPoint(new Point3d(text.X + xoff + width, text.Y + yoff + height, 0));
-                    }
-                }
-                return ext;
+                return GetBounds(true, true);
             }
         }
 
-        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation, bool showInvisible, ObjectId lineLayerId, ObjectId textLayerId)
+        private Extents3d GetBounds(bool includeInvisible, bool moveToOriginAndScale)
         {
-            List<Entity> res = new List<Entity>();
-            ObjectId hiddenLayerId = DWGUtility.CreateEntity.GetOrCreateDefpointsLayer();
+            Database db = HostApplicationServices.WorkingDatabase;
+
+            Extents3d ext = new Extents3d();
+            foreach (Shape obj in Items)
+            {
+                if (!includeInvisible && !obj.Visible) continue;
+
+                Extents3d? shapeBounds = obj.GetBounds(db);
+                if (shapeBounds.HasValue) ext.AddExtents(shapeBounds.Value);
+            }
+
+            // Move the shape to the origin and scale so that the height is equal to 1.0
+            if (moveToOriginAndScale)
+            {
+                Point3d p1 = ext.MinPoint;
+                Point3d p2 = ext.MaxPoint;
+                double scale = 1;
+                if (Math.Abs(p2.Y - p1.Y) > double.Epsilon)
+                {
+                    scale = 1.0 / (p2.Y - p1.Y);
+                }
+
+                Matrix3d trans = Matrix3d.Identity;
+                trans = trans.PreMultiplyBy(Matrix3d.Displacement(Point3d.Origin - p1));
+                trans = trans.PreMultiplyBy(Matrix3d.Scaling(scale, Point3d.Origin));
+                ext.TransformBy(trans);
+            }
+
+            return ext;
+        }
+
+        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation, bool showInvisible, ObjectId lineLayerId, ObjectId textLayerId)
+        {
+            EntityCollection res = new EntityCollection();
+            ObjectId hiddenLayerId = AcadUtility.AcadEntity.GetOrCreateDefpointsLayer(db);
 
             foreach (Shape obj in Items)
             {
                 if (!showInvisible && !obj.Visible) continue;
 
-                Entity en = null;
+                Entity en = obj.AsEntity(db);
 
-                if (obj is ShapeLine)
-                {
-                    ShapeLine line = (ShapeLine)obj;
-                    en = new Line(new Point3d(line.X1, line.Y1, 0), new Point3d(line.X2, line.Y2, 0));
-
-                    if (!lineLayerId.IsNull) 
-                        en.LayerId = lineLayerId;
-                    else
-                        en.Color = obj.Color;
-                }
-                else if (obj is ShapeArc)
-                {
-                    ShapeArc arc = (ShapeArc)obj;
-                    en = new Arc(new Point3d(arc.X, arc.Y, 0), Vector3d.ZAxis, arc.R, arc.StartAngle, arc.EndAngle);
-                    if (!lineLayerId.IsNull)
-                        en.LayerId = lineLayerId;
-                    else
-                        en.Color = obj.Color;
-                }
-                else if (obj is ShapeCircle)
-                {
-                    ShapeCircle circle = (ShapeCircle)obj;
-                    en = new Circle(new Point3d(circle.X, circle.Y, 0), Vector3d.ZAxis, circle.R);
-                    if (!lineLayerId.IsNull)
-                        en.LayerId = lineLayerId;
-                    else
-                        en.Color = obj.Color;
-                }
-                else if (obj is ShapeText)
+                if (obj is ShapeText)
                 {
                     ShapeText text = (ShapeText)obj;
 
@@ -192,38 +128,28 @@ namespace RebarPosCommands
                     if (!string.IsNullOrEmpty(E)) txt = txt.Replace("E", E);
                     if (!string.IsNullOrEmpty(F)) txt = txt.Replace("F", F);
 
-                    DBText dtext = new DBText();
-                    dtext.TextString = txt;
-                    dtext.Position = new Point3d(text.X, text.Y, 0);
-                    dtext.TextStyleId = DWGUtility.CreateEntity.CreateTextStyle("PosShapeTextStyle_" + Name, text.Font, text.Width);
-                    dtext.Height = text.Height;
-                    dtext.WidthFactor = text.Width;
-                    dtext.HorizontalMode = text.HorizontalAlignment;
-                    if (text.VerticalAlignment == TextVerticalMode.TextBottom)
-                        dtext.VerticalMode = TextVerticalMode.TextBase;
-                    else
-                        dtext.VerticalMode = text.VerticalAlignment;
+                    DBText dbtext = (DBText)en;
+                    dbtext.TextString = txt;
+                    dbtext.TextStyleId = AcadUtility.AcadEntity.GetOrCreateTextStyle(db, "PosShapeTextStyle_" + Name, text.Font, text.Width);
 
-                    if (dtext.HorizontalMode != TextHorizontalMode.TextLeft || dtext.VerticalMode != TextVerticalMode.TextBase)
-                    {
-                        dtext.AlignmentPoint = new Point3d(text.X, text.Y, 0);
-                    }
-
-                    en = dtext;
                     if (!textLayerId.IsNull)
                         en.LayerId = textLayerId;
                     else
                         en.Color = obj.Color;
                 }
-
-                if (en != null)
+                else
                 {
-                    if (!obj.Visible) en.LayerId = hiddenLayerId;
-                    res.Add(en);
+                    if (!lineLayerId.IsNull)
+                        en.LayerId = lineLayerId;
+                    else
+                        en.Color = obj.Color;
                 }
+
+                if (!obj.Visible) en.LayerId = hiddenLayerId;
+                res.Add(en);
             }
 
-            Extents3d bounds = Bounds;
+            Extents3d bounds = GetBounds(true, false);
             Point3d p1 = bounds.MinPoint;
             Point3d p2 = bounds.MaxPoint;
             if (Math.Abs(p2.Y - p1.Y) > double.Epsilon)
@@ -235,33 +161,34 @@ namespace RebarPosCommands
             trans = trans.PreMultiplyBy(Matrix3d.Displacement(basePoint - p1));
             trans = trans.PreMultiplyBy(Matrix3d.Scaling(scale, basePoint));
             trans = trans.PreMultiplyBy(Matrix3d.Rotation(rotation, Vector3d.ZAxis, basePoint));
-
-            foreach (Entity en in res)
-            {
-                en.TransformBy(trans);
-            }
+            res.TransformBy(trans);
 
             return res;
         }
 
-        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation, bool showInvisible)
+        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation, bool showInvisible)
         {
-            return ToDrawable(basePoint, scale, rotation, showInvisible, ObjectId.Null, ObjectId.Null);
+            return ToEntitites(db, basePoint, scale, rotation, showInvisible, ObjectId.Null, ObjectId.Null);
         }
 
-        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale, double rotation)
+        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation)
         {
-            return ToDrawable(basePoint, scale, rotation, false, ObjectId.Null, ObjectId.Null);
+            return ToEntitites(db, basePoint, scale, rotation, false, ObjectId.Null, ObjectId.Null);
         }
 
-        public IEnumerable<Entity> ToDrawable(Point3d basePoint, double scale)
+        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale)
         {
-            return ToDrawable(basePoint, scale, 0, false, ObjectId.Null, ObjectId.Null);
+            return ToEntitites(db, basePoint, scale, 0, false, ObjectId.Null, ObjectId.Null);
         }
 
-        public IEnumerable<Entity> ToDrawable(Point3d basePoint)
+        public EntityCollection ToEntitites(Database db, Point3d basePoint)
         {
-            return ToDrawable(basePoint, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
+            return ToEntitites(db, basePoint, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
+        }
+
+        public EntityCollection ToEntitites(Database db)
+        {
+            return ToEntitites(db, Point3d.Origin, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
         }
 
         #region Static Methods
@@ -546,6 +473,12 @@ namespace RebarPosCommands
             public bool Visible { get; set; }
 
             public abstract Shape Clone();
+            public abstract Entity AsEntity(Database db);
+
+            public Extents3d? GetBounds(Database db)
+            {
+                return AsEntity(db).Bounds;
+            }
 
             protected Shape()
             {
@@ -570,6 +503,11 @@ namespace RebarPosCommands
             public override Shape Clone()
             {
                 return new ShapeLine(Color, X1, Y1, X2, Y2, Visible);
+            }
+
+            public override Entity AsEntity(Database db)
+            {
+                return AcadUtility.AcadEntity.CreateLine(db, new Point3d(X1, Y1, 0), new Point3d(X2, Y2, 0));
             }
 
             public ShapeLine()
@@ -601,6 +539,11 @@ namespace RebarPosCommands
                 return new ShapeArc(Color, X, Y, R, StartAngle, EndAngle, Visible);
             }
 
+            public override Entity AsEntity(Database db)
+            {
+                return AcadUtility.AcadEntity.CreateArc(db, new Point3d(X, Y, 0), R, StartAngle, EndAngle);
+            }
+
             public ShapeArc()
                 : base()
             {
@@ -627,6 +570,11 @@ namespace RebarPosCommands
             public override Shape Clone()
             {
                 return new ShapeCircle(Color, X, Y, R, Visible);
+            }
+
+            public override Entity AsEntity(Database db)
+            {
+                return AcadUtility.AcadEntity.CreateCircle(db, new Point3d(X, Y, 0), R);
             }
 
             public ShapeCircle()
@@ -658,6 +606,11 @@ namespace RebarPosCommands
             public override Shape Clone()
             {
                 return new ShapeText(Color, X, Y, Height, Width, Text, Font, HorizontalAlignment, VerticalAlignment, Visible);
+            }
+
+            public override Entity AsEntity(Database db)
+            {
+                return AcadUtility.AcadEntity.CreateText(db, new Point3d(X, Y, 0), Text, Height, 0, Width, HorizontalAlignment, VerticalAlignment);
             }
 
             public ShapeText()

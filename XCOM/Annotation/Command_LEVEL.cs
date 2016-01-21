@@ -109,7 +109,7 @@ namespace XCOM.Commands.Annotation
 
                     string level = GetLevel(ptRes.Value);
 
-                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                    Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
                     Point3d ptWorld = ptRes.Value.TransformBy(ucs2wcs);
                     double rotation = Math.Atan2(ucs2wcs.CoordinateSystem3d.Xaxis.Y, ucs2wcs.CoordinateSystem3d.Xaxis.X);
 
@@ -186,7 +186,7 @@ namespace XCOM.Commands.Annotation
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-            Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+            Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -305,7 +305,7 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+                Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
                 JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");
                 textOpts.BasePoint = mpBase;
@@ -343,7 +343,7 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
@@ -391,7 +391,7 @@ namespace XCOM.Commands.Annotation
                     lastTransform = Matrix3d.Identity;
                 }
 
-                IntegerCollection vpNumbers = XCOM.Utility.Graphics.GetActiveViewportNumbers();
+                IntegerCollection vpNumbers = AcadUtility.AcadGraphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();

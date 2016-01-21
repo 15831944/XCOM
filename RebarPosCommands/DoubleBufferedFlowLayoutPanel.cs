@@ -10,6 +10,12 @@ namespace RebarPosCommands
         public DoubleBufferedFlowLayoutPanel()
         {
             DoubleBuffered = true;
+            this.MouseEnter += DoubleBufferedFlowLayoutPanel_MouseEnter;
+        }
+
+        void DoubleBufferedFlowLayoutPanel_MouseEnter(object sender, EventArgs e)
+        {
+            this.Focus();
         }
 
         public void Suspend()

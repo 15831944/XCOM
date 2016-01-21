@@ -47,16 +47,17 @@ namespace RebarPosCommands
                             // Draw the shape
                             double scale = 50.0 * bref.ScaleFactors[0];
                             double rotation = bref.Rotation;
-                            Point3d position = DWGUtility.Polar(bref.Position, rotation + Math.PI / 2.0, scale);
+                            Point3d position = AcadUtility.AcadGeometry.Polar(bref.Position, rotation + Math.PI / 2.0, scale);
 
                             PosShape shape = pos.Shape;
                             shape.SetShapeTexts(pos.A, pos.B, pos.C, pos.D, pos.E, pos.F);
-                            IEnumerable<Entity> entities = shape.ToDrawable(position, scale, rotation, false);
+                            EntityCollection entities = shape.ToEntitites(db, position, scale, rotation, false);
                             foreach (Entity en in entities)
                             {
                                 wd.Geometry.Draw(en);
-                                en.Dispose();
                             }
+                            shape.ClearShapeTexts();
+                            entities.Clear();
                         }
                     }
                     catch

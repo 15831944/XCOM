@@ -121,8 +121,6 @@
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
-    <Compile Include="Utility\Graphics.cs" />
-    <Compile Include="Utility\Entity.cs" />
     <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
     <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
     <Compile Include="Geology\Command_DrawBoreholeDetails.cs" />
@@ -190,7 +188,6 @@
     <Compile Include="XCOM\Actions\FindReplaceText.cs" />
     <Compile Include="XCOM\Actions\ZoomExtents.cs" />
     <Compile Include="XCOM\Command_XCOM.cs" />
-    <Compile Include="Utility\FileLogger.cs" />
     <Compile Include="XCOM\Command_XCLOSEALL.cs" />
     <Compile Include="XCOM\Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
@@ -340,7 +337,12 @@
   <ItemGroup>
     <Resource Include="Resources\DemoSurface.txt" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\AcadUtility\AcadUtility.csproj">
+      <Project>{3fa2ad2d-513b-41bd-a00e-feed8644b2c8}</Project>
+      <Name>AcadUtility</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

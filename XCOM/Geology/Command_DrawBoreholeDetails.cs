@@ -33,7 +33,7 @@ namespace XCOM.Commands.Geology
                     bool hasGW = form.HasGroundwater;
                     double gwLevel = form.GroundwaterLevel;
 
-                    Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                    Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
                     double xSpacing = 5.3 * textHeight;
                     using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -69,7 +69,7 @@ namespace XCOM.Commands.Geology
                         {
                             Point3d pt1 = new Point3d(pt.X - xSpacing, pt.Y + 0.9 * textHeight, pt.Z);
                             Point3d pt2 = new Point3d(pt.X + xSpacing * data.Count - xSpacing, pt.Y + 0.9 * textHeight, pt.Z);
-                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = AcadUtility.AcadEntity.CreateLine(db, pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             line.Color = headerColor;
                             btr.AppendEntity(line);
@@ -90,7 +90,7 @@ namespace XCOM.Commands.Geology
                                 Point3d ptText = new Point3d(pt.X + xSpacing * j - xSpacing / 2, pt.Y + 0.6 * textHeight + lines.Length * 1.3 * textHeight, pt.Z);
                                 foreach (string line in lines)
                                 {
-                                    DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), line, textHeight, 0, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
+                                    DBText dbtext = AcadUtility.AcadEntity.CreateText(db, ptText.TransformBy(ucs2wcs), line, textHeight, 0, 1, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
                                     dbtext.LayerId = layerId;
                                     dbtext.Color = headerColor;
                                     btr.AppendEntity(dbtext);
@@ -110,7 +110,7 @@ namespace XCOM.Commands.Geology
                                         // Item text
                                         double depth = depths[i];
                                         Point3d ptText = new Point3d(pt.X + xSpacing * j, pt.Y - depth, pt.Z);
-                                        DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), text, textHeight, 0, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
+                                        DBText dbtext = AcadUtility.AcadEntity.CreateText(db, ptText.TransformBy(ucs2wcs), text, textHeight, 0, 1, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
                                         dbtext.LayerId = layerId;
                                         btr.AppendEntity(dbtext);
                                         tr.AddNewlyCreatedDBObject(dbtext, true);
@@ -118,7 +118,7 @@ namespace XCOM.Commands.Geology
                                         // Horizontal depth ticks
                                         Point3d pt1 = new Point3d(ptText.X + 0.25, ptText.Y, ptText.Z);
                                         Point3d pt2 = new Point3d(ptText.X + 0.25 + tickSize, ptText.Y, ptText.Z);
-                                        Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                                        Line line = AcadUtility.AcadEntity.CreateLine(db, pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                                         line.LayerId = layerId;
                                         btr.AppendEntity(line);
                                         tr.AddNewlyCreatedDBObject(line, true);
@@ -131,7 +131,7 @@ namespace XCOM.Commands.Geology
                                         // Item text
                                         double depth = depths[i];
                                         Point3d ptText = new Point3d(pt.X + xSpacing * j - xSpacing / 2, pt.Y - depth, pt.Z);
-                                        DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), text, textHeight, 0, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
+                                        DBText dbtext = AcadUtility.AcadEntity.CreateText(db, ptText.TransformBy(ucs2wcs), text, textHeight, 0, 1, TextHorizontalMode.TextMid, TextVerticalMode.TextVerticalMid);
                                         dbtext.LayerId = layerId;
                                         btr.AppendEntity(dbtext);
                                         tr.AddNewlyCreatedDBObject(dbtext, true);
@@ -147,7 +147,7 @@ namespace XCOM.Commands.Geology
                         {
                             Point3d pt1 = new Point3d(depthLineTop.X + tickSize / 2, pt.Y, depthLineTop.Z);
                             Point3d pt2 = new Point3d(depthLineBottom.X + tickSize / 2, depthLineBottom.Y, depthLineBottom.Z);
-                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = AcadUtility.AcadEntity.CreateLine(db, pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             btr.AppendEntity(line);
                             tr.AddNewlyCreatedDBObject(line, true);
@@ -159,7 +159,7 @@ namespace XCOM.Commands.Geology
                             // Horizontal line
                             Point3d pt1 = new Point3d(pt.X + 0.25 - 6.6 * textHeight, pt.Y - gwLevel, pt.Z);
                             Point3d pt2 = new Point3d(pt.X + 0.25, pt.Y - gwLevel, pt.Z);
-                            Line line = XCOM.Utility.Entity.CreateLine(pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
+                            Line line = AcadUtility.AcadEntity.CreateLine(db, pt1.TransformBy(ucs2wcs), pt2.TransformBy(ucs2wcs));
                             line.LayerId = layerId;
                             line.Color = gwColor;
                             btr.AppendEntity(line);
@@ -190,7 +190,7 @@ namespace XCOM.Commands.Geology
 
                             // GW text
                             Point3d ptText = new Point3d(pt.X + 0.25 - 4.6 * textHeight, pt.Y - gwLevel + markerSize, pt.Z);
-                            DBText dbtext = XCOM.Utility.Entity.CreateText(ptText.TransformBy(ucs2wcs), gwLevel.ToString(), textHeight, 0, TextHorizontalMode.TextCenter, TextVerticalMode.TextBottom);
+                            DBText dbtext = AcadUtility.AcadEntity.CreateText(db, ptText.TransformBy(ucs2wcs), gwLevel.ToString(), textHeight, 0, 1, TextHorizontalMode.TextCenter, TextVerticalMode.TextBottom);
                             dbtext.LayerId = layerId;
                             dbtext.Color = gwColor;
                             btr.AppendEntity(dbtext);

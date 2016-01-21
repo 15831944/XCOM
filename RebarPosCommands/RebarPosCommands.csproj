@@ -123,6 +123,7 @@
     <Compile Include="DoubleBufferedFlowLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="EntityCollection.cs" />
     <Compile Include="MultiPosShapeView.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -347,6 +348,12 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Resources\BOQ_Language_RU.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\AcadUtility\AcadUtility.csproj">
+      <Project>{3fa2ad2d-513b-41bd-a00e-feed8644b2c8}</Project>
+      <Name>AcadUtility</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -42,7 +42,7 @@ namespace RebarPosCommands
             m_Shape = string.Empty;
             m_StandardDiameters = new List<int>();
 
-            posShapeView.BackColor = DWGUtility.ModelBackgroundColor();
+            posShapeView.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
             transients = new List<Autodesk.AutoCAD.GraphicsInterface.Drawable>();
 
             this.Disposed += EditPosForm_Disposed;

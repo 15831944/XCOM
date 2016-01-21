@@ -209,7 +209,7 @@ namespace XCOM.Commands.Annotation
                 }
                 tr.Commit();
             }
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
             while (flag)
             {
@@ -568,7 +568,7 @@ namespace XCOM.Commands.Annotation
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             double rotation = Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
             
             double height = TextHeight;
@@ -651,7 +651,7 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+                Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
                 if (mAutoLine)
                 {
@@ -703,8 +703,8 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
-                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
+                Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
                 Point3d pBaseWorld = mpBase.TransformBy(ucs2wcs);
                 Point3d pTextWorld = mpText.TransformBy(ucs2wcs);
 
@@ -747,7 +747,7 @@ namespace XCOM.Commands.Annotation
                     mtext.Attachment = (singleLine ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
 
                 // Create and update line
-                IntegerCollection vpNumbers = XCOM.Utility.Graphics.GetActiveViewportNumbers();
+                IntegerCollection vpNumbers = AcadUtility.AcadGraphics.GetActiveViewportNumbers();
                 if (line == null)
                 {
                     line = new Line();

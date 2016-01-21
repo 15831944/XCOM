@@ -43,6 +43,7 @@
             this.cbPosDiameter = new System.Windows.Forms.ComboBox();
             this.chkIncludePos = new System.Windows.Forms.CheckBox();
             this.btnPickSpacing = new System.Windows.Forms.Button();
+            this.btnLastPos = new System.Windows.Forms.Button();
             this.btnPickNumber = new System.Windows.Forms.Button();
             this.txtPosMultiplier = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
@@ -92,7 +93,6 @@
             this.errorProvider = new System.Windows.Forms.ErrorProvider(this.components);
             this.btnDetach = new System.Windows.Forms.Button();
             this.btnAlign = new System.Windows.Forms.Button();
-            this.btnLastPos = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             this.pnlAlignLength.SuspendLayout();
             this.pnlAlignNote.SuspendLayout();
@@ -247,6 +247,17 @@
             this.btnPickSpacing.TabIndex = 9;
             this.btnPickSpacing.UseVisualStyleBackColor = true;
             this.btnPickSpacing.Click += new System.EventHandler(this.btnPickSpacing_Click);
+            // 
+            // btnLastPos
+            // 
+            this.btnLastPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnLastPos.Image = global::RebarPosCommands.Properties.Resources.add;
+            this.btnLastPos.Location = new System.Drawing.Point(202, 17);
+            this.btnLastPos.Name = "btnLastPos";
+            this.btnLastPos.Size = new System.Drawing.Size(24, 24);
+            this.btnLastPos.TabIndex = 4;
+            this.btnLastPos.UseVisualStyleBackColor = true;
+            this.btnLastPos.Click += new System.EventHandler(this.btnLastPos_Click);
             // 
             // btnPickNumber
             // 
@@ -417,7 +428,7 @@
             this.posShapeView.SelectionColor = System.Drawing.SystemColors.Highlight;
             this.posShapeView.Shape = null;
             this.posShapeView.ShowShapeName = false;
-            this.posShapeView.Size = new System.Drawing.Size(340, 137);
+            this.posShapeView.Size = new System.Drawing.Size(340, 136);
             this.posShapeView.TabIndex = 0;
             this.posShapeView.Click += new System.EventHandler(this.posShapeView_Click);
             // 
@@ -772,17 +783,6 @@
             this.btnAlign.Text = "Hizala";
             this.btnAlign.UseVisualStyleBackColor = true;
             this.btnAlign.Click += new System.EventHandler(this.btnAlign_Click);
-            // 
-            // btnLastPos
-            // 
-            this.btnLastPos.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnLastPos.Image = global::RebarPosCommands.Properties.Resources.add;
-            this.btnLastPos.Location = new System.Drawing.Point(202, 17);
-            this.btnLastPos.Name = "btnLastPos";
-            this.btnLastPos.Size = new System.Drawing.Size(24, 24);
-            this.btnLastPos.TabIndex = 4;
-            this.btnLastPos.UseVisualStyleBackColor = true;
-            this.btnLastPos.Click += new System.EventHandler(this.btnLastPos_Click);
             // 
             // EditPosForm
             // 

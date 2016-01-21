@@ -22,7 +22,7 @@ namespace RebarPosCommands
             InitializeComponent();
 
             m_Copies = new List<PosShape>();
-            posShapeView.BackColor = DWGUtility.ModelBackgroundColor();
+            posShapeView.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
         }
 
         public bool Init(bool showShapes)
@@ -458,7 +458,7 @@ namespace RebarPosCommands
             }
             if (result.Status == PromptStatus.OK)
             {
-                DWGUtility.DrawShape(GetSelected(), true, result.Value, 75, 0);
+                DWGUtility.DrawShape(HostApplicationServices.WorkingDatabase, GetSelected(), true, result.Value, 75, 0);
 
                 MessageBox.Show("Açılımı şablon çerçevesi içine çizin ve tekrar bu diyalog kutusuna dönüp çizimden al düğmesini tıklayın.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

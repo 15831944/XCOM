@@ -28,7 +28,7 @@ namespace RebarPosCommands
             if (IsDesigner)
                 this.BackColor = System.Drawing.SystemColors.Control;
             else
-                this.BackColor = DWGUtility.ModelBackgroundColor();
+                this.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
 
             this.Name = "PosShapeView";
             this.Size = new System.Drawing.Size(300, 150);
@@ -102,6 +102,14 @@ namespace RebarPosCommands
             g.SmoothingMode = SmoothingMode.HighQuality;
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
+            EntityCollection entitites = mShape.ToEntitites(Autodesk.AutoCAD.DatabaseServices.HostApplicationServices.WorkingDatabase);
+            using (Image img = Previewer.Instance.SnapShot(entitites, mShape.Bounds, ClientRectangle.Size, Enabled ? BackColor : SystemColors.Control))
+            {
+                g.DrawImage(img, 0, 0);
+            }
+            entitites.Clear();
+            /*
+
             // Coordinate transformation
             if (Math.Abs(maxExtents.X - minExtents.X) > 0 && Math.Abs(maxExtents.Y - minExtents.Y) > 0)
             {
@@ -157,6 +165,7 @@ namespace RebarPosCommands
             }
 
             g.ResetTransform();
+            */
             // Show shape name
             if (ShowShapeName)
             {

@@ -46,7 +46,7 @@ namespace RebarPosCommands
                 // Zoom
                 if (e.Item == null) return;
                 PosCheckResult check = e.Item.Tag as PosCheckResult;
-                DWGUtility.ZoomToObjects(check.Items);
+                AcadUtility.AcadGraphics.ZoomToObjects(HostApplicationServices.WorkingDatabase, check.Items);
             }
             else if (e.ColumnIndex == 5)
             {
@@ -123,7 +123,7 @@ namespace RebarPosCommands
         {
             if (lbItems.SelectedItems.Count == 0) return;
             PosCheckResult check = lbItems.SelectedItems[0].Tag as PosCheckResult;
-            DWGUtility.ZoomToObjects(check.Items);
+            AcadUtility.AcadGraphics.ZoomToObjects(HostApplicationServices.WorkingDatabase, check.Items);
         }
 
         #region ListViewExtender

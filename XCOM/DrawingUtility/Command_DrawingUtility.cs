@@ -87,7 +87,7 @@ namespace XCOM.Commands.Drawing
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -115,7 +115,7 @@ namespace XCOM.Commands.Drawing
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(-Math.PI / 2, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -143,7 +143,7 @@ namespace XCOM.Commands.Drawing
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             Vector3d zAxis = ucs2wcs.CoordinateSystem3d.Zaxis;
             Matrix3d trans = Matrix3d.Rotation(Math.PI, zAxis, ptRes.Value.TransformBy(ucs2wcs));
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -168,7 +168,7 @@ namespace XCOM.Commands.Drawing
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+            Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             while (true)
             {
                 PromptSelectionResult selRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection();

@@ -16,7 +16,7 @@ namespace RebarPosCommands
             if (result.Status == PromptStatus.OK)
             {
                 Database db = HostApplicationServices.WorkingDatabase;
-                Matrix3d ucs2wcs = DWGUtility.Graphics.UcsToWcs;
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
                 Point3d pt = result.Value.TransformBy(ucs2wcs);
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 {
@@ -45,7 +45,7 @@ namespace RebarPosCommands
 
                             Matrix3d trans = Matrix3d.Identity;
                             trans = trans.PreMultiplyBy(Matrix3d.Displacement(pt - Point3d.Origin));
-                            Vector3d ucsx = Vector3d.XAxis.TransformBy(DWGUtility.Graphics.UcsToWcs);
+                            Vector3d ucsx = Vector3d.XAxis.TransformBy(AcadUtility.AcadGraphics.UcsToWcs);
                             trans = trans.PreMultiplyBy(Matrix3d.Rotation(ucsx.GetAngleTo(Vector3d.XAxis), Vector3d.ZAxis, pt));
                             bref.TransformBy(trans);
 

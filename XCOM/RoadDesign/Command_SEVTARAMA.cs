@@ -81,7 +81,7 @@ namespace XCOM.Commands.RoadDesign
                             Point3d endPt = rev ? pt1 : pt2;
                             if (half) endPt = new LineSegment3d(startPt, endPt).MidPoint;
 
-                            Line ln = XCOM.Utility.Entity.CreateLine(startPt, endPt);
+                            Line ln = AcadUtility.AcadEntity.CreateLine(db, startPt, endPt);
                             btr.AppendEntity(ln);
                             tr.AddNewlyCreatedDBObject(ln, true);
 

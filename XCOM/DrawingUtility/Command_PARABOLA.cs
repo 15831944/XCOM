@@ -104,7 +104,7 @@ namespace XCOM.Commands.Drawing
                 if (t2Res.Status != PromptStatus.OK) return SamplerStatus.Cancel;
 
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                Matrix3d wcs2ucs = XCOM.Utility.Graphics.WcsToUcs();
+                Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
                 mt2 = t2Res.Value.TransformBy(wcs2ucs);
 
                 return SamplerStatus.OK;
@@ -144,7 +144,7 @@ namespace XCOM.Commands.Drawing
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
                 Polyline pline = new Polyline(1);
-                pline.Normal = XCOM.Utility.Graphics.UcsToWcs().CoordinateSystem3d.Zaxis;
+                pline.Normal = AcadUtility.AcadGraphics.UcsToWcs.CoordinateSystem3d.Zaxis;
                 pline.AddVertexAt(0, new Point2d(0, 0), 0, 0, 0);
 
                 return pline;
@@ -155,7 +155,7 @@ namespace XCOM.Commands.Drawing
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                Matrix3d ucs2wcs = XCOM.Utility.Graphics.UcsToWcs();
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
                 Plane ucsPlane = new Plane(Point3d.Origin, Vector3d.ZAxis);
                 Point2d p1 = Intersect(mp0.Convert2d(ucsPlane), mt0.Convert2d(ucsPlane), mp2.Convert2d(ucsPlane), mt2.Convert2d(ucsPlane));
 
