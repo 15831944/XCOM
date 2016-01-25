@@ -79,7 +79,7 @@ namespace RebarPosCommands
             BlockReference bref = overruledSubject as BlockReference;
             if (bref == null) return false;
 
-            return (string.Compare(bref.Name, MyCommands.BlockName, StringComparison.OrdinalIgnoreCase) == 0);
+            return (string.Compare(bref.Name, RebarPos.BlockName, StringComparison.OrdinalIgnoreCase) == 0);
         }
     }
 }

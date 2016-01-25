@@ -10,6 +10,8 @@ namespace RebarPosCommands
 {
     public class RebarPos
     {
+        public static string BlockName = "RebarPos_Marker";
+
         public static char DiameterSymbol = 'ƒ';
         public static char SpacingSymbol = '/';
 
@@ -608,7 +610,7 @@ namespace RebarPosCommands
             Database db = HostApplicationServices.WorkingDatabase;
             foreach (ObjectId id in idList)
             {
-                if (string.Compare(AcadUtility.AcadEntity.GetBlockName(db, id), MyCommands.BlockName, StringComparison.OrdinalIgnoreCase) == 0) result.Add(id);
+                if (string.Compare(AcadUtility.AcadEntity.GetBlockName(db, id), RebarPos.BlockName, StringComparison.OrdinalIgnoreCase) == 0) result.Add(id);
             }
 
             return result;

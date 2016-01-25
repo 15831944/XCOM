@@ -25,14 +25,14 @@ namespace RebarPosCommands
                         ObjectId blockId = ObjectId.Null;
                         using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
                         {
-                            if (bt.Has(BlockName))
+                            if (bt.Has(RebarPos.BlockName))
                             {
-                                blockId = bt[BlockName];
+                                blockId = bt[RebarPos.BlockName];
                             }
                         }
                         if (blockId.IsNull)
                         {
-                            MessageBox.Show("Poz bloğu '" + BlockName + "' bulunamadı.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            MessageBox.Show("Poz bloğu '" + RebarPos.BlockName + "' bulunamadı.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
                             return;
                         }
 

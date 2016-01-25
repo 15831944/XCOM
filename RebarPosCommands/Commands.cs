@@ -19,8 +19,6 @@ namespace RebarPosCommands
     // is implicitly per-document!
     public partial class MyCommands
     {
-        public static string BlockName = "RebarPos_Marker";
-
         // The CommandMethod attribute can be applied to any public  member 
         // function of any public class.
         // The function should take no arguments and return nothing.
@@ -42,15 +40,15 @@ namespace RebarPosCommands
             using (Transaction tr = db.TransactionManager.StartTransaction())
             using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
             {
-                if (!bt.Has(BlockName))
+                if (!bt.Has(RebarPos.BlockName))
                 {
                     try
                     {
-                        string blockPath = HostApplicationServices.Current.FindFile(BlockName + ".dwg", null, FindFileHint.Default);
+                        string blockPath = HostApplicationServices.Current.FindFile(RebarPos.BlockName + ".dwg", null, FindFileHint.Default);
                         using (Database dbBlock = new Database(false, true))
                         {
                             dbBlock.ReadDwgFile(blockPath, FileShare.Read, true, "");
-                            db.Insert(BlockName, dbBlock, true);
+                            db.Insert(RebarPos.BlockName, dbBlock, true);
                         }
                     }
                     catch
