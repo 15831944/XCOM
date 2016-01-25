@@ -34,29 +34,9 @@ namespace RebarPosCommands
             ed.PointMonitor += new PointMonitorEventHandler(ed_PointMonitor);
             MonitoredPoint = Point3d.Origin;
 
-            // Find and insert the pos block
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
+            if (!RebarPos.EnsureBlockExists())
             {
-                if (!bt.Has(RebarPos.BlockName))
-                {
-                    try
-                    {
-                        string blockPath = HostApplicationServices.Current.FindFile(RebarPos.BlockName + ".dwg", null, FindFileHint.Default);
-                        using (Database dbBlock = new Database(false, true))
-                        {
-                            dbBlock.ReadDwgFile(blockPath, FileShare.Read, true, "");
-                            db.Insert(RebarPos.BlockName, dbBlock, true);
-                        }
-                    }
-                    catch
-                    {
-                        ;
-                    }
-                }
-                tr.Commit();
+                MessageBox.Show("Poz bloğu '" + RebarPos.BlockName + "' bulunamadı.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
 
             // Shape overrule

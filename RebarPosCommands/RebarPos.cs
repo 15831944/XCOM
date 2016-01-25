@@ -568,6 +568,37 @@ namespace RebarPosCommands
         }
 
         #region Static Functions
+        public static bool EnsureBlockExists()
+        {
+            // Find and insert the pos block
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
+            {
+                if (!bt.Has(BlockName))
+                {
+                    try
+                    {
+                        string blockPath = HostApplicationServices.Current.FindFile(BlockName + ".dwg", null, FindFileHint.Default);
+                        using (Database dbBlock = new Database(false, true))
+                        {
+                            dbBlock.ReadDwgFile(blockPath, System.IO.FileShare.Read, true, "");
+                            db.Insert(RebarPos.BlockName, dbBlock, true);
+                        }
+                        return true;
+                    }
+                    catch
+                    {
+                        ;
+                    }
+                }
+                tr.Commit();
+            }
+
+            return false;
+        }
+
         public class PromptRebarSelectionResult
         {
             public PromptStatus Status { get; private set; }
