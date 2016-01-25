@@ -103,7 +103,7 @@ namespace RebarPosCommands
             g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.ClearTypeGridFit;
 
             EntityCollection entitites = mShape.ToEntitites(Autodesk.AutoCAD.DatabaseServices.HostApplicationServices.WorkingDatabase);
-            using (Image img = Previewer.Instance.SnapShot(entitites, mShape.Bounds, ClientRectangle.Size, Enabled ? BackColor : SystemColors.Control))
+            using (Image img = DrawingPreview.Instance.SnapShot(entitites, mShape.Bounds, ClientRectangle.Size, Enabled ? BackColor : SystemColors.Control))
             {
                 g.DrawImage(img, 0, 0);
             }
