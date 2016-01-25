@@ -184,7 +184,7 @@ namespace RebarPosCommands
                 cbFindMultiplier.Items.Add(mult.ToString());
 
             cbReplaceDiameter.Items.Clear();
-            foreach (int d in DWGUtility.GetStandardDiameters())
+            foreach (int d in PosGroup.Current.StandardDiameters)
             {
                 cbReplaceDiameter.Items.Add(d.ToString());
             }

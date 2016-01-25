@@ -734,10 +734,10 @@ namespace RebarPosCommands
             Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
             using (EditorUserInteraction UI = ed.StartUserInteraction(this))
             {
-                DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser();
+                RebarPos.PromptRebarSelectionResult sel = RebarPos.SelectAllPosUser();
                 if (sel.Status != PromptStatus.OK) return;
                 ObjectId[] items = sel.Value.GetObjectIds();
-                int lastNum = DWGUtility.GetMaximumPosNumber(items);
+                int lastNum = RebarPos.GetMaximumPosNumber(items);
 
                 if (lastNum != -1)
                 {

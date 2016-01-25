@@ -164,7 +164,6 @@
     <Compile Include="PosShapesForm.Designer.cs">
       <DependentUpon>PosShapesForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DWGUtility.cs" />
     <Compile Include="Commands.cs" />
     <Compile Include="EditPosForm.cs">
       <SubType>Form</SubType>

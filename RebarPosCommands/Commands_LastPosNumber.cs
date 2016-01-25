@@ -12,7 +12,7 @@ namespace RebarPosCommands
     {
         private int GetLastPosNumber(IEnumerable<ObjectId> list)
         {
-            return DWGUtility.GetMaximumPosNumber(list);
+            return RebarPos.GetMaximumPosNumber(list);
         }
     }
 }

@@ -16,7 +16,7 @@ namespace RebarPosCommands
             using (DrawBOQForm form = new DrawBOQForm())
             {
                 // Pos error check
-                DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser();
+                RebarPos.PromptRebarSelectionResult sel = RebarPos.SelectAllPosUser();
                 if (sel.Status != PromptStatus.OK) return false;
                 ObjectId[] items = sel.Value.GetObjectIds();
 

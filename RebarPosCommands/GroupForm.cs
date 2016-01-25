@@ -100,7 +100,7 @@ namespace RebarPosCommands
 
             group.Save();
 
-            DWGUtility.RefreshAllPos();
+            RebarPos.RefreshAllPos();
             Close();
         }
 

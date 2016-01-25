@@ -11,7 +11,7 @@ namespace RebarPosCommands
         private bool FindReplace(bool usePickSet)
         {
             // Pos error check
-            DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser(true);
+            RebarPos.PromptRebarSelectionResult sel = RebarPos.SelectAllPosUser();
             if (sel.Status != PromptStatus.OK) return false;
             ObjectId[] items = sel.Value.GetObjectIds();
             List<PosCheckResult> check = PosCheckResult.CheckAllInSelection(items, true, false);

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.EditorInput;
 
 namespace RebarPosCommands
 {
@@ -38,6 +39,7 @@ namespace RebarPosCommands
         public string Count { get; set; }
         public string Spacing { get; set; }
         public string Note { get; set; }
+        public Version BlockVersion { get; private set; }
 
         public string ShapeName { get; set; }
         public PosShape Shape
@@ -222,6 +224,9 @@ namespace RebarPosCommands
                             pos.Note = attRef.TextString;
                             pos.HasNoteAttribute = true;
                             pos.NoteID = attId;
+                            break;
+                        case "version":
+                            pos.BlockVersion = new Version(attRef.TextString);
                             break;
                         case "yazi":
                             string txt = attRef.TextString;
@@ -559,5 +564,190 @@ namespace RebarPosCommands
 
             public VariableValue Length { get; set; }
         }
+
+        #region Static Functions
+        public class PromptRebarSelectionResult
+        {
+            public PromptStatus Status { get; private set; }
+            public SelectionSet Value { get; private set; }
+
+            public PromptRebarSelectionResult(PromptStatus s, SelectionSet v)
+            {
+                Status = s;
+                Value = v;
+            }
+        }
+
+        public static PromptRebarSelectionResult SelectAllPosUser()
+        {
+            try
+            {
+                TypedValue[] tvs = new TypedValue[] {
+                    new TypedValue((int)DxfCode.Start, "INSERT")
+                };
+                PromptSelectionResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(new SelectionFilter(tvs));
+                if (res.Status == PromptStatus.OK)
+                {
+                    IEnumerable<ObjectId> idList = FilterBlocks(res.Value.GetObjectIds());
+                    SelectionSet set = SelectionSet.FromObjectIds(new List<ObjectId>(idList).ToArray());
+                    return new PromptRebarSelectionResult(res.Status, set);
+                }
+            }
+            catch
+            {
+                ;
+            }
+
+            return new PromptRebarSelectionResult(PromptStatus.Error, SelectionSet.FromObjectIds(new ObjectId[0]));
+        }
+
+        private static IEnumerable<ObjectId> FilterBlocks(IEnumerable<ObjectId> idList)
+        {
+            List<ObjectId> result = new List<ObjectId>();
+
+            Database db = HostApplicationServices.WorkingDatabase;
+            foreach (ObjectId id in idList)
+            {
+                if (string.Compare(AcadUtility.AcadEntity.GetBlockName(db, id), MyCommands.BlockName, StringComparison.OrdinalIgnoreCase) == 0) result.Add(id);
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<ObjectId> GetAllPos()
+        {
+            List<ObjectId> list = new List<ObjectId>();
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead);
+                    using (BlockTableRecordEnumerator it = btr.GetEnumerator())
+                    {
+                        while (it.MoveNext())
+                        {
+                            if (it.Current.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(BlockReference)))
+                            {
+                                list.Add(it.Current);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return FilterBlocks(list);
+        }
+
+        public static IEnumerable<ObjectId> GetPosWithShape(string shape)
+        {
+            List<ObjectId> list = new List<ObjectId>();
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead);
+                    using (BlockTableRecordEnumerator it = btr.GetEnumerator())
+                    {
+                        while (it.MoveNext())
+                        {
+                            RebarPos pos = RebarPos.FromObjectId(tr, it.Current);
+                            if (pos != null)
+                            {
+                                if (pos.ShapeName == shape)
+                                {
+                                    list.Add(it.Current);
+                                }
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return list;
+        }
+
+        // Returns the maximum pos number within the given pos blocks.
+        public static int GetMaximumPosNumber(IEnumerable<ObjectId> ids)
+        {
+            int num = -1;
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    foreach (ObjectId id in ids)
+                    {
+                        RebarPos pos = RebarPos.FromObjectId(tr, id);
+                        if (pos != null)
+                        {
+                            int i = -1;
+                            if (int.TryParse(pos.Pos, out i))
+                            {
+                                num = Math.Max(i, num);
+                            }
+                        }
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return num;
+        }
+
+        // Refreshes given items
+        public static void RefreshPos(IEnumerable<ObjectId> ids)
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    foreach (ObjectId posid in ids)
+                    {
+                        RebarPos pos = RebarPos.FromObjectId(tr, posid);
+                        pos.UpdateProperties();
+                        pos.Save(tr);
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+        }
+
+        // Refreshes all items with the given shape
+        public static void RefreshPosWithShape(string name)
+        {
+            RefreshPos(GetPosWithShape(name));
+        }
+
+        // Refreshes all items
+        public static void RefreshAllPos()
+        {
+            RefreshPos(GetAllPos());
+        }
+        #endregion
     }
 }

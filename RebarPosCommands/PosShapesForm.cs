@@ -458,7 +458,27 @@ namespace RebarPosCommands
             }
             if (result.Status == PromptStatus.OK)
             {
-                DWGUtility.DrawShape(HostApplicationServices.WorkingDatabase, GetSelected(), true, result.Value, 75, 0);
+                Database db = HostApplicationServices.WorkingDatabase;
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        IEnumerable<Entity> items = GetSelected().ToEntitites(db, result.Value, 75, 0, true);
+                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite);
+
+                        foreach (Entity en in items)
+                        {
+                            btr.AppendEntity(en);
+                            tr.AddNewlyCreatedDBObject(en, true);
+                        }
+                    }
+                    catch (System.Exception ex)
+                    {
+                        System.Windows.Forms.MessageBox.Show("Error: " + ex.ToString(), "RebarPos", System.Windows.Forms.MessageBoxButtons.OK, System.Windows.Forms.MessageBoxIcon.Error);
+                    }
+
+                    tr.Commit();
+                }
 
                 MessageBox.Show("Açılımı şablon çerçevesi içine çizin ve tekrar bu diyalog kutusuna dönüp çizimden al düğmesini tıklayın.", "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }

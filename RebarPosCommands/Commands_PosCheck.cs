@@ -11,7 +11,7 @@ namespace RebarPosCommands
     {
         private void PosCheck()
         {
-            DWGUtility.PromptRebarSelectionResult sel = DWGUtility.SelectAllPosUser(true);
+            RebarPos.PromptRebarSelectionResult sel = RebarPos.SelectAllPosUser();
             if (sel.Status != PromptStatus.OK) return;
 
             using (CheckForm form = new CheckForm())

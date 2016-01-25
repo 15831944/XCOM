@@ -105,7 +105,7 @@ namespace RebarPosCommands
             return ext;
         }
 
-        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation, bool showInvisible, ObjectId lineLayerId, ObjectId textLayerId)
+        public EntityCollection ToEntitites(Database db, Point3d basePoint = default( Point3d), double scale = 1.0, double rotation = 0, bool showInvisible = false, ObjectId lineLayerId = default(ObjectId), ObjectId textLayerId = default(ObjectId))
         {
             EntityCollection res = new EntityCollection();
             ObjectId hiddenLayerId = AcadUtility.AcadEntity.GetOrCreateDefpointsLayer(db);
@@ -164,31 +164,6 @@ namespace RebarPosCommands
             res.TransformBy(trans);
 
             return res;
-        }
-
-        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation, bool showInvisible)
-        {
-            return ToEntitites(db, basePoint, scale, rotation, showInvisible, ObjectId.Null, ObjectId.Null);
-        }
-
-        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale, double rotation)
-        {
-            return ToEntitites(db, basePoint, scale, rotation, false, ObjectId.Null, ObjectId.Null);
-        }
-
-        public EntityCollection ToEntitites(Database db, Point3d basePoint, double scale)
-        {
-            return ToEntitites(db, basePoint, scale, 0, false, ObjectId.Null, ObjectId.Null);
-        }
-
-        public EntityCollection ToEntitites(Database db, Point3d basePoint)
-        {
-            return ToEntitites(db, basePoint, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
-        }
-
-        public EntityCollection ToEntitites(Database db)
-        {
-            return ToEntitites(db, Point3d.Origin, 1.0, 0, false, ObjectId.Null, ObjectId.Null);
         }
 
         #region Static Methods
