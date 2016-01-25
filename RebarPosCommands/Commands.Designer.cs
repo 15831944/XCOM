@@ -106,6 +106,15 @@ namespace RebarPosCommands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to METRAJSIL.
+        /// </summary>
+        internal static string DELETEBOQ_Local {
+            get {
+                return ResourceManager.GetString("DELETEBOQ_Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to NUMARASIL.
         /// </summary>
         internal static string EMPTYPOS_Local {
@@ -214,11 +223,29 @@ namespace RebarPosCommands {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to POZLISANS.
+        /// </summary>
+        internal static string POSLICENSE_Local {
+            get {
+                return ResourceManager.GetString("POSLICENSE_Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to POZMENU.
         /// </summary>
         internal static string POSMENU_Local {
             get {
                 return ResourceManager.GetString("POSMENU_Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POZMIRROR.
+        /// </summary>
+        internal static string POSMIRROR_Local {
+            get {
+                return ResourceManager.GetString("POSMIRROR_Local", resourceCulture);
             }
         }
         
@@ -255,6 +282,15 @@ namespace RebarPosCommands {
         internal static string TABLESTYLE_Local {
             get {
                 return ResourceManager.GetString("TABLESTYLE_Local", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to POZYENILE.
+        /// </summary>
+        internal static string UPGRADEPOSBLOCKS_Local {
+            get {
+                return ResourceManager.GetString("UPGRADEPOSBLOCKS_Local", resourceCulture);
             }
         }
     }

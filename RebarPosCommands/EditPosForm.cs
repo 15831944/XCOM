@@ -29,8 +29,8 @@ namespace RebarPosCommands
         bool m_Bending;
         int m_Fields;
         int m_Precision;
-        PosGroup.DrawingUnits m_DisplayUnits;
-        PosGroup.DrawingUnits m_DrawingUnits;
+        PosSettings.DrawingUnits m_DisplayUnits;
+        PosSettings.DrawingUnits m_DrawingUnits;
         double m_MaxLength;
         List<Autodesk.AutoCAD.GraphicsInterface.Drawable> transients;
 
@@ -287,7 +287,7 @@ namespace RebarPosCommands
 
         private bool SetGroup()
         {
-            PosGroup group = PosGroup.Current;
+            PosSettings group = PosSettings.Current;
             if (group == null) return false;
 
             m_StandardDiameters = group.StandardDiameters;
@@ -361,17 +361,17 @@ namespace RebarPosCommands
                 string unitPrefix = "mm";
                 switch (m_DrawingUnits)
                 {
-                    case PosGroup.DrawingUnits.Millimeter:
+                    case PosSettings.DrawingUnits.Millimeter:
                         unitPrefix = "mm";
                         break;
-                    case PosGroup.DrawingUnits.Centimeter:
+                    case PosSettings.DrawingUnits.Centimeter:
                         unitPrefix = "cm";
                         break;
                 }
 
                 // Scale from MM to drawing units
-                double minLength = PosGroup.ConvertLength(minLengthMM, PosGroup.DrawingUnits.Millimeter, m_DrawingUnits);
-                double maxLength = PosGroup.ConvertLength(maxLengthMM, PosGroup.DrawingUnits.Millimeter, m_DrawingUnits);
+                double minLength = PosSettings.ConvertLength(minLengthMM, PosSettings.DrawingUnits.Millimeter, m_DrawingUnits);
+                double maxLength = PosSettings.ConvertLength(maxLengthMM, PosSettings.DrawingUnits.Millimeter, m_DrawingUnits);
 
                 if (isVarLength)
                 {

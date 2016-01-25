@@ -287,7 +287,7 @@ namespace RebarPosCommands
             double dia = 0;
             if (double.TryParse(diameter, out dia))
             {
-                string ds = PosGroup.ConvertLength(dia, PosGroup.DrawingUnits.Millimeter, PosGroup.Current.DisplayUnit).ToString();
+                string ds = PosSettings.ConvertLength(dia, PosSettings.DrawingUnits.Millimeter, PosSettings.Current.DisplayUnit).ToString();
                 a = a.Replace("d", ds).Replace("D", ds);
                 b = b.Replace("d", ds).Replace("D", ds);
                 c = c.Replace("d", ds).Replace("D", ds);
@@ -318,8 +318,8 @@ namespace RebarPosCommands
                 Calculator.TryEvaluate(minFormula, out len1);
                 Calculator.TryEvaluate(maxFormula, out len2);
                 VariableValue propsLength = new VariableValue(len1, len2);
-                minLengthMM = PosGroup.ConvertLength(propsLength.Minimum, PosGroup.Current.DisplayUnit, PosGroup.DrawingUnits.Millimeter);
-                maxLengthMM = PosGroup.ConvertLength(propsLength.Maximum, PosGroup.Current.DisplayUnit, PosGroup.DrawingUnits.Millimeter);
+                minLengthMM = PosSettings.ConvertLength(propsLength.Minimum, PosSettings.Current.DisplayUnit, PosSettings.DrawingUnits.Millimeter);
+                maxLengthMM = PosSettings.ConvertLength(propsLength.Maximum, PosSettings.Current.DisplayUnit, PosSettings.DrawingUnits.Millimeter);
             }
             else
             {
@@ -329,8 +329,8 @@ namespace RebarPosCommands
                 double len = 0;
                 Calculator.TryEvaluate(consFormula, out len);
                 VariableValue propsLength = new VariableValue(len);
-                minLengthMM = PosGroup.ConvertLength(propsLength.Minimum, PosGroup.Current.DisplayUnit, PosGroup.DrawingUnits.Millimeter);
-                maxLengthMM = PosGroup.ConvertLength(propsLength.Maximum, PosGroup.Current.DisplayUnit, PosGroup.DrawingUnits.Millimeter);
+                minLengthMM = PosSettings.ConvertLength(propsLength.Minimum, PosSettings.Current.DisplayUnit, PosSettings.DrawingUnits.Millimeter);
+                maxLengthMM = PosSettings.ConvertLength(propsLength.Maximum, PosSettings.Current.DisplayUnit, PosSettings.DrawingUnits.Millimeter);
             }
 
             return true;
@@ -340,7 +340,7 @@ namespace RebarPosCommands
         {
             UpdateProperties();
 
-            string len = Properties.Length.ConvertToString(PosGroup.Current.Precision, '~');
+            string len = Properties.Length.ConvertToString(PosSettings.Current.Precision, '~');
 
             using (BlockReference blockRef = (BlockReference)tr.GetObject(ID, OpenMode.ForRead))
             {
@@ -443,7 +443,7 @@ namespace RebarPosCommands
             if (Calculator.TryEvaluate(Count, out d)) props.Count = (int)d;
             props.Spacing = new VariableValue(Spacing);
 
-            string ds = PosGroup.ConvertLength(props.Diameter, PosGroup.DrawingUnits.Millimeter, PosGroup.Current.DrawingUnit).ToString();
+            string ds = PosSettings.ConvertLength(props.Diameter, PosSettings.DrawingUnits.Millimeter, PosSettings.Current.DrawingUnit).ToString();
             props.A = new VariableValue(A.Replace("d", ds).Replace("D", ds));
             props.B = new VariableValue(B.Replace("d", ds).Replace("D", ds));
             props.C = new VariableValue(C.Replace("d", ds).Replace("D", ds));
@@ -451,7 +451,7 @@ namespace RebarPosCommands
             props.E = new VariableValue(E.Replace("d", ds).Replace("D", ds));
             props.F = new VariableValue(F.Replace("d", ds).Replace("D", ds));
 
-            string formula = (PosGroup.Current.Bending ? Shape.FormulaBending : Shape.Formula);
+            string formula = (PosSettings.Current.Bending ? Shape.FormulaBending : Shape.Formula);
             bool isVar = props.A.IsVariable || props.B.IsVariable || props.C.IsVariable || props.D.IsVariable || props.E.IsVariable || props.F.IsVariable;
             if (isVar)
             {
@@ -570,13 +570,18 @@ namespace RebarPosCommands
         #region Static Functions
         public static bool EnsureBlockExists()
         {
+            bool exists = false;
             // Find and insert the pos block
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
             using (Transaction tr = db.TransactionManager.StartTransaction())
             using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
             {
-                if (!bt.Has(BlockName))
+                if (bt.Has(BlockName))
+                {
+                    exists = true;
+                }
+                else
                 {
                     try
                     {
@@ -586,7 +591,7 @@ namespace RebarPosCommands
                             dbBlock.ReadDwgFile(blockPath, System.IO.FileShare.Read, true, "");
                             db.Insert(RebarPos.BlockName, dbBlock, true);
                         }
-                        return true;
+                        exists = true;
                     }
                     catch
                     {
@@ -596,7 +601,7 @@ namespace RebarPosCommands
                 tr.Commit();
             }
 
-            return false;
+            return exists;
         }
 
         public class PromptRebarSelectionResult

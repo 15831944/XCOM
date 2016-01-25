@@ -70,36 +70,36 @@ namespace RebarPosCommands
                 btnOK.Enabled = true;
             }
 
-            PosGroup group = PosGroup.Current;
+            PosSettings group = PosSettings.Current;
 
             double lengthScale = 1.0;
             switch (group.DrawingUnit)
             {
-                case PosGroup.DrawingUnits.Millimeter:
+                case PosSettings.DrawingUnits.Millimeter:
                     lengthScale = 1.0;
                     break;
-                case PosGroup.DrawingUnits.Centimeter:
+                case PosSettings.DrawingUnits.Centimeter:
                     lengthScale = 10.0;
                     break;
-                case PosGroup.DrawingUnits.Decimeter:
+                case PosSettings.DrawingUnits.Decimeter:
                     lengthScale = 100.0;
                     break;
-                case PosGroup.DrawingUnits.Meter:
+                case PosSettings.DrawingUnits.Meter:
                     lengthScale = 1000.0;
                     break;
             }
             switch (group.DisplayUnit)
             {
-                case PosGroup.DrawingUnits.Millimeter:
+                case PosSettings.DrawingUnits.Millimeter:
                     lengthScale /= 1.0;
                     break;
-                case PosGroup.DrawingUnits.Centimeter:
+                case PosSettings.DrawingUnits.Centimeter:
                     lengthScale /= 10.0;
                     break;
-                case PosGroup.DrawingUnits.Decimeter:
+                case PosSettings.DrawingUnits.Decimeter:
                     lengthScale /= 100.0;
                     break;
-                case PosGroup.DrawingUnits.Meter:
+                case PosSettings.DrawingUnits.Meter:
                     lengthScale /= 1000.0;
                     break;
             }

@@ -7,9 +7,9 @@ namespace RebarPosCommands
 {
     public partial class MyCommands
     {
-        private void PosGroups()
+        private void ChangePosSettings()
         {
-            using (GroupForm form = new GroupForm())
+            using (SetingsForm form = new SetingsForm())
             {
                 if (form.Init())
                 {

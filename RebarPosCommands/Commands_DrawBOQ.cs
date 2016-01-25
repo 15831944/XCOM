@@ -89,7 +89,7 @@ namespace RebarPosCommands
                 }
                 if (!form.HideUnusedDiameters)
                 {
-                    diameterList.UnionWith(PosGroup.Current.StandardDiameters.Select(p => p.ToString()));
+                    diameterList.UnionWith(PosSettings.Current.StandardDiameters.Select(p => p.ToString()));
                 }
                 List<string> diameters = diameterList.ToList();
                 diameters.Sort((a, b) => (int.Parse(a) < int.Parse(b) ? -1 : 1));
@@ -179,7 +179,7 @@ namespace RebarPosCommands
                         }
                         pt = AcadUtility.AcadGeometry.Polar(pt, 1.5 * Math.PI, 2.9375);
 
-                        double lengthScale = PosGroup.ConvertLength(1.0, PosGroup.Current.DrawingUnit, PosGroup.Current.DisplayUnit);
+                        double lengthScale = PosSettings.ConvertLength(1.0, PosSettings.Current.DrawingUnit, PosSettings.Current.DisplayUnit);
 
                         // Add rows
                         foreach (PosCopy copy in posList)
@@ -224,7 +224,7 @@ namespace RebarPosCommands
                                 // Length in display units
                                 string length = (aveLength * lengthScale).ToString("F0");
                                 // Total length in M
-                                string totalLengthM = PosGroup.ConvertLength(((double)copy.count) * aveLength, PosGroup.Current.DrawingUnit, PosGroup.DrawingUnits.Meter).ToString("F" + form.Precision);
+                                string totalLengthM = PosSettings.ConvertLength(((double)copy.count) * aveLength, PosSettings.Current.DrawingUnit, PosSettings.DrawingUnits.Meter).ToString("F" + form.Precision);
 
                                 entities.Add(AcadUtility.AcadEntity.CreateText(db, AcadUtility.AcadGeometry.Polar(pt, 0, 2), copy.pos, 1.0, 0, 0.7, TextHorizontalMode.TextCenter, TextVerticalMode.TextVerticalMid, cellStyleId, textLayerId));
                                 entities.Add(AcadUtility.AcadEntity.CreateText(db, AcadUtility.AcadGeometry.Polar(pt, 0, 6), copy.diameter, 1.0, 0, 0.7, TextHorizontalMode.TextCenter, TextVerticalMode.TextVerticalMid, cellStyleId, textLayerId));
@@ -266,7 +266,7 @@ namespace RebarPosCommands
                         j = 0;
                         foreach (string dia in diameters)
                         {
-                            double sum = posList.Sum(p => (p.diameter == dia ? PosGroup.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosGroup.Current.DrawingUnit, PosGroup.DrawingUnits.Meter) : 0));
+                            double sum = posList.Sum(p => (p.diameter == dia ? PosSettings.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosSettings.Current.DrawingUnit, PosSettings.DrawingUnits.Meter) : 0));
                             if (sum > double.Epsilon)
                             {
                                 entities.Add(AcadUtility.AcadEntity.CreateMText(db, AcadUtility.AcadGeometry.Polar(pt, 0, 20 + colOffset + diaOffset + diameterWidths[j] / 2.0), sum.ToString("F" + form.Precision), 1.0, 0, AttachmentPoint.MiddleCenter, cellStyleId, textLayerId));
@@ -301,7 +301,7 @@ namespace RebarPosCommands
                         {
                             double d = double.Parse(dia);
                             double uw = (d * d * Math.PI / 4 * 7850.0 * 0.000001);
-                            double sum = posList.Sum(p => (p.diameter == dia ? PosGroup.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosGroup.Current.DrawingUnit, PosGroup.DrawingUnits.Meter) : 0));
+                            double sum = posList.Sum(p => (p.diameter == dia ? PosSettings.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosSettings.Current.DrawingUnit, PosSettings.DrawingUnits.Meter) : 0));
                             if (sum > double.Epsilon)
                             {
                                 sum *= uw;
@@ -335,7 +335,7 @@ namespace RebarPosCommands
                             {
                                 double d = double.Parse(dia);
                                 double uw = (d * d * Math.PI / 4 * 7850.0 * 0.000001);
-                                double sum = posList.Sum(p => (p.diameter == dia ? PosGroup.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosGroup.Current.DrawingUnit, PosGroup.DrawingUnits.Meter) : 0));
+                                double sum = posList.Sum(p => (p.diameter == dia ? PosSettings.ConvertLength(((double)p.count) * (p.length1 + p.length2) / 2.0, PosSettings.Current.DrawingUnit, PosSettings.DrawingUnits.Meter) : 0));
                                 if (sum > double.Epsilon)
                                 {
                                     sum *= uw * (double)form.Multiplier;

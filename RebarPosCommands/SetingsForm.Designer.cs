@@ -1,6 +1,6 @@
 ﻿namespace RebarPosCommands
 {
-    partial class GroupForm
+    partial class SetingsForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(GroupForm));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(SetingsForm));
             this.gbOptions = new System.Windows.Forms.GroupBox();
             this.udPrecision = new System.Windows.Forms.NumericUpDown();
             this.cbDisplayUnit = new System.Windows.Forms.ComboBox();

@@ -29,18 +29,18 @@ namespace RebarPosCommands
             get
             {
                 string displayUnit = "";
-                switch (PosGroup.Current.DisplayUnit)
+                switch (PosSettings.Current.DisplayUnit)
                 {
-                    case PosGroup.DrawingUnits.Millimeter:
+                    case PosSettings.DrawingUnits.Millimeter:
                         displayUnit = "(mm)";
                         break;
-                    case PosGroup.DrawingUnits.Centimeter:
+                    case PosSettings.DrawingUnits.Centimeter:
                         displayUnit = "(cm)";
                         break;
-                    case PosGroup.DrawingUnits.Decimeter:
+                    case PosSettings.DrawingUnits.Decimeter:
                         displayUnit = "(dm)";
                         break;
-                    case PosGroup.DrawingUnits.Meter:
+                    case PosSettings.DrawingUnits.Meter:
                         displayUnit = "(m)";
                         break;
                 }

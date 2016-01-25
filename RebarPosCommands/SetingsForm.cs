@@ -9,12 +9,12 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace RebarPosCommands
 {
-    public partial class GroupForm : VersionDisplayForm
+    public partial class SetingsForm : VersionDisplayForm
     {
         private class GroupCopy
         {
-            public PosGroup.DrawingUnits DrawingUnit;
-            public PosGroup.DrawingUnits DisplayUnit;
+            public PosSettings.DrawingUnits DrawingUnit;
+            public PosSettings.DrawingUnits DisplayUnit;
             public int Precision;
             public double MaxBarLength;
             public bool Bending;
@@ -24,7 +24,7 @@ namespace RebarPosCommands
 
         private GroupCopy mCopy;
 
-        public GroupForm()
+        public SetingsForm()
         {
             InitializeComponent();
             Width = 340;
@@ -34,7 +34,7 @@ namespace RebarPosCommands
 
         public bool Init()
         {
-            PosGroup group = PosGroup.Current;
+            PosSettings group = PosSettings.Current;
             if (group == null) return false;
 
             mCopy.DrawingUnit = group.DrawingUnit;
@@ -52,8 +52,8 @@ namespace RebarPosCommands
 
         public void SetGroup()
         {
-            cbDrawingUnit.SelectedIndex = (mCopy.DrawingUnit == PosGroup.DrawingUnits.Millimeter ? 0 : 1);
-            cbDisplayUnit.SelectedIndex = (mCopy.DisplayUnit == PosGroup.DrawingUnits.Millimeter ? 0 : 1);
+            cbDrawingUnit.SelectedIndex = (mCopy.DrawingUnit == PosSettings.DrawingUnits.Millimeter ? 0 : 1);
+            cbDisplayUnit.SelectedIndex = (mCopy.DisplayUnit == PosSettings.DrawingUnits.Millimeter ? 0 : 1);
             udPrecision.Value = mCopy.Precision;
             txtMaxLength.Text = mCopy.MaxBarLength.ToString();
             chkBending.Checked = mCopy.Bending;
@@ -63,13 +63,13 @@ namespace RebarPosCommands
         private void cbDrawingUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (mCopy == null) return;
-            mCopy.DrawingUnit = (cbDrawingUnit.SelectedIndex == 0 ? PosGroup.DrawingUnits.Millimeter : PosGroup.DrawingUnits.Centimeter);
+            mCopy.DrawingUnit = (cbDrawingUnit.SelectedIndex == 0 ? PosSettings.DrawingUnits.Millimeter : PosSettings.DrawingUnits.Centimeter);
         }
 
         private void cbDisplayUnit_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (mCopy == null) return;
-            mCopy.DisplayUnit = (cbDisplayUnit.SelectedIndex == 0 ? PosGroup.DrawingUnits.Millimeter : PosGroup.DrawingUnits.Centimeter);
+            mCopy.DisplayUnit = (cbDisplayUnit.SelectedIndex == 0 ? PosSettings.DrawingUnits.Millimeter : PosSettings.DrawingUnits.Centimeter);
         }
 
         private void udPrecision_ValueChanged(object sender, EventArgs e)
@@ -88,7 +88,7 @@ namespace RebarPosCommands
         {
             // Apply changes
 
-            PosGroup group = PosGroup.Current;
+            PosSettings group = PosSettings.Current;
 
             group.DrawingUnit = mCopy.DrawingUnit;
             group.DisplayUnit = mCopy.DisplayUnit;

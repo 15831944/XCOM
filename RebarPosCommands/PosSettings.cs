@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RebarPosCommands
 {
-    public class PosGroup
+    public class PosSettings
     {
         public enum DrawingUnits
         {
@@ -24,22 +24,22 @@ namespace RebarPosCommands
 
         public List<int> StandardDiameters { get; set; }
 
-        private static PosGroup m_Current = null;
-        public static PosGroup Current
+        private static PosSettings m_Current = null;
+        public static PosSettings Current
         {
             get
             {
                 if (m_Current == null)
                 {
                     Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                    m_Current = doc.UserData["OZOZ.RebarPosCommands.PosGroup"] as PosGroup;
-                    if (m_Current == null) m_Current = new PosGroup();
+                    m_Current = doc.UserData["OZOZ.RebarPosCommands.PosGroup"] as PosSettings;
+                    if (m_Current == null) m_Current = new PosSettings();
                 }
                 return m_Current;
             }
         }
 
-        private PosGroup()
+        private PosSettings()
         {
             DrawingUnit = DrawingUnits.Centimeter;
             DisplayUnit = DrawingUnits.Centimeter;

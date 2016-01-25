@@ -59,10 +59,10 @@ namespace RebarPosCommands
             if (checkErrors)
             {
                 // Read standard diameter list
-                List<int> standardDiameters = PosGroup.Current.StandardDiameters;
+                List<int> standardDiameters = PosSettings.Current.StandardDiameters;
 
                 // Maximum bar length
-                double maxLength = PosGroup.Current.MaxBarLength;
+                double maxLength = PosSettings.Current.MaxBarLength;
 
                 // Check if standard diameter
                 Dictionary<string, List<PosCopy>> sdcheck = new Dictionary<string, List<PosCopy>>();
