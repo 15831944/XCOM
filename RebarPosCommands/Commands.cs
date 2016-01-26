@@ -20,6 +20,16 @@ namespace RebarPosCommands
     // is implicitly per-document!
     public partial class MyCommands
     {
+        public static string DeveloperSymbol = "OZOZ";
+
+        public static string RegAppName
+        {
+            get
+            {
+                return DeveloperSymbol + "_" + System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            }
+        }
+
         // The CommandMethod attribute can be applied to any public  member 
         // function of any public class.
         // The function should take no arguments and return nothing.
@@ -346,7 +356,7 @@ namespace RebarPosCommands
         [CommandMethod("RebarPos", "DELETEBOQ", "DELETEBOQ_Local", CommandFlags.Modal)]
         public void CMD_DeleteBOQ()
         {
-            ;
+            DeleteBOQ();
         }
 
         [Category("Diğer komutlar")]

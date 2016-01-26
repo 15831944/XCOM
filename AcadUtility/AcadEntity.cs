@@ -79,6 +79,49 @@ namespace AcadUtility
             return id;
         }
 
+        public static void AddRegAppTableRecord(Database db, string regAppName)
+        {
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                RegAppTable rat = (RegAppTable)tr.GetObject(db.RegAppTableId, OpenMode.ForRead, false);
+                if (!rat.Has(regAppName))
+                {
+                    rat.UpgradeOpen();
+                    RegAppTableRecord ratr = new RegAppTableRecord();
+                    ratr.Name = regAppName;
+                    rat.Add(ratr);
+                    tr.AddNewlyCreatedDBObject(ratr, true);
+                }
+                tr.Commit();
+            }
+        }
+
+        public static void AttachXData(DBObject obj, string regAppName, string data)
+        {
+            using (ResultBuffer rb = new ResultBuffer(new TypedValue((int)DxfCode.ExtendedDataRegAppName, regAppName), new TypedValue((int)DxfCode.ExtendedDataAsciiString, data)))
+            {
+                obj.XData = rb;
+            }
+        }
+
+        public static string GetXData(DBObject obj, string regAppName)
+        {
+            using (ResultBuffer rb = obj.GetXDataForApplication(regAppName))
+            {
+                if (rb != null)
+                {
+                    foreach (TypedValue tv in rb)
+                    {
+                        if (tv.TypeCode == (int)DxfCode.ExtendedDataAsciiString)
+                        {
+                            return tv.Value.ToString();
+                        }
+                    }
+                }
+            }
+            return string.Empty;
+        }
+
         public static DBText CreateText(Database db, Point3d pt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId, ObjectId layerId)
         {
             using (CurrentDB curr = new CurrentDB(db))

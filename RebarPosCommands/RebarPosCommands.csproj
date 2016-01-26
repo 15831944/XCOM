@@ -89,6 +89,7 @@
   <ItemGroup>
     <Compile Include="BOQLanguage.cs" />
     <Compile Include="Calculator.cs" />
+    <Compile Include="Commands_DeleteBOQ.cs" />
     <Compile Include="Commands_PosHelp.cs" />
     <Compile Include="Commands_ShowShapes.cs" />
     <Compile Include="Commands_NewPos.cs" />

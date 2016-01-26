@@ -461,34 +461,13 @@ namespace RebarPosCommands
                         Vector3d ucsx = Vector3d.XAxis.TransformBy(AcadUtility.AcadGraphics.UcsToWcs);
                         trans = trans.PreMultiplyBy(Matrix3d.Rotation(ucsx.GetAngleTo(Vector3d.XAxis), Vector3d.ZAxis, ptBaseWCS));
 
-                        // Create a group for entities
-                        DBDictionary gd = (DBDictionary)tr.GetObject(db.GroupDictionaryId, OpenMode.ForWrite);
-                        string groupName = string.Empty;
-                        int k = 1;
-                        while (string.IsNullOrEmpty(groupName))
-                        {
-                            try
-                            {
-                                string name = BOQGroupName + "_" + k.ToString();
-                                SymbolUtilityServices.ValidateSymbolName(name, false);
-                                if (!gd.Contains(name)) groupName = name;
-                            }
-                            catch
-                            {
-                                ;
-                            }
-                        }
-                        Group group = new Group(groupName, true);
-                        ObjectId grpId = gd.SetAt(groupName, group);
-                        tr.AddNewlyCreatedDBObject(group, true);
-
                         // Add table to db
-                        ObjectIdCollection idList = new ObjectIdCollection();
+                        AcadUtility.AcadEntity.AddRegAppTableRecord(db, RegAppName);
                         foreach (Entity en in entities)
                         {
                             en.TransformBy(trans);
-                            ObjectId id = btr.AppendEntity(en);
-                            idList.Add(id);
+                            btr.AppendEntity(en);
+                            AcadUtility.AcadEntity.AttachXData(en, RegAppName, BOQGroupName);
                             tr.AddNewlyCreatedDBObject(en, true);
                             if (en.Id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(MText)).UnmanagedObject)
                             {
@@ -496,7 +475,6 @@ namespace RebarPosCommands
                                 text.Direction = ucsx;
                             }
                         }
-                        group.Append(idList);
                     }
                     catch (System.Exception ex)
                     {
