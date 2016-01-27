@@ -60,7 +60,7 @@ namespace RebarPosCommands
             }
             catch (System.Exception ex)
             {
-                MessageBox.Show("Error: " + ex.ToString(), "RebarPos", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                ;
             }
 
             // Load prompt
