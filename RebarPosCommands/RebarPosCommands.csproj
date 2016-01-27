@@ -90,6 +90,7 @@
     <Compile Include="BOQLanguage.cs" />
     <Compile Include="Calculator.cs" />
     <Compile Include="Commands_DeleteBOQ.cs" />
+    <Compile Include="Commands_CheckLicense.cs" />
     <Compile Include="Commands_PosHelp.cs" />
     <Compile Include="Commands_ShowShapes.cs" />
     <Compile Include="Commands_NewPos.cs" />
@@ -132,9 +133,7 @@
     <Compile Include="PosSettings.cs" />
     <Compile Include="PosShape.cs" />
     <Compile Include="RebarPos.cs" />
-    <Compile Include="DrawingPreview.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="DrawingPreview.cs" />
     <Compile Include="EditDetachedPosForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -354,6 +353,10 @@
     <ProjectReference Include="..\AcadUtility\AcadUtility.csproj">
       <Project>{3fa2ad2d-513b-41bd-a00e-feed8644b2c8}</Project>
       <Name>AcadUtility</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LicenseCheck\LicenseCheck.csproj">
+      <Project>{7ef2a61a-8976-4135-8ba7-27b35b3e4955}</Project>
+      <Name>LicenseCheck</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

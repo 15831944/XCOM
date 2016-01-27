@@ -42,6 +42,7 @@ Source: "..\Package\icon.bmp"; DestDir: "{app}\Resources"
 Source: "..\XCOM\bin\Release\XCOM.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\RebarPosCommands\bin\Release\RebarPos.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\AcadUtility\bin\Release\AcadUtility.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
+Source: "..\LicenseCheck\bin\Release\LicenseCheck.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\bin\Release\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\Libraries\Triangle.NET\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 ; Support files

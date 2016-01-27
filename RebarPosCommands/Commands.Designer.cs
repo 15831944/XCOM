@@ -70,15 +70,6 @@ namespace RebarPosCommands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to METRAJEDIT.
-        /// </summary>
-        internal static string BOQEDIT_Local {
-            get {
-                return ResourceManager.GetString("BOQEDIT_Local", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to POZKOPYALA.
         /// </summary>
         internal static string COPYPOS_Local {
@@ -232,15 +223,6 @@ namespace RebarPosCommands {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to POZMENU.
-        /// </summary>
-        internal static string POSMENU_Local {
-            get {
-                return ResourceManager.GetString("POSMENU_Local", resourceCulture);
-            }
-        }
-        
-        /// <summary>
         ///   Looks up a localized string similar to POZMIRROR.
         /// </summary>
         internal static string POSMIRROR_Local {
@@ -273,15 +255,6 @@ namespace RebarPosCommands {
         internal static string SHOWSHAPES_Local {
             get {
                 return ResourceManager.GetString("SHOWSHAPES_Local", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to TABLOSTILI.
-        /// </summary>
-        internal static string TABLESTYLE_Local {
-            get {
-                return ResourceManager.GetString("TABLESTYLE_Local", resourceCulture);
             }
         }
         
