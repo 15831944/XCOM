@@ -31,6 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MakeLicenseForm));
             this.btnCancel = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.btnCreateLicenseKey = new System.Windows.Forms.Button();
             this.udTimeLimit = new System.Windows.Forms.NumericUpDown();
             this.btnCopy = new System.Windows.Forms.Button();
             this.txtLicenseKey = new System.Windows.Forms.TextBox();
@@ -39,7 +40,7 @@
             this.txtActivationCode = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnCreateLicenseKey = new System.Windows.Forms.Button();
+            this.btnPaste = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.udTimeLimit)).BeginInit();
             this.SuspendLayout();
@@ -51,7 +52,7 @@
             this.btnCancel.Location = new System.Drawing.Point(398, 301);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 1;
             this.btnCancel.Text = "Kapat";
             this.btnCancel.UseVisualStyleBackColor = true;
             this.btnCancel.Click += new System.EventHandler(this.btnCancel_Click);
@@ -63,6 +64,7 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.btnCreateLicenseKey);
             this.groupBox1.Controls.Add(this.udTimeLimit);
+            this.groupBox1.Controls.Add(this.btnPaste);
             this.groupBox1.Controls.Add(this.btnCopy);
             this.groupBox1.Controls.Add(this.txtLicenseKey);
             this.groupBox1.Controls.Add(this.label5);
@@ -76,12 +78,23 @@
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             // 
+            // btnCreateLicenseKey
+            // 
+            this.btnCreateLicenseKey.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.btnCreateLicenseKey.Location = new System.Drawing.Point(22, 162);
+            this.btnCreateLicenseKey.Name = "btnCreateLicenseKey";
+            this.btnCreateLicenseKey.Size = new System.Drawing.Size(135, 23);
+            this.btnCreateLicenseKey.TabIndex = 6;
+            this.btnCreateLicenseKey.Text = "&Lisans Anahtarı Üret";
+            this.btnCreateLicenseKey.UseVisualStyleBackColor = true;
+            this.btnCreateLicenseKey.Click += new System.EventHandler(this.btnCreateLicenseKey_Click);
+            // 
             // udTimeLimit
             // 
             this.udTimeLimit.Location = new System.Drawing.Point(22, 103);
             this.udTimeLimit.Name = "udTimeLimit";
             this.udTimeLimit.Size = new System.Drawing.Size(98, 20);
-            this.udTimeLimit.TabIndex = 6;
+            this.udTimeLimit.TabIndex = 4;
             // 
             // btnCopy
             // 
@@ -89,7 +102,7 @@
             this.btnCopy.Location = new System.Drawing.Point(383, 222);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(62, 23);
-            this.btnCopy.TabIndex = 4;
+            this.btnCopy.TabIndex = 9;
             this.btnCopy.Text = "&Kopyala";
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
@@ -103,16 +116,16 @@
             this.txtLicenseKey.Name = "txtLicenseKey";
             this.txtLicenseKey.ReadOnly = true;
             this.txtLicenseKey.Size = new System.Drawing.Size(355, 23);
-            this.txtLicenseKey.TabIndex = 3;
+            this.txtLicenseKey.TabIndex = 8;
             // 
             // label5
             // 
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(19, 87);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(101, 13);
-            this.label5.TabIndex = 5;
-            this.label5.Text = "&Kullanım Sınırı (gün):";
+            this.label5.Size = new System.Drawing.Size(145, 13);
+            this.label5.TabIndex = 3;
+            this.label5.Text = "&Lisans Geçerlilik Süresi (gün):";
             // 
             // label2
             // 
@@ -120,7 +133,7 @@
             this.label2.Location = new System.Drawing.Point(19, 206);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(82, 13);
-            this.label2.TabIndex = 2;
+            this.label2.TabIndex = 7;
             this.label2.Text = "&Lisans Anahtarı:";
             // 
             // txtActivationCode
@@ -140,10 +153,10 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(19, 126);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(354, 13);
-            this.label3.TabIndex = 7;
-            this.label3.Text = "Süre kısıtlaması olmayan bir lisans üretmek için kullanım sınırını 0 (sıfır) giri" +
-    "n.";
+            this.label3.Size = new System.Drawing.Size(393, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Süre kısıtlaması olmayan bir lisans üretmek için lisans geçerlilik süresini 0 (sı" +
+    "fır) girin.";
             // 
             // label1
             // 
@@ -154,16 +167,16 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "&Aktivasyon Kodu:";
             // 
-            // btnCreateLicenseKey
+            // btnPaste
             // 
-            this.btnCreateLicenseKey.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCreateLicenseKey.Location = new System.Drawing.Point(22, 162);
-            this.btnCreateLicenseKey.Name = "btnCreateLicenseKey";
-            this.btnCreateLicenseKey.Size = new System.Drawing.Size(135, 23);
-            this.btnCreateLicenseKey.TabIndex = 1;
-            this.btnCreateLicenseKey.Text = "&Lisans Anahtarı Üret";
-            this.btnCreateLicenseKey.UseVisualStyleBackColor = true;
-            this.btnCreateLicenseKey.Click += new System.EventHandler(this.btnCreateLicenseKey_Click);
+            this.btnPaste.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnPaste.Location = new System.Drawing.Point(386, 44);
+            this.btnPaste.Name = "btnPaste";
+            this.btnPaste.Size = new System.Drawing.Size(62, 23);
+            this.btnPaste.TabIndex = 2;
+            this.btnPaste.Text = "&Yapıştır";
+            this.btnPaste.UseVisualStyleBackColor = true;
+            this.btnPaste.Click += new System.EventHandler(this.btnPaste_Click);
             // 
             // MakeLicenseForm
             // 
@@ -199,6 +212,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnCreateLicenseKey;
+        private System.Windows.Forms.Button btnPaste;
     }
 }
 

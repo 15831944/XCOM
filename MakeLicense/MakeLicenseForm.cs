@@ -24,6 +24,11 @@ namespace MakeLicense
             Close();
         }
 
+        private void btnPaste_Click(object sender, EventArgs e)
+        {
+            if (Clipboard.ContainsText()) txtActivationCode.Text = Clipboard.GetText();
+        }
+
         private void btnCopy_Click(object sender, EventArgs e)
         {
             Clipboard.SetText(txtLicenseKey.Text);
