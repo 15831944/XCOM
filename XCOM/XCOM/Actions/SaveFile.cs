@@ -72,18 +72,20 @@ namespace XCOM.Commands.XCommand
 
         public bool ShowDialog()
         {
-            SaveFileForm form = new SaveFileForm();
-            form.KeepCurrentDwgVersion = keepCurrentVersion;
-            form.DwgVersion = version;
-            form.FilenameSuffix = suffix;
+            using (SaveFileForm form = new SaveFileForm())
+            {
+                form.KeepCurrentDwgVersion = keepCurrentVersion;
+                form.DwgVersion = version;
+                form.FilenameSuffix = suffix;
 
-            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
-            keepCurrentVersion = form.KeepCurrentDwgVersion;
-            version = form.DwgVersion;
-            suffix = form.FilenameSuffix;
+                keepCurrentVersion = form.KeepCurrentDwgVersion;
+                version = form.DwgVersion;
+                suffix = form.FilenameSuffix;
 
-            return true;
+                return true;
+            }
         }
     }
 }

@@ -20,16 +20,18 @@ namespace XCOM.Commands.XCommand
 
         public bool ShowDialog() 
         {
-            BindXREFsForm form = new BindXREFsForm();
-            form.ResolveXREFs = resolveXREFs;
-            form.InsertMode = insertMode;
+            using (BindXREFsForm form = new BindXREFsForm())
+            {
+                form.ResolveXREFs = resolveXREFs;
+                form.InsertMode = insertMode;
 
-            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
-            resolveXREFs = form.ResolveXREFs;
-            insertMode = form.InsertMode;
+                resolveXREFs = form.ResolveXREFs;
+                insertMode = form.InsertMode;
 
-            return true;
+                return true;
+            }
         }
 
         public string[] Run(string filename, Database db)

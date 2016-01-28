@@ -44,14 +44,16 @@ namespace XCOM.Commands.XCommand
 
         public bool ShowDialog()
         {
-            SaveDXFForm form = new SaveDXFForm();
-            form.DXFVersion = version;
+            using (SaveDXFForm form = new SaveDXFForm())
+            {
+                form.DXFVersion = version;
 
-            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
-            version = form.DXFVersion;
+                version = form.DXFVersion;
 
-            return true;
+                return true;
+            }
         }
     }
 }

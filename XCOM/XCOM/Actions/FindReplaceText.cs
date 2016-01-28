@@ -115,49 +115,51 @@ namespace XCOM.Commands.XCommand
             string[] find;
             string[] replace;
 
-            FindReplaceTextForm form = new FindReplaceTextForm();
-            form.SearchText = frText;
-            form.SearchAttribute = frAttribute;
-            form.SearchDimension = frDimension;
-            form.SearchLeader = frLeader;
-            form.SearchTable = frTable;
-
-            form.CaseSensitive = optCaseSensitive;
-            form.MatchWholeWords = optMatchWholeWords;
-            form.UseWildcards = optUseWildcards;
-
-            find = new string[options.Count];
-            replace = new string[options.Count];
-            for (int i = 0; i < options.Count; i++)
+            using (FindReplaceTextForm form = new FindReplaceTextForm())
             {
-                find[i] = options[i].Find;
-                replace[i] = options[i].Replace;
+                form.SearchText = frText;
+                form.SearchAttribute = frAttribute;
+                form.SearchDimension = frDimension;
+                form.SearchLeader = frLeader;
+                form.SearchTable = frTable;
+
+                form.CaseSensitive = optCaseSensitive;
+                form.MatchWholeWords = optMatchWholeWords;
+                form.UseWildcards = optUseWildcards;
+
+                find = new string[options.Count];
+                replace = new string[options.Count];
+                for (int i = 0; i < options.Count; i++)
+                {
+                    find[i] = options[i].Find;
+                    replace[i] = options[i].Replace;
+                }
+                form.SetFindReplaceStrings(find, replace);
+
+                form.SetSearchScope(applyModel, applyLayouts, applyToAllBlockDefinitons);
+
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+
+                frText = form.SearchText;
+                frAttribute = form.SearchAttribute;
+                frDimension = form.SearchDimension;
+                frLeader = form.SearchLeader;
+                frTable = form.SearchTable;
+                form.GetFindReplaceStrings(out find, out replace);
+
+                optCaseSensitive = form.CaseSensitive;
+                optMatchWholeWords = form.MatchWholeWords;
+                optUseWildcards = form.UseWildcards;
+
+                for (int i = 0; i < find.Length; i++)
+                {
+                    options.Add(new FindReplaceOptions(find[i], replace[i]));
+                }
+
+                form.GetSearchScope(out applyModel, out applyLayouts, out applyToAllBlockDefinitons);
+
+                return true;
             }
-            form.SetFindReplaceStrings(find, replace);
-
-            form.SetSearchScope(applyModel, applyLayouts, applyToAllBlockDefinitons);
-
-            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
-
-            frText = form.SearchText;
-            frAttribute = form.SearchAttribute;
-            frDimension = form.SearchDimension;
-            frLeader = form.SearchLeader;
-            frTable = form.SearchTable;
-            form.GetFindReplaceStrings(out find, out replace);
-
-            optCaseSensitive = form.CaseSensitive;
-            optMatchWholeWords = form.MatchWholeWords;
-            optUseWildcards = form.UseWildcards;
-
-            for (int i = 0; i < find.Length; i++)
-            {
-                options.Add(new FindReplaceOptions(find[i], replace[i]));
-            }
-
-            form.GetSearchScope(out applyModel, out applyLayouts, out applyToAllBlockDefinitons);
-
-            return true;
         }
 
         private string[] FindReplaceBlock(Transaction tr, ObjectId blockid)

@@ -212,69 +212,70 @@ namespace XCOM.Commands.Annotation
 
         private bool ShowSettings()
         {
-            LevelMainForm form = new LevelMainForm();
-
-            form.UnitMeter = (DrawingUnit == Units.Meters);
-            form.UnitCentimeter = (DrawingUnit == Units.Centimeters);
-            form.UnitMillimeter = (DrawingUnit == Units.Millimeters);
-
-            form.Precision = Precision;
-
-            form.BasePoint = BasePoint;
-            form.BaseLevel = BaseLevel;
-
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
-            List<string> blockNames = new List<string>();
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
+            using (LevelMainForm form = new LevelMainForm())
             {
-                foreach (ObjectId id in bt)
+                form.UnitMeter = (DrawingUnit == Units.Meters);
+                form.UnitCentimeter = (DrawingUnit == Units.Centimeters);
+                form.UnitMillimeter = (DrawingUnit == Units.Millimeters);
+
+                form.Precision = Precision;
+
+                form.BasePoint = BasePoint;
+                form.BaseLevel = BaseLevel;
+
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                List<string> blockNames = new List<string>();
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
                 {
-                    BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
+                    foreach (ObjectId id in bt)
+                    {
+                        BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
 
-                    if (string.Compare(block.Name, BlockTableRecord.ModelSpace, StringComparison.OrdinalIgnoreCase) == 0) continue;
-                    if (block.IsLayout) continue;
+                        if (string.Compare(block.Name, BlockTableRecord.ModelSpace, StringComparison.OrdinalIgnoreCase) == 0) continue;
+                        if (block.IsLayout) continue;
 
-                    blockNames.Add(block.Name);
+                        blockNames.Add(block.Name);
+                    }
                 }
-            }
 
-            if (blockNames.Count == 0)
-            {
-                MessageBox.Show("Çizimde kot bloğu bulunamadı. Kot bloğunu INSERT yapıp yeniden deneyin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return false;
-            }
+                if (blockNames.Count == 0)
+                {
+                    MessageBox.Show("Çizimde kot bloğu bulunamadı. Kot bloğunu INSERT yapıp yeniden deneyin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return false;
+                }
 
-            form.SetBlockNames(blockNames.ToArray());
-            form.BlockName = BlockName;
-            form.BlockScale = BlockScale;
+                form.SetBlockNames(blockNames.ToArray());
+                form.BlockName = BlockName;
+                form.BlockScale = BlockScale;
 
-            if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
-            {
-                if (form.UnitMeter)
-                    DrawingUnit = Units.Meters;
-                else if (form.UnitCentimeter)
-                    DrawingUnit = Units.Centimeters;
-                else if (form.UnitMillimeter)
-                    DrawingUnit = Units.Millimeters;
+                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
+                {
+                    if (form.UnitMeter)
+                        DrawingUnit = Units.Meters;
+                    else if (form.UnitCentimeter)
+                        DrawingUnit = Units.Centimeters;
+                    else if (form.UnitMillimeter)
+                        DrawingUnit = Units.Millimeters;
 
-                Precision = form.Precision;
+                    Precision = form.Precision;
 
-                BasePoint = form.BasePoint;
-                BaseLevel = form.BaseLevel;
+                    BasePoint = form.BasePoint;
+                    BaseLevel = form.BaseLevel;
 
-                BlockName = form.BlockName;
-                BlockScale = form.BlockScale;
+                    BlockName = form.BlockName;
+                    BlockScale = form.BlockScale;
 
-                init = true;
+                    init = true;
 
-                return true;
-            }
-            else
-            {
-                return false;
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
             }
         }
 

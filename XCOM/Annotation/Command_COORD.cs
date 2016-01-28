@@ -243,137 +243,139 @@ namespace XCOM.Commands.Annotation
                 }
                 else if (pointRes.Status == PromptStatus.Keyword && pointRes.StringResult == "Select")
                 {
-                    SelectObjectsForm form = new SelectObjectsForm();
-                    if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
+                    using (SelectObjectsForm form = new SelectObjectsForm())
                     {
-                        // Select objects
-                        List<TypedValue> tvs = new List<TypedValue>();
-                        switch (form.SelectObjects)
+                        if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
                         {
-                            case SelectObjectsForm.SelectCoordinateObjects.Polyline:
-                                tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
-                                tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
-                                break;
-                            case SelectObjectsForm.SelectCoordinateObjects.Circle:
-                                tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "CIRCLE"));
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "ARC"));
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "ELLIPSE"));
-                                tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
-                                break;
-                            case SelectObjectsForm.SelectCoordinateObjects.Block:
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
-                                break;
-                            case SelectObjectsForm.SelectCoordinateObjects.Point:
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
-                                break;
-                            case SelectObjectsForm.SelectCoordinateObjects.Line:
-                                tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
-                                break;
-                        }
-                        SelectionFilter filter = new SelectionFilter(tvs.ToArray());
-
-                        PromptSelectionResult selRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(filter);
-                        if (selRes.Status == PromptStatus.OK)
-                        {
-                            using (Transaction tr = db.TransactionManager.StartTransaction())
-                            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                            // Select objects
+                            List<TypedValue> tvs = new List<TypedValue>();
+                            switch (form.SelectObjects)
                             {
-                                TextPositioner positioner = new TextPositioner(ucs2wcs, TextRotation * Math.PI / 180, LineLength);
+                                case SelectObjectsForm.SelectCoordinateObjects.Polyline:
+                                    tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
+                                    break;
+                                case SelectObjectsForm.SelectCoordinateObjects.Circle:
+                                    tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "CIRCLE"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "ARC"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "ELLIPSE"));
+                                    tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
+                                    break;
+                                case SelectObjectsForm.SelectCoordinateObjects.Block:
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
+                                    break;
+                                case SelectObjectsForm.SelectCoordinateObjects.Point:
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
+                                    break;
+                                case SelectObjectsForm.SelectCoordinateObjects.Line:
+                                    tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
+                                    break;
+                            }
+                            SelectionFilter filter = new SelectionFilter(tvs.ToArray());
 
-                                // Read object coordinates
-                                List<TextPositioner.SelectedObjectCoordinate> objectPoints = new List<TextPositioner.SelectedObjectCoordinate>();
-                                foreach (ObjectId id in selRes.Value.GetObjectIds())
+                            PromptSelectionResult selRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetSelection(filter);
+                            if (selRes.Status == PromptStatus.OK)
+                            {
+                                using (Transaction tr = db.TransactionManager.StartTransaction())
+                                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                                 {
-                                    if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Polyline)))
-                                    {
-                                        Autodesk.AutoCAD.DatabaseServices.Polyline obj = tr.GetObject(id, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Polyline;
+                                    TextPositioner positioner = new TextPositioner(ucs2wcs, TextRotation * Math.PI / 180, LineLength);
 
-                                        positioner.ClearPoints();
-                                        for (int i = 0; i < obj.NumberOfVertices; i++)
+                                    // Read object coordinates
+                                    List<TextPositioner.SelectedObjectCoordinate> objectPoints = new List<TextPositioner.SelectedObjectCoordinate>();
+                                    foreach (ObjectId id in selRes.Value.GetObjectIds())
+                                    {
+                                        if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Polyline)))
                                         {
-                                            positioner.AddPoint(obj.GetPoint3dAt(i));
+                                            Autodesk.AutoCAD.DatabaseServices.Polyline obj = tr.GetObject(id, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Polyline;
+
+                                            positioner.ClearPoints();
+                                            for (int i = 0; i < obj.NumberOfVertices; i++)
+                                            {
+                                                positioner.AddPoint(obj.GetPoint3dAt(i));
+                                            }
+                                            objectPoints.AddRange(positioner.GetPositions());
                                         }
-                                        objectPoints.AddRange(positioner.GetPositions());
-                                    }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Circle)))
-                                    {
-                                        Circle obj = tr.GetObject(id, OpenMode.ForRead) as Circle;
-                                        objectPoints.Add(positioner.GetPosition(obj.Center));
-                                    }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Arc)))
-                                    {
-                                        Arc obj = tr.GetObject(id, OpenMode.ForRead) as Arc;
-                                        objectPoints.Add(positioner.GetPosition(obj.Center));
-                                    }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Ellipse)))
-                                    {
-                                        Ellipse obj = tr.GetObject(id, OpenMode.ForRead) as Ellipse;
-                                        objectPoints.Add(positioner.GetPosition(obj.Center));
-                                    }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.BlockReference)))
-                                    {
-                                        BlockReference obj = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
-                                        objectPoints.Add(positioner.GetPosition(obj.Position));
-                                    }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.DBPoint)))
-                                    {
-                                        DBPoint obj = tr.GetObject(id, OpenMode.ForRead) as DBPoint;
-                                        objectPoints.Add(positioner.GetPosition(obj.Position));
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Circle)))
+                                        {
+                                            Circle obj = tr.GetObject(id, OpenMode.ForRead) as Circle;
+                                            objectPoints.Add(positioner.GetPosition(obj.Center));
+                                        }
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Arc)))
+                                        {
+                                            Arc obj = tr.GetObject(id, OpenMode.ForRead) as Arc;
+                                            objectPoints.Add(positioner.GetPosition(obj.Center));
+                                        }
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Ellipse)))
+                                        {
+                                            Ellipse obj = tr.GetObject(id, OpenMode.ForRead) as Ellipse;
+                                            objectPoints.Add(positioner.GetPosition(obj.Center));
+                                        }
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.BlockReference)))
+                                        {
+                                            BlockReference obj = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
+                                            objectPoints.Add(positioner.GetPosition(obj.Position));
+                                        }
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.DBPoint)))
+                                        {
+                                            DBPoint obj = tr.GetObject(id, OpenMode.ForRead) as DBPoint;
+                                            objectPoints.Add(positioner.GetPosition(obj.Position));
 
+                                        }
+                                        else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Line)))
+                                        {
+                                            Line obj = tr.GetObject(id, OpenMode.ForRead) as Line;
+                                            positioner.ClearPoints();
+                                            positioner.AddPoint(obj.StartPoint);
+                                            positioner.AddPoint(obj.EndPoint);
+                                            objectPoints.AddRange(positioner.GetPositions());
+                                        }
                                     }
-                                    else if (id.ObjectClass == Autodesk.AutoCAD.Runtime.RXObject.GetClass(typeof(Autodesk.AutoCAD.DatabaseServices.Line)))
+                                    // Sort coordinates
+                                    objectPoints.Sort((p1, p2) =>
                                     {
-                                        Line obj = tr.GetObject(id, OpenMode.ForRead) as Line;
-                                        positioner.ClearPoints();
-                                        positioner.AddPoint(obj.StartPoint);
-                                        positioner.AddPoint(obj.EndPoint);
-                                        objectPoints.AddRange(positioner.GetPositions());
+                                        switch (form.Ordering)
+                                        {
+                                            case SelectObjectsForm.CoordinateOrdering.IncreasingX:
+                                                return (p1.BasePoint.X < p2.BasePoint.X ? -1 : 1);
+                                            case SelectObjectsForm.CoordinateOrdering.IncreasingY:
+                                                return (p1.BasePoint.Y < p2.BasePoint.Y ? -1 : 1);
+                                            case SelectObjectsForm.CoordinateOrdering.DecreasingX:
+                                                return (p1.BasePoint.X > p2.BasePoint.X ? -1 : 1);
+                                            case SelectObjectsForm.CoordinateOrdering.DecreasingY:
+                                                return (p1.BasePoint.Y > p2.BasePoint.Y ? -1 : 1);
+                                            default:
+                                                return 0;
+                                        }
+                                    });
+                                    // Write coordinates
+                                    foreach (TextPositioner.SelectedObjectCoordinate coord in objectPoints)
+                                    {
+                                        MText mtext = CreateText(textStyleId, coord.TextPoint);
+                                        btr.AppendEntity(mtext);
+                                        tr.AddNewlyCreatedDBObject(mtext, true);
+
+                                        // Rotate text
+                                        if (coord.TextToLeft)
+                                            mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
+                                        else
+                                            mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
+
+                                        Line line = new Line();
+                                        line.StartPoint = coord.BasePoint;
+                                        line.EndPoint = coord.TextPoint;
+                                        btr.AppendEntity(line);
+                                        tr.AddNewlyCreatedDBObject(line, true);
+
+                                        points.Add(new CoordPoint(CurrentNumber, coord.BasePoint));
+                                        if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
                                     }
+
+                                    tr.Commit();
                                 }
-                                // Sort coordinates
-                                objectPoints.Sort((p1, p2) =>
-                                {
-                                    switch (form.Ordering)
-                                    {
-                                        case SelectObjectsForm.CoordinateOrdering.IncreasingX:
-                                            return (p1.BasePoint.X < p2.BasePoint.X ? -1 : 1);
-                                        case SelectObjectsForm.CoordinateOrdering.IncreasingY:
-                                            return (p1.BasePoint.Y < p2.BasePoint.Y ? -1 : 1);
-                                        case SelectObjectsForm.CoordinateOrdering.DecreasingX:
-                                            return (p1.BasePoint.X > p2.BasePoint.X ? -1 : 1);
-                                        case SelectObjectsForm.CoordinateOrdering.DecreasingY:
-                                            return (p1.BasePoint.Y > p2.BasePoint.Y ? -1 : 1);
-                                        default:
-                                            return 0;
-                                    }
-                                });
-                                // Write coordinates
-                                foreach (TextPositioner.SelectedObjectCoordinate coord in objectPoints)
-                                {
-                                    MText mtext = CreateText(textStyleId, coord.TextPoint);
-                                    btr.AppendEntity(mtext);
-                                    tr.AddNewlyCreatedDBObject(mtext, true);
-
-                                    // Rotate text
-                                    if (coord.TextToLeft)
-                                        mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomRight : AttachmentPoint.MiddleRight);
-                                    else
-                                        mtext.Attachment = (AutoNumbering ? AttachmentPoint.BottomLeft : AttachmentPoint.MiddleLeft);
-
-                                    Line line = new Line();
-                                    line.StartPoint = coord.BasePoint;
-                                    line.EndPoint = coord.TextPoint;
-                                    btr.AppendEntity(line);
-                                    tr.AddNewlyCreatedDBObject(line, true);
-
-                                    points.Add(new CoordPoint(CurrentNumber, coord.BasePoint));
-                                    if (AutoNumbering) CurrentNumber = CurrentNumber + 1;
-                                }
-
-                                tr.Commit();
                             }
                         }
                     }
@@ -418,95 +420,96 @@ namespace XCOM.Commands.Annotation
 
         private bool ShowSettings()
         {
-            CoordMainForm form = new CoordMainForm();
-
-            form.TextHeight = TextHeight;
-
-            form.TextRotation = TextRotation;
-            form.AutoRotateText = AutoRotateText;
-
-            form.AutoLineLength = AutoLine;
-            form.LineLength = LineLength;
-
-            form.Precision = Precision;
-
-            form.AutoNumbering = AutoNumbering;
-            form.StartingNumber = CurrentNumber;
-            form.Prefix = Prefix;
-
-            form.ShowZCoordinate = ShowZCoordinate;
-
-            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
-            List<string> styleNames = new List<string>();
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
+            using (CoordMainForm form = new CoordMainForm())
             {
-                foreach (ObjectId id in bt)
+                form.TextHeight = TextHeight;
+
+                form.TextRotation = TextRotation;
+                form.AutoRotateText = AutoRotateText;
+
+                form.AutoLineLength = AutoLine;
+                form.LineLength = LineLength;
+
+                form.Precision = Precision;
+
+                form.AutoNumbering = AutoNumbering;
+                form.StartingNumber = CurrentNumber;
+                form.Prefix = Prefix;
+
+                form.ShowZCoordinate = ShowZCoordinate;
+
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                List<string> styleNames = new List<string>();
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
                 {
-                    TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                    styleNames.Add(style.Name);
-                }
-            }
-            form.SetTextStyleNames(styleNames.ToArray());
-            form.TextStyleName = TextStyleName;
-
-            if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
-            {
-                TextHeight = form.TextHeight;
-
-                TextRotation = form.TextRotation;
-                AutoRotateText = form.AutoRotateText;
-
-                AutoLine = form.AutoLineLength;
-                LineLength = form.LineLength;
-
-                Precision = form.Precision;
-
-                AutoNumbering = form.AutoNumbering;
-                CurrentNumber = form.StartingNumber;
-                Prefix = form.Prefix;
-
-                ShowZCoordinate = form.ShowZCoordinate;
-
-                TextStyleName = form.TextStyleName;
-
-                if (form.CoordsFromDWG != null && form.CoordsFromDWG.Length > 0)
-                {
-                    bool xy = form.CoordsFromDWG[0].IsXYText;
-                    if (xy)
+                    foreach (ObjectId id in bt)
                     {
-                        using (Transaction tr = db.TransactionManager.StartTransaction())
+                        TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
+
+                        styleNames.Add(style.Name);
+                    }
+                }
+                form.SetTextStyleNames(styleNames.ToArray());
+                form.TextStyleName = TextStyleName;
+
+                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
+                {
+                    TextHeight = form.TextHeight;
+
+                    TextRotation = form.TextRotation;
+                    AutoRotateText = form.AutoRotateText;
+
+                    AutoLine = form.AutoLineLength;
+                    LineLength = form.LineLength;
+
+                    Precision = form.Precision;
+
+                    AutoNumbering = form.AutoNumbering;
+                    CurrentNumber = form.StartingNumber;
+                    Prefix = form.Prefix;
+
+                    ShowZCoordinate = form.ShowZCoordinate;
+
+                    TextStyleName = form.TextStyleName;
+
+                    if (form.CoordsFromDWG != null && form.CoordsFromDWG.Length > 0)
+                    {
+                        bool xy = form.CoordsFromDWG[0].IsXYText;
+                        if (xy)
                         {
+                            using (Transaction tr = db.TransactionManager.StartTransaction())
+                            {
+                                foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
+                                {
+                                    string text = GetCoordText(new Point3d(item.X, item.Y, 0));
+                                    MText mtext = (MText)tr.GetObject(item.ID, OpenMode.ForWrite);
+                                    mtext.Contents = text;
+                                }
+
+                                tr.Commit();
+                            }
+                        }
+                        else
+                        {
+                            points.Clear();
                             foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
                             {
-                                string text = GetCoordText(new Point3d(item.X, item.Y, 0));
-                                MText mtext = (MText)tr.GetObject(item.ID, OpenMode.ForWrite);
-                                mtext.Contents = text;
+                                points.Add(new CoordPoint(item.Number, item.X, item.Y, item.Z));
                             }
+                        }
+                    }
 
-                            tr.Commit();
-                        }
-                    }
-                    else
-                    {
-                        points.Clear();
-                        foreach (CoordMainForm.CoordItem item in form.CoordsFromDWG)
-                        {
-                            points.Add(new CoordPoint(item.Number, item.X, item.Y, item.Z));
-                        }
-                    }
+                    init = true;
+
+                    return true;
                 }
-
-                init = true;
-
-                return true;
-            }
-            else
-            {
-                return false;
+                else
+                {
+                    return false;
+                }
             }
         }
 

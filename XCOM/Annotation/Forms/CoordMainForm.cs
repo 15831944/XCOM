@@ -177,37 +177,38 @@ namespace XCOM.Commands.Annotation
 
                 if (prefixes.Count > 1 || (prefixes.Count > 0 && hasxy))
                 {
-                    SelectGroupForm form = new SelectGroupForm();
-
-                    form.HasXY = hasxy;
-                    form.SetPrefixes(prefixes.ToArray());
-                    form.UseXY = hasxy;
-
-                    if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
+                    using (SelectGroupForm form = new SelectGroupForm())
                     {
-                        List<CoordItem> items = new List<CoordItem>(CoordsFromDWG);
-                        if (form.UseXY)
+                        form.HasXY = hasxy;
+                        form.SetPrefixes(prefixes.ToArray());
+                        form.UseXY = hasxy;
+
+                        if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
                         {
-                            items.RemoveAll((p) => !p.IsXYText);
-                            AutoNumbering = false;
-                            StartingNumber = 1;
+                            List<CoordItem> items = new List<CoordItem>(CoordsFromDWG);
+                            if (form.UseXY)
+                            {
+                                items.RemoveAll((p) => !p.IsXYText);
+                                AutoNumbering = false;
+                                StartingNumber = 1;
+                            }
+                            else
+                            {
+                                items.RemoveAll((p) => p.IsXYText || string.Compare(p.Prefix, form.Prefix, StringComparison.OrdinalIgnoreCase) != 0);
+                                items.Sort((p1, p2) => p1.Number.CompareTo(p2.Number));
+                                AutoNumbering = true;
+                                if (items.Count > 0)
+                                {
+                                    Prefix = items[0].Prefix;
+                                    StartingNumber = items[items.Count - 1].Number + 1;
+                                }
+                            }
+                            CoordsFromDWG = items.ToArray();
                         }
                         else
                         {
-                            items.RemoveAll((p) => p.IsXYText || string.Compare(p.Prefix, form.Prefix, StringComparison.OrdinalIgnoreCase) != 0);
-                            items.Sort((p1, p2) => p1.Number.CompareTo(p2.Number));
-                            AutoNumbering = true;
-                            if (items.Count > 0)
-                            {
-                                Prefix = items[0].Prefix;
-                                StartingNumber = items[items.Count - 1].Number + 1;
-                            }
+                            CoordsFromDWG = new CoordItem[0];
                         }
-                        CoordsFromDWG = items.ToArray();
-                    }
-                    else
-                    {
-                        CoordsFromDWG = new CoordItem[0];
                     }
                 }
                 else

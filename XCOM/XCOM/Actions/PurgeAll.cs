@@ -277,55 +277,56 @@ namespace XCOM.Commands.XCommand
 
         public bool ShowDialog()
         {
-            PurgeAllForm form = new PurgeAllForm();
+            using (PurgeAllForm form = new PurgeAllForm())
+            {
+                form.PurgeBlocks = purgeBlocks;
+                form.PurgeTextStyles = purgeTextStyles;
+                form.PurgeTableStyles = purgeTableStyles;
+                form.PurgeShapes = purgeShapes;
+                form.PurgePlotStyles = purgePlotStyles;
+                form.PurgeMultileaderStyles = purgeMultileaderStyles;
+                form.PurgeMlineStyles = purgeMlineStyles;
+                form.PurgeMaterials = purgeMaterials;
+                form.PurgeLinetypes = purgeLinetypes;
+                form.PurgeLayers = purgeLayers;
+                form.PurgeGroups = purgeGroups;
+                form.PurgeDimensionStyles = purgeDimensionStyles;
+                form.PurgeUCSSettings = purgeUCSSettings;
+                form.PurgeViews = purgeViews;
+                form.PurgeViewports = purgeViewports;
+                form.PurgeZeroLengthGeometry = purgeZeroLengthGeometry;
+                form.PurgeEmptyTexts = purgeEmptyTexts;
+                form.PurgeRegApps = purgeRegApps;
+                form.PurgeVisualStyles = purgeVisualStyles;
+                form.PurgeDetailViewStyles = purgeDetailViewStyles;
+                form.PurgeSectionViewStyles = purgeSectionViewStyles;
 
-            form.PurgeBlocks = purgeBlocks;
-            form.PurgeTextStyles = purgeTextStyles;
-            form.PurgeTableStyles = purgeTableStyles;
-            form.PurgeShapes = purgeShapes;
-            form.PurgePlotStyles = purgePlotStyles;
-            form.PurgeMultileaderStyles = purgeMultileaderStyles;
-            form.PurgeMlineStyles = purgeMlineStyles;
-            form.PurgeMaterials = purgeMaterials;
-            form.PurgeLinetypes = purgeLinetypes;
-            form.PurgeLayers = purgeLayers;
-            form.PurgeGroups = purgeGroups;
-            form.PurgeDimensionStyles = purgeDimensionStyles;
-            form.PurgeUCSSettings = purgeUCSSettings;
-            form.PurgeViews = purgeViews;
-            form.PurgeViewports = purgeViewports;
-            form.PurgeZeroLengthGeometry = purgeZeroLengthGeometry;
-            form.PurgeEmptyTexts = purgeEmptyTexts;
-            form.PurgeRegApps = purgeRegApps;
-            form.PurgeVisualStyles = purgeVisualStyles;
-            form.PurgeDetailViewStyles = purgeDetailViewStyles;
-            form.PurgeSectionViewStyles = purgeSectionViewStyles;
+                if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
 
-            if (form.ShowDialog() == System.Windows.Forms.DialogResult.Cancel) return false;
+                purgeBlocks = form.PurgeBlocks;
+                purgeTextStyles = form.PurgeTextStyles;
+                purgeTableStyles = form.PurgeTableStyles;
+                purgeShapes = form.PurgeShapes;
+                purgePlotStyles = form.PurgePlotStyles;
+                purgeMultileaderStyles = form.PurgeMultileaderStyles;
+                purgeMlineStyles = form.PurgeMlineStyles;
+                purgeMaterials = form.PurgeMaterials;
+                purgeLinetypes = form.PurgeLinetypes;
+                purgeLayers = form.PurgeLayers;
+                purgeGroups = form.PurgeGroups;
+                purgeDimensionStyles = form.PurgeDimensionStyles;
+                purgeUCSSettings = form.PurgeUCSSettings;
+                purgeViews = form.PurgeViews;
+                purgeViewports = form.PurgeViewports;
+                purgeZeroLengthGeometry = form.PurgeZeroLengthGeometry;
+                purgeEmptyTexts = form.PurgeEmptyTexts;
+                purgeRegApps = form.PurgeRegApps;
+                purgeVisualStyles = form.PurgeVisualStyles;
+                purgeDetailViewStyles = form.PurgeDetailViewStyles;
+                purgeSectionViewStyles = form.PurgeSectionViewStyles;
 
-            purgeBlocks = form.PurgeBlocks;
-            purgeTextStyles = form.PurgeTextStyles;
-            purgeTableStyles = form.PurgeTableStyles;
-            purgeShapes = form.PurgeShapes;
-            purgePlotStyles = form.PurgePlotStyles;
-            purgeMultileaderStyles = form.PurgeMultileaderStyles;
-            purgeMlineStyles = form.PurgeMlineStyles;
-            purgeMaterials = form.PurgeMaterials;
-            purgeLinetypes = form.PurgeLinetypes;
-            purgeLayers = form.PurgeLayers;
-            purgeGroups = form.PurgeGroups;
-            purgeDimensionStyles = form.PurgeDimensionStyles;
-            purgeUCSSettings = form.PurgeUCSSettings;
-            purgeViews = form.PurgeViews;
-            purgeViewports = form.PurgeViewports;
-            purgeZeroLengthGeometry = form.PurgeZeroLengthGeometry;
-            purgeEmptyTexts = form.PurgeEmptyTexts;
-            purgeRegApps = form.PurgeRegApps;
-            purgeVisualStyles = form.PurgeVisualStyles;
-            purgeDetailViewStyles = form.PurgeDetailViewStyles;
-            purgeSectionViewStyles = form.PurgeSectionViewStyles;
-
-            return true;
+                return true;
+            }
         }
     }
 }
