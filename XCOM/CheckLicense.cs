@@ -27,7 +27,6 @@ namespace XCOM.Commands
             if (DateTime.Now - LastLicenseCheck < LicenseCheckInterval) return true;
 
             LicenseCheck.License license = LicenseCheck.License.FromRegistry(LicenseRegistryKey, LicensedAppName);
-            MessageBox.Show(LicenseRegistryKey);
             if (license.Status == LicenseCheck.License.LicenseStatus.Valid)
             {
                 license.SaveToRegistry(LicenseRegistryKey);
