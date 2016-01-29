@@ -5,18 +5,29 @@ using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.EditorInput;
 
-namespace RebarPosCommands
+namespace XCOM.Commands
 {
-    public partial class MyCommands
+    public class CheckLicense
     {
-        private DateTime LastLicenseCheck = DateTime.MinValue;
-        private TimeSpan LicenseCheckInterval = TimeSpan.FromHours(1);
+        public static string DeveloperSymbol { get { return "OZOZ"; } }
+        public static string LicensedAppName { get { return "XCOM Bundle"; } }
+        public static string LicenseRegistryKey
+        {
+            get
+            {
+                return "SOFTWARE\\" + DeveloperSymbol + "\\" + LicensedAppName;
+            }
+        }
 
-        private bool CheckLicense()
+        private static DateTime LastLicenseCheck = DateTime.MinValue;
+        private static TimeSpan LicenseCheckInterval = TimeSpan.FromHours(1);
+
+        public static bool Check()
         {
             if (DateTime.Now - LastLicenseCheck < LicenseCheckInterval) return true;
 
             LicenseCheck.License license = LicenseCheck.License.FromRegistry(LicenseRegistryKey, LicensedAppName);
+            MessageBox.Show(LicenseRegistryKey);
             if (license.Status == LicenseCheck.License.LicenseStatus.Valid)
             {
                 license.SaveToRegistry(LicenseRegistryKey);
@@ -44,7 +55,7 @@ namespace RebarPosCommands
             }
         }
 
-        private void LicenseInformation()
+        public static void LicenseInformation()
         {
             LicenseCheck.License license = LicenseCheck.License.FromRegistry(LicenseRegistryKey, LicensedAppName);
 

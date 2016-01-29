@@ -11,6 +11,8 @@ namespace XCOM.Commands.XCommand
         [Autodesk.AutoCAD.Runtime.CommandMethod("XCOM")]
         public static void XCOMBatch()
         {
+            if (!CheckLicense.Check()) return;
+
             using (MainForm mainForm = new MainForm())
             {
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(mainForm) == System.Windows.Forms.DialogResult.OK)

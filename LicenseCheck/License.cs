@@ -43,6 +43,27 @@ namespace LicenseCheck
             return sb.ToString();
         }
 
+        public string LicenseInfo
+        {
+            get
+            {
+                if (Status == LicenseCheck.License.LicenseStatus.Valid)
+                {
+                    StringBuilder sb = new StringBuilder();
+                    sb.AppendLine("Lisans Bilgisi");
+                    sb.AppendLine("--------------");
+                    sb.AppendLine("Son Erişim Tarihi    : " + LastUsed.ToString("dd/MM/yyyy HH:mm:ss"));
+                    sb.AppendLine("Lisans Bitiş Tarihi  : " + Expires.ToString("dd/MM/yyyy HH:mm:ss"));
+                    sb.AppendLine("Kalan Kullanım Süresi: " + (Expires - DateTime.Now).Days.ToString() + " gün");
+                    return sb.ToString();
+                }
+                else
+                {
+                    return "Geçerli lisans bulunamadı.";
+                }
+            }
+        }
+
         public static License FromRegistry(string registryKey, string app)
         {
             LicenseStatus status = LicenseStatus.LicenseNotFound;

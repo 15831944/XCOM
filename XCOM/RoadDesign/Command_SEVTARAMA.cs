@@ -23,6 +23,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("SEVTARAMA")]
         public void DrawGradeLines()
         {
+            if (!CheckLicense.Check()) return;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
             Editor ed = doc.Editor;

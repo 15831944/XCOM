@@ -15,6 +15,8 @@ namespace XCOM.Commands.Geology
         [Autodesk.AutoCAD.Runtime.CommandMethod("SONDAJDETAY")]
         public static void DrawBoreholeDetails()
         {
+            if (!CheckLicense.Check()) return;
+
             using (DrawBoreholeDetailsForm form = new DrawBoreholeDetailsForm())
             {
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)

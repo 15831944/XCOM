@@ -271,6 +271,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("YUZEYDEMO")]
         public void CreateDemoSurface()
         {
+            if (!CheckLicense.Check()) return;
+
             try
             {
                 // Read demo surface from resource
@@ -314,6 +316,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("YUZEYOLUSTUR")]
         public void CreateSurface()
         {
+            if (!CheckLicense.Check()) return;
+
             if (ShowSettings())
             {
                 try
@@ -349,6 +353,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("NOKTABULUTU")]
         public void CreatePointCloud()
         {
+            if (!CheckLicense.Check()) return;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
@@ -388,6 +394,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("YUZEYCIZ")]
         public void DrawSurface()
         {
+            if (!CheckLicense.Check()) return;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 

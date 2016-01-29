@@ -60,6 +60,8 @@ namespace XCOM.Commands.Annotation
         [Autodesk.AutoCAD.Runtime.CommandMethod("LEVEL")]
         public void LevelLabel()
         {
+            if (!CheckLicense.Check()) return;
+
             if (!init)
             {
                 if (!ShowSettings()) return;

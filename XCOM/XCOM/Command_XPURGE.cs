@@ -11,6 +11,8 @@ namespace XCOM.Commands.XCommand
         [Autodesk.AutoCAD.Runtime.CommandMethod("XPURGE")]
         public static void XPurge()
         {
+            if (!CheckLicense.Check()) return;
+
             // Process active document
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;

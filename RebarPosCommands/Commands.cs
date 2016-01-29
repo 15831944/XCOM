@@ -20,13 +20,22 @@ namespace RebarPosCommands
     // is implicitly per-document!
     public partial class MyCommands
     {
-        public static string DeveloperSymbol = "OZOZ";
+        public static string DeveloperSymbol { get { return "OZOZ"; } }
+        public static string LicensedAppName { get { return "XCOM Bundle"; } }
 
         public static string RegAppName
         {
             get
             {
                 return DeveloperSymbol + "_" + System.IO.Path.GetFileNameWithoutExtension(System.Reflection.Assembly.GetExecutingAssembly().Location);
+            }
+        }
+
+        public static string LicenseRegistryKey
+        {
+            get
+            {
+                return "SOFTWARE\\" + DeveloperSymbol + "\\" + LicensedAppName;
             }
         }
 

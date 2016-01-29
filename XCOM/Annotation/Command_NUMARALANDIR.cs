@@ -16,6 +16,8 @@ namespace XCOM.Commands.Annotation
         [Autodesk.AutoCAD.Runtime.CommandMethod("NUMARALANDIR", CommandFlags.UsePickSet)]
         public void Numbering()
         {
+            if (!CheckLicense.Check()) return;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
             Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;

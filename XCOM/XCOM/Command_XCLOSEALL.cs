@@ -10,6 +10,8 @@ namespace XCOM.Commands.XCommand
         [CommandMethod("XCLOSEALL", CommandFlags.Session)]
         public static void XCloseAll()
         {
+            if (!CheckLicense.Check()) return;
+
             Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
             PromptKeywordOptions kopts = new PromptKeywordOptions("\nTüm dosyalar kaydedilmeden kapatılacak. Devam edilsin mi? [Evet/Hayır] <Hayir>: ", "Yes No");
             kopts.AllowNone = true;

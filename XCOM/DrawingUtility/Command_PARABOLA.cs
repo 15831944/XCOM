@@ -22,6 +22,8 @@ namespace XCOM.Commands.Drawing
         [Autodesk.AutoCAD.Runtime.CommandMethod("PARABOLA", CommandFlags.UsePickSet)]
         public void DrawParabola()
         {
+            if (!CheckLicense.Check()) return;
+
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 

@@ -16,6 +16,8 @@ namespace XCOM.Commands.RoadDesign
         [Autodesk.AutoCAD.Runtime.CommandMethod("PROFILMENFEZ")]
         public static void DrawCulvertsOnProfile()
         {
+            if (!CheckLicense.Check()) return;
+
             using (DrawCulvertForm form = new DrawCulvertForm())
             {
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
