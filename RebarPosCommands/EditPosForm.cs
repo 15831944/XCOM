@@ -33,6 +33,7 @@ namespace RebarPosCommands
         PosSettings.DrawingUnits m_DrawingUnits;
         double m_MaxLength;
         List<Autodesk.AutoCAD.GraphicsInterface.Drawable> transients;
+        Dictionary<ObjectId, Point3d> attributeLocations;
 
         public EditPosForm()
         {
@@ -44,6 +45,7 @@ namespace RebarPosCommands
 
             posShapeView.BackColor = AcadUtility.AcadGraphics.ModelBackgroundColor();
             transients = new List<Autodesk.AutoCAD.GraphicsInterface.Drawable>();
+            attributeLocations = new Dictionary<ObjectId, Point3d>();
 
             this.Disposed += EditPosForm_Disposed;
             this.FormClosed += EditPosForm_FormClosed;
@@ -151,6 +153,9 @@ namespace RebarPosCommands
 
         private void btnCancel_Click(object sender, EventArgs e)
         {
+            // Reset attribute location
+            ResetAlignedAttributes();
+
             Close();
         }
 
@@ -974,6 +979,9 @@ namespace RebarPosCommands
 
                 AttributeReference attRef = (AttributeReference)tr.GetObject(attID, OpenMode.ForWrite);
 
+                // Save old location
+                if (!attributeLocations.ContainsKey(attID)) attributeLocations.Add(attID, attRef.Position);
+
                 xOffset = xOffset * Math.Abs(block.ScaleFactors[0]);
                 yOffset = yOffset * Math.Abs(block.ScaleFactors[0]);
                 Point3d pt = block.Position + xOffset * posDir + yOffset * posUp;
@@ -983,6 +991,24 @@ namespace RebarPosCommands
 
                 AddTransient(block);
                 ed.UpdateScreen();
+                tr.Commit();
+            }
+        }
+
+        private void ResetAlignedAttributes()
+        {
+            Database db = HostApplicationServices.WorkingDatabase;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                foreach (KeyValuePair<ObjectId, Point3d> item in attributeLocations)
+                {
+                    ObjectId attID = item.Key;
+                    Point3d pt = item.Value;
+
+                    AttributeReference attRef = (AttributeReference)tr.GetObject(attID, OpenMode.ForWrite);
+                    attRef.TransformBy(Matrix3d.Displacement(new Vector3d(-attRef.Position.X, -attRef.Position.Y, -attRef.Position.Z)));
+                    attRef.TransformBy(Matrix3d.Displacement(new Vector3d(pt.X, pt.Y, pt.Z)));
+                }
                 tr.Commit();
             }
         }

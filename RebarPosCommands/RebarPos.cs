@@ -10,7 +10,7 @@ namespace RebarPosCommands
 {
     public class RebarPos
     {
-        public static string BlockName = "RebarPos_Marker";
+        public static string BlockName { get { return "POZ_5"; } }
 
         public static char DiameterSymbol = 'ƒ';
         public static char SpacingSymbol = '/';
