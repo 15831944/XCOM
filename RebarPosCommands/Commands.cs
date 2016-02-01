@@ -67,7 +67,7 @@ namespace RebarPosCommands
                 Overrule.AddOverrule(RXObject.GetClass(typeof(BlockReference)), ShowShapesOverrule.Instance, false);
                 Overrule.Overruling = true;
             }
-            catch (System.Exception ex)
+            catch
             {
                 ;
             }
