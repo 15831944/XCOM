@@ -35,33 +35,6 @@
         <Command Local="XCLOSEALL" Global="XCLOSEALL" />
       </Commands>
     </ComponentEntry>
-    <ComponentEntry AppName="XCOM" ModuleName="./Contents/RebarPos.dll" AppDescription="Rebar marking and scheduling utilities" LoadOnAutoCADStartup="True" >
-      <Commands>
-        <Command Local="POZ" Global="POS" />
-        <Command Local="POZEDIT" Global="POSEDIT" />
-        <Command Local="POZEKLE" Global="NEWPOS" />
-        <Command Local="POZNUM" Global="NUMBERPOS" />
-        <Command Local="NUMARASIL" Global="EMPTYPOS" />
-        <Command Local="POZKONTROL" Global="POSCHECK" />
-        <Command Local="POZKOPYALA" Global="COPYPOS" />
-        <Command Local="POZKOPYALADETAY" Global="COPYPOSDETAIL" />
-        <Command Local="POZBENZET" Global="COPYPOSNUMBER" />
-        <Command Local="METRAJ" Global="BOQ" />
-        <Command Local="POZBUL" Global="POSFIND" />
-        <Command Local="ACILIMLAR" Global="POSSHAPES" />
-        <Command Local="SEKILGOSTER" Global="SHOWSHAPES" />
-        <Command Local="SEKILSIL" Global="HIDESHAPES" />
-        <Command Local="BOYGOSTER" Global="POSLENGTH" />
-        <Command Local="POZKATKI" Global="INCLUDEPOS" />
-        <Command Local="SONPOZ" Global="LASTPOSNUMBER" />
-        <Command Local="POZAYAR" Global="POSSETTINGS" />
-        <Command Local="METRAJSIL" Global="DELETEBOQ" />
-        <Command Local="METRAJYARDIM" Global="POSHELP" />
-        <Command Local="POZLISANS" Global="POSLICENSE" />
-        <Command Local="POZMIRROR" Global="POSMIRROR" />
-        <Command Local="POZYENILE" Global="UPGRADEPOSBLOCKS" />
-      </Commands>
-    </ComponentEntry>
     <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM_Menu.cuix" LoadOnAutoCADStartup="True" />	
   </Components>
 </ApplicationPackage>
