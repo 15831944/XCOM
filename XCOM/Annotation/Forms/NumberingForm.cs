@@ -91,10 +91,21 @@ namespace XCOM.Commands.Annotation
         public int Increment { get { return (int)numIncrement.Value; } set { numIncrement.Value = value; } }
         public int Digits { get { return (int)numDigits.Value; } set { numDigits.Value = value; } }
         public string Suffix { get { return txtSuffix.Text; } set { txtSuffix.Text = value; } }
+        public string AttributeName { get { return txtAttributeName.Text; } set { txtAttributeName.Text = value; } }
 
         public NumberingForm()
         {
             InitializeComponent();
+        }
+
+        private void rbSelectText_CheckedChanged(object sender, EventArgs e)
+        {
+            txtAttributeName.Enabled = false;
+        }
+
+        private void rbSelectBlock_CheckedChanged(object sender, EventArgs e)
+        {
+            txtAttributeName.Enabled = true;
         }
     }
 }

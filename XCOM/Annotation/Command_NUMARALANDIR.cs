@@ -111,8 +111,15 @@ namespace XCOM.Commands.Annotation
                                     else if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(BlockReference)).UnmanagedObject)
                                     {
                                         BlockReference obj = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
-                                        AttributeReference attRef = (AttributeReference)tr.GetObject(obj.AttributeCollection[0], OpenMode.ForWrite);
-                                        attRef.TextString = text;
+                                        foreach (ObjectId attId in obj.AttributeCollection)
+                                        {
+                                            AttributeReference attRef = (AttributeReference)tr.GetObject(attId, OpenMode.ForRead);
+                                            if (string.Compare(attRef.Tag, form.AttributeName, StringComparison.OrdinalIgnoreCase) == 0)
+                                            {
+                                                attRef.UpgradeOpen();
+                                                attRef.TextString = text;
+                                            }
+                                        }
                                     }
                                     num += form.Increment;
                                 }

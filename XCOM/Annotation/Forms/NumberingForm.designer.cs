@@ -31,9 +31,11 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.numDigits = new System.Windows.Forms.NumericUpDown();
             this.numIncrement = new System.Windows.Forms.NumericUpDown();
             this.numStart = new System.Windows.Forms.NumericUpDown();
             this.txtSuffix = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtPrefix = new System.Windows.Forms.TextBox();
@@ -47,14 +49,13 @@
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.rbSelectBlock = new System.Windows.Forms.RadioButton();
             this.rbSelectText = new System.Windows.Forms.RadioButton();
-            this.label5 = new System.Windows.Forms.Label();
-            this.numDigits = new System.Windows.Forms.NumericUpDown();
+            this.txtAttributeName = new System.Windows.Forms.TextBox();
             this.groupBox4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numIncrement)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).BeginInit();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).BeginInit();
             this.SuspendLayout();
             // 
             // cmdCancel
@@ -62,7 +63,7 @@
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdCancel.Location = new System.Drawing.Point(391, 243);
+            this.cmdCancel.Location = new System.Drawing.Point(391, 270);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 4;
@@ -74,7 +75,7 @@
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdOK.Location = new System.Drawing.Point(310, 243);
+            this.cmdOK.Location = new System.Drawing.Point(310, 270);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 3;
@@ -95,10 +96,17 @@
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Location = new System.Drawing.Point(206, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(258, 219);
+            this.groupBox4.Size = new System.Drawing.Size(258, 245);
             this.groupBox4.TabIndex = 2;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Seçenekler";
+            // 
+            // numDigits
+            // 
+            this.numDigits.Location = new System.Drawing.Point(138, 100);
+            this.numDigits.Name = "numDigits";
+            this.numDigits.Size = new System.Drawing.Size(100, 20);
+            this.numDigits.TabIndex = 7;
             // 
             // numIncrement
             // 
@@ -140,6 +148,15 @@
             this.txtSuffix.Name = "txtSuffix";
             this.txtSuffix.Size = new System.Drawing.Size(100, 20);
             this.txtSuffix.TabIndex = 9;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(20, 102);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(84, 13);
+            this.label5.TabIndex = 6;
+            this.label5.Text = "Basamak Sayısı:";
             // 
             // label2
             // 
@@ -190,7 +207,7 @@
             this.groupBox1.Controls.Add(this.rbOrderYInc);
             this.groupBox1.Controls.Add(this.rbOrderXInc);
             this.groupBox1.Controls.Add(this.rbOrderYDec);
-            this.groupBox1.Location = new System.Drawing.Point(12, 99);
+            this.groupBox1.Location = new System.Drawing.Point(12, 125);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(188, 132);
             this.groupBox1.TabIndex = 1;
@@ -243,9 +260,10 @@
             // 
             this.groupBox2.Controls.Add(this.rbSelectBlock);
             this.groupBox2.Controls.Add(this.rbSelectText);
+            this.groupBox2.Controls.Add(this.txtAttributeName);
             this.groupBox2.Location = new System.Drawing.Point(12, 12);
             this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(188, 81);
+            this.groupBox2.Size = new System.Drawing.Size(188, 107);
             this.groupBox2.TabIndex = 0;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Seçilecek Nesneler";
@@ -260,6 +278,7 @@
             this.rbSelectBlock.TabStop = true;
             this.rbSelectBlock.Text = "Block Attribute";
             this.rbSelectBlock.UseVisualStyleBackColor = true;
+            this.rbSelectBlock.CheckedChanged += new System.EventHandler(this.rbSelectBlock_CheckedChanged);
             // 
             // rbSelectText
             // 
@@ -271,22 +290,14 @@
             this.rbSelectText.TabStop = true;
             this.rbSelectText.Text = "Text, MText";
             this.rbSelectText.UseVisualStyleBackColor = true;
+            this.rbSelectText.CheckedChanged += new System.EventHandler(this.rbSelectText_CheckedChanged);
             // 
-            // label5
+            // txtAttributeName
             // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(20, 102);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(84, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Basamak Sayısı:";
-            // 
-            // numDigits
-            // 
-            this.numDigits.Location = new System.Drawing.Point(138, 100);
-            this.numDigits.Name = "numDigits";
-            this.numDigits.Size = new System.Drawing.Size(100, 20);
-            this.numDigits.TabIndex = 7;
+            this.txtAttributeName.Location = new System.Drawing.Point(39, 74);
+            this.txtAttributeName.Name = "txtAttributeName";
+            this.txtAttributeName.Size = new System.Drawing.Size(100, 20);
+            this.txtAttributeName.TabIndex = 2;
             // 
             // NumberingForm
             // 
@@ -294,7 +305,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(478, 278);
+            this.ClientSize = new System.Drawing.Size(478, 305);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.groupBox1);
@@ -310,13 +321,13 @@
             this.Text = "Numaralandırma";
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numIncrement)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.numStart)).EndInit();
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.numDigits)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -344,5 +355,6 @@
         private System.Windows.Forms.RadioButton rbSelectText;
         private System.Windows.Forms.NumericUpDown numDigits;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.TextBox txtAttributeName;
     }
 }
