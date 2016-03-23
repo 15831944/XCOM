@@ -25,8 +25,28 @@ namespace XCOM.Commands.Annotation
 
             using (NumberingForm form = new NumberingForm())
             {
+                // Read settings
+                form.SelectObjects = (NumberingForm.SelectNumberingObjects)Properties.Settings.Default.Command_NUMARALANDIR_SelectObjects;
+                form.AttributeName = Properties.Settings.Default.Command_NUMARALANDIR_AttributeName;
+                form.Ordering = (NumberingForm.CoordinateOrdering)Properties.Settings.Default.Command_NUMARALANDIR_Order;
+                form.Prefix = Properties.Settings.Default.Command_NUMARALANDIR_Prefix;
+                form.StartNumber = Properties.Settings.Default.Command_NUMARALANDIR_StartNumber;
+                form.Increment = Properties.Settings.Default.Command_NUMARALANDIR_Increment;
+                form.Digits = Properties.Settings.Default.Command_NUMARALANDIR_Digits;
+                form.Suffix = Properties.Settings.Default.Command_NUMARALANDIR_Suffix;
+
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
                 {
+                    // Save changes
+                    Properties.Settings.Default.Command_NUMARALANDIR_SelectObjects = (int)form.SelectObjects;
+                    Properties.Settings.Default.Command_NUMARALANDIR_AttributeName = form.AttributeName;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Order = (int)form.Ordering;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Prefix = form.Prefix;
+                    Properties.Settings.Default.Command_NUMARALANDIR_StartNumber = form.StartNumber;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Increment = form.Increment;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Digits = form.Digits;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Suffix = form.Suffix;
+
                     // Select objects
                     List<TypedValue> tvs = new List<TypedValue>();
                     switch (form.SelectObjects)

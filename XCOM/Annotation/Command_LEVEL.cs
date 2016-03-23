@@ -49,12 +49,12 @@ namespace XCOM.Commands.Annotation
         {
             init = false;
 
-            DrawingUnit = Units.Meters;
-            BaseLevel = 0;
+            DrawingUnit = (Units)Properties.Settings.Default.Command_LEVEL_DrawingUnit;
+            BaseLevel = Properties.Settings.Default.Command_LEVEL_BaseLevel;
             BasePoint = Point3d.Origin;
-            Precision = 2;
-            BlockName = "LEVEL";
-            BlockScale = 1.0;
+            Precision = Properties.Settings.Default.Command_LEVEL_Precision;
+            BlockName = Properties.Settings.Default.Command_LEVEL_BlockName;
+            BlockScale = Properties.Settings.Default.Command_LEVEL_BlockScale;
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("LEVEL")]
@@ -271,6 +271,14 @@ namespace XCOM.Commands.Annotation
                     BlockScale = form.BlockScale;
 
                     init = true;
+
+                    // Save settings
+                    Properties.Settings.Default.Command_LEVEL_DrawingUnit = (int)DrawingUnit;
+                    Properties.Settings.Default.Command_LEVEL_BaseLevel = BaseLevel;
+                    Properties.Settings.Default.Command_LEVEL_Precision = Precision;
+                    Properties.Settings.Default.Command_LEVEL_BlockName = BlockName;
+                    Properties.Settings.Default.Command_LEVEL_BlockScale = BlockScale;
+                    Properties.Settings.Default.Save();
 
                     return true;
                 }
