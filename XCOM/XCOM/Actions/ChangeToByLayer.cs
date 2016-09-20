@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Colors;
 
@@ -17,10 +18,8 @@ namespace XCOM.Commands.XCommand
             return Name;
         }
 
-        public string[] Run(string filename, Database db)
+        public void Run(string filename, Database db)
         {
-            List<string> errors = new List<string>();
-
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 try
@@ -31,15 +30,34 @@ namespace XCOM.Commands.XCommand
                     db.Celtype = db.ByLayerLinetype;
                     db.Celweight = LineWeight.ByLayer;
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
-                    errors.Add(ex.Message);
+                    OnError(ex);
                 }
 
                 tr.Commit();
             }
+        }
 
-            return errors.ToArray();
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected void OnProgress(string message)
+        {
+            EventHandler<ActionProgressEventArgs> handler = Progress;
+            if (handler != null)
+            {
+                handler(this, new ActionProgressEventArgs(message));
+            }
+        }
+
+        protected void OnError(Exception error)
+        {
+            EventHandler<ActionErrorEventArgs> handler = Error;
+            if (handler != null)
+            {
+                handler(this, new ActionErrorEventArgs(error));
+            }
         }
     }
 }

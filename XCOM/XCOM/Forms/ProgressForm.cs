@@ -58,18 +58,16 @@ namespace XCOM.Commands.XCommand
             pgFile.Value = 0;
         }
 
-        public void ActionComplete(string filename, string actionName, string error)
+        public void ActionError(string filename, string error)
         {
-            ActionComplete(filename, actionName, new string[] { error });
+            SetItemError(filename, error);
         }
 
-        public void ActionComplete(string filename, string actionName, string[] errors)
+        public void ActionComplete(string filename, string actionName)
         {
             lblAction.Text = actionName;
             pgFile.Increment(1);
             pgTotal.Increment(1);
-
-            SetItemError(filename, errors);
         }
 
         public void FileComplete(string filename)

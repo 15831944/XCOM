@@ -1,5 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
+﻿using System;
+using System.IO;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
@@ -19,10 +19,8 @@ namespace XCOM.Commands.XCommand
             return Name;
         }
 
-        public string[] Run(string filename, Database db)
+        public void Run(string filename, Database db)
         {
-            List<string> errors = new List<string>();
-
             string saveFilename = GetDXFFilename(filename);
             try
             {
@@ -30,11 +28,8 @@ namespace XCOM.Commands.XCommand
             }
             catch (System.Exception ex)
             {
-                errors.Add(ex.Message);
-                return errors.ToArray();
+                OnError(ex);
             }
-
-            return errors.ToArray();
         }
 
         private string GetDXFFilename(string filename)
@@ -53,6 +48,27 @@ namespace XCOM.Commands.XCommand
                 version = form.DXFVersion;
 
                 return true;
+            }
+        }
+
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected void OnProgress(string message)
+        {
+            EventHandler<ActionProgressEventArgs> handler = Progress;
+            if (handler != null)
+            {
+                handler(this, new ActionProgressEventArgs(message));
+            }
+        }
+
+        protected void OnError(Exception error)
+        {
+            EventHandler<ActionErrorEventArgs> handler = Error;
+            if (handler != null)
+            {
+                handler(this, new ActionErrorEventArgs(error));
             }
         }
     }

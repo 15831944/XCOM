@@ -22,10 +22,8 @@ namespace XCOM.Commands.XCommand
         const string dgnLsDefName = "DGNLSDEF";
         const string dgnLsDictName = "ACAD_DGNLINESTYLECOMP";
 
-        public string[] Run(string filename, Database db)
+        public void Run(string filename, Database db)
         {
-            List<string> errors = new List<string>();
-
             using (var tr = db.TransactionManager.StartTransaction())
             {
                 // Start by getting all the "complex" DGN linetypes
@@ -70,7 +68,7 @@ namespace XCOM.Commands.XCommand
                     }
                     catch (System.Exception ex)
                     {
-                        errors.Add(ex.Message);
+                        OnError(ex);
                     }
                 }
 
@@ -87,7 +85,7 @@ namespace XCOM.Commands.XCommand
                     }
                     catch (System.Exception ex)
                     {
-                        errors.Add(ex.Message);
+                        OnError(ex);
                     }
                 }
 
@@ -107,8 +105,6 @@ namespace XCOM.Commands.XCommand
 
                 tr.Commit();
             }
-
-            return errors.ToArray();
         }
 
         // Collect the complex DGN linetypes from the linetype table
@@ -318,6 +314,27 @@ namespace XCOM.Commands.XCommand
                         btr.Erase();
                     }
                 }
+            }
+        }
+
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected void OnProgress(string message)
+        {
+            EventHandler<ActionProgressEventArgs> handler = Progress;
+            if (handler != null)
+            {
+                handler(this, new ActionProgressEventArgs(message));
+            }
+        }
+
+        protected void OnError(System.Exception error)
+        {
+            EventHandler<ActionErrorEventArgs> handler = Error;
+            if (handler != null)
+            {
+                handler(this, new ActionErrorEventArgs(error));
             }
         }
 

@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
@@ -20,10 +20,8 @@ namespace XCOM.Commands.XCommand
             return false;
         }
 
-        public string[] Run(string filename, Database db)
+        public void Run(string filename, Database db)
         {
-            List<string> errors = new List<string>();
-
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 try
@@ -42,7 +40,7 @@ namespace XCOM.Commands.XCommand
                             // Skip if cannot read
                             if (node == null)
                             {
-                                errors.Add("XREF okunamadı.");
+                                OnError(new Exception("XREF okunamadı."));
                                 continue;
                             }
 
@@ -55,7 +53,7 @@ namespace XCOM.Commands.XCommand
                             // Skip if XREF is not resolved
                             if (node.XrefStatus != XrefStatus.Resolved)
                             {
-                                errors.Add("XREF bulunamadı: " + node.Name);
+                                OnError(new Exception("XREF bulunamadı: " + node.Name));
                                 continue;
                             }
 
@@ -75,13 +73,11 @@ namespace XCOM.Commands.XCommand
                 }
                 catch (System.Exception ex)
                 {
-                    errors.Add(ex.Message);
+                    OnError(ex);
                 }
 
                 tr.Commit();
             }
-
-            return errors.ToArray();
         }
 
         private string StripPath(string path)
@@ -90,6 +86,27 @@ namespace XCOM.Commands.XCommand
             if (i != -1)
                 path = path.Substring(i + 1);
             return path;
+        }
+
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected void OnProgress(string message)
+        {
+            EventHandler<ActionProgressEventArgs> handler = Progress;
+            if (handler != null)
+            {
+                handler(this, new ActionProgressEventArgs(message));
+            }
+        }
+
+        protected void OnError(Exception error)
+        {
+            EventHandler<ActionErrorEventArgs> handler = Error;
+            if (handler != null)
+            {
+                handler(this, new ActionErrorEventArgs(error));
+            }
         }
     }
 }

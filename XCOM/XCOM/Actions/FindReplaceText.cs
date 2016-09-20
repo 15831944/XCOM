@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using System;
+using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
@@ -45,11 +46,9 @@ namespace XCOM.Commands.XCommand
             return Name;
         }
 
-        public string[] Run(string filename, Database db)
+        public void Run(string filename, Database db)
         {
-            List<string> errors = new List<string>();
-
-            if (options.Count == 0) return errors.ToArray();
+            if (options.Count == 0) return;
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -101,13 +100,11 @@ namespace XCOM.Commands.XCommand
                 }
                 catch (System.Exception ex)
                 {
-                    errors.Add(ex.ToString());
+                    OnError(ex);
                 }
 
                 tr.Commit();
             }
-
-            return errors.ToArray();
         }
 
         public bool ShowDialog()
@@ -285,6 +282,27 @@ namespace XCOM.Commands.XCommand
             newText = myRegex.Replace(oldText, replace);
 
             return (newText != oldText);
+        }
+
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected void OnProgress(string message)
+        {
+            EventHandler<ActionProgressEventArgs> handler = Progress;
+            if (handler != null)
+            {
+                handler(this, new ActionProgressEventArgs(message));
+            }
+        }
+
+        protected void OnError(System.Exception error)
+        {
+            EventHandler<ActionErrorEventArgs> handler = Error;
+            if (handler != null)
+            {
+                handler(this, new ActionErrorEventArgs(error));
+            }
         }
     }
 }

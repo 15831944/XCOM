@@ -179,6 +179,8 @@
     <Compile Include="XCOM\ActionForms\SaveFileForm.Designer.cs">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="XCOM\Actions\HideGrids.cs" />
+    <Compile Include="XCOM\Actions\LockAllViewports.cs" />
     <Compile Include="XCOM\Actions\StripXREFPaths.cs" />
     <Compile Include="XCOM\Actions\ChangeToLayout.cs" />
     <Compile Include="XCOM\Actions\BackupFile.cs" />

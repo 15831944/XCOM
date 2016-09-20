@@ -49,16 +49,23 @@ namespace XCOM.Commands.XCommand
                     deploy.FileOpened += (sender, e) =>
                     {
                         if (progressForm.InvokeRequired)
-                            progressForm.Invoke(new Action(() => { progressForm.ActionComplete(e.Filename, "Aç", e.Error); }));
+                            progressForm.Invoke(new Action(() => { progressForm.ActionComplete(e.Filename, "Aç"); }));
                         else
-                            progressForm.ActionComplete(e.Filename, "Aç", e.Error);
+                            progressForm.ActionComplete(e.Filename, "Aç");
+                    };
+                    deploy.ActionError += (sender, e) =>
+                    {
+                        if (progressForm.InvokeRequired)
+                            progressForm.Invoke(new Action(() => { progressForm.ActionError(e.Filename, e.Error.Message); }));
+                        else
+                            progressForm.ActionError(e.Filename, e.Error.Message);
                     };
                     deploy.ActionCompleted += (sender, e) =>
                     {
                         if (progressForm.InvokeRequired)
-                            progressForm.Invoke(new Action(() => { progressForm.ActionComplete(e.Filename, e.ActionName, e.Errors); }));
+                            progressForm.Invoke(new Action(() => { progressForm.ActionComplete(e.Filename, e.ActionName); }));
                         else
-                            progressForm.ActionComplete(e.Filename, e.ActionName, e.Errors);
+                            progressForm.ActionComplete(e.Filename, e.ActionName);
                     };
                     deploy.FileCompleted += (sender, e) =>
                     {

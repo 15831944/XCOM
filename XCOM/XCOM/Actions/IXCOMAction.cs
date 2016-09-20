@@ -12,6 +12,26 @@ namespace XCOM.Commands.XCommand
         Both = Command | Dialog
     }
 
+    public class ActionProgressEventArgs : EventArgs
+    {
+        public string Message { get; private set; }
+
+        public ActionProgressEventArgs(string message)
+        {
+            Message = message;
+        }
+    }
+
+    public class ActionErrorEventArgs : EventArgs
+    {
+        public Exception Error { get; private set; }
+
+        public ActionErrorEventArgs(Exception error)
+        {
+            Error = error;
+        }
+    }
+
     public interface IXCOMAction
     {
         string Name { get; }
@@ -20,6 +40,9 @@ namespace XCOM.Commands.XCommand
         ActionInterface Interface { get; }
         bool ShowDialog();
 
-        string[] Run(string filename, Database db);
+        void Run(string filename, Database db);
+
+        event EventHandler<ActionProgressEventArgs> Progress;
+        event EventHandler<ActionErrorEventArgs> Error;
     }
 }

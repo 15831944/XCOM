@@ -9,15 +9,6 @@ using Autodesk.AutoCAD.EditorInput;
 
 namespace XCOM.Commands.XCommand
 {
-    public delegate void DeployStartedEventHandler(object sender, EventArgs e);
-    public delegate void DeployCompletedEventHandler(object sender, EventArgs e);
-
-    public delegate void FileOpenedEventHandler(object sender, FileOpenedEventArgs e);
-    public delegate void FileEventHandler(object sender, FileEventArgs e);
-
-    public delegate void ActionStartedEventHandler(object sender, ActionStartedEventArgs e);
-    public delegate void ActionCompletedEventHandler(object sender, ActionCompletedEventArgs e);
-
     public class FileEventArgs : EventArgs
     {
         public string Filename { get; private set; }
@@ -40,45 +31,63 @@ namespace XCOM.Commands.XCommand
         }
     }
 
-    public class ActionStartedEventArgs : EventArgs
+    public class ActionEventArgs : EventArgs
     {
         public string ActionName { get; private set; }
         public string Filename { get; private set; }
 
-        public ActionStartedEventArgs(string filename, string actionName)
+        public ActionEventArgs(string filename, string actionName)
         {
             ActionName = actionName;
             Filename = filename;
         }
     }
 
-    public class ActionCompletedEventArgs : EventArgs
+    public class XCOMActionErrorEventArgs : EventArgs
     {
         public string ActionName { get; private set; }
         public string Filename { get; private set; }
-        public string[] Errors { get; private set; }
+        public System.Exception Error { get; private set; }
 
-        public ActionCompletedEventArgs(string filename, string actionName, string[] errors)
+        public XCOMActionErrorEventArgs(string filename, string actionName, System.Exception error)
         {
-            ActionName = actionName;
             Filename = filename;
-            Errors = errors;
+            ActionName = actionName;
+            Error = error;
+        }
+    }
+
+    public class XCOMActionProgressEventArgs : EventArgs
+    {
+        public string ActionName { get; private set; }
+        public string Filename { get; private set; }
+        public string Message { get; private set; }
+
+        public XCOMActionProgressEventArgs(string filename, string actionName, string message)
+        {
+            Filename = filename;
+            ActionName = actionName;
+            Message = message;
         }
     }
 
     public class Deploy
     {
-        public event DeployStartedEventHandler DeployStarted;
+        public event EventHandler DeployStarted;
 
-        public event FileEventHandler FileStarted;
-        public event FileOpenedEventHandler FileOpened;
+        public event EventHandler<FileEventArgs> FileStarted;
+        public event EventHandler<FileOpenedEventArgs> FileOpened;
 
-        public event ActionStartedEventHandler ActionStarted;
-        public event ActionCompletedEventHandler ActionCompleted;
+        public event EventHandler<ActionEventArgs> ActionStarted;
 
-        public event FileEventHandler FileCompleted;
+        public event EventHandler<XCOMActionErrorEventArgs> ActionError;
+        public event EventHandler<XCOMActionProgressEventArgs> ActionProgress;
 
-        public event DeployCompletedEventHandler DeployCompleted;
+        public event EventHandler<ActionEventArgs> ActionCompleted;
+
+        public event EventHandler<FileEventArgs> FileCompleted;
+
+        public event EventHandler DeployCompleted;
 
         private List<string> sourceFiles;
         private List<IXCOMAction> deployActions;
@@ -154,15 +163,16 @@ namespace XCOM.Commands.XCommand
                     foreach (IXCOMAction action in deployActions)
                     {
                         OnActionStarted(file, action.Name);
-                        string[] actionErrors = action.Run(file, db);
-                        OnActionCompleted(file, action.Name, actionErrors);
-
-                        // Skip if there were errors
-                        if (actionErrors.Length > 0)
+                        action.Error += (sender, e) =>
                         {
-                            OnFileCompleted(file);
-                            continue;
-                        }
+                            OnActionError(file, action.Name, e.Error);
+                        };
+                        action.Progress += (sender, e) =>
+                        {
+                            OnActionProgress(file, action.Name, e.Message);
+                        };
+                        action.Run(file, db);
+                        OnActionCompleted(file, action.Name);
                     }
 
                 }
@@ -201,14 +211,31 @@ namespace XCOM.Commands.XCommand
         {
             if (ActionStarted != null)
             {
-                ActionStarted(this, new ActionStartedEventArgs(filename, actionName));
+                ActionStarted(this, new ActionEventArgs(filename, actionName));
             }
         }
-        protected virtual void OnActionCompleted(string filename, string actionName, string[] errors)
+
+        protected virtual void OnActionError(string filename, string actionName, System.Exception error)
+        {
+            if (ActionError != null)
+            {
+                ActionError(this, new XCOMActionErrorEventArgs(filename, actionName, error));
+            }
+        }
+
+        protected virtual void OnActionProgress(string filename, string actionName, string message)
+        {
+            if (ActionProgress != null)
+            {
+                ActionProgress(this, new XCOMActionProgressEventArgs(filename, actionName, message));
+            }
+        }
+
+        protected virtual void OnActionCompleted(string filename, string actionName)
         {
             if (ActionCompleted != null)
             {
-                ActionCompleted(this, new ActionCompletedEventArgs(filename, actionName, errors));
+                ActionCompleted(this, new ActionEventArgs(filename, actionName));
             }
         }
 
