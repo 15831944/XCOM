@@ -90,6 +90,13 @@
   <ItemGroup>
     <Compile Include="Annotation\Command_COORD.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
+    <Compile Include="Annotation\Command_KMYAZ.cs" />
+    <Compile Include="Annotation\Forms\PrintChainageMainForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\PrintChainageMainForm.Designer.cs">
+      <DependentUpon>PrintChainageMainForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Annotation\Forms\CoordMainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -227,6 +234,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Annotation\Forms\PrintChainageMainForm.resx">
+      <DependentUpon>PrintChainageMainForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Annotation\Forms\CoordMainForm.resx">
       <DependentUpon>CoordMainForm.cs</DependentUpon>
     </EmbeddedResource>

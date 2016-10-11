@@ -178,5 +178,53 @@ namespace XCOM.Properties {
                 this["Command_NUMARALANDIR_Suffix"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double Command_KMYAZ_TextHeight {
+            get {
+                return ((double)(this["Command_KMYAZ_TextHeight"]));
+            }
+            set {
+                this["Command_KMYAZ_TextHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int Command_KMYAZ_Precision {
+            get {
+                return ((int)(this["Command_KMYAZ_Precision"]));
+            }
+            set {
+                this["Command_KMYAZ_Precision"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KM: ")]
+        public string Command_KMYAZ_Prefix {
+            get {
+                return ((string)(this["Command_KMYAZ_Prefix"]));
+            }
+            set {
+                this["Command_KMYAZ_Prefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public double Command_KMYAZ_Interval {
+            get {
+                return ((double)(this["Command_KMYAZ_Interval"]));
+            }
+            set {
+                this["Command_KMYAZ_Interval"] = value;
+            }
+        }
     }
 }

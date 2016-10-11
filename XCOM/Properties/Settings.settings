@@ -41,5 +41,17 @@
     <Setting Name="Command_NUMARALANDIR_Suffix" Type="System.String" Scope="User">
       <Value Profile="(Default)" />
     </Setting>
+    <Setting Name="Command_KMYAZ_TextHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="Command_KMYAZ_Precision" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="Command_KMYAZ_Prefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">KM: </Value>
+    </Setting>
+    <Setting Name="Command_KMYAZ_Interval" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">100</Value>
+    </Setting>
   </Settings>
 </SettingsFile>
