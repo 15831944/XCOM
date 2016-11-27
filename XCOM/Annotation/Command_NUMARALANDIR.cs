@@ -114,6 +114,7 @@ namespace XCOM.Commands.Annotation
                                 string format = form.Format;
                                 foreach (Tuple<ObjectId, Point3d> item in items)
                                 {
+                                    bool found = false;
                                     ObjectId id = item.Item1;
                                     string numstr = num.ToString(format);
                                     string text = form.Prefix + numstr + form.Suffix;
@@ -121,11 +122,13 @@ namespace XCOM.Commands.Annotation
                                     {
                                         DBText obj = tr.GetObject(id, OpenMode.ForWrite) as DBText;
                                         obj.TextString = text;
+                                        found = true;
                                     }
                                     else if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(MText)).UnmanagedObject)
                                     {
                                         MText obj = tr.GetObject(id, OpenMode.ForWrite) as MText;
                                         obj.Contents = text;
+                                        found = true;
                                     }
                                     else if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(BlockReference)).UnmanagedObject)
                                     {
@@ -137,10 +140,15 @@ namespace XCOM.Commands.Annotation
                                             {
                                                 attRef.UpgradeOpen();
                                                 attRef.TextString = text;
+                                                found = true;
                                             }
                                         }
                                     }
-                                    num += form.Increment;
+                                    if (found)
+                                    {
+                                        // Only increment if a change was made
+                                        num += form.Increment;
+                                    }
                                 }
                             }
                             catch (System.Exception ex)
