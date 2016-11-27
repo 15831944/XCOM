@@ -134,9 +134,9 @@ namespace XCOM.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Command_NUMARALANDIR_StartNumber {
+        public double Command_NUMARALANDIR_StartNumber {
             get {
-                return ((int)(this["Command_NUMARALANDIR_StartNumber"]));
+                return ((double)(this["Command_NUMARALANDIR_StartNumber"]));
             }
             set {
                 this["Command_NUMARALANDIR_StartNumber"] = value;
@@ -146,24 +146,12 @@ namespace XCOM.Properties {
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("1")]
-        public int Command_NUMARALANDIR_Increment {
+        public double Command_NUMARALANDIR_Increment {
             get {
-                return ((int)(this["Command_NUMARALANDIR_Increment"]));
+                return ((double)(this["Command_NUMARALANDIR_Increment"]));
             }
             set {
                 this["Command_NUMARALANDIR_Increment"] = value;
-            }
-        }
-        
-        [global::System.Configuration.UserScopedSettingAttribute()]
-        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("0")]
-        public int Command_NUMARALANDIR_Digits {
-            get {
-                return ((int)(this["Command_NUMARALANDIR_Digits"]));
-            }
-            set {
-                this["Command_NUMARALANDIR_Digits"] = value;
             }
         }
         
@@ -224,6 +212,18 @@ namespace XCOM.Properties {
             }
             set {
                 this["Command_KMYAZ_Interval"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public string Command_NUMARALANDIR_Format {
+            get {
+                return ((string)(this["Command_NUMARALANDIR_Format"]));
+            }
+            set {
+                this["Command_NUMARALANDIR_Format"] = value;
             }
         }
     }

@@ -32,7 +32,7 @@ namespace XCOM.Commands.Annotation
                 form.Prefix = Properties.Settings.Default.Command_NUMARALANDIR_Prefix;
                 form.StartNumber = Properties.Settings.Default.Command_NUMARALANDIR_StartNumber;
                 form.Increment = Properties.Settings.Default.Command_NUMARALANDIR_Increment;
-                form.Digits = Properties.Settings.Default.Command_NUMARALANDIR_Digits;
+                form.Format = Properties.Settings.Default.Command_NUMARALANDIR_Format;
                 form.Suffix = Properties.Settings.Default.Command_NUMARALANDIR_Suffix;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
@@ -44,7 +44,7 @@ namespace XCOM.Commands.Annotation
                     Properties.Settings.Default.Command_NUMARALANDIR_Prefix = form.Prefix;
                     Properties.Settings.Default.Command_NUMARALANDIR_StartNumber = form.StartNumber;
                     Properties.Settings.Default.Command_NUMARALANDIR_Increment = form.Increment;
-                    Properties.Settings.Default.Command_NUMARALANDIR_Digits = form.Digits;
+                    Properties.Settings.Default.Command_NUMARALANDIR_Format = form.Format;
                     Properties.Settings.Default.Command_NUMARALANDIR_Suffix = form.Suffix;
 
                     // Select objects
@@ -110,13 +110,12 @@ namespace XCOM.Commands.Annotation
                                     }
                                 });
                                 // Write coordinates
-                                int num = form.StartNumber;
-                                int digits = form.Digits;
+                                double num = form.StartNumber;
+                                string format = form.Format;
                                 foreach (Tuple<ObjectId, Point3d> item in items)
                                 {
                                     ObjectId id = item.Item1;
-                                    string numstr = num.ToString();
-                                    while (numstr.Length < digits) numstr = "0" + numstr;
+                                    string numstr = num.ToString(format);
                                     string text = form.Prefix + numstr + form.Suffix;
                                     if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                                     {
