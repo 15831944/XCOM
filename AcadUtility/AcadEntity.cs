@@ -122,6 +122,29 @@ namespace AcadUtility
             return string.Empty;
         }
 
+        public static void EraseEntities(Database db, IEnumerable<ObjectId> items)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                {
+                    try
+                    {
+                        foreach (ObjectId id in items)
+                        {
+                            DBObject item = tr.GetObject(id, OpenMode.ForWrite);
+                            item.Erase();
+                        }
+                    }
+                    catch
+                    {
+                        ;
+                    }
+                    tr.Commit();
+                }
+            }
+        }
+
         public static DBText CreateText(Database db, Point3d pt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId, ObjectId layerId)
         {
             using (CurrentDB curr = new CurrentDB(db))
@@ -297,7 +320,7 @@ namespace AcadUtility
             {
                 Vector3d dir = (pt2 - pt1).GetPerpendicularVector().GetNormal() * thickness / 2.0;
 
-                return new Line[] { 
+                return new Line[] {
                     CreateLine(db, pt1 + dir, pt2 + dir, layerId),
                     CreateLine(db, pt1 - dir, pt2 - dir, layerId)
                 };
@@ -401,6 +424,31 @@ namespace AcadUtility
         public static Polyline CreatePolyLine(Database db, params Point3d[] points)
         {
             return CreatePolyLine(db, false, points);
+        }
+
+        public static Polyline3d CreatePolyLine3d(Database db, bool closed, Point3dCollection points)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                Polyline3d pline = new Polyline3d(Poly3dType.SimplePoly, points, closed);
+                pline.SetDatabaseDefaults(db);
+                return pline;
+            }
+        }
+
+        public static Polyline3d CreatePolyLine3d(Database db, Point3dCollection points)
+        {
+            return CreatePolyLine3d(db, false, points);
+        }
+
+        public static Polyline3d CreatePolyLine3d(Database db, bool closed, params Point3d[] points)
+        {
+            return CreatePolyLine3d(db, closed, new Point3dCollection(points));
+        }
+
+        public static Polyline3d CreatePolyLine3d(Database db, params Point3d[] points)
+        {
+            return CreatePolyLine3d(db, false, new Point3dCollection(points));
         }
 
         public static Hatch CreateHatch(Database db, string patternName, double patternScale, double patternAngle)
