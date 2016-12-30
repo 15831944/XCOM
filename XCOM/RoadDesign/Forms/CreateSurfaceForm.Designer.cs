@@ -31,6 +31,7 @@
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.chSelectPolyfaceMesh = new System.Windows.Forms.CheckBox();
             this.chSelectSolid = new System.Windows.Forms.CheckBox();
             this.chSelect3DFace = new System.Windows.Forms.CheckBox();
             this.chSelectBlock = new System.Windows.Forms.CheckBox();
@@ -47,7 +48,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(156, 286);
+            this.btnCancel.Location = new System.Drawing.Point(156, 314);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 3;
@@ -57,7 +58,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(75, 286);
+            this.btnOK.Location = new System.Drawing.Point(75, 314);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 2;
@@ -67,6 +68,7 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.chSelectPolyfaceMesh);
             this.groupBox1.Controls.Add(this.chSelectSolid);
             this.groupBox1.Controls.Add(this.chSelect3DFace);
             this.groupBox1.Controls.Add(this.chSelectBlock);
@@ -77,10 +79,20 @@
             this.groupBox1.Controls.Add(this.chSelectPoint);
             this.groupBox1.Location = new System.Drawing.Point(12, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(217, 224);
+            this.groupBox1.Size = new System.Drawing.Size(217, 250);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seçilecek Nesneler";
+            // 
+            // chSelectPolyfaceMesh
+            // 
+            this.chSelectPolyfaceMesh.AutoSize = true;
+            this.chSelectPolyfaceMesh.Location = new System.Drawing.Point(17, 213);
+            this.chSelectPolyfaceMesh.Name = "chSelectPolyfaceMesh";
+            this.chSelectPolyfaceMesh.Size = new System.Drawing.Size(96, 17);
+            this.chSelectPolyfaceMesh.TabIndex = 8;
+            this.chSelectPolyfaceMesh.Text = "Polyface Mesh";
+            this.chSelectPolyfaceMesh.UseVisualStyleBackColor = true;
             // 
             // chSelectSolid
             // 
@@ -167,7 +179,7 @@
             // chEraseEntities
             // 
             this.chEraseEntities.AutoSize = true;
-            this.chEraseEntities.Location = new System.Drawing.Point(12, 255);
+            this.chEraseEntities.Location = new System.Drawing.Point(12, 284);
             this.chEraseEntities.Name = "chEraseEntities";
             this.chEraseEntities.Size = new System.Drawing.Size(122, 17);
             this.chEraseEntities.TabIndex = 1;
@@ -179,7 +191,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(243, 321);
+            this.ClientSize = new System.Drawing.Size(243, 349);
             this.Controls.Add(this.chEraseEntities);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -212,5 +224,6 @@
         private System.Windows.Forms.CheckBox chSelect3DFace;
         private System.Windows.Forms.CheckBox chSelectSolid;
         private System.Windows.Forms.CheckBox chEraseEntities;
+        private System.Windows.Forms.CheckBox chSelectPolyfaceMesh;
     }
 }

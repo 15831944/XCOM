@@ -112,3 +112,5 @@ UpgradeLog*.XML
 *.lai
 *.la
 *.a
+*.opendb
+*.db
