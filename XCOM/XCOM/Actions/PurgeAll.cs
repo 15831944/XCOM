@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
+using AcadUtility;
 
 namespace XCOM.Commands.XCommand
 {
@@ -201,8 +202,7 @@ namespace XCOM.Commands.XCommand
                                 else if (purgeZeroLengthGeometry && id.ObjectClass.IsDerivedFrom(RXObject.GetClass(typeof(Curve))))
                                 {
                                     Curve curve = (Curve)tr.GetObject(id, OpenMode.ForRead);
-                                    double len = Math.Abs(curve.GetDistanceAtParameter(curve.EndParam) - curve.GetDistanceAtParameter(curve.StartParam));
-                                    if (len < zeroLengthGeometryTolerance)
+                                    if (curve.GetLength() < zeroLengthGeometryTolerance)
                                     {
                                         curve.UpgradeOpen();
                                         curve.Erase(true);

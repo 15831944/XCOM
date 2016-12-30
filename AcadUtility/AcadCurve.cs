@@ -14,6 +14,9 @@ namespace AcadUtility
         /// </summary>
         public static double GetLength(this Curve curve)
         {
+            if (curve is Ray || curve is Xline)
+                return double.PositiveInfinity;
+
             return (curve.GetDistanceAtParameter(curve.EndParam) - curve.GetDistanceAtParameter(curve.StartParam));
         }
 

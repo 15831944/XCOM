@@ -56,9 +56,9 @@ namespace XCOM.Commands.XCommand
                     deploy.ActionError += (sender, e) =>
                     {
                         if (progressForm.InvokeRequired)
-                            progressForm.Invoke(new Action(() => { progressForm.ActionError(e.Filename, e.Error.Message); }));
+                            progressForm.Invoke(new Action(() => { progressForm.ActionError(e.Filename, e.Error.ToString()); }));
                         else
-                            progressForm.ActionError(e.Filename, e.Error.Message);
+                            progressForm.ActionError(e.Filename, e.Error.ToString());
                     };
                     deploy.ActionCompleted += (sender, e) =>
                     {
