@@ -73,7 +73,7 @@ namespace XCOM.Commands.Annotation
                             try
                             {
                                 List<Tuple<ObjectId, Point3d>> items = new List<Tuple<ObjectId, Point3d>>();
-                                // Read object coordinates
+                                // Read objects
                                 foreach (ObjectId id in selRes.Value.GetObjectIds())
                                 {
                                     if (id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
@@ -92,7 +92,7 @@ namespace XCOM.Commands.Annotation
                                         items.Add(new Tuple<ObjectId, Point3d>(id, obj.Position.TransformBy(wcs2ucs)));
                                     }
                                 }
-                                // Sort coordinates
+                                // Sort items by coordinates
                                 items.Sort((p1, p2) =>
                                 {
                                     switch (form.Ordering)
@@ -109,7 +109,7 @@ namespace XCOM.Commands.Annotation
                                             return 0;
                                     }
                                 });
-                                // Write coordinates
+                                // Write numbering text
                                 double num = form.StartNumber;
                                 string format = form.Format;
                                 foreach (Tuple<ObjectId, Point3d> item in items)
