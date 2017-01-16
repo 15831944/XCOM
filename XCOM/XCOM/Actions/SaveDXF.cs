@@ -4,22 +4,16 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
 {
-    public class SaveDXF : IXCOMAction
+    public class SaveDXF : XCOMActionBase
     {
-        public string Name { get { return "DXF Kaydet"; } }
-        public int Order { get { return 500000; } }
-        public bool Recommended { get { return false; } }
-        public ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name { get { return "DXF Kaydet"; } }
+        public override int Order { get { return 500000; } }
+        public override ActionInterface Interface { get { return ActionInterface.Both; } }
 
         protected bool keepCurrentVersion = true;
         protected DwgVersion version = DwgVersion.AC1024;
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public void Run(string filename, Database db)
+        public override void Run(string filename, Database db)
         {
             string saveFilename = GetDXFFilename(filename);
             try
@@ -37,7 +31,7 @@ namespace XCOM.Commands.XCommand
             return Path.ChangeExtension(filename, ".dxf");
         }
 
-        public bool ShowDialog()
+        public override bool ShowDialog()
         {
             using (SaveDXFForm form = new SaveDXFForm())
             {
@@ -49,19 +43,6 @@ namespace XCOM.Commands.XCommand
 
                 return true;
             }
-        }
-
-        public event EventHandler<ActionProgressEventArgs> Progress;
-        public event EventHandler<ActionErrorEventArgs> Error;
-
-        protected void OnProgress(string message)
-        {
-            Progress?.Invoke(this, new ActionProgressEventArgs(message));
-        }
-
-        protected void OnError(Exception error)
-        {
-            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }

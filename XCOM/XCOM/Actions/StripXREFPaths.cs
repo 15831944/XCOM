@@ -3,24 +3,12 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
 {
-    public class StripXREFPaths : IXCOMAction
+    public class StripXREFPaths : XCOMActionBase
     {
-        public string Name { get { return "XREF Sadece Dosya Adı"; } }
-        public int Order { get { return 51; } }
-        public bool Recommended { get { return false; } }
-        public ActionInterface Interface { get { return ActionInterface.Command; } }
+        public override string Name { get { return "XREF Sadece Dosya Adı"; } }
+        public override int Order { get { return 51; } }
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public bool ShowDialog()
-        {
-            return false;
-        }
-
-        public void Run(string filename, Database db)
+        public override void Run(string filename, Database db)
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -86,19 +74,6 @@ namespace XCOM.Commands.XCommand
             if (i != -1)
                 path = path.Substring(i + 1);
             return path;
-        }
-
-        public event EventHandler<ActionProgressEventArgs> Progress;
-        public event EventHandler<ActionErrorEventArgs> Error;
-
-        protected void OnProgress(string message)
-        {
-            Progress?.Invoke(this, new ActionProgressEventArgs(message));
-        }
-
-        protected void OnError(Exception error)
-        {
-            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }

@@ -4,23 +4,18 @@ using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
 {
-    public class SaveFile : IXCOMAction
+    public class SaveFile : XCOMActionBase
     {
-        public string Name { get { return "Dosyayı Kaydet"; } }
-        public int Order { get { return int.MaxValue; } }
-        public bool Recommended { get { return true; } }
-        public ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name { get { return "Dosyayı Kaydet"; } }
+        public override int Order { get { return int.MaxValue; } }
+        public override bool Recommended { get { return true; } }
+        public override ActionInterface Interface { get { return ActionInterface.Both; } }
 
         protected bool keepCurrentVersion = true;
         protected DwgVersion version = DwgVersion.Current;
         protected string suffix = string.Empty;
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public void Run(string filename, Database db)
+        public override void Run(string filename, Database db)
         {
             // Save file under temporary filename
             string tempFilename = Path.GetDirectoryName(filename) + "\\____xcom_save.tmp";
@@ -65,7 +60,7 @@ namespace XCOM.Commands.XCommand
             return Path.Combine(dir, name + suffix + ext);
         }
 
-        public bool ShowDialog()
+        public override bool ShowDialog()
         {
             using (SaveFileForm form = new SaveFileForm())
             {
@@ -81,19 +76,6 @@ namespace XCOM.Commands.XCommand
 
                 return true;
             }
-        }
-
-        public event EventHandler<ActionProgressEventArgs> Progress;
-        public event EventHandler<ActionErrorEventArgs> Error;
-
-        protected void OnProgress(string message)
-        {
-            Progress?.Invoke(this, new ActionProgressEventArgs(message));
-        }
-
-        protected void OnError(Exception error)
-        {
-            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }

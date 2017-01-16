@@ -6,12 +6,12 @@ using AcadUtility;
 
 namespace XCOM.Commands.XCommand
 {
-    public class PurgeAll : IXCOMAction
+    public class PurgeAll : XCOMActionBase
     {
-        public string Name { get { return "Purge All"; } }
-        public int Order { get { return 10000; } }
-        public bool Recommended { get { return true; } }
-        public ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name { get { return "Purge All"; } }
+        public override int Order { get { return 10000; } }
+        public override bool Recommended { get { return true; } }
+        public override ActionInterface Interface { get { return ActionInterface.Both; } }
 
         private bool purgeBlocks = true;
         private bool purgeDimensionStyles = true;
@@ -78,12 +78,7 @@ namespace XCOM.Commands.XCommand
             { "X-RAY", true }
         };
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public void Run(string filename, Database db)
+        public override void Run(string filename, Database db)
         {
             List<ObjectId> tables = new List<ObjectId>();
             if (purgeBlocks) tables.Add(db.BlockTableId);
@@ -271,7 +266,7 @@ namespace XCOM.Commands.XCommand
             return idList;
         }
 
-        public bool ShowDialog()
+        public override bool ShowDialog()
         {
             using (PurgeAllForm form = new PurgeAllForm())
             {
@@ -323,19 +318,6 @@ namespace XCOM.Commands.XCommand
 
                 return true;
             }
-        }
-
-        public event EventHandler<ActionProgressEventArgs> Progress;
-        public event EventHandler<ActionErrorEventArgs> Error;
-
-        protected void OnProgress(string message)
-        {
-            Progress?.Invoke(this, new ActionProgressEventArgs(message));
-        }
-
-        protected void OnError(System.Exception error)
-        {
-            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }

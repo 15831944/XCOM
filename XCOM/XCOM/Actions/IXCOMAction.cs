@@ -45,4 +45,33 @@ namespace XCOM.Commands.XCommand
         event EventHandler<ActionProgressEventArgs> Progress;
         event EventHandler<ActionErrorEventArgs> Error;
     }
+
+    public class XCOMActionBase : IXCOMAction
+    {
+        public virtual string Name { get { throw new NotImplementedException(); } }
+        public virtual int Order { get { throw new NotImplementedException(); } }
+        public virtual bool Recommended { get { return false; } }
+        public virtual ActionInterface Interface { get { return ActionInterface.Command; } }
+        public virtual bool ShowDialog() { return true; }
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
+        public virtual void Run(string filename, Database db) { throw new NotImplementedException(); }
+
+        public event EventHandler<ActionProgressEventArgs> Progress;
+        public event EventHandler<ActionErrorEventArgs> Error;
+
+        protected virtual void OnProgress(string message)
+        {
+            Progress?.Invoke(this, new ActionProgressEventArgs(message));
+        }
+
+        protected virtual void OnError(Exception error)
+        {
+            Error?.Invoke(this, new ActionErrorEventArgs(error));
+        }
+    }
 }

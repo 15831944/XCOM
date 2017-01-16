@@ -4,20 +4,12 @@ using Autodesk.AutoCAD.Geometry;
 
 namespace XCOM.Commands.XCommand
 {
-    public class ZoomExtents : IXCOMAction
+    public class ZoomExtents : XCOMActionBase
     {
-        public string Name { get { return "Zoom Extents"; } }
-        public int Order { get { return 200000; } }
-        public bool Recommended { get { return false; } }
-        public ActionInterface Interface { get { return ActionInterface.Command; } }
-        public bool ShowDialog() { return true; }
+        public override string Name { get { return "Zoom Extents"; } }
+        public override int Order { get { return 200000; } }
 
-        public override string ToString()
-        {
-            return Name;
-        }
-
-        public void Run(string filename, Database db)
+        public override void Run(string filename, Database db)
         {
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -74,19 +66,6 @@ namespace XCOM.Commands.XCommand
             vp.Height = height * 1.01;
             // set the view center 
             vp.CenterPoint = center;
-        }
-
-        public event EventHandler<ActionProgressEventArgs> Progress;
-        public event EventHandler<ActionErrorEventArgs> Error;
-
-        protected void OnProgress(string message)
-        {
-            Progress?.Invoke(this, new ActionProgressEventArgs(message));
-        }
-
-        protected void OnError(Exception error)
-        {
-            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }
