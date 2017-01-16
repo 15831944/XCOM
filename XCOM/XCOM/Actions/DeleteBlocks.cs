@@ -9,7 +9,7 @@ namespace XCOM.Commands.XCommand
     public class DeleteBlocks : IXCOMAction
     {
         public string Name { get { return "Blok Sil"; } }
-        public int Order { get { return 160000; } }
+        public int Order { get { return 200; } }
         public bool Recommended { get { return false; } }
         public ActionInterface Interface { get { return ActionInterface.Dialog; } }
 
