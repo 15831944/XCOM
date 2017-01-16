@@ -53,20 +53,12 @@ namespace XCOM.Commands.XCommand
 
         protected void OnProgress(string message)
         {
-            EventHandler<ActionProgressEventArgs> handler = Progress;
-            if (handler != null)
-            {
-                handler(this, new ActionProgressEventArgs(message));
-            }
+            Progress?.Invoke(this, new ActionProgressEventArgs(message));
         }
 
         protected void OnError(Exception error)
         {
-            EventHandler<ActionErrorEventArgs> handler = Error;
-            if (handler != null)
-            {
-                handler(this, new ActionErrorEventArgs(error));
-            }
+            Error?.Invoke(this, new ActionErrorEventArgs(error));
         }
     }
 }

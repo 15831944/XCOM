@@ -121,8 +121,7 @@ namespace XCOM.Commands.XCommand
 
         protected void OnButtonClick(ButtonClickEventArgs e)
         {
-            if (ButtonClick != null)
-                ButtonClick(this, e);
+            ButtonClick?.Invoke(this, e);
         }
 
         protected override void OnItemCheck(ItemCheckEventArgs e)

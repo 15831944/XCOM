@@ -185,74 +185,47 @@ namespace XCOM.Commands.XCommand
 
         protected virtual void OnDeployStarted()
         {
-            if (DeployStarted != null)
-            {
-                DeployStarted(this, new EventArgs());
-            }
+            DeployStarted?.Invoke(this, new EventArgs());
         }
 
         protected virtual void OnFileStarted(string filename)
         {
-            if (FileStarted != null)
-            {
-                FileStarted(this, new FileEventArgs(filename));
-            }
+            FileStarted?.Invoke(this, new FileEventArgs(filename));
         }
 
         protected virtual void OnFileOpened(string filename, string error)
         {
-            if (FileOpened != null)
-            {
-                FileOpened(this, new FileOpenedEventArgs(filename, error));
-            }
+            FileOpened?.Invoke(this, new FileOpenedEventArgs(filename, error));
         }
 
         protected virtual void OnActionStarted(string filename, string actionName)
         {
-            if (ActionStarted != null)
-            {
-                ActionStarted(this, new ActionEventArgs(filename, actionName));
-            }
+            ActionStarted?.Invoke(this, new ActionEventArgs(filename, actionName));
         }
 
         protected virtual void OnActionError(string filename, string actionName, System.Exception error)
         {
-            if (ActionError != null)
-            {
-                ActionError(this, new XCOMActionErrorEventArgs(filename, actionName, error));
-            }
+            ActionError?.Invoke(this, new XCOMActionErrorEventArgs(filename, actionName, error));
         }
 
         protected virtual void OnActionProgress(string filename, string actionName, string message)
         {
-            if (ActionProgress != null)
-            {
-                ActionProgress(this, new XCOMActionProgressEventArgs(filename, actionName, message));
-            }
+            ActionProgress?.Invoke(this, new XCOMActionProgressEventArgs(filename, actionName, message));
         }
 
         protected virtual void OnActionCompleted(string filename, string actionName)
         {
-            if (ActionCompleted != null)
-            {
-                ActionCompleted(this, new ActionEventArgs(filename, actionName));
-            }
+            ActionCompleted?.Invoke(this, new ActionEventArgs(filename, actionName));
         }
 
         protected virtual void OnFileCompleted(string filename)
         {
-            if (FileCompleted != null)
-            {
-                FileCompleted(this, new FileEventArgs(filename));
-            }
+            FileCompleted?.Invoke(this, new FileEventArgs(filename));
         }
 
         protected virtual void OnDeployCompleted()
         {
-            if (DeployCompleted != null)
-            {
-                DeployCompleted(this, new EventArgs());
-            }
+            DeployCompleted?.Invoke(this, new EventArgs());
         }
     }
 }
