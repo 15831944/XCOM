@@ -47,7 +47,7 @@
             this.lvBlockNames.Location = new System.Drawing.Point(12, 82);
             this.lvBlockNames.Name = "lvBlockNames";
             this.lvBlockNames.Size = new System.Drawing.Size(490, 182);
-            this.lvBlockNames.TabIndex = 6;
+            this.lvBlockNames.TabIndex = 4;
             this.lvBlockNames.UseCompatibleStateImageBehavior = false;
             this.lvBlockNames.View = System.Windows.Forms.View.Details;
             // 
@@ -63,7 +63,7 @@
             this.btnClearBlockNames.Location = new System.Drawing.Point(410, 41);
             this.btnClearBlockNames.Name = "btnClearBlockNames";
             this.btnClearBlockNames.Size = new System.Drawing.Size(92, 23);
-            this.btnClearBlockNames.TabIndex = 5;
+            this.btnClearBlockNames.TabIndex = 3;
             this.btnClearBlockNames.Text = "Temizle";
             this.btnClearBlockNames.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnClearBlockNames.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             this.cmdCancel.Location = new System.Drawing.Point(427, 311);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
-            this.cmdCancel.TabIndex = 11;
+            this.cmdCancel.TabIndex = 8;
             this.cmdCancel.Text = "İptal";
             this.cmdCancel.UseVisualStyleBackColor = true;
             this.cmdCancel.Click += new System.EventHandler(this.cmdCancel_Click);
@@ -120,7 +120,7 @@
             this.cmdOK.Location = new System.Drawing.Point(346, 311);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
-            this.cmdOK.TabIndex = 10;
+            this.cmdOK.TabIndex = 7;
             this.cmdOK.Text = "Tamam";
             this.cmdOK.UseVisualStyleBackColor = true;
             this.cmdOK.Click += new System.EventHandler(this.cmdOK_Click);
@@ -147,7 +147,7 @@
             this.cbWhere.Location = new System.Drawing.Point(12, 313);
             this.cbWhere.Name = "cbWhere";
             this.cbWhere.Size = new System.Drawing.Size(142, 21);
-            this.cbWhere.TabIndex = 9;
+            this.cbWhere.TabIndex = 6;
             // 
             // DeleteBlockForm
             // 

@@ -4,6 +4,7 @@ using System.IO;
 using System.Text;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace XCOM.Commands.XCommand
 {
@@ -18,15 +19,10 @@ namespace XCOM.Commands.XCommand
             // Find and add actions
             Assembly assembly = Assembly.GetExecutingAssembly();
             List<IXCOMAction> actions = new List<IXCOMAction>();
-            foreach (Type type in assembly.GetTypes())
+            foreach (Type type in assembly.GetTypes().Where(p => p.BaseType == typeof(XCOMActionBase)))
             {
-                List<Type> interfaces = new List<Type>();
-                interfaces.AddRange(type.GetInterfaces());
-                if (interfaces.Contains(typeof(IXCOMAction)) && !type.IsInterface)
-                {
-                    IXCOMAction instance = (IXCOMAction)Activator.CreateInstance(type);
-                    actions.Add(instance);
-                }
+                IXCOMAction instance = (IXCOMAction)Activator.CreateInstance(type);
+                actions.Add(instance);
             }
             actions.Sort((a, b) => { return (a.Order < b.Order ? -1 : 1); });
             foreach (IXCOMAction action in actions)
