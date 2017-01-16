@@ -22,9 +22,9 @@ namespace XCOM.Commands.XCommand
     public class FileOpenedEventArgs : EventArgs
     {
         public string Filename { get; private set; }
-        public string Error { get; private set; }
+        public System.Exception Error { get; private set; }
 
-        public FileOpenedEventArgs(string filename, string error)
+        public FileOpenedEventArgs(string filename, System.Exception error)
         {
             Filename = filename;
             Error = error;
@@ -142,7 +142,7 @@ namespace XCOM.Commands.XCommand
                 using (Database db = new Database(false, true))
                 {
                     // Open the file into the empty database
-                    string openError = string.Empty;
+                    System.Exception openError = null;
                     try
                     {
                         db.ReadDwgFile(file, FileShare.ReadWrite, true, String.Empty);
@@ -150,10 +150,11 @@ namespace XCOM.Commands.XCommand
                     }
                     catch (System.Exception ex)
                     {
-                        openError = ex.Message;
+                        openError = ex;
                     }
                     OnFileOpened(file, openError);
-                    if (!string.IsNullOrEmpty(openError))
+                    // Close without any action if there was an error while opening the file
+                    if (openError != null)
                     {
                         OnFileCompleted(file);
                         continue;
@@ -193,7 +194,7 @@ namespace XCOM.Commands.XCommand
             FileStarted?.Invoke(this, new FileEventArgs(filename));
         }
 
-        protected virtual void OnFileOpened(string filename, string error)
+        protected virtual void OnFileOpened(string filename, System.Exception error)
         {
             FileOpened?.Invoke(this, new FileOpenedEventArgs(filename, error));
         }

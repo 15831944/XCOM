@@ -52,6 +52,14 @@ namespace XCOM.Commands.XCommand
                             progressForm.Invoke(new Action(() => { progressForm.ActionComplete(e.Filename, "Aç"); }));
                         else
                             progressForm.ActionComplete(e.Filename, "Aç");
+
+                        if(e.Error !=null)
+                        {
+                            if (progressForm.InvokeRequired)
+                                progressForm.Invoke(new Action(() => { progressForm.ActionError(e.Filename, e.Error.ToString()); }));
+                            else
+                                progressForm.ActionError(e.Filename, e.Error.ToString());
+                        }
                     };
                     deploy.ActionError += (sender, e) =>
                     {

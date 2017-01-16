@@ -153,24 +153,17 @@ namespace XCOM.Commands.XCommand
             }
         }
 
-        private string[] FindReplaceBlock(Transaction tr, ObjectId blockid)
+        private void FindReplaceBlock(Transaction tr, ObjectId blockid)
         {
-            List<string> errors = new List<string>();
-
             BlockTableRecord btr = (BlockTableRecord)tr.GetObject(blockid, OpenMode.ForRead);
             foreach (ObjectId id in btr)
             {
-                string[] itemErrors = FindReplaceItem(tr, id);
-                errors.AddRange(itemErrors);
+                FindReplaceItem(tr, id);
             }
-
-            return errors.ToArray();
         }
 
-        private string[] FindReplaceItem(Transaction tr, ObjectId id)
+        private void FindReplaceItem(Transaction tr, ObjectId id)
         {
-            List<string> errors = new List<string>();
-
             try
             {
                 foreach (FindReplaceOptions item in options)
@@ -253,10 +246,8 @@ namespace XCOM.Commands.XCommand
             }
             catch (System.Exception ex)
             {
-                errors.Add(ex.Message);
+                OnError(ex);
             }
-
-            return errors.ToArray();
         }
 
         private bool GetReplacedText(string find, string replace, string oldText, out string newText)
