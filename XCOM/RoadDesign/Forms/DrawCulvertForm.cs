@@ -35,16 +35,16 @@ namespace XCOM.Commands.RoadDesign
 
             for (int i = culvertGrid.FixedRows; i < culvertGrid.RowsCount; i++)
             {
-                bool emptyRow = false;
+                bool emptyRow = true;
                 for (int j = 0; j < culvertGrid.ColumnsCount; j++)
                 {
-                    if (culvertGrid[i, j].Value == null || string.IsNullOrEmpty((string)culvertGrid[i, j].Value))
+                    if (culvertGrid[i, j].Value != null && !string.IsNullOrEmpty((string)culvertGrid[i, j].Value))
                     {
-                        emptyRow = true;
+                        emptyRow = false;
                         break;
                     }
                 }
-                if (emptyRow) break;
+                if (emptyRow) continue;
 
                 bool emptyCell = false;
                 for (int j = 0; j < culvertGrid.ColumnsCount; j++)
@@ -58,7 +58,7 @@ namespace XCOM.Commands.RoadDesign
                             break;
                         }
                     }
-                    else
+                    else if (j == 1 || j == 5 || j == 6)
                     {
                         if (!double.TryParse((string)culvertGrid[i, j].Value, out val))
                         {
@@ -67,17 +67,38 @@ namespace XCOM.Commands.RoadDesign
                         }
                     }
                 }
-                if (emptyCell) continue;
+                if (emptyCell)
+                {
+                    MessageBox.Show((i - culvertGrid.FixedRows + 1).ToString() + " nolu satırda KM, kot veya boyut bilgisi okunamadı.", "Menfez Çizimi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    continue;
+                }
+
+                double ch = 0;
+                double level = 0;
+                double length = 0;
+                double grade = 0;
+                double skew = 0;
+                double width = 0;
+                double height = 0;
+                double welllength = 0;
+                CulvertInfo.TryChainageFromString((string)culvertGrid[i, 0].Value, out ch);
+                double.TryParse((string)culvertGrid[i, 1].Value, out level);
+                double.TryParse((string)culvertGrid[i, 2].Value, out length);
+                double.TryParse((string)culvertGrid[i, 3].Value, out grade);
+                double.TryParse((string)culvertGrid[i, 4].Value, out skew);
+                double.TryParse((string)culvertGrid[i, 5].Value, out width);
+                double.TryParse((string)culvertGrid[i, 6].Value, out height);
+                double.TryParse((string)culvertGrid[i, 7].Value, out welllength);
 
                 CulvertInfo culvert = new CulvertInfo();
-                culvert.Chainage = CulvertInfo.ChainageFromString((string)culvertGrid[i, 0].Value);
-                culvert.Level = double.Parse((string)culvertGrid[i, 1].Value);
-                culvert.Length = double.Parse((string)culvertGrid[i, 2].Value);
-                culvert.Grade = double.Parse((string)culvertGrid[i, 3].Value);
-                culvert.Skew = double.Parse((string)culvertGrid[i, 4].Value);
-                culvert.Width = double.Parse((string)culvertGrid[i, 5].Value);
-                culvert.Height = double.Parse((string)culvertGrid[i, 6].Value);
-                culvert.WellLength = double.Parse((string)culvertGrid[i, 7].Value);
+                culvert.Chainage = ch;
+                culvert.Level = level;
+                culvert.Length = length;
+                culvert.Grade = grade;
+                culvert.Skew = skew;
+                culvert.Width = width;
+                culvert.Height = height;
+                culvert.WellLength = welllength;
                 items.Add(culvert);
             }
 
@@ -294,7 +315,7 @@ namespace XCOM.Commands.RoadDesign
         {
             if (!basePointSelected)
             {
-                MessageBox.Show("Baz noktasını seçin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Baz noktasını seçin.", "Menfez Çizimi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;
             }
             DialogResult = System.Windows.Forms.DialogResult.OK;

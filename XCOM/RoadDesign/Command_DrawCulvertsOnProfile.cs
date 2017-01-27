@@ -124,7 +124,7 @@ namespace XCOM.Commands.RoadDesign
                                         text = text + " Kuyu Boyu=" + culvert.WellLength.ToString("F2") + " m";
                                 }
 
-                                MText mtext = AcadUtility.AcadEntity.CreateMText(db, textBase.TransformBy(ucs2wcs), text, textHeight, 90);
+                                MText mtext = AcadUtility.AcadEntity.CreateMText(db, textBase.TransformBy(ucs2wcs), text, textHeight, Math.PI / 2.0);
                                 mtext.LayerId = layerId;
                                 btr.AppendEntity(mtext);
                                 tr.AddNewlyCreatedDBObject(mtext, true);
