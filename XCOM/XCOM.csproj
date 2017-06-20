@@ -197,6 +197,7 @@
     <Compile Include="XCOM\Actions\DeleteBlocks.cs" />
     <Compile Include="XCOM\Actions\DeleteModel.cs" />
     <Compile Include="XCOM\Actions\HideGrids.cs" />
+    <Compile Include="XCOM\Actions\SetDWGVariables.cs" />
     <Compile Include="XCOM\Actions\LockAllViewports.cs" />
     <Compile Include="XCOM\Actions\StripXREFPaths.cs" />
     <Compile Include="XCOM\Actions\ChangeToLayout.cs" />
