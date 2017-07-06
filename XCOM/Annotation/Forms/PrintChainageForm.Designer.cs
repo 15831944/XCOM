@@ -1,6 +1,6 @@
 ﻿namespace XCOM.Commands.Annotation
 {
-    partial class PrintChainageMainForm
+    partial class PrintChainageForm
     {
         /// <summary>
         /// Required designer variable.

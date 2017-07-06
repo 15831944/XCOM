@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class Command_KMYAZ
+    public class Command_KMYAZ
     {
         private double TextHeight { get; set; }
         private int Precision { get; set; }
@@ -211,7 +211,7 @@ namespace XCOM.Commands.Annotation
 
         private bool ShowSettings()
         {
-            using (PrintChainageMainForm form = new PrintChainageMainForm())
+            using (PrintChainageForm form = new PrintChainageForm())
             {
                 form.TextHeight = TextHeight;
                 form.Precision = Precision;

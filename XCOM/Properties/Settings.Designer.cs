@@ -226,5 +226,29 @@ namespace XCOM.Properties {
                 this["Command_NUMARALANDIR_Format"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double Command_COORDGRID_TextHeight {
+            get {
+                return ((double)(this["Command_COORDGRID_TextHeight"]));
+            }
+            set {
+                this["Command_COORDGRID_TextHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("50")]
+        public int Command_COORDGRID_Interval {
+            get {
+                return ((int)(this["Command_COORDGRID_Interval"]));
+            }
+            set {
+                this["Command_COORDGRID_Interval"] = value;
+            }
+        }
     }
 }

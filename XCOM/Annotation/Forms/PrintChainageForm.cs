@@ -14,7 +14,7 @@ using System.Text.RegularExpressions;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class PrintChainageMainForm : XCOM.Utility.VersionDisplayForm
+    public partial class PrintChainageForm : XCOM.Utility.VersionDisplayForm
     {
         public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
         public int Precision { get { return cbPrecision.SelectedIndex; } set { cbPrecision.SelectedIndex = Math.Min(cbPrecision.Items.Count - 1, Math.Max(0, value)); } }
@@ -42,7 +42,7 @@ namespace XCOM.Commands.Annotation
             }
         }
 
-        public PrintChainageMainForm()
+        public PrintChainageForm()
         {
             InitializeComponent();
         }

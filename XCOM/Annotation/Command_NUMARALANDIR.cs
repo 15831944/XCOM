@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class Command_NUMARALANDIR
+    public class Command_NUMARALANDIR
     {
         [Autodesk.AutoCAD.Runtime.CommandMethod("NUMARALANDIR", CommandFlags.UsePickSet)]
         public void Numbering()

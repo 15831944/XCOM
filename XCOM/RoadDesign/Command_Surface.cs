@@ -126,7 +126,7 @@ namespace XCOM.Commands.RoadDesign
         Point3dCollection ReadPoints(IEnumerable<ObjectId> items)
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             HashSet<Point3d> points = new HashSet<Point3d>(new Point3dComparer(Tolerance.Global));
 
@@ -333,7 +333,7 @@ namespace XCOM.Commands.RoadDesign
                     if (EraseEntities)
                     {
                         Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                        Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+                        Database db = doc.Database;
                         AcadUtility.AcadEntity.EraseEntities(db, items);
                     }
                 }
@@ -350,7 +350,7 @@ namespace XCOM.Commands.RoadDesign
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             if (ShowSettings())
             {
@@ -391,7 +391,7 @@ namespace XCOM.Commands.RoadDesign
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             // Surface type
             PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
@@ -549,7 +549,7 @@ namespace XCOM.Commands.RoadDesign
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             // Pick polyline
             PromptEntityOptions entityOpts = new PromptEntityOptions("\nKazı tabanı: ");
@@ -574,13 +574,44 @@ namespace XCOM.Commands.RoadDesign
             }
         }
 
+        [Autodesk.AutoCAD.Runtime.CommandMethod("PROFILEONCURVE")]
+        public void ProfileOnCurve()
+        {
+            if (!CheckLicense.Check()) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            // Pick polyline
+            PromptEntityOptions entityOpts = new PromptEntityOptions("\nEğri: ");
+            entityOpts.SetRejectMessage("\nSelect a curve.");
+            entityOpts.AddAllowedClass(typeof(Curve), false);
+            PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
+
+            if (entityRes.Status == PromptStatus.OK)
+            {
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                {
+                    Curve curve = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
+
+                    Point2dCollection points = topo.ProfileOnCurve(curve, Topography.SurfaceType.Original);
+
+                    Polyline pline = AcadUtility.AcadEntity.CreatePolyLine(db, curve.Closed, points);
+                    btr.AppendEntity(pline);
+                    tr.AddNewlyCreatedDBObject(pline, true);
+                    tr.Commit();
+                }
+            }
+        }
+
         [Autodesk.AutoCAD.Runtime.CommandMethod("KONTUR")]
         public void DrawContourMap()
         {
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             // Surface type
             PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
@@ -628,7 +659,7 @@ namespace XCOM.Commands.RoadDesign
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+            Database db = doc.Database;
 
             // Pick polyline
             bool flag = true;
@@ -650,7 +681,7 @@ namespace XCOM.Commands.RoadDesign
                     using (Transaction tr = db.TransactionManager.StartTransaction())
                     using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead))
                     {
-                        Autodesk.AutoCAD.DatabaseServices.Curve centerline = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Curve;
+                        Curve centerline = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
                         if (centerline != null)
                         {
                             if (centerline.Closed)
@@ -680,7 +711,7 @@ namespace XCOM.Commands.RoadDesign
                 List<SlopeSection> sections = new List<SlopeSection>();
 
                 // Divide the curve into equal segments and calculate the 3D slope at each point
-                Autodesk.AutoCAD.DatabaseServices.Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Curve;
+                Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Curve;
                 double len = centerline.GetLength();
                 int nmax = (int)Math.Ceiling(len / ExcavationStepSize);
                 double dist = 0.0;

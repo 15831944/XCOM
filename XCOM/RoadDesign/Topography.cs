@@ -13,11 +13,6 @@ namespace XCOM.Commands.RoadDesign
     public class Topography
     {
         /// <summary>
-        /// Maximum length of discretized curve segments.
-        /// </summary>
-        public double CurveDiscritizationLength { get; private set; }
-
-        /// <summary>
         /// The type of surface being operated on.
         /// </summary>
         public enum SurfaceType
@@ -41,10 +36,8 @@ namespace XCOM.Commands.RoadDesign
         /// <summary>
         /// Creates a new topography.
         /// </summary>
-        public Topography(double curveDiscritizationLength = 1.0)
+        public Topography()
         {
-            CurveDiscritizationLength = curveDiscritizationLength;
-
             originalSurface = new TriangleNet.Mesh();
             proposedSurface = new TriangleNet.Mesh();
         }
@@ -93,7 +86,8 @@ namespace XCOM.Commands.RoadDesign
         /// </summary>
         /// <param name="curve">The curve to drape</param>
         /// <param name="surface">The type of surface being operated on</param>
-        public Point3dCollection DrapeCurve(Curve curve, SurfaceType surface)
+        /// <param name="curveDiscretizationLength">Length of discrete segments</param>
+        public Point3dCollection DrapeCurve(Curve curve, SurfaceType surface, double curveDiscretizationLength = 1.0)
         {
             SortedList<double, Point3d> results = new SortedList<double, Point3d>();
 
@@ -101,7 +95,7 @@ namespace XCOM.Commands.RoadDesign
             double sp = curve.StartParam;
             double ep = curve.EndParam;
             double len = curve.GetLength();
-            int nmax = (int)Math.Ceiling(len / CurveDiscritizationLength);
+            int nmax = (int)Math.Ceiling(len / curveDiscretizationLength);
             double distStep = len / ((double)nmax);
 
             // Intersects slope vectors with surface triangles
@@ -136,6 +130,33 @@ namespace XCOM.Commands.RoadDesign
             }
 
             return new Point3dCollection(results.Values.ToArray());
+        }
+
+        /// <summary>
+        /// Drapes the curve over the given surface and returns the curve profile.
+        /// </summary>
+        /// <param name="curve">The curve to drape</param>
+        /// <param name="surface">The type of surface being operated on</param>
+        /// <param name="curveDiscretizationLength">Length of discrete segments</param>
+        public Point2dCollection ProfileOnCurve(Curve curve, SurfaceType surface, double curveDiscretizationLength = 1.0)
+        {
+            Point3dCollection curvePoints = DrapeCurve(curve, surface, curveDiscretizationLength);
+            Point2dCollection profilePoints = new Point2dCollection();
+
+            if (curvePoints.Count > 0)
+            {
+                Point2d lastPoint = new Point2d(curvePoints[0].X, curvePoints[0].Y);
+                double dist = 0;
+                for (int i = 0; i < curvePoints.Count; i++)
+                {
+                    Point3d pt = curvePoints[i];
+                    Point2d thisPoint = new Point2d(pt.X, pt.Y);
+                    dist += thisPoint.GetDistanceTo(lastPoint);
+                    profilePoints.Add(new Point2d(dist, pt.Z));
+                }
+            }
+
+            return profilePoints;
         }
 
         /// <summary>

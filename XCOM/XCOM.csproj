@@ -89,13 +89,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Annotation\Command_COORD.cs" />
+    <Compile Include="Annotation\Command_COORDGRID.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
     <Compile Include="Annotation\Command_KMYAZ.cs" />
-    <Compile Include="Annotation\Forms\PrintChainageMainForm.cs">
+    <Compile Include="Annotation\Forms\PrintChainageForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Annotation\Forms\PrintChainageMainForm.Designer.cs">
-      <DependentUpon>PrintChainageMainForm.cs</DependentUpon>
+    <Compile Include="Annotation\Forms\PrintChainageForm.Designer.cs">
+      <DependentUpon>PrintChainageForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Forms\CoordMainForm.cs">
       <SubType>Form</SubType>
@@ -245,8 +246,8 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Annotation\Forms\PrintChainageMainForm.resx">
-      <DependentUpon>PrintChainageMainForm.cs</DependentUpon>
+    <EmbeddedResource Include="Annotation\Forms\PrintChainageForm.resx">
+      <DependentUpon>PrintChainageForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Annotation\Forms\CoordMainForm.resx">
       <DependentUpon>CoordMainForm.cs</DependentUpon>

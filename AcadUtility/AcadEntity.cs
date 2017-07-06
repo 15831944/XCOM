@@ -293,6 +293,91 @@ namespace AcadUtility
             return CreateMText(db, pt, text, textHeight, 0, AttachmentPoint.TopLeft, ObjectId.Null, ObjectId.Null);
         }
 
+        public static AttributeDefinition CreateAttribute(Database db, Point3d pt, string tag, string prompt, string text, double textHeight, double rotation, double widthFactor, TextHorizontalMode horizontalMode, TextVerticalMode verticalMode, ObjectId textStyleId, ObjectId layerId)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                AttributeDefinition attdef = new AttributeDefinition();
+                attdef.SetDatabaseDefaults(db);
+
+                attdef.Tag = tag;
+                attdef.Prompt = prompt;
+                attdef.TextString = text;
+                attdef.Position = pt;
+
+                attdef.Height = textHeight;
+                attdef.Rotation = rotation;
+                attdef.WidthFactor = widthFactor;
+
+                if (horizontalMode == TextHorizontalMode.TextLeft)
+                {
+                    if (verticalMode == TextVerticalMode.TextTop)
+                        attdef.Justify = AttachmentPoint.TopLeft;
+                    else if (verticalMode == TextVerticalMode.TextBase)
+                        attdef.Justify = AttachmentPoint.BaseLeft;
+                    else if (verticalMode == TextVerticalMode.TextBottom)
+                        attdef.Justify = AttachmentPoint.BottomLeft;
+                    else
+                        attdef.Justify = AttachmentPoint.MiddleLeft;
+                }
+                else if (horizontalMode == TextHorizontalMode.TextRight)
+                {
+                    if (verticalMode == TextVerticalMode.TextTop)
+                        attdef.Justify = AttachmentPoint.TopRight;
+                    else if (verticalMode == TextVerticalMode.TextBase)
+                        attdef.Justify = AttachmentPoint.BaseRight;
+                    else if (verticalMode == TextVerticalMode.TextBottom)
+                        attdef.Justify = AttachmentPoint.BottomRight;
+                    else
+                        attdef.Justify = AttachmentPoint.MiddleRight;
+                }
+                else if (horizontalMode == TextHorizontalMode.TextMid || horizontalMode == TextHorizontalMode.TextCenter)
+                {
+                    if (verticalMode == TextVerticalMode.TextTop)
+                        attdef.Justify = AttachmentPoint.TopCenter;
+                    else if (verticalMode == TextVerticalMode.TextBase)
+                        attdef.Justify = AttachmentPoint.BaseCenter;
+                    else if (verticalMode == TextVerticalMode.TextBottom)
+                        attdef.Justify = AttachmentPoint.BottomCenter;
+                    else
+                        attdef.Justify = AttachmentPoint.MiddleCenter;
+                }
+                else if (horizontalMode == TextHorizontalMode.TextAlign)
+                {
+                    if (verticalMode == TextVerticalMode.TextTop)
+                        attdef.Justify = AttachmentPoint.TopAlign;
+                    else if (verticalMode == TextVerticalMode.TextBase)
+                        attdef.Justify = AttachmentPoint.BaseAlign;
+                    else if (verticalMode == TextVerticalMode.TextBottom)
+                        attdef.Justify = AttachmentPoint.BottomAlign;
+                    else
+                        attdef.Justify = AttachmentPoint.MiddleAlign;
+                }
+                else if (horizontalMode == TextHorizontalMode.TextFit)
+                {
+                    if (verticalMode == TextVerticalMode.TextTop)
+                        attdef.Justify = AttachmentPoint.TopFit;
+                    else if (verticalMode == TextVerticalMode.TextBase)
+                        attdef.Justify = AttachmentPoint.BaseFit;
+                    else if (verticalMode == TextVerticalMode.TextBottom)
+                        attdef.Justify = AttachmentPoint.BottomFit;
+                    else
+                        attdef.Justify = AttachmentPoint.MiddleFit;
+                }
+
+                if (horizontalMode != TextHorizontalMode.TextLeft || verticalMode != TextVerticalMode.TextBase)
+                {
+                    attdef.AlignmentPoint = pt;
+                    attdef.AdjustAlignment(db);
+                }
+
+                if (!textStyleId.IsNull) attdef.TextStyleId = textStyleId;
+                if (!layerId.IsNull) attdef.LayerId = layerId;
+
+                return attdef;
+            }
+        }
+
         public static Line CreateLine(Database db, Point3d pt1, Point3d pt2, ObjectId layerId)
         {
             using (CurrentDB curr = new CurrentDB(db))
@@ -426,6 +511,29 @@ namespace AcadUtility
             return CreatePolyLine(db, false, points);
         }
 
+        public static Polyline CreatePolyLine(Database db, bool closed, Point2dCollection points)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                Matrix3d ucs2wcs = AcadGraphics.UcsToWcs;
+
+                Polyline pline = new Polyline(1);
+                pline.SetDatabaseDefaults(db);
+                pline.Normal = ucs2wcs.CoordinateSystem3d.Zaxis;
+                pline.AddVertexAt(0, new Point2d(0, 0), 0, 0, 0);
+                Plane plinePlane = new Plane(Point3d.Origin, pline.Normal);
+                pline.Reset(false, points.Count);
+                foreach (Point2d pt in points)
+                {
+                    Point2d ecsPt = plinePlane.ParameterOf(new Point3d(pt.X, pt.Y, 0)); // Convert to ECS
+                    pline.AddVertexAt(pline.NumberOfVertices, ecsPt, 0, 0, 0);
+                }
+                pline.Closed = closed;
+
+                return pline;
+            }
+        }
+
         public static Polyline3d CreatePolyLine3d(Database db, bool closed, Point3dCollection points)
         {
             using (CurrentDB curr = new CurrentDB(db))
@@ -470,6 +578,20 @@ namespace AcadUtility
                 hatch.SetHatchPattern(HatchPatternType.PreDefined, patternName);
 
                 return hatch;
+            }
+        }
+
+        public static BlockReference CreateBlockReference(Database db, ObjectId blockId, Point3d insertionPoint, double scale, double rotation)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                BlockReference blockRef = new BlockReference(insertionPoint, blockId);
+                blockRef.SetDatabaseDefaults(db);
+
+                blockRef.ScaleFactors = new Scale3d(scale);
+                blockRef.Rotation = rotation;
+
+                return blockRef;
             }
         }
 
