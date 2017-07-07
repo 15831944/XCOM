@@ -163,6 +163,18 @@
     <Image Include="Resources\XCLOSEALL.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\COORDGRID.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\DRAPE.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\KMYAZ.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\QUADRATICBEZIER.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
