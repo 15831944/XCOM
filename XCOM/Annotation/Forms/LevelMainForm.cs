@@ -26,6 +26,8 @@ namespace XCOM.Commands.Annotation
         public Point3d BasePoint { get { return basePt; } set { basePointSelected = true; basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
 
         public double BaseLevel { get { double v = 0; double.TryParse(txtBaseLevel.Text, out v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
+        public double Multiplier { get { double v = 0; double.TryParse(txtMultiplier.Text, out v); return v; } set { txtMultiplier.Text = value.ToString(); } }
+
         public string BlockName
         {
             get
@@ -88,6 +90,17 @@ namespace XCOM.Commands.Annotation
                 PromptPointResult ptRes = ed.GetPoint("\nBaz noktası: ");
                 if (ptRes.Status == PromptStatus.OK) BasePoint = ptRes.Value;
             }
+        }
+
+        private void txtMultiplier_TextChanged(object sender, EventArgs e)
+        {
+            bool isDefault = false;
+            double val;
+            if (double.TryParse(txtMultiplier.Text, out val))
+            {
+                if (Math.Abs(val - 1.0) < double.Epsilon) isDefault = true;
+            }
+            txtMultiplier.BackColor = (isDefault ? SystemColors.Window : Color.MistyRose);
         }
     }
 }

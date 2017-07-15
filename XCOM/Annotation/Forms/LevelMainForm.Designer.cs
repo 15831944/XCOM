@@ -41,6 +41,8 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtMultiplier = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
             this.txtBaseLevel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
             this.txtZ = new System.Windows.Forms.TextBox();
@@ -194,6 +196,8 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.txtMultiplier);
+            this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.txtBaseLevel);
             this.groupBox1.Controls.Add(this.label6);
             this.groupBox1.Controls.Add(this.txtZ);
@@ -210,6 +214,23 @@
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Baz Noktası";
+            // 
+            // txtMultiplier
+            // 
+            this.txtMultiplier.Location = new System.Drawing.Point(73, 165);
+            this.txtMultiplier.Name = "txtMultiplier";
+            this.txtMultiplier.Size = new System.Drawing.Size(100, 20);
+            this.txtMultiplier.TabIndex = 11;
+            this.txtMultiplier.TextChanged += new System.EventHandler(this.txtMultiplier_TextChanged);
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(17, 169);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(41, 13);
+            this.label9.TabIndex = 10;
+            this.label9.Text = "Çarpan";
             // 
             // txtBaseLevel
             // 
@@ -349,5 +370,7 @@
         private System.Windows.Forms.ComboBox cbBlock;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.TextBox txtMultiplier;
+        private System.Windows.Forms.Label label9;
     }
 }

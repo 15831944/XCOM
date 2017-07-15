@@ -44,6 +44,7 @@ namespace XCOM.Commands.Annotation
         private int Precision { get; set; }
         private string BlockName { get; set; }
         private double BlockScale { get; set; }
+        private double Multiplier { get; set; }
 
         public Command_LEVEL()
         {
@@ -55,6 +56,7 @@ namespace XCOM.Commands.Annotation
             Precision = Properties.Settings.Default.Command_LEVEL_Precision;
             BlockName = Properties.Settings.Default.Command_LEVEL_BlockName;
             BlockScale = Properties.Settings.Default.Command_LEVEL_BlockScale;
+            Multiplier = Properties.Settings.Default.Command_LEVEL_Multiplier;
         }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("LEVEL")]
@@ -167,7 +169,7 @@ namespace XCOM.Commands.Annotation
 
         private string GetLevel(Point3d ucsPt)
         {
-            double level = (ucsPt.Y - BasePoint.Y) * Scale + BaseLevel;
+            double level = (ucsPt.Y - BasePoint.Y) * Scale * Multiplier + BaseLevel;
 
             string format = (Precision == 0 ? "0" : "0." + new string('0', Precision));
 
@@ -224,6 +226,7 @@ namespace XCOM.Commands.Annotation
 
                 form.BasePoint = BasePoint;
                 form.BaseLevel = BaseLevel;
+                form.Multiplier = Multiplier;
 
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
@@ -269,6 +272,7 @@ namespace XCOM.Commands.Annotation
 
                     BlockName = form.BlockName;
                     BlockScale = form.BlockScale;
+                    Multiplier = form.Multiplier;
 
                     init = true;
 
@@ -278,6 +282,7 @@ namespace XCOM.Commands.Annotation
                     Properties.Settings.Default.Command_LEVEL_Precision = Precision;
                     Properties.Settings.Default.Command_LEVEL_BlockName = BlockName;
                     Properties.Settings.Default.Command_LEVEL_BlockScale = BlockScale;
+                    Properties.Settings.Default.Command_LEVEL_Multiplier = Multiplier;
                     Properties.Settings.Default.Save();
 
                     return true;

@@ -250,5 +250,17 @@ namespace XCOM.Properties {
                 this["Command_COORDGRID_Interval"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("1")]
+        public double Command_LEVEL_Multiplier {
+            get {
+                return ((double)(this["Command_LEVEL_Multiplier"]));
+            }
+            set {
+                this["Command_LEVEL_Multiplier"] = value;
+            }
+        }
     }
 }
