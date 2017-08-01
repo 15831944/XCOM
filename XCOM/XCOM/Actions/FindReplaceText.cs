@@ -103,9 +103,6 @@ namespace XCOM.Commands.XCommand
 
         public override bool ShowDialog()
         {
-            string[] find;
-            string[] replace;
-
             using (FindReplaceTextForm form = new FindReplaceTextForm())
             {
                 form.SearchText = frText;
@@ -118,8 +115,8 @@ namespace XCOM.Commands.XCommand
                 form.MatchWholeWords = optMatchWholeWords;
                 form.UseWildcards = optUseWildcards;
 
-                find = new string[options.Count];
-                replace = new string[options.Count];
+                string[] find = new string[options.Count];
+                string[] replace = new string[options.Count];
                 for (int i = 0; i < options.Count; i++)
                 {
                     find[i] = options[i].Find;
@@ -142,6 +139,7 @@ namespace XCOM.Commands.XCommand
                 optMatchWholeWords = form.MatchWholeWords;
                 optUseWildcards = form.UseWildcards;
 
+                options = new List<FindReplaceOptions>();
                 for (int i = 0; i < find.Length; i++)
                 {
                     options.Add(new FindReplaceOptions(find[i], replace[i]));

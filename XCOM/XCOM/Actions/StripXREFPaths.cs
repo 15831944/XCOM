@@ -14,7 +14,6 @@ namespace XCOM.Commands.XCommand
             {
                 try
                 {
-                    // Resolve XREFs
                     // List xrefs
                     ObjectIdCollection xrefs = new ObjectIdCollection();
                     XrefGraph graph = db.GetHostDwgXrefGraph(false);
@@ -37,13 +36,6 @@ namespace XCOM.Commands.XCommand
 
                             // Skip if nested
                             if (node.IsNested) continue;
-
-                            // Skip if XREF is not resolved
-                            if (node.XrefStatus != XrefStatus.Resolved)
-                            {
-                                OnError(new Exception("XREF bulunamadı: " + node.Name));
-                                continue;
-                            }
 
                             xrefs.Add(node.BlockTableRecordId);
                         }

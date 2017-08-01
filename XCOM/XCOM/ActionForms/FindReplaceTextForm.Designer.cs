@@ -97,7 +97,7 @@
             this.btnAddFindReplace.Location = new System.Drawing.Point(410, 12);
             this.btnAddFindReplace.Name = "btnAddFindReplace";
             this.btnAddFindReplace.Size = new System.Drawing.Size(92, 23);
-            this.btnAddFindReplace.TabIndex = 2;
+            this.btnAddFindReplace.TabIndex = 4;
             this.btnAddFindReplace.Text = "Ekle";
             this.btnAddFindReplace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageBeforeText;
             this.btnAddFindReplace.UseVisualStyleBackColor = true;
@@ -108,7 +108,7 @@
             this.txtReplace.Location = new System.Drawing.Point(93, 43);
             this.txtReplace.Name = "txtReplace";
             this.txtReplace.Size = new System.Drawing.Size(298, 20);
-            this.txtReplace.TabIndex = 4;
+            this.txtReplace.TabIndex = 3;
             this.txtReplace.TextChanged += new System.EventHandler(this.txtReplace_TextChanged);
             // 
             // label2
@@ -118,7 +118,7 @@
             this.label2.Location = new System.Drawing.Point(9, 46);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(45, 13);
-            this.label2.TabIndex = 3;
+            this.label2.TabIndex = 2;
             this.label2.Text = "Değiştir:";
             // 
             // txtFind
