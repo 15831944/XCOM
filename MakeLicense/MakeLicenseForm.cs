@@ -29,29 +29,31 @@ namespace MakeLicense
             if (Clipboard.ContainsText()) txtActivationCode.Text = Clipboard.GetText();
         }
 
-        private void btnCopy_Click(object sender, EventArgs e)
-        {
-            Clipboard.SetText(txtLicenseKey.Text);
-        }
-
         private void btnCreateLicenseKey_Click(object sender, EventArgs e)
         {
-            // MD5 hash of activation code: 33 characters
-            string activationCode = txtActivationCode.Text.Replace("-", "").Trim();
-            // Checksum
-            string crc = Crypto.GetMd5Hash(activationCode.Substring(0, 32).ToUpper()).Substring(0, 1).ToUpper();
-            if (string.Compare(crc, activationCode.Substring(32, 1), StringComparison.OrdinalIgnoreCase) != 0)
+            if (sfdLicenseFile.ShowDialog() == DialogResult.OK)
             {
-                MessageBox.Show("Geçersiz aktivasyon kodu.", "Lisans Yöneticisi", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                return;
+                // MD5 hash of activation code: 33 characters
+                string activationCode = txtActivationCode.Text.Replace("-", "").Trim();
+                // Checksum
+                string crc = Crypto.GetMd5Hash(activationCode.Substring(0, 32).ToUpper()).Substring(0, 1).ToUpper();
+                if (string.Compare(crc, activationCode.Substring(32, 1), StringComparison.OrdinalIgnoreCase) != 0)
+                {
+                    MessageBox.Show("Geçersiz aktivasyon kodu.", "Lisans Yöneticisi", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+
+                // Last use date: "YYYYMMDDhhmmss" 14 chars    
+                string lastUsed = DateToString(DateTime.MinValue);
+                // Expires date: "YYYYMMDDhhmmss" 14 chars    
+                string expires = DateToString(DateTime.Now.AddDays((double)(udTimeLimit.Value == 0 ? 3650 : udTimeLimit.Value)));
+
+                string licenseKey = Crypto.Encrypt(activationCode + lastUsed + expires, Secret);
+
+                System.IO.File.WriteAllText(sfdLicenseFile.FileName, licenseKey);
+
+                Close();
             }
-
-            // Last use date: "YYYYMMDDhhmmss" 14 chars    
-            string lastUsed = DateToString(DateTime.MinValue);
-            // Expires date: "YYYYMMDDhhmmss" 14 chars    
-            string expires = DateToString(DateTime.Now.AddDays((double)(udTimeLimit.Value == 0 ? 3650 : udTimeLimit.Value)));
-
-            txtLicenseKey.Text = Crypto.Encrypt(activationCode + lastUsed + expires, Secret);
         }
 
         // Converts DateTime to YYYYMMDDhhmmss string

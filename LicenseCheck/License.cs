@@ -103,6 +103,11 @@ namespace LicenseCheck
             return new License(status, activationCode, lastUsed, expires);
         }
 
+        public static License FromFile(string licenseFile, string app)
+        {
+            return License.FromString(System.IO.File.ReadAllText(licenseFile), app);
+        }
+
         public static License FromString(string licenseString, string app)
         {
             LicenseStatus status = LicenseStatus.LicenseNotFound;

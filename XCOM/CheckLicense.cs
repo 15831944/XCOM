@@ -40,7 +40,7 @@ namespace XCOM.Commands
                 form.ActivationCode = LicenseCheck.License.FormatActivationCode(LicenseCheck.License.GetActivationCode(LicensedAppName));
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) != System.Windows.Forms.DialogResult.OK) return false;
 
-                license = LicenseCheck.License.FromString(form.LicenseKey, LicensedAppName);
+                license = LicenseCheck.License.FromFile(form.LicenseFile, LicensedAppName);
                 if (license.Status != LicenseCheck.License.LicenseStatus.Valid) return false;
 
                 license.SaveToRegistry(LicenseRegistryKey);

@@ -13,7 +13,7 @@ namespace LicenseCheck
     public partial class RequestLicenseForm : Form
     {
         public string ActivationCode { get { return txtActivationCode.Text; } set { txtActivationCode.Text = value; } }
-        public string LicenseKey { get { return txtLicenseKey.Text; } set { txtLicenseKey.Text = value; } }
+        public string LicenseFile { get { return txtLicenseFile.Text; } set { txtLicenseFile.Text = value; } }
 
         public RequestLicenseForm()
         {
@@ -35,6 +35,14 @@ namespace LicenseCheck
         private void btnCancel_Click(object sender, EventArgs e)
         {
             Close();
+        }
+
+        private void btnBrowse_Click(object sender, EventArgs e)
+        {
+            if(ofdLicenseFile.ShowDialog() == DialogResult.OK  )
+            {
+                txtLicenseFile.Text = ofdLicenseFile.FileName;
+            }
         }
     }
 }

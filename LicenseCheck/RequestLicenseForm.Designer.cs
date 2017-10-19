@@ -31,13 +31,15 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.dlgIcon = new System.Windows.Forms.PictureBox();
             this.btnCopy = new System.Windows.Forms.Button();
-            this.txtLicenseKey = new System.Windows.Forms.TextBox();
+            this.txtLicenseFile = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.txtActivationCode = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnCancel = new System.Windows.Forms.Button();
             this.btnOK = new System.Windows.Forms.Button();
+            this.btnBrowse = new System.Windows.Forms.Button();
+            this.ofdLicenseFile = new System.Windows.Forms.OpenFileDialog();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dlgIcon)).BeginInit();
             this.SuspendLayout();
@@ -48,8 +50,9 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.groupBox1.Controls.Add(this.dlgIcon);
+            this.groupBox1.Controls.Add(this.btnBrowse);
             this.groupBox1.Controls.Add(this.btnCopy);
-            this.groupBox1.Controls.Add(this.txtLicenseKey);
+            this.groupBox1.Controls.Add(this.txtLicenseFile);
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.txtActivationCode);
             this.groupBox1.Controls.Add(this.label3);
@@ -74,29 +77,29 @@
             this.btnCopy.Location = new System.Drawing.Point(382, 97);
             this.btnCopy.Name = "btnCopy";
             this.btnCopy.Size = new System.Drawing.Size(62, 23);
-            this.btnCopy.TabIndex = 2;
+            this.btnCopy.TabIndex = 3;
             this.btnCopy.Text = "&Kopyala";
             this.btnCopy.UseVisualStyleBackColor = true;
             this.btnCopy.Click += new System.EventHandler(this.btnCopy_Click);
             // 
             // txtLicenseKey
             // 
-            this.txtLicenseKey.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.txtLicenseFile.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLicenseKey.Font = new System.Drawing.Font("Consolas", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(162)));
-            this.txtLicenseKey.Location = new System.Drawing.Point(25, 159);
-            this.txtLicenseKey.Name = "txtLicenseKey";
-            this.txtLicenseKey.Size = new System.Drawing.Size(351, 23);
-            this.txtLicenseKey.TabIndex = 4;
+            this.txtLicenseFile.BackColor = System.Drawing.SystemColors.Control;
+            this.txtLicenseFile.Location = new System.Drawing.Point(25, 159);
+            this.txtLicenseFile.Name = "txtLicenseKey";
+            this.txtLicenseFile.Size = new System.Drawing.Size(351, 20);
+            this.txtLicenseFile.TabIndex = 5;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(22, 143);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(82, 13);
-            this.label2.TabIndex = 3;
-            this.label2.Text = "&Lisans Anahtarı:";
+            this.label2.Size = new System.Drawing.Size(80, 13);
+            this.label2.TabIndex = 4;
+            this.label2.Text = "&Lisans Dosyası:";
             // 
             // txtActivationCode
             // 
@@ -107,7 +110,7 @@
             this.txtActivationCode.Name = "txtActivationCode";
             this.txtActivationCode.ReadOnly = true;
             this.txtActivationCode.Size = new System.Drawing.Size(351, 23);
-            this.txtActivationCode.TabIndex = 1;
+            this.txtActivationCode.TabIndex = 2;
             this.txtActivationCode.Text = "F942-FFE4-CEDF-481E-75A9-EED1-7F7C-18E0";
             // 
             // label3
@@ -128,7 +131,7 @@
             this.label1.Location = new System.Drawing.Point(22, 81);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(90, 13);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 1;
             this.label1.Text = "&Aktivasyon Kodu:";
             // 
             // btnCancel
@@ -154,6 +157,21 @@
             this.btnOK.Text = "Tamam";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
+            // 
+            // btnBrowse
+            // 
+            this.btnBrowse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnBrowse.Location = new System.Drawing.Point(382, 159);
+            this.btnBrowse.Name = "btnBrowse";
+            this.btnBrowse.Size = new System.Drawing.Size(62, 23);
+            this.btnBrowse.TabIndex = 6;
+            this.btnBrowse.Text = "&Gözat...";
+            this.btnBrowse.UseVisualStyleBackColor = true;
+            this.btnBrowse.Click += new System.EventHandler(this.btnBrowse_Click);
+            // 
+            // ofdLicenseFile
+            // 
+            this.ofdLicenseFile.Filter = "Lisans Dosyaları (*.lcs)|*.lcs";
             // 
             // RequestLicenseForm
             // 
@@ -183,7 +201,7 @@
 
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Button btnCopy;
-        private System.Windows.Forms.TextBox txtLicenseKey;
+        private System.Windows.Forms.TextBox txtLicenseFile;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtActivationCode;
         private System.Windows.Forms.Label label1;
@@ -191,5 +209,7 @@
         private System.Windows.Forms.Button btnOK;
         private System.Windows.Forms.PictureBox dlgIcon;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button btnBrowse;
+        private System.Windows.Forms.OpenFileDialog ofdLicenseFile;
     }
 }
