@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>XCOM</RootNamespace>
     <AssemblyName>XCOM</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <FileUpgradeFlags>
@@ -57,15 +57,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcCoreMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcDbMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="PresentationCore" />
@@ -380,6 +380,7 @@
     <ProjectReference Include="..\AcadUtility\AcadUtility.csproj">
       <Project>{3fa2ad2d-513b-41bd-a00e-feed8644b2c8}</Project>
       <Name>AcadUtility</Name>
+      <Private>True</Private>
     </ProjectReference>
     <ProjectReference Include="..\LicenseCheck\LicenseCheck.csproj">
       <Project>{7ef2a61a-8976-4135-8ba7-27b35b3e4955}</Project>

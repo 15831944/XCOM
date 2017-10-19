@@ -9,7 +9,7 @@
   Icon="./Resources/icon.bmp">
   <CompanyDetails Name="OZOZ" Email="ozcitak@yahoo.com" Url=" " Phone=" " />
   <Components Description="XCOM">
-    <RuntimeRequirements SupportPath="./Resources" OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R19.0" SeriesMax="R20.0" />
+    <RuntimeRequirements SupportPath="./Resources" OS="Win64" Platform="AutoCAD|AutoCAD*" SeriesMin="R22.0" SeriesMax="R22.0" />
     <ComponentEntry AppName="XCOM" ModuleName="./Contents/XCOM.dll" AppDescription="Batch processing tools" LoadOnAutoCADStartup="True" >
       <Commands>
         <Command Local="XCOM" Global="XCOM" />

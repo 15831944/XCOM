@@ -9,8 +9,9 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>AcadUtility</RootNamespace>
     <AssemblyName>AcadUtility</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -31,15 +32,15 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="AcCoreMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcCoreMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcCoreMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcDbMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcDbMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcDbMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="AcMgd">
-      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2015\inc\AcMgd.dll</HintPath>
+      <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="System" />
