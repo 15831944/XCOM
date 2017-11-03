@@ -30,6 +30,9 @@ namespace XCOM.Commands.RoadDesign
 
         private double ExcavationStepSize { get; set; }
 
+        private double ExcavationH { get; set; }
+        private double ExcavationV { get; set; }
+
         public Command_Surface()
         {
             topo = new Topography();
@@ -49,6 +52,9 @@ namespace XCOM.Commands.RoadDesign
             EraseEntities = false;
 
             ExcavationStepSize = 1.0;
+
+            ExcavationH = 1.0;
+            ExcavationV = 1.0;
         }
 
         void MdiActiveDocument_CommandWillStart(object sender, Autodesk.AutoCAD.ApplicationServices.CommandEventArgs e)
@@ -670,38 +676,52 @@ namespace XCOM.Commands.RoadDesign
                 entityOpts.SetRejectMessage("\nSelect a curve.");
                 entityOpts.AddAllowedClass(typeof(Curve), false);
                 PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
-
-                if (entityRes.Status == PromptStatus.Keyword && entityRes.StringResult == "Settings")
-                {
-                    //ShowSettings();
-                    continue;
-                }
-                else if (entityRes.Status == PromptStatus.OK)
-                {
-                    using (Transaction tr = db.TransactionManager.StartTransaction())
-                    using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead))
-                    {
-                        Curve centerline = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
-                        if (centerline != null)
-                        {
-                            if (centerline.Closed)
-                            {
-                                centerlineId = entityRes.ObjectId;
-
-                                tr.Commit();
-                                break;
-                            }
-                            else
-                            {
-                                Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\nCurve must be closed.");
-                                tr.Commit();
-                            }
-                        }
-                    }
-                }
-                else
+                if (entityRes.Status != PromptStatus.OK)
                 {
                     return;
+                }
+                string numFormat = "F" + db.Luprec;
+                PromptStringOptions slopeOpts = new PromptStringOptions("\nŞev Açısı <" + ExcavationH.ToString(numFormat) + " Y / " + ExcavationV.ToString(numFormat) + " D>: ");
+                slopeOpts.DefaultValue = ExcavationH.ToString(numFormat) + " Y / " + ExcavationV.ToString(numFormat) + " D";
+                slopeOpts.UseDefaultValue = true;
+                PromptResult slopeRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetString(slopeOpts);
+                if (slopeRes.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+
+                string[] parts = slopeRes.StringResult.Split(new char[] { '/', 'Y', 'D', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                if (parts.Length == 2)
+                {
+                    double h = 0, v = 0;
+                    bool ch = double.TryParse(parts[0], out h);
+                    bool cv = double.TryParse(parts[1], out v);
+                    if(ch && cv)
+                    {
+                        ExcavationH = h;
+                        ExcavationV = v;
+                    }
+                }
+
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead))
+                {
+                    Curve centerline = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
+                    if (centerline != null)
+                    {
+                        if (centerline.Closed)
+                        {
+                            centerlineId = entityRes.ObjectId;
+
+                            tr.Commit();
+                            break;
+                        }
+                        else
+                        {
+                            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\nCurve must be closed.");
+                            tr.Commit();
+                        }
+                    }
                 }
             }
 
@@ -720,7 +740,7 @@ namespace XCOM.Commands.RoadDesign
                 {
                     double param = centerline.GetParameterAtDistance(dist);
                     Point3d pt = centerline.GetPointAtParameter(param);
-                    Vector3d slope = SlopeAtParam(centerline, param, 1, 1);
+                    Vector3d slope = SlopeAtParam(centerline, param, ExcavationH, ExcavationV);
 
                     SlopeSection s = new SlopeSection(pt, slope);
 
