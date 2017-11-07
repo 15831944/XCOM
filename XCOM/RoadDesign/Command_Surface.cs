@@ -64,7 +64,6 @@ namespace XCOM.Commands.RoadDesign
                 EraseTemporaryGraphics();
             }
         }
-
         private bool ShowSettings()
         {
             using (CreateSurfaceForm form = new CreateSurfaceForm())
@@ -92,6 +91,27 @@ namespace XCOM.Commands.RoadDesign
                     SelectSolid = form.SelectSolid;
                     SelectPolyfaceMesh = form.SelectPolyfaceMesh;
                     EraseEntities = form.EraseEntities;
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
+        private bool ShowSettingsPoolExcavation()
+        {
+            using (ExcavationSlopeForm form = new ExcavationSlopeForm())
+            {
+                form.H = ExcavationH;
+                form.V = ExcavationV;
+
+                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
+                {
+                    ExcavationH = form.H;
+                    ExcavationV = form.V;
 
                     return true;
                 }
@@ -672,35 +692,18 @@ namespace XCOM.Commands.RoadDesign
             ObjectId centerlineId = ObjectId.Null;
             while (flag)
             {
-                PromptEntityOptions entityOpts = new PromptEntityOptions("\nKazı tabanı: [Seçenekler]", "Settings");
+                PromptEntityOptions entityOpts = new PromptEntityOptions("\nKazı tabanı [Seçenekler]:", "Settings");
                 entityOpts.SetRejectMessage("\nSelect a curve.");
                 entityOpts.AddAllowedClass(typeof(Curve), false);
                 PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
+                if (entityRes.Status == PromptStatus.Keyword && entityRes.StringResult == "Settings")
+                {
+                    ShowSettingsPoolExcavation();
+                    continue;
+                }
                 if (entityRes.Status != PromptStatus.OK)
                 {
                     return;
-                }
-                string numFormat = "F" + db.Luprec;
-                PromptStringOptions slopeOpts = new PromptStringOptions("\nŞev Açısı <" + ExcavationH.ToString(numFormat) + " Y / " + ExcavationV.ToString(numFormat) + " D>: ");
-                slopeOpts.DefaultValue = ExcavationH.ToString(numFormat) + " Y / " + ExcavationV.ToString(numFormat) + " D";
-                slopeOpts.UseDefaultValue = true;
-                PromptResult slopeRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetString(slopeOpts);
-                if (slopeRes.Status != PromptStatus.OK)
-                {
-                    return;
-                }
-
-                string[] parts = slopeRes.StringResult.Split(new char[] { '/', 'Y', 'D', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-                if (parts.Length == 2)
-                {
-                    double h = 0, v = 0;
-                    bool ch = double.TryParse(parts[0], out h);
-                    bool cv = double.TryParse(parts[1], out v);
-                    if(ch && cv)
-                    {
-                        ExcavationH = h;
-                        ExcavationV = v;
-                    }
                 }
 
                 using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -725,22 +728,27 @@ namespace XCOM.Commands.RoadDesign
                 }
             }
 
+            ExcavateSurfacePool(db, centerlineId, ExcavationH, ExcavationV, ExcavationStepSize);
+        }
+
+        public void ExcavateSurfacePool(Database db, ObjectId poolBottom, double h, double v, double stepSize)
+        {
             using (Transaction tr = db.TransactionManager.StartTransaction())
             using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
             {
                 List<SlopeSection> sections = new List<SlopeSection>();
 
                 // Divide the curve into equal segments and calculate the 3D slope at each point
-                Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Curve;
+                Curve centerline = tr.GetObject(poolBottom, OpenMode.ForRead) as Curve;
                 double len = centerline.GetLength();
-                int nmax = (int)Math.Ceiling(len / ExcavationStepSize);
+                int nmax = (int)Math.Ceiling(len / stepSize);
                 double dist = 0.0;
                 double distStep = len / ((double)nmax);
                 for (int i = 0; i < nmax; i++)
                 {
                     double param = centerline.GetParameterAtDistance(dist);
                     Point3d pt = centerline.GetPointAtParameter(param);
-                    Vector3d slope = SlopeAtParam(centerline, param, ExcavationH, ExcavationV);
+                    Vector3d slope = SlopeAtParam(centerline, param, h, v);
 
                     SlopeSection s = new SlopeSection(pt, slope);
 
