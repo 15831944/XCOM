@@ -105,10 +105,17 @@ namespace LicenseCheck
 
         public static License FromFile(string licenseFile, string app)
         {
-            return License.FromString(System.IO.File.ReadAllText(licenseFile), app);
+            try
+            {
+                return License.FromString(System.IO.File.ReadAllText(licenseFile), app);
+            }
+            catch
+            {
+                return new License(LicenseStatus.InvalidLicense, string.Empty, DateTime.MaxValue, DateTime.MinValue);
+            }
         }
 
-        public static License FromString(string licenseString, string app)
+        private static License FromString(string licenseString, string app)
         {
             LicenseStatus status = LicenseStatus.LicenseNotFound;
             string activationCode = string.Empty;
@@ -195,6 +202,21 @@ namespace LicenseCheck
                     key.SetValue("License", licenseString);
                     return true;
                 }
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        public bool SaveToFile(string filename)
+        {
+            try
+            {
+                LastUsed = DateTime.Now;
+                string licenseString = Crypto.Encrypt(ActivationCode + DateToString(LastUsed) + DateToString(Expires), Secret);
+                System.IO.File.WriteAllText(filename, licenseString);
+                return true;
             }
             catch
             {
