@@ -68,10 +68,14 @@
       <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="LicenseCheck">
+      <HintPath>Libraries\LicenseCheck.dll</HintPath>
+    </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
-    <Reference Include="SourceGrid">
-      <HintPath>..\packages\SourceGrid.4.4.0\lib\net35\SourceGrid.dll</HintPath>
+    <Reference Include="SourceGrid, Version=4.40.4580.29115, Culture=neutral, PublicKeyToken=df6f5e538749e85d, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>Libraries\SourceGrid.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core">
@@ -84,7 +88,7 @@
     <Reference Include="System.Xaml" />
     <Reference Include="System.Xml" />
     <Reference Include="Triangle">
-      <HintPath>Libraries\Triangle.NET\Triangle.dll</HintPath>
+      <HintPath>Libraries\Triangle.dll</HintPath>
     </Reference>
     <Reference Include="WindowsBase" />
   </ItemGroup>
@@ -361,7 +365,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="packages.config" />
     <None Include="Resources\add.png" />
   </ItemGroup>
   <ItemGroup>
@@ -425,10 +428,6 @@
       <Project>{3fa2ad2d-513b-41bd-a00e-feed8644b2c8}</Project>
       <Name>AcadUtility</Name>
       <Private>True</Private>
-    </ProjectReference>
-    <ProjectReference Include="..\LicenseCheck\LicenseCheck.csproj">
-      <Project>{7ef2a61a-8976-4135-8ba7-27b35b3e4955}</Project>
-      <Name>LicenseCheck</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup />
