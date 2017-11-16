@@ -709,7 +709,7 @@ namespace XCOM.Commands.RoadDesign
             ObjectId curveId = ObjectId.Null;
             while (flag)
             {
-                PromptEntityOptions entityOpts = new PromptEntityOptions("\nEğri [Seçenekler]: ", "Settings");
+                PromptEntityOptions entityOpts = new PromptEntityOptions("\nEksen [Seçenekler]: ", "Settings");
                 entityOpts.SetRejectMessage("\nSelect a curve.");
                 entityOpts.AddAllowedClass(typeof(Curve), false);
                 PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
@@ -826,7 +826,7 @@ namespace XCOM.Commands.RoadDesign
             ObjectId curveId = ObjectId.Null;
             while (flag)
             {
-                PromptEntityOptions entityOpts = new PromptEntityOptions("\nAna Eğri [Seçenekler]: ", "Settings");
+                PromptEntityOptions entityOpts = new PromptEntityOptions("\nAna eksen [Seçenekler]: ", "Settings");
                 entityOpts.SetRejectMessage("\nSelect a curve.");
                 entityOpts.AddAllowedClass(typeof(Curve), false);
                 PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
