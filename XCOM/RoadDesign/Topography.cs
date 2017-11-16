@@ -17,6 +17,7 @@ namespace XCOM.Commands.RoadDesign
         /// </summary>
         public enum SurfaceType
         {
+            None,
             Original,
             Proposed
         }
@@ -122,7 +123,7 @@ namespace XCOM.Commands.RoadDesign
 
                     if (RayTriangleIntersection(pt, dir, p1, p2, p3, out t, out ptOut))
                     {
-                        results.Add(dist, ptOut);
+                        results[dist] = ptOut;
                     }
 
                     dist += distStep;
@@ -140,18 +141,43 @@ namespace XCOM.Commands.RoadDesign
         /// <param name="curveDiscretizationLength">Length of discrete segments</param>
         public Point2dCollection ProfileOnCurve(Curve curve, SurfaceType surface, double curveDiscretizationLength = 1.0)
         {
+            Curve planCurve = curve.GetOrthoProjectedCurve(new Plane(Point3d.Origin, Vector3d.ZAxis));
+
             Point3dCollection curvePoints = DrapeCurve(curve, surface, curveDiscretizationLength);
             Point2dCollection profilePoints = new Point2dCollection();
 
             if (curvePoints.Count > 0)
             {
-                Point2d lastPoint = new Point2d(curvePoints[0].X, curvePoints[0].Y);
-                double dist = 0;
-                for (int i = 0; i < curvePoints.Count; i++)
+                foreach (Point3d pt in curvePoints)
                 {
-                    Point3d pt = curvePoints[i];
-                    Point2d thisPoint = new Point2d(pt.X, pt.Y);
-                    dist += thisPoint.GetDistanceTo(lastPoint);
+                    double dist = planCurve.GetDistAtPoint(planCurve.GetClosestPointTo(pt, true));
+                    profilePoints.Add(new Point2d(dist, pt.Z));
+                }
+            }
+
+            return profilePoints;
+        }
+
+        /// <summary>
+        /// Drapes the curve over the given surface, projects over the given alignment and returns the curve profile.
+        /// </summary>
+        /// <param name="curve">The curve to drape</param>
+        /// <param name="projectOn">The curve to project on</param>
+        /// <param name="surface">The type of surface being operated on</param>
+        /// <param name="curveDiscretizationLength">Length of discrete segments</param>
+        public Point2dCollection ProfileOnCurve(Curve curve, Curve projectOn, SurfaceType surface, double curveDiscretizationLength = 1.0)
+        {
+            Curve planCurve = curve.GetOrthoProjectedCurve(new Plane(Point3d.Origin, Vector3d.ZAxis));
+            Curve planProjectionCurve = projectOn.GetOrthoProjectedCurve(new Plane(Point3d.Origin, Vector3d.ZAxis));
+
+            Point3dCollection curvePoints = DrapeCurve(curve, surface, curveDiscretizationLength);
+            Point2dCollection profilePoints = new Point2dCollection();
+
+            if (curvePoints.Count > 0)
+            {
+                foreach (Point3d pt in curvePoints)
+                {
+                    double dist = planProjectionCurve.GetDistAtPoint(planProjectionCurve.GetClosestPointTo(planCurve.GetClosestPointTo(pt, true), true));
                     profilePoints.Add(new Point2d(dist, pt.Z));
                 }
             }

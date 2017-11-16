@@ -8,6 +8,21 @@ namespace AcadUtility
     // Entity utilities
     public static class AcadEntity
     {
+        // Matches display properties of dest entity to that of the source entity
+        public static void MatchEntity(Entity source, Entity dest)
+        {
+            dest.Color = source.Color;
+            dest.CastShadows = source.CastShadows;
+            dest.EdgeStyleId = source.EdgeStyleId;
+            dest.FaceStyleId = source.EdgeStyleId;
+            dest.LayerId = source.LayerId;
+            dest.LinetypeId = source.LinetypeId;
+            dest.LinetypeScale = source.LinetypeScale;
+            dest.LineWeight = source.LineWeight;
+            dest.MaterialId = source.MaterialId;
+            dest.VisualStyleId = source.VisualStyleId;
+        }
+
         // Returns the id of the Defpoints layer (Creates the layer if it does not exist)
         public static ObjectId GetOrCreateDefpointsLayer(Database db)
         {

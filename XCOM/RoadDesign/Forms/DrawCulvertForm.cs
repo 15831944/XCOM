@@ -19,7 +19,7 @@ namespace XCOM.Commands.RoadDesign
 
         public Point3d BasePoint { get { return basePt; } set { basePointSelected = true; basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
 
-        public double BaseChainage { get { double v = 0; CulvertInfo.TryChainageFromString(txtBaseCH.Text, out v); return v; } set { txtBaseCH.Text = CulvertInfo.ChainageToString(value); } }
+        public double BaseChainage { get { double v = 0; AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out v); return v; } set { txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(value); } }
         public double BaseLevel { get { double v = 0; double.TryParse(txtBaseLevel.Text, out v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
         public double ProfileScale { get { double v = 0; double.TryParse(txtScale.Text, out v); return v; } set { txtScale.Text = value.ToString(); } }
 
@@ -52,7 +52,7 @@ namespace XCOM.Commands.RoadDesign
                     double val;
                     if (j == 0)
                     {
-                        if (!CulvertInfo.TryChainageFromString((string)culvertGrid[i, j].Value, out val))
+                        if (!AcadUtility.AcadText.TryChainageFromString((string)culvertGrid[i, j].Value, out val))
                         {
                             emptyCell = true;
                             break;
@@ -81,7 +81,7 @@ namespace XCOM.Commands.RoadDesign
                 double width = 0;
                 double height = 0;
                 double welllength = 0;
-                CulvertInfo.TryChainageFromString((string)culvertGrid[i, 0].Value, out ch);
+                AcadUtility.AcadText.TryChainageFromString((string)culvertGrid[i, 0].Value, out ch);
                 double.TryParse((string)culvertGrid[i, 1].Value, out level);
                 double.TryParse((string)culvertGrid[i, 2].Value, out length);
                 double.TryParse((string)culvertGrid[i, 3].Value, out grade);
@@ -221,13 +221,13 @@ namespace XCOM.Commands.RoadDesign
                 {
                     sender.Cell.View = cellView;
                 }
-                else if (!CulvertInfo.TryChainageFromString((string)val, out res))
+                else if (!AcadUtility.AcadText.TryChainageFromString((string)val, out res))
                 {
                     sender.Cell.View = errorView;
                 }
                 else
                 {
-                    sender.Value = CulvertInfo.ChainageToString(res);
+                    sender.Value = AcadUtility.AcadText.ChainageToString(res);
                     sender.Cell.View = cellView;
                 }
             }
@@ -279,36 +279,6 @@ namespace XCOM.Commands.RoadDesign
             public double TopSlab { get { return 0.4; } }
             public double BottomSlab { get { return 0.4; } }
             public double WellLength { get; set; }
-
-            public static double ChainageFromString(string text)
-            {
-                double result = 0;
-                if (!string.IsNullOrEmpty(text))
-                {
-                    text = text.Replace(',', '.');
-                    text = text.Replace("+", "");
-                    double.TryParse(text, out result);
-                }
-                return result;
-            }
-
-            public static bool TryChainageFromString(string text, out double value)
-            {
-                value = 0;
-                if (string.IsNullOrEmpty(text)) return false;
-
-                text = text.Replace(',', '.');
-                text = text.Replace("+", "");
-
-                return double.TryParse(text, out value);
-            }
-
-            public static string ChainageToString(double value)
-            {
-                double km = Math.Floor(value / 1000);
-                double m = value - km * 1000;
-                return string.Format("{0:0}+{1:000.00}", km, m);
-            }
         }
 
         private void btnOK_Click(object sender, EventArgs e)
@@ -325,9 +295,9 @@ namespace XCOM.Commands.RoadDesign
         private void txtBaseCH_Validating(object sender, CancelEventArgs e)
         {
             double val = 0;
-            if (CulvertInfo.TryChainageFromString(txtBaseCH.Text, out val))
+            if (AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out val))
             {
-                txtBaseCH.Text = CulvertInfo.ChainageToString(val);
+                txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(val);
             }
             else
             {

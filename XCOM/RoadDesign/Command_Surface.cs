@@ -33,6 +33,12 @@ namespace XCOM.Commands.RoadDesign
         private double ExcavationH { get; set; }
         private double ExcavationV { get; set; }
 
+        private double ProfileGridH { get; set; }
+        private double ProfileGridV { get; set; }
+        private double ProfileVScale { get; set; }
+        private double TextHeight { get; set; }
+        private int Precision { get; set; }
+
         public Command_Surface()
         {
             topo = new Topography();
@@ -55,6 +61,12 @@ namespace XCOM.Commands.RoadDesign
 
             ExcavationH = 1.0;
             ExcavationV = 1.0;
+
+            ProfileGridH = 10;
+            ProfileGridV = 5;
+            ProfileVScale = 1;
+            TextHeight = 1;
+            Precision = 2;
         }
 
         void MdiActiveDocument_CommandWillStart(object sender, Autodesk.AutoCAD.ApplicationServices.CommandEventArgs e)
@@ -64,6 +76,28 @@ namespace XCOM.Commands.RoadDesign
                 EraseTemporaryGraphics();
             }
         }
+
+        private Topography.SurfaceType PickSurface()
+        {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+
+            PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
+            opts.Keywords.Default = "Original";
+            opts.AllowNone = true;
+            PromptResult res = doc.Editor.GetKeywords(opts);
+
+            string surfaceType = res.StringResult;
+            if (res.Status == PromptStatus.None)
+            {
+                surfaceType = "Original";
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return Topography.SurfaceType.None;
+            }
+            return (surfaceType == "Original" ? Topography.SurfaceType.Original : Topography.SurfaceType.Proposed);
+        }
+
         private bool ShowSettings()
         {
             using (CreateSurfaceForm form = new CreateSurfaceForm())
@@ -122,10 +156,35 @@ namespace XCOM.Commands.RoadDesign
             }
         }
 
+        private bool ShowSettingsProfile()
+        {
+            using (ProfileSettingsForm form = new ProfileSettingsForm())
+            {
+                form.GridH = ProfileGridH;
+                form.GridV = ProfileGridV;
+                form.VScale = ProfileVScale;
+                form.TextHeight = TextHeight;
+                form.Precision = Precision;
+                if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
+                {
+                    ProfileGridH = form.GridH;
+                    ProfileGridV = form.GridV;
+                    ProfileVScale = form.VScale;
+                    TextHeight = form.TextHeight;
+                    Precision = form.Precision;
+
+                    return true;
+                }
+                else
+                {
+                    return false;
+                }
+            }
+        }
+
         IEnumerable<ObjectId> SelectEntitites()
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-            Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
             List<TypedValue> tvs = new List<TypedValue>();
             tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
@@ -141,6 +200,26 @@ namespace XCOM.Commands.RoadDesign
             tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
 
             if (tvs.Count == 2) return new ObjectId[0];
+
+            SelectionFilter ssf = new SelectionFilter(tvs.ToArray());
+            PromptSelectionResult res = doc.Editor.GetSelection(ssf);
+            if (res.Status != PromptStatus.OK) return new ObjectId[0];
+
+            return res.Value.GetObjectIds();
+        }
+
+        IEnumerable<ObjectId> SelectEntititesProfile()
+        {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+
+            List<TypedValue> tvs = new List<TypedValue>();
+            tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
+            tvs.Add(new TypedValue((int)DxfCode.Start, "ARC"));
+            tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
+            tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
+            tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
+            tvs.Add(new TypedValue((int)DxfCode.Start, "SPLINE"));
+            tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
 
             SelectionFilter ssf = new SelectionFilter(tvs.ToArray());
             PromptSelectionResult res = doc.Editor.GetSelection(ssf);
@@ -297,12 +376,28 @@ namespace XCOM.Commands.RoadDesign
             }
         }
 
+        private bool EnsureSurfaceNotEmpty(Topography.SurfaceType surface)
+        {
+            if (surface == Topography.SurfaceType.None)
+            {
+                MessageBox.Show("Yüzey seçilmedi.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            else if ((surface == Topography.SurfaceType.Original ? topo.OriginalTIN : topo.ProposedTIN).Triangles.Count == 0)
+            {
+                MessageBox.Show("Seçilen yüzey boş.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
 
+            return true;
+        }
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("YUZEYDEMO")]
         public void CreateDemoSurface()
         {
             if (!CheckLicense.Check()) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
 
             try
             {
@@ -330,7 +425,7 @@ namespace XCOM.Commands.RoadDesign
 
                 // Create mesh
                 topo.SurfaceFromPoints(points, Topography.SurfaceType.Original);
-                MessageBox.Show(topo.OriginalTIN.Triangles.Count.ToString() + " adet üçgen oluşturuldu.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                doc.Editor.WriteMessage(topo.OriginalTIN.Triangles.Count.ToString() + " adet üçgen oluşturuldu.");
             }
             catch (System.Exception ex)
             {
@@ -343,6 +438,12 @@ namespace XCOM.Commands.RoadDesign
         {
             if (!CheckLicense.Check()) return;
 
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+
             if (ShowSettings())
             {
                 try
@@ -352,14 +453,12 @@ namespace XCOM.Commands.RoadDesign
 
                     if (points.Count > 0)
                     {
-                        topo.SurfaceFromPoints(points, Topography.SurfaceType.Original);
-                        MessageBox.Show(topo.OriginalTIN.Triangles.Count.ToString() + " adet üçgen oluşturuldu.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                        topo.SurfaceFromPoints(points, surface);
+                        doc.Editor.WriteMessage(topo.OriginalTIN.Triangles.Count.ToString() + " adet üçgen oluşturuldu.");
                     }
 
                     if (EraseEntities)
                     {
-                        Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                        Database db = doc.Database;
                         AcadUtility.AcadEntity.EraseEntities(db, items);
                     }
                 }
@@ -419,27 +518,16 @@ namespace XCOM.Commands.RoadDesign
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
 
-            // Surface type
-            PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
-            opts.Keywords.Default = "Original";
-            opts.AllowNone = true;
-            PromptResult res = doc.Editor.GetKeywords(opts);
-            string surfaceType = res.StringResult;
-            if (res.Status == PromptStatus.None)
-            {
-                surfaceType = "Original";
-            }
-            else if (res.Status != PromptStatus.OK)
-            {
-                return;
-            }
-            TriangleNet.Mesh mesh = (surfaceType == "Original" ? topo.OriginalTIN : topo.ProposedTIN);
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
+            TriangleNet.Mesh mesh = (surface == Topography.SurfaceType.Original ? topo.OriginalTIN : topo.ProposedTIN);
 
             // Object type
-            opts = new PromptKeywordOptions("\nÇizim nesneleri [Geçici/3dFace/Point/polyfaceMesh] <Geçici>: ", "Temporary 3dFace Point polyfaceMesh");
+            PromptKeywordOptions opts = new PromptKeywordOptions("\nÇizim nesneleri [Geçici/3dFace/Point/polyfaceMesh] <Geçici>: ", "Temporary 3dFace Point polyfaceMesh");
             opts.Keywords.Default = "Temporary";
             opts.AllowNone = true;
-            res = doc.Editor.GetKeywords(opts);
+            PromptResult res = doc.Editor.GetKeywords(opts);
             string outputType = res.StringResult;
             if (res.Status == PromptStatus.None)
             {
@@ -577,8 +665,12 @@ namespace XCOM.Commands.RoadDesign
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
 
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
+
             // Pick polyline
-            PromptEntityOptions entityOpts = new PromptEntityOptions("\nKazı tabanı: ");
+            PromptEntityOptions entityOpts = new PromptEntityOptions("\nEğri: ");
             entityOpts.SetRejectMessage("\nSelect a curve.");
             entityOpts.AddAllowedClass(typeof(Curve), false);
             PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
@@ -590,7 +682,7 @@ namespace XCOM.Commands.RoadDesign
                 {
                     Autodesk.AutoCAD.DatabaseServices.Curve curve = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Curve;
 
-                    Point3dCollection points = topo.DrapeCurve(curve, Topography.SurfaceType.Original);
+                    Point3dCollection points = topo.DrapeCurve(curve, surface);
 
                     Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, curve.Closed, points);
                     btr.AppendEntity(pline);
@@ -608,26 +700,265 @@ namespace XCOM.Commands.RoadDesign
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
 
-            // Pick polyline
-            PromptEntityOptions entityOpts = new PromptEntityOptions("\nEğri: ");
-            entityOpts.SetRejectMessage("\nSelect a curve.");
-            entityOpts.AddAllowedClass(typeof(Curve), false);
-            PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
 
-            if (entityRes.Status == PromptStatus.OK)
+            // Pick alignment
+            bool flag = true;
+            ObjectId curveId = ObjectId.Null;
+            while (flag)
             {
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+                PromptEntityOptions entityOpts = new PromptEntityOptions("\nEğri [Seçenekler]: ", "Settings");
+                entityOpts.SetRejectMessage("\nSelect a curve.");
+                entityOpts.AddAllowedClass(typeof(Curve), false);
+                PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
+                if (entityRes.Status == PromptStatus.Keyword)
                 {
-                    Curve curve = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
+                    ShowSettingsProfile();
+                }
+                else if (entityRes.Status == PromptStatus.OK)
+                {
+                    curveId = entityRes.ObjectId;
+                    break;
+                }
+                else if (entityRes.Status == PromptStatus.Cancel)
+                {
+                    return;
+                }
+            }
 
-                    Point2dCollection points = topo.ProfileOnCurve(curve, Topography.SurfaceType.Original);
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+            {
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
-                    Polyline pline = AcadUtility.AcadEntity.CreatePolyLine(db, curve.Closed, points);
+                // Project curve onto surface
+                Curve curve = tr.GetObject(curveId, OpenMode.ForRead) as Curve;
+                Point2dCollection points = topo.ProfileOnCurve(curve, surface);
+
+                // Base point for profile drawing
+                PromptPointResult pointRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nProfil başlangıcı: ");
+                if (pointRes.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                Point3d basePt = pointRes.Value;
+
+                if (points.Count > 0)
+                {
+                    // Limits
+                    Extents2d ex = AcadUtility.AcadGeometry.Limits(points);
+
+                    // Base level for profile drawing
+                    PromptDoubleOptions levelOpts = new PromptDoubleOptions("\nProfil baz kotu: ");
+                    levelOpts.DefaultValue = Math.Floor(ex.MinPoint.Y / ProfileGridV) * ProfileGridV;
+                    levelOpts.UseDefaultValue = true;
+                    PromptDoubleResult levelRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetDouble(levelOpts);
+                    if (pointRes.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+                    double startLevel = levelRes.Value;
+                    double endLevel = Math.Ceiling(ex.MaxPoint.Y / ProfileGridV + 1) * ProfileGridV;
+
+                    // Base chainage for profile drawing
+                    double startCh = 0;
+                    flag = true;
+                    while (flag)
+                    {
+                        PromptStringOptions chOpts = new PromptStringOptions("\nProfil baz KM: ");
+                        chOpts.DefaultValue = AcadUtility.AcadText.ChainageToString(0, Precision);
+                        chOpts.UseDefaultValue = true;
+                        PromptResult chRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetString(chOpts);
+                        if (chRes.Status != PromptStatus.OK)
+                        {
+                            return;
+                        }
+                        if (AcadUtility.AcadText.TryChainageFromString(chRes.StringResult, out startCh))
+                        {
+                            break;
+                        }
+                    }
+                    double endCh = Math.Ceiling((startCh + ex.MaxPoint.X) / ProfileGridH) * ProfileGridH;
+
+                    // Draw grid
+                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision);
+                    foreach (Entity ent in entities)
+                    {
+                        ent.TransformBy(ucs2wcs);
+                        btr.AppendEntity(ent);
+                        tr.AddNewlyCreatedDBObject(ent, true);
+                    }
+
+                    // Draw profile
+                    ObjectId profileLayerId = AcadUtility.AcadEntity.GetOrCreateLayer(db, "Profil_Eksen", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 5));
+                    Point2dCollection trPoints = new Point2dCollection(points.Count);
+                    foreach (Point2d pt in points)
+                    {
+                        trPoints.Add(new Point2d(basePt.X + pt.X, basePt.Y + (pt.Y - startLevel) * ProfileVScale));
+                    }
+                    Polyline pline = AcadUtility.AcadEntity.CreatePolyLine(db, false, trPoints);
+                    pline.TransformBy(ucs2wcs);
+                    pline.LayerId = profileLayerId;
                     btr.AppendEntity(pline);
                     tr.AddNewlyCreatedDBObject(pline, true);
-                    tr.Commit();
                 }
+
+                tr.Commit();
+            }
+        }
+
+        [Autodesk.AutoCAD.Runtime.CommandMethod("MULTIPLEPROFILEONCURVE")]
+        public void MultipleProfileOnCurve()
+        {
+            if (!CheckLicense.Check()) return;
+
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Database db = doc.Database;
+
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
+
+            // Pick center alignment
+            bool flag = true;
+            ObjectId curveId = ObjectId.Null;
+            while (flag)
+            {
+                PromptEntityOptions entityOpts = new PromptEntityOptions("\nAna Eğri [Seçenekler]: ", "Settings");
+                entityOpts.SetRejectMessage("\nSelect a curve.");
+                entityOpts.AddAllowedClass(typeof(Curve), false);
+                PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
+                if (entityRes.Status == PromptStatus.Keyword)
+                {
+                    ShowSettingsProfile();
+                }
+                else if (entityRes.Status == PromptStatus.OK)
+                {
+                    curveId = entityRes.ObjectId;
+                    break;
+                }
+                else if (entityRes.Status == PromptStatus.Cancel)
+                {
+                    return;
+                }
+            }
+
+            // Pick other alignments
+            IEnumerable<ObjectId> curveIds = SelectEntititesProfile();
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+            {
+                Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
+
+                // Project curve onto surface
+                Curve center = tr.GetObject(curveId, OpenMode.ForRead) as Curve;
+                Point2dCollection points = topo.ProfileOnCurve(center, surface);
+
+                // Project other curves
+                Dictionary<Entity, Point2dCollection> otherPoints = new Dictionary<Entity, Point2dCollection>();
+                foreach (ObjectId id in curveIds)
+                {
+                    Curve curve = tr.GetObject(id, OpenMode.ForRead) as Curve;
+                    Point2dCollection spoints = topo.ProfileOnCurve(curve, center, surface);
+                    otherPoints.Add(curve, spoints);
+                }
+
+                // Base point for profile drawing
+                PromptPointResult pointRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nProfil başlangıcı: ");
+                if (pointRes.Status != PromptStatus.OK)
+                {
+                    return;
+                }
+                Point3d basePt = pointRes.Value;
+
+                if (points.Count > 0)
+                {
+                    // Limits
+                    Extents2d ex = AcadUtility.AcadGeometry.Limits(points);
+                    foreach (Point2dCollection pts in otherPoints.Values)
+                    {
+                        ex = AcadUtility.AcadGeometry.Limits(ex, pts);
+                    }
+
+                    // Base level for profile drawing
+                    PromptDoubleOptions levelOpts = new PromptDoubleOptions("\nProfil baz kotu: ");
+                    levelOpts.DefaultValue = Math.Floor(ex.MinPoint.Y / ProfileGridV) * ProfileGridV;
+                    levelOpts.UseDefaultValue = true;
+                    PromptDoubleResult levelRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetDouble(levelOpts);
+                    if (pointRes.Status != PromptStatus.OK)
+                    {
+                        return;
+                    }
+                    double startLevel = levelRes.Value;
+                    double endLevel = Math.Ceiling(ex.MaxPoint.Y / ProfileGridV + 1) * ProfileGridV;
+
+                    // Base chainage for profile drawing
+                    double startCh = 0;
+                    flag = true;
+                    while (flag)
+                    {
+                        PromptStringOptions chOpts = new PromptStringOptions("\nProfil baz KM: ");
+                        chOpts.DefaultValue = AcadUtility.AcadText.ChainageToString(0, Precision);
+                        chOpts.UseDefaultValue = true;
+                        PromptResult chRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetString(chOpts);
+                        if (chRes.Status != PromptStatus.OK)
+                        {
+                            return;
+                        }
+                        if (AcadUtility.AcadText.TryChainageFromString(chRes.StringResult, out startCh))
+                        {
+                            break;
+                        }
+                    }
+                    double endCh = Math.Ceiling((startCh + ex.MaxPoint.X) / ProfileGridH) * ProfileGridH;
+
+                    // Draw grid
+                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision);
+                    foreach (Entity ent in entities)
+                    {
+                        ent.TransformBy(ucs2wcs);
+                        btr.AppendEntity(ent);
+                        tr.AddNewlyCreatedDBObject(ent, true);
+                    }
+
+                    // Draw center profile
+                    ObjectId profileLayerId = AcadUtility.AcadEntity.GetOrCreateLayer(db, "Profil_Eksen", Autodesk.AutoCAD.Colors.Color.FromColorIndex(Autodesk.AutoCAD.Colors.ColorMethod.ByAci, 5));
+                    Point2dCollection trPoints = new Point2dCollection(points.Count);
+                    foreach (Point2d pt in points)
+                    {
+                        trPoints.Add(new Point2d(basePt.X + pt.X, basePt.Y + (pt.Y - startLevel) * ProfileVScale));
+                    }
+                    Polyline pline = AcadUtility.AcadEntity.CreatePolyLine(db, false, trPoints);
+                    AcadUtility.AcadEntity.MatchEntity(center, pline);
+                    pline.LayerId = profileLayerId;
+                    pline.TransformBy(ucs2wcs);
+                    btr.AppendEntity(pline);
+                    tr.AddNewlyCreatedDBObject(pline, true);
+
+                    // Draw other profiles
+                    foreach (KeyValuePair<Entity, Point2dCollection> item in otherPoints)
+                    {
+                        Entity en = item.Key;
+                        Point2dCollection spoints = item.Value;
+                        Point2dCollection trsPoints = new Point2dCollection(points.Count);
+                        foreach (Point2d pt in spoints)
+                        {
+                            trsPoints.Add(new Point2d(basePt.X + pt.X, basePt.Y + (pt.Y - startLevel) * ProfileVScale));
+                        }
+                        Polyline spline = AcadUtility.AcadEntity.CreatePolyLine(db, false, trsPoints);
+                        AcadUtility.AcadEntity.MatchEntity(en, spline);
+                        spline.LayerId = profileLayerId;
+                        spline.TransformBy(ucs2wcs);
+
+                        btr.AppendEntity(spline);
+                        tr.AddNewlyCreatedDBObject(spline, true);
+                    }
+                }
+
+                tr.Commit();
             }
         }
 
@@ -640,20 +971,9 @@ namespace XCOM.Commands.RoadDesign
             Database db = doc.Database;
 
             // Surface type
-            PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
-            opts.Keywords.Default = "Original";
-            opts.AllowNone = true;
-            PromptResult res = doc.Editor.GetKeywords(opts);
-            string surfaceType = res.StringResult;
-            if (res.Status == PromptStatus.None)
-            {
-                surfaceType = "Original";
-            }
-            else if (res.Status != PromptStatus.OK)
-            {
-                return;
-            }
-            Topography.SurfaceType surface = (surfaceType == "Original" ? Topography.SurfaceType.Original : Topography.SurfaceType.Proposed);
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
 
             // Pick interval
             PromptDoubleOptions dblOpts = new PromptDoubleOptions("\nKontur aralığı: ");
@@ -686,6 +1006,11 @@ namespace XCOM.Commands.RoadDesign
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
+
+            Topography.SurfaceType surface = PickSurface();
+            if (surface == Topography.SurfaceType.None) return;
+            if (!EnsureSurfaceNotEmpty(surface)) return;
+            TriangleNet.Mesh mesh = (surface == Topography.SurfaceType.Original ? topo.OriginalTIN : topo.ProposedTIN);
 
             // Pick polyline
             bool flag = true;
@@ -728,27 +1053,22 @@ namespace XCOM.Commands.RoadDesign
                 }
             }
 
-            ExcavateSurfacePool(db, centerlineId, ExcavationH, ExcavationV, ExcavationStepSize);
-        }
-
-        public void ExcavateSurfacePool(Database db, ObjectId poolBottom, double h, double v, double stepSize)
-        {
             using (Transaction tr = db.TransactionManager.StartTransaction())
             using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
             {
                 List<SlopeSection> sections = new List<SlopeSection>();
 
                 // Divide the curve into equal segments and calculate the 3D slope at each point
-                Curve centerline = tr.GetObject(poolBottom, OpenMode.ForRead) as Curve;
+                Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Curve;
                 double len = centerline.GetLength();
-                int nmax = (int)Math.Ceiling(len / stepSize);
+                int nmax = (int)Math.Ceiling(len / ExcavationStepSize);
                 double dist = 0.0;
                 double distStep = len / ((double)nmax);
                 for (int i = 0; i < nmax; i++)
                 {
                     double param = centerline.GetParameterAtDistance(dist);
                     Point3d pt = centerline.GetPointAtParameter(param);
-                    Vector3d slope = SlopeAtParam(centerline, param, h, v);
+                    Vector3d slope = SlopeAtParam(centerline, param, ExcavationH, ExcavationV);
 
                     SlopeSection s = new SlopeSection(pt, slope);
 
@@ -758,7 +1078,7 @@ namespace XCOM.Commands.RoadDesign
                 }
 
                 // Intersects slope vectors with surface triangles
-                foreach (TriangleNet.Data.Triangle tri in topo.OriginalTIN.Triangles)
+                foreach (TriangleNet.Data.Triangle tri in mesh.Triangles)
                 {
                     TriangleNet.Data.Vertex v1 = tri.GetVertex(0);
                     TriangleNet.Data.Vertex v2 = tri.GetVertex(1);

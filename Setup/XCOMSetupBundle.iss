@@ -26,10 +26,6 @@ SetupIconFile=Setup.ico
 Name: "en"; MessagesFile: "compiler:Default.isl"
 Name: "tr"; MessagesFile: "Turkish.isl"
 
-[InstallDelete]
-Type: filesandordirs; Name: "{app}\Contents\2012"
-Type: filesandordirs; Name: "{app}\Contents\2014"
-
 [Files]
 ; Application manifest
 Source: "..\Package\PackageContents.xml"; DestDir: "{app}"; Flags: ignoreversion; AfterInstall: PreparePackageXML('{#ShortAppVersion}')

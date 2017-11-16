@@ -106,6 +106,7 @@
     <Image Include="Resources\METRAJYARDIM.ico" />
     <Image Include="Resources\METRAJ_32.ico" />
     <Image Include="Resources\Multiply.ico" />
+    <Image Include="Resources\MULTIPROFILEONCURVE.ico" />
     <Image Include="Resources\NOKTABULUTU.ico" />
     <Image Include="Resources\NUMARALANDIR.ico" />
     <Image Include="Resources\Parabola.ico" />
@@ -126,6 +127,7 @@
     <Image Include="Resources\POZMIRROR.ico" />
     <Image Include="Resources\POZNUM.ico" />
     <Image Include="Resources\POZNUM_32.ico" />
+    <Image Include="Resources\PROFILEONCURVE.ico" />
     <Image Include="Resources\PROFILMENFEZ.ico" />
     <Image Include="Resources\QUADRATICBEZIER.ico" />
     <Image Include="Resources\RD.ico" />

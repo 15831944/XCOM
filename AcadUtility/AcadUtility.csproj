@@ -56,6 +56,7 @@
     <Compile Include="AcadCurve.cs" />
     <Compile Include="AcadEntity.cs" />
     <Compile Include="AcadGeometry.cs" />
+    <Compile Include="AcadText.cs" />
     <Compile Include="CurrentDB.cs" />
     <Compile Include="AcadGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

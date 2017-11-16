@@ -199,5 +199,11 @@
     <Image Include="Resources\QUADRATICBEZIER.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\PROFILEONCURVE.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\MULTIPROFILEONCURVE.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

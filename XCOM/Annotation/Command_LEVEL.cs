@@ -171,18 +171,7 @@ namespace XCOM.Commands.Annotation
         {
             double level = (ucsPt.Y - BasePoint.Y) * Scale * Multiplier + BaseLevel;
 
-            string format = (Precision == 0 ? "0" : "0." + new string('0', Precision));
-
-            string str = Math.Abs(level).ToString(format);
-
-            if (str == format)
-                str = "%%p" + str;
-            else if (level < 0)
-                str = "-" + str;
-            else
-                str = "+" + str;
-
-            return "%%U" + str;
+            return "%%U" + AcadUtility.AcadText.LevelToString(level, Precision);
         }
 
         private void UpdateLevelBlocks(ObjectId[] items)

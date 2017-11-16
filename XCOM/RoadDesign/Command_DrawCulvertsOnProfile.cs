@@ -109,7 +109,7 @@ namespace XCOM.Commands.RoadDesign
 
                                 // Texts
                                 Point3d textBase = new Point3d(midPt.X - textHeight * 1.25, midPt.Y + culvert.Height * scale + culvert.TopSlab * scale + 0.5 * scale, 0);
-                                string text = "KM: " + DrawCulvertForm.CulvertInfo.ChainageToString(culvert.Chainage) +
+                                string text = "KM: " + AcadUtility.AcadText.ChainageToString(culvert.Chainage) +
                                     "\\P" + "(" + culvert.Width.ToString("F2") + "x" + culvert.Height.ToString("F2") + ") KUTU MENFEZ";
                                 if (drawCulvertInfo)
                                 {
