@@ -39,8 +39,8 @@
             this.lblPrefix = new System.Windows.Forms.Label();
             this.txtPrefix = new System.Windows.Forms.TextBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
             this.txtInterval = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.groupBox4.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -175,6 +175,13 @@
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Yazı Stili";
             // 
+            // txtInterval
+            // 
+            this.txtInterval.Location = new System.Drawing.Point(121, 54);
+            this.txtInterval.Name = "txtInterval";
+            this.txtInterval.Size = new System.Drawing.Size(100, 20);
+            this.txtInterval.TabIndex = 3;
+            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -184,14 +191,7 @@
             this.label2.TabIndex = 2;
             this.label2.Text = "Aralık";
             // 
-            // txtInterval
-            // 
-            this.txtInterval.Location = new System.Drawing.Point(121, 54);
-            this.txtInterval.Name = "txtInterval";
-            this.txtInterval.Size = new System.Drawing.Size(100, 20);
-            this.txtInterval.TabIndex = 3;
-            // 
-            // PrintChainageMainForm
+            // PrintChainageForm
             // 
             this.AcceptButton = this.cmdOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -204,8 +204,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "PrintChainageMainForm";
-            this.ShowIcon = false;
+            this.Name = "PrintChainageForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Kilometre Yaz";

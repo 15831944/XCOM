@@ -223,7 +223,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "ProfileSettingsForm";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Profil Çizim Ayarları";

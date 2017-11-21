@@ -40,7 +40,7 @@
             this.browseDWG = new System.Windows.Forms.OpenFileDialog();
             this.cmdClose = new System.Windows.Forms.Button();
             this.cmdStart = new System.Windows.Forms.Button();
-            this.lbActions = new CheckedListBoxWithButtons();
+            this.lbActions = new XCOM.Commands.XCommand.CheckedListBoxWithButtons();
             this.browseFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
@@ -134,7 +134,7 @@
             this.lbActions.CheckOnClick = true;
             this.lbActions.FormattingEnabled = true;
             this.lbActions.Name = "lbActions";
-            this.lbActions.ButtonClick += new CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
+            this.lbActions.ButtonClick += new XCOM.Commands.XCommand.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
             // 
             // browseFolder
             // 
@@ -151,6 +151,7 @@
             this.Controls.Add(this.cmdStart);
             this.Name = "MainForm";
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.gbSource.ResumeLayout(false);
             this.ResumeLayout(false);
 

@@ -30,6 +30,7 @@
         {
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbAutoRotateText = new System.Windows.Forms.CheckBox();
+            this.cbZCoord = new System.Windows.Forms.CheckBox();
             this.cbDirection = new System.Windows.Forms.CheckBox();
             this.txtLineLength = new System.Windows.Forms.TextBox();
             this.lblLineLength = new System.Windows.Forms.Label();
@@ -52,7 +53,6 @@
             this.cmdOK = new System.Windows.Forms.Button();
             this.btnReadCoords = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.cbZCoord = new System.Windows.Forms.CheckBox();
             this.groupBox2.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -85,6 +85,16 @@
             this.cbAutoRotateText.TabIndex = 4;
             this.cbAutoRotateText.Text = "Yazıyı Çizgi Yönünde Döndür";
             this.cbAutoRotateText.UseVisualStyleBackColor = true;
+            // 
+            // cbZCoord
+            // 
+            this.cbZCoord.AutoSize = true;
+            this.cbZCoord.Location = new System.Drawing.Point(20, 208);
+            this.cbZCoord.Name = "cbZCoord";
+            this.cbZCoord.Size = new System.Drawing.Size(123, 17);
+            this.cbZCoord.TabIndex = 8;
+            this.cbZCoord.Text = "Z Koordinatını Yazdır";
+            this.cbZCoord.UseVisualStyleBackColor = true;
             // 
             // cbDirection
             // 
@@ -320,16 +330,6 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Yazı Stili";
             // 
-            // cbZCoord
-            // 
-            this.cbZCoord.AutoSize = true;
-            this.cbZCoord.Location = new System.Drawing.Point(20, 208);
-            this.cbZCoord.Name = "cbZCoord";
-            this.cbZCoord.Size = new System.Drawing.Size(123, 17);
-            this.cbZCoord.TabIndex = 8;
-            this.cbZCoord.Text = "Z Koordinatını Yazdır";
-            this.cbZCoord.UseVisualStyleBackColor = true;
-            // 
             // CoordMainForm
             // 
             this.AcceptButton = this.cmdOK;
@@ -347,7 +347,6 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "CoordMainForm";
-            this.ShowIcon = false;
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Koordinat";

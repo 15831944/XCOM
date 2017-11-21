@@ -397,7 +397,7 @@
     <value>lbActions</value>
   </data>
   <data name="&gt;&gt;lbActions.Type" xml:space="preserve">
-    <value>XCOM.CheckedListBoxWithButtons, XCOM, Version=1.7.5428.33629, Culture=neutral, PublicKeyToken=null</value>
+    <value>XCOM.Commands.XCommand.CheckedListBoxWithButtons, XCOM, Version=1.23.6534.21984, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbActions.Parent" xml:space="preserve">
     <value>$this</value>
@@ -454,6 +454,6 @@
     <value>MainForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>System.Windows.Forms.Form, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    <value>XCOM.Utility.VersionDisplayForm, XCOM, Version=1.23.6534.21984, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

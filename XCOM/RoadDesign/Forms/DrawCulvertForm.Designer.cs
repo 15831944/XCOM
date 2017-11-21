@@ -48,12 +48,12 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnPickBasePoint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.cbLayer = new System.Windows.Forms.ComboBox();
             this.txtHatchScale = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.label8 = new System.Windows.Forms.Label();
-            this.cbLayer = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +62,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(788, 433);
+            this.btnCancel.Location = new System.Drawing.Point(790, 434);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -72,7 +72,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(707, 433);
+            this.btnOK.Location = new System.Drawing.Point(709, 434);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -94,7 +94,7 @@
             this.culvertGrid.Name = "culvertGrid";
             this.culvertGrid.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.culvertGrid.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.culvertGrid.Size = new System.Drawing.Size(617, 406);
+            this.culvertGrid.Size = new System.Drawing.Size(619, 406);
             this.culvertGrid.TabIndex = 0;
             this.culvertGrid.TabStop = true;
             this.culvertGrid.ToolTipText = "";
@@ -129,7 +129,7 @@
             this.groupBox1.Controls.Add(this.label2);
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.btnPickBasePoint);
-            this.groupBox1.Location = new System.Drawing.Point(646, 12);
+            this.groupBox1.Location = new System.Drawing.Point(648, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(217, 280);
             this.groupBox1.TabIndex = 1;
@@ -269,12 +269,31 @@
             this.groupBox2.Controls.Add(this.txtTextHeight);
             this.groupBox2.Controls.Add(this.label9);
             this.groupBox2.Controls.Add(this.label8);
-            this.groupBox2.Location = new System.Drawing.Point(646, 298);
+            this.groupBox2.Location = new System.Drawing.Point(648, 298);
             this.groupBox2.Name = "groupBox2";
             this.groupBox2.Size = new System.Drawing.Size(217, 120);
             this.groupBox2.TabIndex = 2;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Görünüm";
+            // 
+            // cbLayer
+            // 
+            this.cbLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLayer.FormattingEnabled = true;
+            this.cbLayer.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbLayer.Location = new System.Drawing.Point(101, 31);
+            this.cbLayer.Name = "cbLayer";
+            this.cbLayer.Size = new System.Drawing.Size(100, 21);
+            this.cbLayer.TabIndex = 8;
             // 
             // txtHatchScale
             // 
@@ -321,41 +340,22 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Layer";
             // 
-            // cbLayer
-            // 
-            this.cbLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cbLayer.FormattingEnabled = true;
-            this.cbLayer.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
-            this.cbLayer.Location = new System.Drawing.Point(101, 31);
-            this.cbLayer.Name = "cbLayer";
-            this.cbLayer.Size = new System.Drawing.Size(100, 21);
-            this.cbLayer.TabIndex = 8;
-            // 
             // DrawCulvertForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(875, 468);
+            this.ClientSize = new System.Drawing.Size(877, 469);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.culvertGrid);
             this.Controls.Add(this.btnCancel);
             this.Controls.Add(this.btnOK);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DrawCulvertForm";
             this.ShowInTaskbar = false;
+            this.SizeGripStyle = System.Windows.Forms.SizeGripStyle.Show;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "Güzergah Profili Üzerinde Menfez Çizimi";
             this.groupBox1.ResumeLayout(false);
