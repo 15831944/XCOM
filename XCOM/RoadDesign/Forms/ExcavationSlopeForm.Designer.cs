@@ -122,7 +122,7 @@
             this.Name = "ExcavationSlopeForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "ExcavationSlope";
+            this.Text = "Excavation Slope";
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.ResumeLayout(false);

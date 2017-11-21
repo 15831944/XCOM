@@ -27,7 +27,7 @@ namespace XCOM.Commands.RoadDesign
             ExcavationV = 1.0;
         }
 
-        private bool ShowSettingsPoolExcavation()
+        private bool ShowSettings()
         {
             using (ExcavationSlopeForm form = new ExcavationSlopeForm())
             {
@@ -73,7 +73,7 @@ namespace XCOM.Commands.RoadDesign
                 PromptEntityResult entityRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetEntity(entityOpts);
                 if (entityRes.Status == PromptStatus.Keyword && entityRes.StringResult == "Settings")
                 {
-                    ShowSettingsPoolExcavation();
+                    ShowSettings();
                     continue;
                 }
                 if (entityRes.Status != PromptStatus.OK)
