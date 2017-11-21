@@ -10,7 +10,7 @@ namespace XCOM.Commands.RoadDesign
 {
     public static class RoadDesignUtility
     {
-        public static IEnumerable<Entity> DrawProfileFrame(Database db, Point3d basePt, double startCh, double startLevel, double endCh, double endLevel, double chStep, double levelStep, double levelScale, double textHeight, int precision)
+        public static IEnumerable<Entity> DrawProfileFrame(Database db, Point3d basePt, double startCh, double startLevel, double endCh, double endLevel, double chStep, double levelStep, double levelScale, double textHeight, int precision, ObjectId textStyleId)
         {
             List<Entity> entities = new List<Entity>();
 
@@ -32,7 +32,7 @@ namespace XCOM.Commands.RoadDesign
             {
                 Point3d pt1 = new Point3d(basePt.X, basePt.Y + (z - startLevel) * levelScale, basePt.Z);
                 Point3d pt2 = new Point3d(basePt.X + (endCh - startCh), basePt.Y + (z - startLevel) * levelScale, basePt.Z);
-                Line line = AcadUtility.AcadEntity.CreateLine(db, pt1, pt2, lineLayerId);
+                Line line = AcadUtility.AcadEntity.CreateLine(db, pt1, pt2, (levels[z] ? gridLayerId : lineLayerId));
                 entities.Add(line);
                 // Tick marks
                 pt1 = new Point3d(basePt.X, basePt.Y + (z - startLevel) * levelScale, basePt.Z);
@@ -41,7 +41,7 @@ namespace XCOM.Commands.RoadDesign
                 entities.Add(line);
                 // Level text
                 pt1 = new Point3d(basePt.X - textHeight, basePt.Y + (z - startLevel) * levelScale, basePt.Z);
-                DBText text = AcadUtility.AcadEntity.CreateText(db, pt1, AcadUtility.AcadText.LevelToString(z, precision), textHeight, 0, 0.8, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
+                DBText text = AcadUtility.AcadEntity.CreateText(db, pt1, AcadUtility.AcadText.LevelToString(z, precision), textHeight, 0, 0.8, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid, textStyleId, textLayerId);
                 entities.Add(text);
             }
             // Vertical
@@ -65,7 +65,7 @@ namespace XCOM.Commands.RoadDesign
                 entities.Add(line);
                 // Chainage text
                 pt1 = new Point3d(basePt.X + (ch - startCh), basePt.Y - textHeight, basePt.Z);
-                DBText text = AcadUtility.AcadEntity.CreateText(db, pt1, AcadUtility.AcadText.ChainageToString(ch, precision), textHeight, Math.PI / 2, 0.8, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid);
+                DBText text = AcadUtility.AcadEntity.CreateText(db, pt1, AcadUtility.AcadText.ChainageToString(ch, precision), textHeight, Math.PI / 2, 0.8, TextHorizontalMode.TextRight, TextVerticalMode.TextVerticalMid, textStyleId, textLayerId);
                 entities.Add(text);
             }
 

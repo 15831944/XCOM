@@ -38,6 +38,7 @@ namespace XCOM.Commands.RoadDesign
         private double ProfileVScale { get; set; }
         private double TextHeight { get; set; }
         private int Precision { get; set; }
+        private string TextStyleName { get; set; }
 
         public Command_Surface()
         {
@@ -67,6 +68,7 @@ namespace XCOM.Commands.RoadDesign
             ProfileVScale = 1;
             TextHeight = 1;
             Precision = 2;
+            TextStyleName = "Standard";
         }
 
         void MdiActiveDocument_CommandWillStart(object sender, Autodesk.AutoCAD.ApplicationServices.CommandEventArgs e)
@@ -165,6 +167,24 @@ namespace XCOM.Commands.RoadDesign
                 form.VScale = ProfileVScale;
                 form.TextHeight = TextHeight;
                 form.Precision = Precision;
+
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+                List<string> styleNames = new List<string>();
+                using (Transaction tr = db.TransactionManager.StartTransaction())
+                using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
+                {
+                    foreach (ObjectId id in bt)
+                    {
+                        TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
+
+                        styleNames.Add(style.Name);
+                    }
+                }
+                form.SetTextStyleNames(styleNames.ToArray());
+                form.TextStyleName = TextStyleName;
+
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
                     ProfileGridH = form.GridH;
@@ -172,6 +192,7 @@ namespace XCOM.Commands.RoadDesign
                     ProfileVScale = form.VScale;
                     TextHeight = form.TextHeight;
                     Precision = form.Precision;
+                    TextStyleName = form.TextStyleName;
 
                     return true;
                 }
@@ -733,6 +754,15 @@ namespace XCOM.Commands.RoadDesign
             {
                 Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
+                ObjectId textStyleId = ObjectId.Null;
+                using (TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
+                {
+                    if (tt.Has(TextStyleName))
+                    {
+                        textStyleId = tt[TextStyleName];
+                    }
+                }
+
                 // Project curve onto surface
                 Curve curve = tr.GetObject(curveId, OpenMode.ForRead) as Curve;
                 Point2dCollection points = topo.ProfileOnCurve(curve, surface);
@@ -783,7 +813,7 @@ namespace XCOM.Commands.RoadDesign
                     double endCh = Math.Ceiling((startCh + ex.MaxPoint.X) / ProfileGridH) * ProfileGridH;
 
                     // Draw grid
-                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision);
+                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision, textStyleId);
                     foreach (Entity ent in entities)
                     {
                         ent.TransformBy(ucs2wcs);
@@ -853,6 +883,15 @@ namespace XCOM.Commands.RoadDesign
             {
                 Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
 
+                ObjectId textStyleId = ObjectId.Null;
+                using (TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
+                {
+                    if (tt.Has(TextStyleName))
+                    {
+                        textStyleId = tt[TextStyleName];
+                    }
+                }
+
                 // Project curve onto surface
                 Curve center = tr.GetObject(curveId, OpenMode.ForRead) as Curve;
                 Point2dCollection points = topo.ProfileOnCurve(center, surface);
@@ -916,7 +955,7 @@ namespace XCOM.Commands.RoadDesign
                     double endCh = Math.Ceiling((startCh + ex.MaxPoint.X) / ProfileGridH) * ProfileGridH;
 
                     // Draw grid
-                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision);
+                    IEnumerable<Entity> entities = RoadDesignUtility.DrawProfileFrame(db, basePt, startCh, startLevel, endCh, endLevel, ProfileGridH, ProfileGridV, ProfileVScale, TextHeight, Precision, textStyleId);
                     foreach (Entity ent in entities)
                     {
                         ent.TransformBy(ucs2wcs);
