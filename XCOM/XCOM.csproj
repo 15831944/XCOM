@@ -151,11 +151,14 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoadDesign\Command_KONTUR.cs" />
+    <Compile Include="RoadDesign\Command_DRAPE.cs" />
+    <Compile Include="RoadDesign\Command_PROFILEONCURVE.cs" />
     <Compile Include="RoadDesign\Command_YUZEYCIZ.cs" />
     <Compile Include="RoadDesign\Command_YUZEYOLUSTUR.cs" />
     <Compile Include="RoadDesign\Command_SEVTARAMA.cs" />
-    <Compile Include="RoadDesign\Command_DrawCulvertsOnProfile.cs" />
-    <Compile Include="RoadDesign\Command_Surface.cs" />
+    <Compile Include="RoadDesign\Command_PROFILMENFEZ.cs" />
+    <Compile Include="RoadDesign\Command_HAVUZKAZISI.cs" />
     <Compile Include="RoadDesign\Excavation.cs" />
     <Compile Include="RoadDesign\Forms\CreateSurfaceForm.cs">
       <SubType>Form</SubType>
@@ -181,7 +184,6 @@
     <Compile Include="RoadDesign\Forms\ExcavationSlopeForm.Designer.cs">
       <DependentUpon>ExcavationSlopeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\RoadDesignUtility.cs" />
     <Compile Include="RoadDesign\Topography.cs" />
     <Compile Include="Utility\RebarDisplayCount.cs">
       <SubType>Component</SubType>
@@ -373,6 +375,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

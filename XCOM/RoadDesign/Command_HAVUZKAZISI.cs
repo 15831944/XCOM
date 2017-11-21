@@ -12,14 +12,14 @@ using AcadUtility;
 
 namespace XCOM.Commands.RoadDesign
 {
-    public class Command_Surface
+    public class Command_HAVUZKAZISI
     {
         private double ExcavationStepSize { get; set; }
 
         private double ExcavationH { get; set; }
         private double ExcavationV { get; set; }
 
-        public Command_Surface()
+        public Command_HAVUZKAZISI()
         {
             ExcavationStepSize = 1.0;
 

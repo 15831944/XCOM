@@ -22,12 +22,31 @@ namespace XCOM.Commands.RoadDesign
         public double BaseChainage { get { double v = 0; AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out v); return v; } set { txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(value); } }
         public double BaseLevel { get { double v = 0; double.TryParse(txtBaseLevel.Text, out v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
         public double ProfileScale { get { double v = 0; double.TryParse(txtScale.Text, out v); return v; } set { txtScale.Text = value.ToString(); } }
+        public bool DrawCulvertInfo { get { return cbDrawCulvertInfo.Checked; } set { cbDrawCulvertInfo.Checked = value; } }
 
-        public string LayerName { get { return txtLayer.Text; } set { txtLayer.Text = value; } }
         public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
         public double HatchScale { get { double v = 0; double.TryParse(txtHatchScale.Text, out v); return v; } set { txtHatchScale.Text = value.ToString(); } }
 
-        public bool DrawCulvertInfo { get { return cbDrawCulvertInfo.Checked; } }
+        public string LayerName
+        {
+            get
+            {
+                return (string)cbLayer.SelectedItem;
+            }
+            set
+            {
+                for (int i = 0; i < cbLayer.Items.Count; i++)
+                {
+                    if (string.Compare((string)cbLayer.Items[i], value, StringComparison.OrdinalIgnoreCase) == 0)
+                    {
+                        cbLayer.SelectedIndex = i;
+                        return;
+                    }
+                }
+
+                if (cbLayer.SelectedIndex == -1 && cbLayer.Items.Count > 0) cbLayer.SelectedIndex = 0;
+            }
+        }
 
         public List<CulvertInfo> GetData()
         {
@@ -187,6 +206,19 @@ namespace XCOM.Commands.RoadDesign
             }
 
             culvertGrid.AutoSizeCells();
+        }
+
+        public void SetLayerNames(string[] names)
+        {
+            cbLayer.Items.Clear();
+            for (int i = 0; i < names.Length; i++)
+            {
+                cbLayer.Items.Add(names[i]);
+                if (string.Compare(names[i], LayerName, StringComparison.OrdinalIgnoreCase) == 0)
+                {
+                    cbLayer.SelectedIndex = i;
+                }
+            }
         }
 
         private void btnPickBasePoint_Click(object sender, EventArgs e)

@@ -52,8 +52,8 @@
             this.label10 = new System.Windows.Forms.Label();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
-            this.txtLayer = new System.Windows.Forms.TextBox();
             this.label8 = new System.Windows.Forms.Label();
+            this.cbLayer = new System.Windows.Forms.ComboBox();
             this.groupBox1.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.SuspendLayout();
@@ -62,7 +62,7 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(788, 494);
+            this.btnCancel.Location = new System.Drawing.Point(788, 433);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
             this.btnCancel.TabIndex = 4;
@@ -72,7 +72,7 @@
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(707, 494);
+            this.btnOK.Location = new System.Drawing.Point(707, 433);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
             this.btnOK.TabIndex = 3;
@@ -94,7 +94,7 @@
             this.culvertGrid.Name = "culvertGrid";
             this.culvertGrid.OptimizeMode = SourceGrid.CellOptimizeMode.ForRows;
             this.culvertGrid.SelectionMode = SourceGrid.GridSelectionMode.Cell;
-            this.culvertGrid.Size = new System.Drawing.Size(617, 463);
+            this.culvertGrid.Size = new System.Drawing.Size(617, 406);
             this.culvertGrid.TabIndex = 0;
             this.culvertGrid.TabStop = true;
             this.culvertGrid.ToolTipText = "";
@@ -263,11 +263,11 @@
             // groupBox2
             // 
             this.groupBox2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox2.Controls.Add(this.cbLayer);
             this.groupBox2.Controls.Add(this.txtHatchScale);
             this.groupBox2.Controls.Add(this.label10);
             this.groupBox2.Controls.Add(this.txtTextHeight);
             this.groupBox2.Controls.Add(this.label9);
-            this.groupBox2.Controls.Add(this.txtLayer);
             this.groupBox2.Controls.Add(this.label8);
             this.groupBox2.Location = new System.Drawing.Point(646, 298);
             this.groupBox2.Name = "groupBox2";
@@ -312,15 +312,6 @@
             this.label9.TabIndex = 2;
             this.label9.Text = "Yazı Yüksekliği";
             // 
-            // txtLayer
-            // 
-            this.txtLayer.Location = new System.Drawing.Point(101, 31);
-            this.txtLayer.Name = "txtLayer";
-            this.txtLayer.Size = new System.Drawing.Size(100, 20);
-            this.txtLayer.TabIndex = 1;
-            this.txtLayer.Text = "MENFEZ PROFIL";
-            this.txtLayer.Validating += new System.ComponentModel.CancelEventHandler(this.txtLayer_Validating);
-            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -330,12 +321,31 @@
             this.label8.TabIndex = 0;
             this.label8.Text = "Layer";
             // 
+            // cbLayer
+            // 
+            this.cbLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbLayer.FormattingEnabled = true;
+            this.cbLayer.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbLayer.Location = new System.Drawing.Point(101, 31);
+            this.cbLayer.Name = "cbLayer";
+            this.cbLayer.Size = new System.Drawing.Size(100, 21);
+            this.cbLayer.TabIndex = 8;
+            // 
             // DrawCulvertForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(875, 529);
+            this.ClientSize = new System.Drawing.Size(875, 468);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.culvertGrid);
@@ -378,11 +388,11 @@
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label7;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txtLayer;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtHatchScale;
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtTextHeight;
         private System.Windows.Forms.Label label9;
+        private System.Windows.Forms.ComboBox cbLayer;
     }
 }

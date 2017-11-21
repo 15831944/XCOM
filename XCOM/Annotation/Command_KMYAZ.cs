@@ -231,6 +231,7 @@ namespace XCOM.Commands.Annotation
 
                         styleNames.Add(style.Name);
                     }
+                    tr.Commit();
                 }
                 form.SetTextStyleNames(styleNames.ToArray());
                 form.TextStyleName = TextStyleName;
