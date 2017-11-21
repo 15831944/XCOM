@@ -372,13 +372,5 @@ namespace XCOM.Commands.RoadDesign
                 e.Cancel = true;
             }
         }
-
-        private void txtLayer_Validating(object sender, CancelEventArgs e)
-        {
-            if (string.IsNullOrEmpty(txtLayer.Text))
-            {
-                e.Cancel = true;
-            }
-        }
     }
 }
