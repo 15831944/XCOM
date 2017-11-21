@@ -4,6 +4,9 @@ using System.Linq;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using AcadUtility;
+using System.Collections;
+using Autodesk.AutoCAD.EditorInput;
+using System.Windows.Forms;
 
 namespace XCOM.Commands.RoadDesign
 {
@@ -13,6 +16,11 @@ namespace XCOM.Commands.RoadDesign
     public class Topography
     {
         /// <summary>
+        /// The key under which the topography object is saved in document user data.
+        /// </summary>
+        private static string UserDataKey = "OZOZ_XCOM_Topography";
+
+        /// <summary>
         /// The type of surface being operated on.
         /// </summary>
         public enum SurfaceType
@@ -20,6 +28,28 @@ namespace XCOM.Commands.RoadDesign
             None,
             Original,
             Proposed
+        }
+
+        /// <summary>
+        /// Returns the topography object for the current document.
+        /// </summary>
+        public static Topography Instance
+        {
+            get
+            {
+                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+                Hashtable ud = doc.UserData;
+
+                Topography topo = ud[UserDataKey] as Topography;
+                if (topo == null)
+                {
+                    // First time called, create and save topography
+                    topo = new Topography();
+                    ud.Add(UserDataKey, topo);
+                }
+
+                return topo;
+            }
         }
 
         private TriangleNet.Mesh originalSurface;
@@ -41,6 +71,45 @@ namespace XCOM.Commands.RoadDesign
         {
             originalSurface = new TriangleNet.Mesh();
             proposedSurface = new TriangleNet.Mesh();
+        }
+
+        public static SurfaceType PickSurface()
+        {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+
+            PromptKeywordOptions opts = new PromptKeywordOptions("\nYüzey türü [Orijinal/Tamamlanmış] <Orijinal>: ", "Original Proposed");
+            opts.Keywords.Default = "Original";
+            opts.AllowNone = true;
+            PromptResult res = doc.Editor.GetKeywords(opts);
+
+            string surfaceType = res.StringResult;
+            if (res.Status == PromptStatus.None)
+            {
+                surfaceType = "Original";
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return Topography.SurfaceType.None;
+            }
+            return (surfaceType == "Original" ? Topography.SurfaceType.Original : Topography.SurfaceType.Proposed);
+        }
+
+        public static bool EnsureSurfaceNotEmpty(Topography.SurfaceType surface)
+        {
+            Topography topo = Topography.Instance;
+
+            if (surface == SurfaceType.None)
+            {
+                MessageBox.Show("Yüzey seçilmedi.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+            else if ((surface == SurfaceType.Original ? topo.OriginalTIN : topo.ProposedTIN).Triangles.Count == 0)
+            {
+                MessageBox.Show("Seçilen yüzey boş.", "XCOM", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>
@@ -401,7 +470,6 @@ namespace XCOM.Commands.RoadDesign
 
             return true;
         }
-
 
         /// <summary>
         /// Plane-Triangle Intersection Test Routine

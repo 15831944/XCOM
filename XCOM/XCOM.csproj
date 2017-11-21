@@ -151,6 +151,8 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoadDesign\Command_YUZEYCIZ.cs" />
+    <Compile Include="RoadDesign\Command_YUZEYOLUSTUR.cs" />
     <Compile Include="RoadDesign\Command_SEVTARAMA.cs" />
     <Compile Include="RoadDesign\Command_DrawCulvertsOnProfile.cs" />
     <Compile Include="RoadDesign\Command_Surface.cs" />
@@ -429,9 +431,6 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\cursor.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="Resources\DemoSurface.txt" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\AcadUtility\AcadUtility.csproj">
