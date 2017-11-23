@@ -151,6 +151,7 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="RoadDesign\Command_HENDEKKAZISI.cs" />
     <Compile Include="RoadDesign\Command_KONTUR.cs" />
     <Compile Include="RoadDesign\Command_DRAPE.cs" />
     <Compile Include="RoadDesign\Command_PROFILEONCURVE.cs" />
@@ -171,6 +172,12 @@
     </Compile>
     <Compile Include="RoadDesign\Forms\DrawCulvertForm.Designer.cs">
       <DependentUpon>DrawCulvertForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="RoadDesign\Forms\TrenchExcavationForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="RoadDesign\Forms\TrenchExcavationForm.Designer.cs">
+      <DependentUpon>TrenchExcavationForm.cs</DependentUpon>
     </Compile>
     <Compile Include="RoadDesign\Forms\ProfileSettingsForm.cs">
       <SubType>Form</SubType>
@@ -323,6 +330,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="RoadDesign\Forms\DrawCulvertForm.resx">
       <DependentUpon>DrawCulvertForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="RoadDesign\Forms\TrenchExcavationForm.resx">
+      <DependentUpon>TrenchExcavationForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="RoadDesign\Forms\ProfileSettingsForm.resx">
       <DependentUpon>ProfileSettingsForm.cs</DependentUpon>

@@ -15,6 +15,8 @@ namespace XCOM.Commands.RoadDesign
 {
     public partial class CreateSurfaceForm : XCOM.Utility.VersionDisplayForm
     {
+        public double MaxPointSpacing { get { double v = 0; double.TryParse(txtPointSpacing.Text, out v); return v; } set { txtPointSpacing.Text = value.ToString(); } }
+
         public bool SelectPoints { get { return chSelectPoint.Checked; } set { chSelectPoint.Checked = value; } }
         public bool SelectLines { get { return chSelectLine.Checked; } set { chSelectLine.Checked = value; } }
         public bool SelectPolylines { get { return chSelectPolyline.Checked; } set { chSelectPolyline.Checked = value; } }

@@ -96,6 +96,8 @@
     <Image Include="Resources\BY.ico" />
     <Image Include="Resources\COORDGRID.ico" />
     <Image Include="Resources\DRAPE.ico" />
+    <Image Include="Resources\HAVUZKAZISI.ico" />
+    <Image Include="Resources\HENDEKKAZISI.ico" />
     <Image Include="Resources\KMYAZ.ico" />
     <Image Include="Resources\KOORDINAT.ico" />
     <Image Include="Resources\LEVEL.ico" />

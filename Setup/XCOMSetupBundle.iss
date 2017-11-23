@@ -40,7 +40,6 @@ Source: "..\AcadUtility\bin\Release\AcadUtility.dll"; DestDir: "{app}\Contents";
 Source: "..\XCOM\Libraries\LicenseCheck.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\Libraries\SourceGrid.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
 Source: "..\XCOM\Libraries\Triangle.dll"; DestDir: "{app}\Contents"; Flags: ignoreversion
-; Support files
 
 [Tasks]
 Name: "CHK_KBSHORTCUTS"; Description: "{cm:KeyboardShortcuts}"; Flags: unchecked

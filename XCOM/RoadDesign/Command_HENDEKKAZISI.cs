@@ -12,25 +12,28 @@ using AcadUtility;
 
 namespace XCOM.Commands.RoadDesign
 {
-    public class Command_HAVUZKAZISI
+    public class Command_HENDEKKAZISI
     {
         private double ExcavationStepSize { get; set; }
 
+        private double Width { get; set; }
         private double ExcavationH { get; set; }
         private double ExcavationV { get; set; }
 
-        public Command_HAVUZKAZISI()
+        public Command_HENDEKKAZISI()
         {
             ExcavationStepSize = 1.0;
 
+            Width = 0;
             ExcavationH = 1.0;
             ExcavationV = 1.0;
         }
 
         private bool ShowSettings()
         {
-            using (ExcavationSlopeForm form = new ExcavationSlopeForm())
+            using (TrenchExcavationForm form = new TrenchExcavationForm())
             {
+                form.BottomWidth = Width;
                 form.H = ExcavationH;
                 form.V = ExcavationV;
 
@@ -38,6 +41,7 @@ namespace XCOM.Commands.RoadDesign
                 {
                     ExcavationH = form.H;
                     ExcavationV = form.V;
+                    Width = form.BottomWidth;
 
                     return true;
                 }
@@ -48,8 +52,8 @@ namespace XCOM.Commands.RoadDesign
             }
         }
 
-        [Autodesk.AutoCAD.Runtime.CommandMethod("HAVUZKAZISI")]
-        public void PoolExcavation()
+        [Autodesk.AutoCAD.Runtime.CommandMethod("HENDEKKAZISI")]
+        public void TrenchExcavation()
         {
             if (!CheckLicense.Check()) return;
 
@@ -76,30 +80,14 @@ namespace XCOM.Commands.RoadDesign
                     ShowSettings();
                     continue;
                 }
-                if (entityRes.Status != PromptStatus.OK)
+                else if (entityRes.Status == PromptStatus.OK)
+                {
+                    centerlineId = entityRes.ObjectId;
+                    break;
+                }
+                else
                 {
                     return;
-                }
-
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForRead))
-                {
-                    Curve centerline = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
-                    if (centerline != null)
-                    {
-                        if (centerline.Closed)
-                        {
-                            centerlineId = entityRes.ObjectId;
-
-                            tr.Commit();
-                            break;
-                        }
-                        else
-                        {
-                            Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.WriteMessage("\nCurve must be closed.");
-                            tr.Commit();
-                        }
-                    }
                 }
             }
 
@@ -109,42 +97,62 @@ namespace XCOM.Commands.RoadDesign
                 Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Curve;
 
                 // Excavate
-                PadExcavation ex = new PadExcavation(mesh, centerline, ExcavationStepSize);
+                TrenchExcavation ex = new TrenchExcavation(mesh, centerline, Width, ExcavationStepSize);
                 ExcavationSection slope = new ExcavationSection();
                 slope.AddSlope(ExcavationH, ExcavationV);
                 ex.AddSection(0, slope);
                 ex.Excavate();
 
                 // Draw excavation boundries
-                Point3dCollection bounds = new Point3dCollection();
+                Point3dCollection bottombounds = new Point3dCollection();
+                Point3dCollection topbounds = new Point3dCollection();
                 bool closed = true;
+                bool alt = false;
                 foreach (ExcavationSection section in ex.OutputSections)
                 {
                     if (section.Elements[section.Elements.Count - 1].HasTopPoint)
                     {
-                        bounds.Add(section.Elements[section.Elements.Count - 1].TopPoint);
+                        bottombounds.Add(section.Elements[0].BottomPoint);
+                        topbounds.Add(section.Elements[section.Elements.Count - 1].TopPoint);
 
-                        Line line = AcadUtility.AcadEntity.CreateLine(db, section.Elements[0].BottomPoint, section.Elements[section.Elements.Count - 1].TopPoint);
+                        Point3d pt1 = section.Elements[0].BottomPoint;
+                        Point3d pt2 = section.Elements[section.Elements.Count - 1].TopPoint;
+                        if (alt) pt1 = pt1 + (pt2 - pt1) / 2;
+                        Line line = AcadUtility.AcadEntity.CreateLine(db, pt1, pt2);
                         line.ColorIndex = 11;
                         btr.AppendEntity(line);
                         tr.AddNewlyCreatedDBObject(line, true);
                     }
                     else
                     {
-                        if (bounds.Count > 1)
+                        if (bottombounds.Count > 1)
                         {
-                            Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, bounds);
+                            Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, bottombounds);
+                            btr.AppendEntity(pline);
+                            tr.AddNewlyCreatedDBObject(pline, true);
+                        }
+                        if (topbounds.Count > 1)
+                        {
+                            Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, topbounds);
                             btr.AppendEntity(pline);
                             tr.AddNewlyCreatedDBObject(pline, true);
                         }
 
                         closed = false;
-                        bounds = new Point3dCollection();
+                        topbounds = new Point3dCollection();
                     }
+
+                    alt = !alt;
                 }
-                if (bounds.Count > 1)
+                if (bottombounds.Count > 1)
                 {
-                    Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, closed, bounds);
+                    Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, bottombounds);
+                    btr.AppendEntity(pline);
+                    tr.AddNewlyCreatedDBObject(pline, true);
+                }
+                if (topbounds.Count > 1)
+                {
+                    Polyline3d pline = AcadUtility.AcadEntity.CreatePolyLine3d(db, closed, topbounds);
                     btr.AppendEntity(pline);
                     tr.AddNewlyCreatedDBObject(pline, true);
                 }

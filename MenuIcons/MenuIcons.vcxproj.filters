@@ -205,5 +205,11 @@
     <Image Include="Resources\MULTIPROFILEONCURVE.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\HAVUZKAZISI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Resources\HENDEKKAZISI.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

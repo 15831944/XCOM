@@ -8,7 +8,6 @@ namespace AcadUtility
     // Curve utilities
     public static class AcadCurve
     {
-
         /// <summary>
         /// Determines the length of the curve.
         /// </summary>

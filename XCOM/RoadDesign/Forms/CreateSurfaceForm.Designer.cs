@@ -41,6 +41,8 @@
             this.chSelectLine = new System.Windows.Forms.CheckBox();
             this.chSelectPoint = new System.Windows.Forms.CheckBox();
             this.chEraseEntities = new System.Windows.Forms.CheckBox();
+            this.txtPointSpacing = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -48,20 +50,20 @@
             // 
             this.btnCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.btnCancel.Location = new System.Drawing.Point(156, 314);
+            this.btnCancel.Location = new System.Drawing.Point(156, 350);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 3;
+            this.btnCancel.TabIndex = 5;
             this.btnCancel.Text = "İptal";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
             // btnOK
             // 
             this.btnOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnOK.Location = new System.Drawing.Point(75, 314);
+            this.btnOK.Location = new System.Drawing.Point(75, 350);
             this.btnOK.Name = "btnOK";
             this.btnOK.Size = new System.Drawing.Size(75, 23);
-            this.btnOK.TabIndex = 2;
+            this.btnOK.TabIndex = 4;
             this.btnOK.Text = "Tamam";
             this.btnOK.UseVisualStyleBackColor = true;
             this.btnOK.Click += new System.EventHandler(this.btnOK_Click);
@@ -77,10 +79,10 @@
             this.groupBox1.Controls.Add(this.chSelectPolyline);
             this.groupBox1.Controls.Add(this.chSelectLine);
             this.groupBox1.Controls.Add(this.chSelectPoint);
-            this.groupBox1.Location = new System.Drawing.Point(12, 12);
+            this.groupBox1.Location = new System.Drawing.Point(12, 49);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(217, 250);
-            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabIndex = 2;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seçilecek Nesneler";
             // 
@@ -179,19 +181,37 @@
             // chEraseEntities
             // 
             this.chEraseEntities.AutoSize = true;
-            this.chEraseEntities.Location = new System.Drawing.Point(12, 284);
+            this.chEraseEntities.Location = new System.Drawing.Point(12, 319);
             this.chEraseEntities.Name = "chEraseEntities";
             this.chEraseEntities.Size = new System.Drawing.Size(122, 17);
-            this.chEraseEntities.TabIndex = 1;
+            this.chEraseEntities.TabIndex = 3;
             this.chEraseEntities.Text = "Seçilen Nesneleri Sil";
             this.chEraseEntities.UseVisualStyleBackColor = true;
+            // 
+            // txtPointSpacing
+            // 
+            this.txtPointSpacing.Location = new System.Drawing.Point(134, 12);
+            this.txtPointSpacing.Name = "txtPointSpacing";
+            this.txtPointSpacing.Size = new System.Drawing.Size(95, 20);
+            this.txtPointSpacing.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(11, 15);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(117, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "&Maksimum nokta aralığı";
             // 
             // CreateSurfaceForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.btnCancel;
-            this.ClientSize = new System.Drawing.Size(243, 349);
+            this.ClientSize = new System.Drawing.Size(243, 385);
+            this.Controls.Add(this.txtPointSpacing);
+            this.Controls.Add(this.label1);
             this.Controls.Add(this.chEraseEntities);
             this.Controls.Add(this.groupBox1);
             this.Controls.Add(this.btnCancel);
@@ -225,5 +245,7 @@
         private System.Windows.Forms.CheckBox chSelectSolid;
         private System.Windows.Forms.CheckBox chEraseEntities;
         private System.Windows.Forms.CheckBox chSelectPolyfaceMesh;
+        private System.Windows.Forms.TextBox txtPointSpacing;
+        private System.Windows.Forms.Label label1;
     }
 }

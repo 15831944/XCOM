@@ -2,12 +2,29 @@
 using System.Collections.Generic;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
+using System.ComponentModel;
 
 namespace AcadUtility
 {
     // Entity utilities
     public static class AcadEntity
     {
+        /// <summary>
+        /// Dumps the object to the console.
+        /// </summary>
+        /// <param name="obj"></param>
+        public static void Dump(this object obj)
+        {
+            Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            Autodesk.AutoCAD.EditorInput.Editor ed = doc.Editor;
+            foreach (PropertyDescriptor descriptor in TypeDescriptor.GetProperties(obj))
+            {
+                string name = descriptor.Name;
+                object value = descriptor.GetValue(obj);
+                ed.WriteMessage("\n{0}={1}", name, value);
+            }
+        }
+
         // Matches display properties of dest entity to that of the source entity
         public static void MatchEntity(Entity source, Entity dest)
         {

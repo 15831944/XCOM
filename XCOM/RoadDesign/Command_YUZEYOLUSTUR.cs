@@ -13,6 +13,8 @@ namespace XCOM.Commands.RoadDesign
 {
     public class Command_YUZEYOLUSTUR
     {
+        private double MaxPointSpacing { get; set; }
+
         private bool SelectPoints { get; set; }
         private bool SelectLines { get; set; }
         private bool SelectPolylines { get; set; }
@@ -26,6 +28,8 @@ namespace XCOM.Commands.RoadDesign
 
         public Command_YUZEYOLUSTUR()
         {
+            MaxPointSpacing = 5;
+
             SelectPoints = true;
             SelectPoints = false;
             SelectLines = false;
@@ -55,7 +59,7 @@ namespace XCOM.Commands.RoadDesign
                 try
                 {
                     IEnumerable<ObjectId> items = SelectEntitites();
-                    Point3dCollection points = ReadPoints(items);
+                    Point3dCollection points = ReadPoints(items, MaxPointSpacing);
 
                     if (points.Count > 0)
                     {
@@ -80,6 +84,7 @@ namespace XCOM.Commands.RoadDesign
         {
             using (CreateSurfaceForm form = new CreateSurfaceForm())
             {
+                form.MaxPointSpacing = MaxPointSpacing;
                 form.SelectPoints = SelectPoints;
                 form.SelectLines = SelectLines;
                 form.SelectPolylines = SelectPolylines;
@@ -93,6 +98,7 @@ namespace XCOM.Commands.RoadDesign
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)
                 {
+                    MaxPointSpacing = form.MaxPointSpacing;
                     SelectPoints = form.SelectPoints;
                     SelectLines = form.SelectLines;
                     SelectPolylines = form.SelectPolylines;
@@ -139,12 +145,12 @@ namespace XCOM.Commands.RoadDesign
             return res.Value.GetObjectIds();
         }
 
-        Point3dCollection ReadPoints(IEnumerable<ObjectId> items)
+        Point3dCollection ReadPoints(IEnumerable<ObjectId> items, double maxSpacing)
         {
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Database db = doc.Database;
 
-            HashSet<Point3d> points = new HashSet<Point3d>(new Point3dComparer(Tolerance.Global));
+            HashSet<Point3d> points = new HashSet<Point3d>(new Point3dComparer(new Tolerance(maxSpacing, maxSpacing)));
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
