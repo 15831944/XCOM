@@ -187,6 +187,9 @@
     <Image Include="Resources\HENDEKKAZISI.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\KONTUR.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">
