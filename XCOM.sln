@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio 15
+VisualStudioVersion = 15.0.27428.2005
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XCOM", "XCOM\XCOM.csproj", "{63723CBA-29CC-4577-B1AD-CDE08D4856D0}"
 EndProject
@@ -9,7 +9,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuIcons", "MenuIcons\Menu
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MenuIcons_Light", "MenuIcons_Light\MenuIcons_Light.vcxproj", "{96F4B113-DA30-46D0-892C-93FA5C10EEE5}"
 EndProject
-Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "acad", "..\..\..\..\..\..\Program Files\Autodesk\AutoCAD 2015\acad.exe", "{951B0715-4479-4D70-AB99-3AB69A386AB8}"
+Project("{911E67C6-3D85-4FCE-B560-20A9C3E3FF48}") = "acad", "..\..\..\..\..\Program Files\Autodesk\AutoCAD 2015\acad.exe", "{951B0715-4479-4D70-AB99-3AB69A386AB8}"
 	ProjectSection(DebuggerProjectSystem) = preProject
 		PortSupplier = 00000000-0000-0000-0000-000000000000
 		Executable = C:\Program Files\Autodesk\AutoCAD 2015\acad.exe
@@ -55,6 +55,7 @@ Global
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Debug|Win32.Build.0 = Debug|Win32
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Debug|x64.ActiveCfg = Debug|Win32
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Release|Any CPU.ActiveCfg = Release|Win32
+		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Release|Any CPU.Build.0 = Release|Win32
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{E1C26BDD-5053-45A9-BDA5-18096BADD031}.Release|Win32.ActiveCfg = Release|Win32
@@ -67,6 +68,7 @@ Global
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Debug|Win32.Build.0 = Debug|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Debug|x64.ActiveCfg = Debug|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Any CPU.ActiveCfg = Release|Win32
+		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Any CPU.Build.0 = Release|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Mixed Platforms.ActiveCfg = Release|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Mixed Platforms.Build.0 = Release|Win32
 		{96F4B113-DA30-46D0-892C-93FA5C10EEE5}.Release|Win32.ActiveCfg = Release|Win32
@@ -96,5 +98,8 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {EE4CB13B-8A43-40FA-BE45-ACBCCFF9841C}
 	EndGlobalSection
 EndGlobal
