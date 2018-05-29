@@ -1,8 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using AcadUtility;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
-using AcadUtility;
+using System.Collections.Generic;
 
 namespace XCOM.Commands.XCommand
 {

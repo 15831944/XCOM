@@ -1,5 +1,5 @@
-﻿using System;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using System;
 
 namespace XCOM.Commands.XCommand
 {
@@ -46,10 +46,10 @@ namespace XCOM.Commands.XCommand
         event EventHandler<ActionErrorEventArgs> Error;
     }
 
-    public class XCOMActionBase : IXCOMAction
+    public abstract class XCOMActionBase : IXCOMAction
     {
-        public virtual string Name { get { throw new NotImplementedException(); } }
-        public virtual int Order { get { throw new NotImplementedException(); } }
+        public abstract string Name { get; }
+        public abstract int Order { get; }
         public virtual bool Recommended { get { return false; } }
         public virtual ActionInterface Interface { get { return ActionInterface.Command; } }
         public virtual bool ShowDialog() { return true; }

@@ -1,13 +1,9 @@
-﻿using System;
-using System.Windows.Forms;
-using System.Collections.Generic;
-using System.Threading;
-using System.Reflection;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
+using System;
+using System.Collections.Generic;
 
 namespace XCOM.Commands.Annotation
 {

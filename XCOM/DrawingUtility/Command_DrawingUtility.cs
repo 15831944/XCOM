@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Autodesk.AutoCAD.EditorInput;
+﻿using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.Runtime;
+using System;
 
 namespace XCOM.Commands.Drawing
 {
@@ -210,8 +207,7 @@ namespace XCOM.Commands.Drawing
                     if (text != null)
                     {
                         string str = text.TextString;
-                        double val = 0.0;
-                        if (double.TryParse(str, out val))
+                        if (double.TryParse(str, out double val))
                         {
                             sum += val;
                         }
@@ -281,8 +277,7 @@ namespace XCOM.Commands.Drawing
                     if (text != null)
                     {
                         string str = text.TextString;
-                        double val = 0.0;
-                        if (double.TryParse(str, out val))
+                        if (double.TryParse(str, out double val))
                         {
                             sum *= val;
                         }

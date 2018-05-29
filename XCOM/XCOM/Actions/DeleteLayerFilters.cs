@@ -1,7 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.LayerManager;
+using System;
+using System.Collections.Generic;
 
 namespace XCOM.Commands.XCommand
 {

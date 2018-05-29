@@ -1,7 +1,5 @@
-﻿using System.IO;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
-using System;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using System.IO;
 
 namespace XCOM.Commands.XCommand
 {

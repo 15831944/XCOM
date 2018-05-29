@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using System;
 using System.IO;
-using Autodesk.AutoCAD.DatabaseServices;
 
 namespace XCOM.Commands.XCommand
 {

@@ -1,10 +1,9 @@
 ﻿using System;
-using System.Windows.Forms;
-using System.IO;
-using System.Text;
-using System.Reflection;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Reflection;
+using System.Windows.Forms;
 
 namespace XCOM.Commands.XCommand
 {

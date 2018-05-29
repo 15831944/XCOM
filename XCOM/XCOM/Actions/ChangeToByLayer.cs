@@ -1,7 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using Autodesk.AutoCAD.Colors;
 using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Colors;
+using System;
 
 namespace XCOM.Commands.XCommand
 {

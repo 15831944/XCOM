@@ -1,11 +1,7 @@
-﻿using System;
-using System.IO;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Runtime;
+﻿using Autodesk.AutoCAD.DatabaseServices;
+using System;
 using System.Collections.Generic;
-using Autodesk.AutoCAD.LayerManager;
-using Autodesk.AutoCAD.ApplicationServices;
-using Autodesk.AutoCAD.EditorInput;
+using System.IO;
 
 namespace XCOM.Commands.XCommand
 {

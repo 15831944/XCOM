@@ -1,13 +1,9 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AcadUtility
 {
-    public class CurrentDB : IDisposable
+    public sealed class CurrentDB : IDisposable
     {
         private bool contextSwitch;
         private Database oldDB;

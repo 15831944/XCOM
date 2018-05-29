@@ -1,8 +1,7 @@
-﻿using System;
-using System.Text.RegularExpressions;
-using System.Collections.Generic;
-using Autodesk.AutoCAD.DatabaseServices;
+﻿using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Runtime;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
 
 namespace XCOM.Commands.XCommand
 {
