@@ -5,8 +5,9 @@ namespace XCOM.Commands.XCommand
 {
     public class StripXREFPaths : XCOMActionBase
     {
-        public override string Name { get { return "XREF Sadece Dosya Adı"; } }
-        public override int Order { get { return 51; } }
+        public override string Name => "XREF Sadece Dosya Adı";
+        public override int Order => 51;
+        public override string HelpText => "XREF dosya yollarından klasör isimlerini kaldırıp sadece dosya ismini bırakır.";
 
         public override void Run(string filename, Database db)
         {

@@ -5,9 +5,10 @@ namespace XCOM.Commands.XCommand
 {
     public class SaveDXF : XCOMActionBase
     {
-        public override string Name { get { return "DXF Kaydet"; } }
-        public override int Order { get { return 500000; } }
-        public override ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name => "DXF Kaydet";
+        public override int Order => int.MaxValue - 1;
+        public override ActionInterface Interface => ActionInterface.Both;
+        public override string HelpText => "Listedeki komutları çalıştırdıktan sonra dosyayı DXF olarak kaydeder.";
 
         protected bool keepCurrentVersion = true;
         protected DwgVersion version = DwgVersion.AC1024;

@@ -6,9 +6,10 @@ namespace XCOM.Commands.XCommand
 {
     public class ChangeToByLayer : XCOMActionBase
     {
-        public override string Name { get { return "Layer 0 + ByLayer"; } }
-        public override int Order { get { return 100000; } }
-        public override bool Recommended { get { return true; } }
+        public override string Name => "Layer 0 + ByLayer";
+        public override int Order => 100000;
+        public override bool Recommended => true;
+        public override string HelpText => "Geçerli layer 0 ve geçerli layer ayarlarını BYLAYER olarak ayarlar.";
 
         public override void Run(string filename, Database db)
         {

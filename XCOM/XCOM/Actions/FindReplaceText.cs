@@ -19,9 +19,10 @@ namespace XCOM.Commands.XCommand
             }
         }
 
-        public override string Name { get { return "Find & Replace Text"; } }
-        public override int Order { get { return 150000; } }
-        public override ActionInterface Interface { get { return ActionInterface.Dialog; } }
+        public override string Name => "Find & Replace Text"; 
+        public override int Order => 150000; 
+        public override ActionInterface Interface => ActionInterface.Dialog;
+        public override string HelpText => "Text ve block attribute gibi metin içerikli çizim nesnelerinde verilen metni arar ve başka bir metinle değiştirir.";
 
         protected List<FindReplaceOptions> options = new List<FindReplaceOptions>();
 

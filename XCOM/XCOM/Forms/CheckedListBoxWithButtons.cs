@@ -6,6 +6,12 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.XCommand
 {
+    public enum ButtonAlignment
+    {
+        Left,
+        Right
+    }
+
     public class CheckedListBoxWithButtons : CheckedListBox
     {
         public delegate void ButtonClickEventHandler(object sender, ButtonClickEventArgs e);
@@ -13,10 +19,22 @@ namespace XCOM.Commands.XCommand
         [Category("Behavior"), Browsable(true)]
         public event ButtonClickEventHandler ButtonClick;
 
-        Dictionary<object, bool> buttons = new Dictionary<object, bool>();
+        Dictionary<int, List<string>> buttonMap = new Dictionary<int, List<string>>();
         private bool mouseDown = false;
-        private int hoverButton = -1;
+        private int hoverItemIndex = -1;
+        private int hoverButtonIndex = -1;
         private int buttonWidth = 20;
+        private int buttonMargin = 1;
+        private int dotSize = 4;
+        private int buttonCols = 0;
+
+        private ButtonAlignment buttonAlignment = ButtonAlignment.Left;
+        [Category("Appearance"), Browsable(true), DefaultValue(typeof(ButtonAlignment), "Left")]
+        public ButtonAlignment ButtonAlignment
+        {
+            get { return buttonAlignment; }
+            set { buttonAlignment = value; Invalidate(); }
+        }
 
         public CheckedListBoxWithButtons()
         {
@@ -24,17 +42,41 @@ namespace XCOM.Commands.XCommand
             this.DrawMode = DrawMode.OwnerDrawFixed;
         }
 
-        public void ShowButton(object item)
+        public void AddButton(int index)
         {
-            if (buttons.ContainsKey(item))
-                buttons[item] = true;
-            else
-                buttons.Add(item, true);
+            AddButton(index, "");
         }
 
-        public void HideButton(object item)
+        public void AddButton(int index, string text)
         {
-            buttons.Remove(item);
+            if (!buttonMap.ContainsKey(index))
+                buttonMap.Add(index, new List<string>());
+
+            buttonMap[index].Add(text);
+
+            buttonCols = Math.Max(buttonCols, buttonMap[index].Count);
+        }
+
+        public void RemoveButton(int index, int buttonIndex)
+        {
+            buttonMap[index].RemoveAt(buttonIndex);
+
+            buttonCols = 0;
+            foreach (var buttons in buttonMap.Values)
+            {
+                buttonCols = Math.Max(buttonCols, buttons.Count);
+            }
+        }
+
+        public void RemoveButtons(int index)
+        {
+            buttonMap.Remove(index);
+
+            buttonCols = 0;
+            foreach (var buttons in buttonMap.Values)
+            {
+                buttonCols = Math.Max(buttonCols, buttons.Count);
+            }
         }
 
         protected override void OnDrawItem(DrawItemEventArgs e)
@@ -43,60 +85,78 @@ namespace XCOM.Commands.XCommand
 
             if (Items.Count == 0) return;
 
-            if (buttons.ContainsKey(Items[e.Index]))
+            if (buttonMap.TryGetValue(e.Index, out var buttons))
             {
-                Rectangle bounds = new Rectangle(e.Bounds.Right - buttonWidth, e.Bounds.Top, buttonWidth, e.Bounds.Height);
-                System.Windows.Forms.VisualStyles.PushButtonState state = System.Windows.Forms.VisualStyles.PushButtonState.Normal;
-                if (hoverButton == e.Index)
+                for (int i = 0; i < buttons.Count; i++)
                 {
-                    if (mouseDown)
-                        state = System.Windows.Forms.VisualStyles.PushButtonState.Pressed;
+                    Rectangle bounds = GetButtonBounds(e.Index, i);
+                    System.Windows.Forms.VisualStyles.PushButtonState state = System.Windows.Forms.VisualStyles.PushButtonState.Normal;
+                    if (hoverItemIndex == e.Index && hoverButtonIndex == i)
+                    {
+                        if (mouseDown)
+                            state = System.Windows.Forms.VisualStyles.PushButtonState.Pressed;
+                        else
+                            state = System.Windows.Forms.VisualStyles.PushButtonState.Hot;
+                    }
+                    ButtonRenderer.DrawButton(e.Graphics, bounds, state);
+                    if (string.IsNullOrEmpty(buttons[i]))
+                        e.Graphics.FillEllipse(SystemBrushes.WindowText, bounds.Left + (bounds.Width - dotSize) / 2, bounds.Top + (bounds.Height - dotSize) / 2, dotSize, dotSize);
                     else
-                        state = System.Windows.Forms.VisualStyles.PushButtonState.Hot;
+                        TextRenderer.DrawText(e.Graphics, buttons[i], Font, bounds, SystemColors.WindowText, TextFormatFlags.NoPadding | TextFormatFlags.HorizontalCenter | TextFormatFlags.VerticalCenter);
                 }
-                ButtonRenderer.DrawButton(e.Graphics, bounds, state);
-                int dotSize = 4;
-                Rectangle dot = new Rectangle(bounds.Left + (bounds.Width - dotSize) / 2, bounds.Top + (bounds.Height - dotSize) / 2, dotSize, dotSize);
-                e.Graphics.FillEllipse(SystemBrushes.WindowText, dot);
             }
         }
 
-        private Rectangle GetButtonBounds(int index)
+        private Rectangle GetButtonBounds(int itemIndex, int buttonIndex)
         {
-            Rectangle bounds = this.GetItemRectangle(index);
-            return new Rectangle(bounds.Right - buttonWidth, bounds.Top, buttonWidth, bounds.Height);
+            Rectangle bounds = this.GetItemRectangle(itemIndex);
+            int buttonLeft = 0;
+            if (ButtonAlignment == ButtonAlignment.Left)
+            {
+                buttonLeft = bounds.Right - buttonWidth * (buttonCols - buttonIndex) - buttonMargin * (buttonCols - buttonIndex - 1);
+            }
+            else
+            {
+                var buttons = buttonMap[itemIndex];
+                buttonLeft = bounds.Right - buttonWidth * (buttons.Count - buttonIndex) - buttonMargin * (buttons.Count - buttonIndex - 1);
+            }
+            return new Rectangle(buttonLeft, bounds.Top, buttonWidth, bounds.Height);
         }
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
             base.OnMouseMove(e);
 
-            int oldHoverButton = hoverButton;
-            hoverButton = -1;
-            int i = 0;
-            foreach (object item in Items)
+            int oldHoverItemIndex = hoverItemIndex;
+            int oldHoverButtonIndex = hoverButtonIndex;
+            hoverItemIndex = IndexFromPoint(e.Location);
+            hoverButtonIndex = -1;
+            if (hoverItemIndex != -1 && buttonMap.TryGetValue(hoverItemIndex, out var buttons))
             {
-                if (buttons.ContainsKey(item))
+                if (buttons.Count != 0)
                 {
-                    Rectangle bounds = GetButtonBounds(i);
-                    if (bounds.Contains(e.Location))
+                    for (int i = 0; i < buttons.Count; i++)
                     {
-                        hoverButton = i;
-                        Invalidate();
-                        break;
+                        Rectangle bounds = GetButtonBounds(hoverItemIndex, i);
+
+                        if (bounds.Contains(e.Location))
+                        {
+                            hoverButtonIndex = i;
+                            break;
+                        }
                     }
                 }
-                i++;
             }
 
-            if (hoverButton != oldHoverButton) Invalidate();
+            if (hoverItemIndex != oldHoverItemIndex || hoverButtonIndex != oldHoverButtonIndex)
+                Invalidate();
         }
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
 
-            if (hoverButton != -1 && (e.Button & System.Windows.Forms.MouseButtons.Left) != System.Windows.Forms.MouseButtons.None)
+            if (hoverItemIndex != -1 && hoverButtonIndex != -1 && (e.Button & MouseButtons.Left) != MouseButtons.None)
             {
                 mouseDown = true;
                 Invalidate();
@@ -107,14 +167,14 @@ namespace XCOM.Commands.XCommand
         {
             base.OnMouseUp(e);
 
-            if ((e.Button & System.Windows.Forms.MouseButtons.Left) != System.Windows.Forms.MouseButtons.None)
+            if ((e.Button & MouseButtons.Left) != MouseButtons.None)
             {
                 mouseDown = false;
                 Invalidate();
 
-                if (hoverButton != -1)
+                if (hoverItemIndex != -1 && hoverButtonIndex != -1)
                 {
-                    OnButtonClick(new ButtonClickEventArgs(hoverButton));
+                    OnButtonClick(new ButtonClickEventArgs(hoverItemIndex, hoverButtonIndex, buttonMap[hoverItemIndex][hoverButtonIndex]));
                 }
             }
         }
@@ -126,7 +186,7 @@ namespace XCOM.Commands.XCommand
 
         protected override void OnItemCheck(ItemCheckEventArgs e)
         {
-            if (hoverButton != -1)
+            if (hoverButtonIndex != -1)
                 e.NewValue = e.CurrentValue;
             else
                 base.OnItemCheck(e);
@@ -140,7 +200,7 @@ namespace XCOM.Commands.XCommand
             {
                 for (int i = 0; i < this.Items.Count; i++)
                 {
-                    System.Drawing.Rectangle irect = this.GetItemRectangle(i);
+                    Rectangle irect = this.GetItemRectangle(i);
                     if (e.ClipRectangle.IntersectsWith(irect))
                     {
                         if ((this.SelectionMode == SelectionMode.One && this.SelectedIndex == i)
@@ -168,11 +228,15 @@ namespace XCOM.Commands.XCommand
 
         public class ButtonClickEventArgs : EventArgs
         {
-            public int Index { get; private set; }
+            public int ItemIndex { get; private set; }
+            public int ButtonIndex { get; private set; }
+            public string ButtonText { get; private set; }
 
-            public ButtonClickEventArgs(int index)
+            public ButtonClickEventArgs(int itemIndex, int buttonIndex, string buttonText)
             {
-                Index = index;
+                ItemIndex = itemIndex;
+                ButtonIndex = buttonIndex;
+                ButtonText = buttonText;
             }
         }
     }

@@ -5,8 +5,9 @@ namespace XCOM.Commands.XCommand
 {
     public class ZoomExtents : XCOMActionBase
     {
-        public override string Name { get { return "Zoom Extents"; } }
-        public override int Order { get { return 200000; } }
+        public override string Name => "Zoom Extents"; 
+        public override int Order => 200000;
+        public override string HelpText => "Zoom Extents komutunu uygular.";
 
         public override void Run(string filename, Database db)
         {

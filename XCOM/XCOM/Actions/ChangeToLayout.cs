@@ -5,8 +5,9 @@ namespace XCOM.Commands.XCommand
 {
     public class ChangeToLayout : XCOMActionBase
     {
-        public override string Name { get { return "Layout'a Geç"; } }
-        public override int Order { get { return 150000; } }
+        public override string Name => "Layout'a Geç";
+        public override int Order => 150000;
+        public override string HelpText => "Layout'a geçer.";
 
         public override void Run(string filename, Database db)
         {

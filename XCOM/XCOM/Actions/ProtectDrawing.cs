@@ -4,8 +4,10 @@ namespace XCOM.Commands.XCommand
 {
     public class ProtectDrawing : XCOMActionBase
     {
-        public override string Name { get { return "Dosya Koruması"; } }
-        public override int Order { get { return 300000; } }
+        public override string Name => "Dosya Koruması";
+        public override int Order => 300000;
+        public override string HelpText => "Tüm çizimi patlatılamaz bir block haline getirir. Bu işlemden sonra çizim dosyasının içeriğine herhangi bir şekilde müdahele edilemez. " +
+            "BU KOMUT ÇALIŞTIRILMADAN ÖNCE ÇİZİM DOSYASI YEDEKLENMELİDİR AKSİ TAKTİRDE ÇİZİM DOSYASI KİLİTLİ KALACAKTIR VE DEĞİŞTİRİLMESİ MÜMKÜN OLMAYACAKTIR.";
 
         public override void Run(string filename, Database db)
         {

@@ -7,8 +7,9 @@ namespace XCOM.Commands.XCommand
 {
     public class DeleteLayerFilters : XCOMActionBase
     {
-        public override string Name { get { return "Layer Filtrelerini Sil"; } }
-        public override int Order { get { return 100; } }
+        public override string Name => "Layer Filtrelerini Sil";
+        public override int Order => 100;
+        public override string HelpText => "Tüm layer filtrelerini siler.";
 
         public override void Run(string filename, Database db)
         {

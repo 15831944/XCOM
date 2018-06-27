@@ -39,6 +39,7 @@ namespace XCOM.Commands.XCommand
         bool Recommended { get; }
         ActionInterface Interface { get; }
         bool ShowDialog();
+        string HelpText { get; }
 
         void Run(string filename, Database db);
 
@@ -50,14 +51,12 @@ namespace XCOM.Commands.XCommand
     {
         public abstract string Name { get; }
         public abstract int Order { get; }
-        public virtual bool Recommended { get { return false; } }
-        public virtual ActionInterface Interface { get { return ActionInterface.Command; } }
+        public virtual bool Recommended => false;
+        public virtual ActionInterface Interface => ActionInterface.Command;
         public virtual bool ShowDialog() { return true; }
+        public virtual string HelpText => "";
 
-        public override string ToString()
-        {
-            return Name;
-        }
+        public override string ToString() { return Name; }
 
         public virtual void Run(string filename, Database db) { throw new NotImplementedException(); }
 

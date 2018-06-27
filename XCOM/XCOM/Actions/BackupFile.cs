@@ -5,8 +5,9 @@ namespace XCOM.Commands.XCommand
 {
     public class BackupFile : XCOMActionBase
     {
-        public override string Name { get { return "Dosyayı Yedekle"; } }
-        public override int Order { get { return 1; } }
+        public override string Name => "Dosyayı Yedekle";
+        public override int Order => 1;
+        public override string HelpText => "Dosyayı işlemeden önce kendi klasörü içinde '" + backupFolder + "' alt klasörüne yedekler.";
 
         protected string backupFolder = "_backup";
 

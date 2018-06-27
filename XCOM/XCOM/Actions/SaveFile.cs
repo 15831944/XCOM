@@ -6,10 +6,11 @@ namespace XCOM.Commands.XCommand
 {
     public class SaveFile : XCOMActionBase
     {
-        public override string Name { get { return "Dosyayı Kaydet"; } }
-        public override int Order { get { return int.MaxValue; } }
-        public override bool Recommended { get { return true; } }
-        public override ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name => "Dosyayı Kaydet";
+        public override int Order => int.MaxValue;
+        public override bool Recommended => true;
+        public override ActionInterface Interface => ActionInterface.Both;
+        public override string HelpText => "Listedeki komutları çalıştırdıktan sonra dosyayı kaydeder.";
 
         protected bool keepCurrentVersion = true;
         protected DwgVersion version = DwgVersion.Current;
@@ -23,7 +24,7 @@ namespace XCOM.Commands.XCommand
             {
                 db.SaveAs(tempFilename, (keepCurrentVersion ? db.OriginalFileVersion : version));
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 OnError(ex);
                 File.Delete(tempFilename);
@@ -37,7 +38,7 @@ namespace XCOM.Commands.XCommand
                 File.Copy(tempFilename, saveFilename, true);
                 File.Delete(tempFilename);
             }
-            catch (System.Exception ex)
+            catch (Exception ex)
             {
                 OnError(ex);
                 File.Delete(tempFilename);

@@ -7,9 +7,10 @@ namespace XCOM.Commands.XCommand
 {
     public class DeleteBlocks : XCOMActionBase
     {
-        public override string Name { get { return "Blok Sil"; } }
-        public override int Order { get { return 200; } }
-        public override ActionInterface Interface { get { return ActionInterface.Dialog; } }
+        public override string Name => "Blok Sil"; 
+        public override int Order => 200; 
+        public override ActionInterface Interface => ActionInterface.Dialog;
+        public override string HelpText => "İsimleri verilen blokları çizimden siler.";
 
         protected List<string> blockNames = new List<string>();
 

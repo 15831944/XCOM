@@ -139,7 +139,7 @@
     <value>0, 0</value>
   </data>
   <data name="lvSourceFiles.Size" type="System.Drawing.Size, System.Drawing">
-    <value>589, 390</value>
+    <value>550, 390</value>
   </data>
   <data name="lvSourceFiles.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -166,7 +166,7 @@
     <value>NoControl</value>
   </data>
   <data name="cmdClearFiles.Location" type="System.Drawing.Point, System.Drawing">
-    <value>595, 159</value>
+    <value>556, 159</value>
   </data>
   <data name="cmdClearFiles.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 47</value>
@@ -199,7 +199,7 @@
     <value>NoControl</value>
   </data>
   <data name="cmdRemoveFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>595, 106</value>
+    <value>556, 106</value>
   </data>
   <data name="cmdRemoveFile.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 47</value>
@@ -232,7 +232,7 @@
     <value>NoControl</value>
   </data>
   <data name="cmdAddFolder.Location" type="System.Drawing.Point, System.Drawing">
-    <value>595, 53</value>
+    <value>556, 53</value>
   </data>
   <data name="cmdAddFolder.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 47</value>
@@ -265,7 +265,7 @@
     <value>NoControl</value>
   </data>
   <data name="cmdAddFile.Location" type="System.Drawing.Point, System.Drawing">
-    <value>595, 0</value>
+    <value>556, 0</value>
   </data>
   <data name="cmdAddFile.Size" type="System.Drawing.Size, System.Drawing">
     <value>89, 47</value>
@@ -295,7 +295,7 @@
     <value>12, 12</value>
   </data>
   <data name="gbSource.Size" type="System.Drawing.Size, System.Drawing">
-    <value>684, 393</value>
+    <value>645, 393</value>
   </data>
   <data name="gbSource.TabIndex" type="System.Int32, mscorlib">
     <value>0</value>
@@ -385,10 +385,10 @@
     <value>False</value>
   </data>
   <data name="lbActions.Location" type="System.Drawing.Point, System.Drawing">
-    <value>714, 12</value>
+    <value>663, 12</value>
   </data>
   <data name="lbActions.Size" type="System.Drawing.Size, System.Drawing">
-    <value>176, 390</value>
+    <value>227, 390</value>
   </data>
   <data name="lbActions.TabIndex" type="System.Int32, mscorlib">
     <value>1</value>
@@ -397,7 +397,7 @@
     <value>lbActions</value>
   </data>
   <data name="&gt;&gt;lbActions.Type" xml:space="preserve">
-    <value>XCOM.Commands.XCommand.CheckedListBoxWithButtons, XCOM, Version=1.23.6534.21984, Culture=neutral, PublicKeyToken=null</value>
+    <value>XCOM.Commands.XCommand.CheckedListBoxWithButtons, XCOM, Version=1.25.6752.22094, Culture=neutral, PublicKeyToken=null</value>
   </data>
   <data name="&gt;&gt;lbActions.Parent" xml:space="preserve">
     <value>$this</value>
@@ -454,6 +454,6 @@
     <value>MainForm</value>
   </data>
   <data name="&gt;&gt;$this.Type" xml:space="preserve">
-    <value>XCOM.Utility.VersionDisplayForm, XCOM, Version=1.23.6534.21984, Culture=neutral, PublicKeyToken=null</value>
+    <value>XCOM.Utility.VersionDisplayForm, XCOM, Version=1.25.6752.22094, Culture=neutral, PublicKeyToken=null</value>
   </data>
 </root>

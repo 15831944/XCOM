@@ -5,9 +5,10 @@ namespace XCOM.Commands.XCommand
 {
     public class BindXREFs : XCOMActionBase
     {
-        public override string Name { get { return "Bind XREFs"; } }
-        public override int Order { get { return 50; } }
-        public override ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name => "Bind XREFs";
+        public override int Order => 50;
+        public override ActionInterface Interface => ActionInterface.Both;
+        public override string HelpText => "XREF dosyalarını işlenen dosyaya 'insert' veya 'bind' eder.";
 
         private bool resolveXREFs = true;
         private bool insertMode = false;
@@ -77,7 +78,7 @@ namespace XCOM.Commands.XCommand
                         }
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     OnError(ex);
                 }

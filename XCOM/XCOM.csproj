@@ -276,6 +276,12 @@
     <Compile Include="XCOM\Actions\PurgeDGNLS.cs" />
     <Compile Include="XCOM\Deploy.cs" />
     <Compile Include="XCOM\Actions\IXCOMAction.cs" />
+    <Compile Include="XCOM\Forms\HelpForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="XCOM\Forms\HelpForm.Designer.cs">
+      <DependentUpon>HelpForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="XCOM\Forms\MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -372,6 +378,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="XCOM\ActionForms\SaveFileForm.resx">
       <DependentUpon>SaveFileForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="XCOM\Forms\HelpForm.resx">
+      <DependentUpon>HelpForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XCOM\Forms\MainForm.resx">
       <DependentUpon>MainForm.cs</DependentUpon>

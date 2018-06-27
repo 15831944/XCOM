@@ -4,9 +4,10 @@ namespace XCOM.Commands.XCommand
 {
     public class HideGrids : XCOMActionBase
     {
-        public override string Name { get { return "Grid'leri Gizle"; } }
-        public override int Order { get { return 152000; } }
-        public override bool Recommended { get { return true; } }
+        public override string Name => "Grid'leri Gizle";
+        public override int Order => 152000;
+        public override bool Recommended => true;
+        public override string HelpText => "Grid çizgilerini gizler.";
 
         public override void Run(string filename, Database db)
         {

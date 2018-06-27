@@ -19,9 +19,10 @@ namespace XCOM.Commands.XCommand
             }
         }
 
-        public override string Name { get { return "Rename XREFs"; } }
-        public override int Order { get { return 52; } }
-        public override ActionInterface Interface { get { return ActionInterface.Dialog; } }
+        public override string Name => "Rename XREFs"; 
+        public override int Order => 52; 
+        public override ActionInterface Interface => ActionInterface.Dialog;
+        public override string HelpText => "XREF dosya isimlerinde verilen metni arar ve başka bir metinle değiştirir.";
 
         protected List<FindReplaceOptions> options = new List<FindReplaceOptions>();
         protected bool renamePaths = true;
@@ -108,7 +109,7 @@ namespace XCOM.Commands.XCommand
                         }
                     }
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     OnError(ex);
                 }

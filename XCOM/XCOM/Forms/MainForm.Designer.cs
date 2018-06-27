@@ -131,6 +131,7 @@
             // lbActions
             // 
             resources.ApplyResources(this.lbActions, "lbActions");
+            this.lbActions.ButtonAlignment = XCOM.Commands.XCommand.ButtonAlignment.Right;
             this.lbActions.CheckOnClick = true;
             this.lbActions.FormattingEnabled = true;
             this.lbActions.Name = "lbActions";

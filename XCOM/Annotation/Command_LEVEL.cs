@@ -231,6 +231,7 @@ namespace XCOM.Commands.Annotation
 
                         blockNames.Add(block.Name);
                     }
+                    tr.Commit();
                 }
 
                 if (blockNames.Count == 0)
@@ -305,9 +306,6 @@ namespace XCOM.Commands.Annotation
 
             protected override SamplerStatus Sampler(JigPrompts prompts)
             {
-                Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
-                Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
                 Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
                 JigPromptPointOptions textOpts = new JigPromptPointOptions("\nYazı yeri: ");

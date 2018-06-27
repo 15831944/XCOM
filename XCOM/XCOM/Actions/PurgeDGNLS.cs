@@ -7,9 +7,11 @@ namespace XCOM.Commands.XCommand
 {
     public class PurgeDGNLS : XCOMActionBase
     {
-        public override string Name { get { return "DGN Nesnelerini Sil"; } }
-        public override int Order { get { return 1000; } }
-        public override bool Recommended { get { return true; } }
+        public override string Name => "DGN Nesnelerini Sil";
+        public override int Order => 1000;
+        public override bool Recommended => true;
+        public override string HelpText => "Çizimdeki MicroStation kaynaklı DGN nesnelerini siler. AutoCAD'in 2018 öncesi sürümlerinde DGN nesneleri " + "" +
+            "çizimde kullanılmıyor olsa bile PURGE komutu ile kaldırılamıyordu, bu komut bu eksikliği gidermektedir.";
 
         const string dgnLsDefName = "DGNLSDEF";
         const string dgnLsDictName = "ACAD_DGNLINESTYLECOMP";
@@ -426,7 +428,7 @@ namespace XCOM.Commands.XCommand
                 SoftPointerIds.Add(value);
             }
 
-            public void reset()
+            public void Reset()
             {
                 HardPointerIds.Clear();
                 SoftPointerIds.Clear();

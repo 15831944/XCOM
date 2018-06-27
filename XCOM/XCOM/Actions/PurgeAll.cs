@@ -7,10 +7,11 @@ namespace XCOM.Commands.XCommand
 {
     public class PurgeAll : XCOMActionBase
     {
-        public override string Name { get { return "Purge All"; } }
-        public override int Order { get { return 10000; } }
-        public override bool Recommended { get { return true; } }
-        public override ActionInterface Interface { get { return ActionInterface.Both; } }
+        public override string Name => "Purge All";
+        public override int Order => 10000;
+        public override bool Recommended => true;
+        public override ActionInterface Interface => ActionInterface.Both;
+        public override string HelpText => "Kullanılmayan tüm çizim ve veri tabanı nesnelerini kaldırır.";
 
         private bool purgeBlocks = true;
         private bool purgeDimensionStyles = true;

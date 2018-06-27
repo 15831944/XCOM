@@ -28,9 +28,15 @@ namespace XCOM.Commands.XCommand
             {
                 bool canRunWithoutDialog = ((action.Interface & ActionInterface.Command) != ActionInterface.None);
                 lbActions.Items.Add(action, action.Recommended && canRunWithoutDialog);
+                // Dialog button
                 if ((action.Interface & ActionInterface.Dialog) != ActionInterface.None)
                 {
-                    lbActions.ShowButton(action);
+                    lbActions.AddButton(lbActions.Items.Count - 1);
+                }
+                // Help button
+                if (!string.IsNullOrEmpty(action.HelpText))
+                {
+                    lbActions.AddButton(lbActions.Items.Count - 1, "?");
                 }
             }
         }
@@ -76,20 +82,20 @@ namespace XCOM.Commands.XCommand
             }
             else
             {
-                DialogResult = System.Windows.Forms.DialogResult.OK;
+                DialogResult = DialogResult.OK;
                 Close();
             }
         }
 
         private void cmdClose_Click(object sender, EventArgs e)
         {
-            DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            DialogResult = DialogResult.Cancel;
             Close();
         }
 
         private void cmdAddFile_Click(object sender, EventArgs e)
         {
-            if (browseDWG.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (browseDWG.ShowDialog() == DialogResult.OK)
             {
                 AddFile(browseDWG.FileNames);
             }
@@ -132,29 +138,33 @@ namespace XCOM.Commands.XCommand
 
         void lbActions_ButtonClick(object sender, CheckedListBoxWithButtons.ButtonClickEventArgs e)
         {
-            IXCOMAction action = (IXCOMAction)lbActions.Items[e.Index];
-            if ((action.Interface & ActionInterface.Dialog) != ActionInterface.None)
+            IXCOMAction action = (IXCOMAction)lbActions.Items[e.ItemIndex];
+            if (string.IsNullOrEmpty(e.ButtonText) && (action.Interface & ActionInterface.Dialog) != ActionInterface.None)
             {
                 action.ShowDialog();
+            }
+            else if (e.ButtonText == "?" && !string.IsNullOrEmpty(action.HelpText))
+            {
+                HelpForm.ShowDialog(action.Name, action.HelpText);
             }
         }
 
         private void lvSourceFiles_DragEnter(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
+            if (e.Data.GetDataPresent(DataFormats.FileDrop)) e.Effect = DragDropEffects.Move;
         }
 
         private void lvSourceFiles_DragDrop(object sender, DragEventArgs e)
         {
-            if (e.Data.GetDataPresent(System.Windows.Forms.DataFormats.FileDrop))
+            if (e.Data.GetDataPresent(DataFormats.FileDrop))
             {
-                AddFile((string[])e.Data.GetData(System.Windows.Forms.DataFormats.FileDrop));
+                AddFile((string[])e.Data.GetData(DataFormats.FileDrop));
             }
         }
 
         private void cmdAddFolder_Click(object sender, EventArgs e)
         {
-            if (browseFolder.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            if (browseFolder.ShowDialog() == DialogResult.OK)
             {
                 AddFile(Directory.GetFiles(browseFolder.SelectedPath, "*.dwg", SearchOption.TopDirectoryOnly));
             }

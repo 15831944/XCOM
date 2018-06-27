@@ -4,9 +4,10 @@ namespace XCOM.Commands.XCommand
 {
     public class LockAllViewports : XCOMActionBase
     {
-        public override string Name { get { return "Viewport'ları Kilitle"; } }
-        public override int Order { get { return 151000; } }
-        public override bool Recommended { get { return true; } }
+        public override string Name => "Viewport'ları Kilitle";
+        public override int Order => 151000;
+        public override bool Recommended => true;
+        public override string HelpText => "Tüm layout'lardaki viewport'ları kilitler.";
 
         public override void Run(string filename, Database db)
         {

@@ -1,12 +1,15 @@
 ﻿using Autodesk.AutoCAD.DatabaseServices;
+using System;
 
 namespace XCOM.Commands.XCommand
 {
     public class SetDWGVariables : XCOMActionBase
     {
-        public override string Name { get { return "Set DWG Variables"; } }
-        public override int Order { get { return 152000; } }
-        public override bool Recommended { get { return true; } }
+        public override string Name => "Set DWG Variables";
+        public override int Order => 152000;
+        public override bool Recommended => true;
+        public override string HelpText => "Aşağıdaki listedeki DWG değişkenlerini sıkça kullanılan değerleri ile değiştirir." + Environment.NewLine +
+            "    REGENMODE: 1 (Zoom ve Pan yaparken gerektiğinde otomatik olarak REGEN yapılmasını sağlar.)";
 
         public override void Run(string filename, Database db)
         {
@@ -16,7 +19,7 @@ namespace XCOM.Commands.XCommand
                 {
                     db.Regenmode = true;
                 }
-                catch (System.Exception ex)
+                catch (Exception ex)
                 {
                     OnError(ex);
                 }

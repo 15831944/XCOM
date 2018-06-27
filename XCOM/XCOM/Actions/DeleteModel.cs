@@ -4,8 +4,10 @@ namespace XCOM.Commands.XCommand
 {
     public class DeleteModel : XCOMActionBase
     {
-        public override string Name { get { return "Delete Model Space"; } }
-        public override int Order { get { return 300; } }
+        public override string Name => "Delete Model Space";
+        public override int Order => 300;
+        public override string HelpText => "Model'deki tüm çizim nesnelerini siler. Bu işlemden sonra çizimde sadece layout nesneleri kalacaktır. " +
+            "BU İŞLEM ÇİZİMDEKİ MODEL NESNELERİNİN TÜMÜNÜ SİLECEKTİR.";
 
         public override void Run(string filename, Database db)
         {
