@@ -29,7 +29,7 @@ namespace XCOM.Commands.RoadDesign
                 using (Transaction tr = db.TransactionManager.StartTransaction())
                 using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                 {
-                    Autodesk.AutoCAD.DatabaseServices.Curve curve = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Curve;
+                    Curve curve = tr.GetObject(entityRes.ObjectId, OpenMode.ForRead) as Curve;
 
                     Topography topo = Topography.Instance;
                     Point3dCollection points = topo.DrapeCurve(curve, surface);

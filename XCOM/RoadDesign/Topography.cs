@@ -169,12 +169,17 @@ namespace XCOM.Commands.RoadDesign
             double distStep = len / ((double)nmax);
 
             // Intersects slope vectors with surface triangles
+            Extents3d ex = curve.GeometricExtents;
             Vector3d dir = new Vector3d(0, 0, -1);
             foreach (TriangleNet.Data.Triangle tri in ((surface == SurfaceType.Original) ? originalSurface : proposedSurface).Triangles)
             {
                 TriangleNet.Data.Vertex v1 = tri.GetVertex(0);
                 TriangleNet.Data.Vertex v2 = tri.GetVertex(1);
                 TriangleNet.Data.Vertex v3 = tri.GetVertex(2);
+                if (v1.X < ex.MinPoint.X && v2.X < ex.MinPoint.X && v3.X < ex.MinPoint.X) continue;
+                if (v1.X > ex.MaxPoint.X && v2.X > ex.MaxPoint.X && v3.X > ex.MaxPoint.X) continue;
+                if (v1.Y < ex.MinPoint.Y && v2.Y < ex.MinPoint.Y && v3.Y < ex.MinPoint.Y) continue;
+                if (v1.Y > ex.MaxPoint.Y && v2.Y > ex.MaxPoint.Y && v3.Y > ex.MaxPoint.Y) continue;
                 Point3d p1 = new Point3d(v1.X, v1.Y, v1.Attributes[0]);
                 Point3d p2 = new Point3d(v2.X, v2.Y, v2.Attributes[0]);
                 Point3d p3 = new Point3d(v3.X, v3.Y, v3.Attributes[0]);
@@ -187,10 +192,7 @@ namespace XCOM.Commands.RoadDesign
                     if (param > ep) param = ep;
                     Point3d pt = curve.GetPointAtParameter(param);
 
-                    double t = 0;
-                    Point3d ptOut = Point3d.Origin;
-
-                    if (RayTriangleIntersection(pt, dir, p1, p2, p3, out t, out ptOut))
+                    if (RayTriangleIntersection(pt, dir, p1, p2, p3, out _, out Point3d ptOut))
                     {
                         results[dist] = ptOut;
                     }
@@ -278,9 +280,7 @@ namespace XCOM.Commands.RoadDesign
                 Point3d p2 = new Point3d(v2.X, v2.Y, v2.Attributes[0]);
                 Point3d p3 = new Point3d(v3.X, v3.Y, v3.Attributes[0]);
 
-                Point3d ptOut1 = Point3d.Origin;
-                Point3d ptOut2 = Point3d.Origin;
-                if (PlaneTriangleIntersection(planePoint, planeNormal, p1, p2, p3, out ptOut1, out ptOut2))
+                if (PlaneTriangleIntersection(planePoint, planeNormal, p1, p2, p3, out Point3d ptOut1, out Point3d ptOut2))
                 {
                     segments.Enqueue(new Tuple<Point3d, Point3d>(ptOut1, ptOut2));
                 }
@@ -348,9 +348,7 @@ namespace XCOM.Commands.RoadDesign
         /// <param name="interval">Contour interval</param>
         public IEnumerable<Polyline> ContourMap(SurfaceType surface, double interval)
         {
-            double zmin = 0;
-            double zmax = 0;
-            ElevationLimits(surface, out zmin, out zmax);
+            ElevationLimits(surface, out double zmin, out double zmax);
             zmin = Math.Ceiling(zmin / interval);
             zmax = Math.Floor(zmax / interval);
             int count = (int)((zmax - zmin) / interval);
@@ -484,12 +482,10 @@ namespace XCOM.Commands.RoadDesign
             Vector3d edge1 = vert1 - vert0;
             Vector3d edge2 = vert2 - vert0;
             Vector3d edge3 = vert2 - vert1;
-            Point3d p1, p2, p3;
-            double t1, t2, t3;
 
-            bool int1 = RayPlaneIntersection(vert0, edge1, planeStart, planeNormal, out t1, out p1);
-            bool int2 = RayPlaneIntersection(vert0, edge2, planeStart, planeNormal, out t2, out p2);
-            bool int3 = RayPlaneIntersection(vert1, edge3, planeStart, planeNormal, out t3, out p3);
+            bool int1 = RayPlaneIntersection(vert0, edge1, planeStart, planeNormal, out double t1, out Point3d p1);
+            bool int2 = RayPlaneIntersection(vert0, edge2, planeStart, planeNormal, out double t2, out Point3d p2);
+            bool int3 = RayPlaneIntersection(vert1, edge3, planeStart, planeNormal, out double t3, out Point3d p3);
 
             // Disregard intersections outside vertices
             if (t1 < 0.0 || t1 > 1.0) int1 = false;
