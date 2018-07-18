@@ -106,7 +106,7 @@ namespace XCOM.Commands.XCommand
                 try
                 {
                     ObjectIdCollection idList = new ObjectIdCollection();
-
+                    string s = "";
                     // Symbol tables
                     foreach (ObjectId tableID in tables)
                     {
@@ -127,7 +127,7 @@ namespace XCOM.Commands.XCommand
                             }
                         }
                     }
-
+                    System.IO.File.WriteAllText("D:\\log.txt", s);
                     // Dictionary entries
                     foreach (ObjectId dictionaryID in dictionaries)
                     {
@@ -232,22 +232,20 @@ namespace XCOM.Commands.XCommand
 
         private IEnumerable<ObjectId> CollectTableIds(Transaction tr, Database db, ObjectId tableID)
         {
-            List<ObjectId> idList = new List<ObjectId>();
-
             SymbolTable table = (SymbolTable)tr.GetObject(tableID, OpenMode.ForRead);
 
             foreach (ObjectId id in table)
             {
-                idList.Add(id);
+                SymbolTableRecord rec = (SymbolTableRecord)tr.GetObject(id, OpenMode.ForRead);
+                if (!rec.IsDependent)
+                {
+                    yield return id;
+                }
             }
-
-            return idList;
         }
 
         private IEnumerable<ObjectId> CollectDictionaryIds(Transaction tr, Database db, ObjectId dictionaryID)
         {
-            List<ObjectId> idList = new List<ObjectId>();
-
             bool isMaterialDictionary = (dictionaryID == db.MaterialDictionaryId);
             bool isVisualStyleDictionary = (dictionaryID == db.VisualStyleDictionaryId);
 
@@ -260,10 +258,8 @@ namespace XCOM.Commands.XCommand
                 else if (isVisualStyleDictionary && visualStylesToKeep.ContainsKey(entry.Key.ToUpperInvariant()))
                     continue;
                 else
-                    idList.Add(entry.Value);
+                    yield return entry.Value;
             }
-
-            return idList;
         }
 
         public override bool ShowDialog()
