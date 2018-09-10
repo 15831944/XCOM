@@ -1,4 +1,4 @@
-﻿namespace XCOM.Commands.RoadDesign
+﻿namespace XCOM.Commands.Topography
 {
     partial class TrenchExcavationForm
     {

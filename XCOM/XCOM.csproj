@@ -134,6 +134,13 @@
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Command_NUMARALANDIR.cs" />
+    <Compile Include="Block\Command_RENAMEBLOCK.cs" />
+    <Compile Include="Block\Forms\RenameBlockForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Block\Forms\RenameBlockForm.designer.cs">
+      <DependentUpon>RenameBlockForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CheckLicense.cs" />
     <Compile Include="Civil\Command_DrawCulvertDetails.cs" />
     <Compile Include="Civil\Forms\DrawSingleCellCulvertForm.cs">
@@ -151,47 +158,47 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Command_HENDEKKAZISI.cs" />
-    <Compile Include="RoadDesign\Command_KONTUR.cs" />
-    <Compile Include="RoadDesign\Command_DRAPE.cs" />
-    <Compile Include="RoadDesign\Command_PROFILEONCURVE.cs" />
-    <Compile Include="RoadDesign\Command_YUZEYCIZ.cs" />
-    <Compile Include="RoadDesign\Command_YUZEYOLUSTUR.cs" />
-    <Compile Include="RoadDesign\Command_SEVTARAMA.cs" />
-    <Compile Include="RoadDesign\Command_PROFILMENFEZ.cs" />
-    <Compile Include="RoadDesign\Command_HAVUZKAZISI.cs" />
-    <Compile Include="RoadDesign\Excavation.cs" />
-    <Compile Include="RoadDesign\Forms\CreateSurfaceForm.cs">
+    <Compile Include="Topography\Command_HENDEKKAZISI.cs" />
+    <Compile Include="Topography\Command_KONTUR.cs" />
+    <Compile Include="Topography\Command_DRAPE.cs" />
+    <Compile Include="Topography\Command_PROFILEONCURVE.cs" />
+    <Compile Include="Topography\Command_YUZEYCIZ.cs" />
+    <Compile Include="Topography\Command_YUZEYOLUSTUR.cs" />
+    <Compile Include="Topography\Command_SEVTARAMA.cs" />
+    <Compile Include="Topography\Command_PROFILMENFEZ.cs" />
+    <Compile Include="Topography\Command_HAVUZKAZISI.cs" />
+    <Compile Include="Topography\Excavation.cs" />
+    <Compile Include="Topography\Forms\CreateSurfaceForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoadDesign\Forms\CreateSurfaceForm.Designer.cs">
+    <Compile Include="Topography\Forms\CreateSurfaceForm.Designer.cs">
       <DependentUpon>CreateSurfaceForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Forms\DrawCulvertForm.cs">
+    <Compile Include="Topography\Forms\DrawCulvertForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoadDesign\Forms\DrawCulvertForm.Designer.cs">
+    <Compile Include="Topography\Forms\DrawCulvertForm.Designer.cs">
       <DependentUpon>DrawCulvertForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Forms\TrenchExcavationForm.cs">
+    <Compile Include="Topography\Forms\TrenchExcavationForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoadDesign\Forms\TrenchExcavationForm.Designer.cs">
+    <Compile Include="Topography\Forms\TrenchExcavationForm.Designer.cs">
       <DependentUpon>TrenchExcavationForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Forms\ProfileSettingsForm.cs">
+    <Compile Include="Topography\Forms\ProfileSettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoadDesign\Forms\ProfileSettingsForm.Designer.cs">
+    <Compile Include="Topography\Forms\ProfileSettingsForm.Designer.cs">
       <DependentUpon>ProfileSettingsForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Forms\ExcavationSlopeForm.cs">
+    <Compile Include="Topography\Forms\ExcavationSlopeForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RoadDesign\Forms\ExcavationSlopeForm.Designer.cs">
+    <Compile Include="Topography\Forms\ExcavationSlopeForm.Designer.cs">
       <DependentUpon>ExcavationSlopeForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="RoadDesign\Topography.cs" />
+    <Compile Include="Topography\Topography.cs" />
     <Compile Include="Utility\RebarDisplayCount.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -325,25 +332,28 @@
     <EmbeddedResource Include="Annotation\Forms\SelectObjectsForm.resx">
       <DependentUpon>SelectObjectsForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Block\Forms\RenameBlockForm.resx">
+      <DependentUpon>RenameBlockForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Civil\Forms\DrawSingleCellCulvertForm.resx">
       <DependentUpon>DrawSingleCellCulvertForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Geology\Forms\DrawBoreholeDetailsForm.resx">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoadDesign\Forms\CreateSurfaceForm.resx">
+    <EmbeddedResource Include="Topography\Forms\CreateSurfaceForm.resx">
       <DependentUpon>CreateSurfaceForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoadDesign\Forms\DrawCulvertForm.resx">
+    <EmbeddedResource Include="Topography\Forms\DrawCulvertForm.resx">
       <DependentUpon>DrawCulvertForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoadDesign\Forms\TrenchExcavationForm.resx">
+    <EmbeddedResource Include="Topography\Forms\TrenchExcavationForm.resx">
       <DependentUpon>TrenchExcavationForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoadDesign\Forms\ProfileSettingsForm.resx">
+    <EmbeddedResource Include="Topography\Forms\ProfileSettingsForm.resx">
       <DependentUpon>ProfileSettingsForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="RoadDesign\Forms\ExcavationSlopeForm.resx">
+    <EmbeddedResource Include="Topography\Forms\ExcavationSlopeForm.resx">
       <DependentUpon>ExcavationSlopeForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Utility\RebarDisplayCount.resx">
@@ -461,7 +471,18 @@
       <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\asterisk_yellow.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\collapse_form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\expand_form.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\tick.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

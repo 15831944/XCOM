@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public abstract class Excavation
     {
@@ -27,7 +27,7 @@ namespace XCOM.Commands.RoadDesign
         public Excavation(TriangleNet.Mesh surfaceMesh, Curve excavationBottom, double excavationStepSize = 1)
         {
             ExcavationBottom = excavationBottom;
-            OutputSections = new List<RoadDesign.ExcavationSection>();
+            OutputSections = new List<ExcavationSection>();
             ExcavationStepSize = excavationStepSize;
 
             Mesh = surfaceMesh;

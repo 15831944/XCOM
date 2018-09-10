@@ -6,7 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public class Command_YUZEYOLUSTUR
     {

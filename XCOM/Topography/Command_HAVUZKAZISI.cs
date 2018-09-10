@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public class Command_HAVUZKAZISI
     {

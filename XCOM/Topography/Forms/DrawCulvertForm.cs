@@ -6,7 +6,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public partial class DrawCulvertForm : XCOM.Utility.VersionDisplayForm
     {

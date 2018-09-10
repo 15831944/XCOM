@@ -94,6 +94,7 @@
     <Image Include="Resources\Add.ico" />
     <Image Include="Resources\BALONSIL.ico" />
     <Image Include="Resources\BALONSIL_32.ico" />
+    <Image Include="Resources\BLOCKRENAMER.ico" />
     <Image Include="Resources\BY.ico" />
     <Image Include="Resources\COORDGRID.ico" />
     <Image Include="Resources\DRAPE.ico" />

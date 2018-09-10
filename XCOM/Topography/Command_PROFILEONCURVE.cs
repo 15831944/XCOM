@@ -4,7 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public class Command_PROFILEONCURVE
     {

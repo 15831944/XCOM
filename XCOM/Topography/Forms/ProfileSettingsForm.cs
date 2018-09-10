@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public partial class ProfileSettingsForm : XCOM.Utility.VersionDisplayForm
     {

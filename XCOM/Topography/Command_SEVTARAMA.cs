@@ -5,7 +5,7 @@ using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Windows.Forms;
 
-namespace XCOM.Commands.RoadDesign
+namespace XCOM.Commands.Topography
 {
     public class Command_SEVTARAMA
     {
