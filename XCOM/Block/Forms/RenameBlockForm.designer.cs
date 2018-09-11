@@ -38,10 +38,10 @@
             this.lvBlocks = new System.Windows.Forms.ListView();
             this.chOldName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.chNewName = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.lvImageList = new System.Windows.Forms.ImageList(this.components);
             this.txtOldName = new System.Windows.Forms.TextBox();
             this.txtBlockName = new System.Windows.Forms.TextBox();
             this.cbShowAnon = new System.Windows.Forms.CheckBox();
-            this.lvImageList = new System.Windows.Forms.ImageList(this.components);
             this.groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).BeginInit();
             this.SuspendLayout();
@@ -137,6 +137,13 @@
             this.chNewName.Text = "Yeni Blok Adı";
             this.chNewName.Width = 150;
             // 
+            // lvImageList
+            // 
+            this.lvImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lvImageList.ImageStream")));
+            this.lvImageList.TransparentColor = System.Drawing.Color.Transparent;
+            this.lvImageList.Images.SetKeyName(0, "error");
+            this.lvImageList.Images.SetKeyName(1, "tick");
+            // 
             // txtOldName
             // 
             this.txtOldName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
@@ -167,13 +174,6 @@
             this.cbShowAnon.UseVisualStyleBackColor = true;
             this.cbShowAnon.CheckedChanged += new System.EventHandler(this.cbShowAnon_CheckedChanged);
             // 
-            // lvImageList
-            // 
-            this.lvImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("lvImageList.ImageStream")));
-            this.lvImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.lvImageList.Images.SetKeyName(0, "error");
-            this.lvImageList.Images.SetKeyName(1, "tick");
-            // 
             // RenameBlockForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -190,7 +190,7 @@
             this.Name = "RenameBlockForm";
             this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
-            this.Text = "Numaralandırma";
+            this.Text = "Blok İsimlendir";
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pbPreview)).EndInit();
