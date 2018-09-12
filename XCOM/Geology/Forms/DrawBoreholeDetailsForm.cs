@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Geology
 {
-    public partial class DrawBoreholeDetailsForm : XCOM.Utility.VersionDisplayForm
+    public partial class DrawBoreholeDetailsForm : XCOM.CustomControls.VersionDisplayForm
     {
         private bool columnDrag = false;
         private int columnDragIndex = -1;

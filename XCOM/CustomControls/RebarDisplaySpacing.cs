@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Windows.Forms.Design;
 using System.Windows.Forms.Design.Behavior;
 
-namespace XCOM.Utility
+namespace XCOM.CustomControls
 {
     [Designer(typeof(RebarDisplayDesigner))]
     public class RebarDisplaySpacing : Panel

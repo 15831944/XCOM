@@ -1,6 +1,6 @@
 ﻿using System.Windows.Forms;
 
-namespace XCOM.Utility
+namespace XCOM.CustomControls
 {
     public class LineControl : ContainerControl
     {

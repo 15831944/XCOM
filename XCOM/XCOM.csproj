@@ -149,8 +149,8 @@
     <Compile Include="Civil\Forms\DrawSingleCellCulvertForm.Designer.cs">
       <DependentUpon>DrawSingleCellCulvertForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="DrawingUtility\Command_PARABOLA.cs" />
-    <Compile Include="DrawingUtility\Command_DrawingUtility.cs" />
+    <Compile Include="Drawing\Command_PARABOLA.cs" />
+    <Compile Include="Modify\Command_Modify.cs" />
     <Compile Include="Geology\Command_DrawBoreholeDetails.cs" />
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.cs">
       <SubType>Form</SubType>
@@ -199,19 +199,19 @@
       <DependentUpon>ExcavationSlopeForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Topography\Topography.cs" />
-    <Compile Include="Utility\RebarDisplayCount.cs">
+    <Compile Include="CustomControls\RebarDisplayCount.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\RebarDisplayDoubleSpacing.cs">
+    <Compile Include="CustomControls\RebarDisplayDoubleSpacing.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\RebarDisplaySpacing.cs">
+    <Compile Include="CustomControls\RebarDisplaySpacing.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\LineControl.cs">
+    <Compile Include="CustomControls\LineControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="Utility\VersionDisplayForm.cs">
+    <Compile Include="CustomControls\VersionDisplayForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="XCOM\ActionForms\BindXREFsForm.cs">
@@ -356,16 +356,16 @@
     <EmbeddedResource Include="Topography\Forms\ExcavationSlopeForm.resx">
       <DependentUpon>ExcavationSlopeForm.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utility\RebarDisplayCount.resx">
+    <EmbeddedResource Include="CustomControls\RebarDisplayCount.resx">
       <DependentUpon>RebarDisplayCount.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utility\RebarDisplayDoubleSpacing.resx">
+    <EmbeddedResource Include="CustomControls\RebarDisplayDoubleSpacing.resx">
       <DependentUpon>RebarDisplayDoubleSpacing.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utility\RebarDisplaySpacing.resx">
+    <EmbeddedResource Include="CustomControls\RebarDisplaySpacing.resx">
       <DependentUpon>RebarDisplaySpacing.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Utility\LineControl.resx">
+    <EmbeddedResource Include="CustomControls\LineControl.resx">
       <DependentUpon>LineControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XCOM\ActionForms\BindXREFsForm.resx">

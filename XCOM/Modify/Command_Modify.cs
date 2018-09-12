@@ -5,13 +5,13 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System;
 
-namespace XCOM.Commands.Drawing
+namespace XCOM.Commands.Modify
 {
-    public partial class Command_DrawingUtility
+    public partial class Command_Modify
     {
         private int Precision { get; set; }
 
-        public Command_DrawingUtility()
+        public Command_Modify()
         {
             Precision = 2;
         }

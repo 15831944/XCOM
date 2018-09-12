@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Block
 {
-    public partial class RenameBlockForm : XCOM.Utility.VersionDisplayForm
+    public partial class RenameBlockForm : XCOM.CustomControls.VersionDisplayForm
     {
         private class BlockRename
         {

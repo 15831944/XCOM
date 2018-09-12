@@ -2,35 +2,26 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XCOM.Utility
+namespace XCOM.CustomControls
 {
     [Designer(typeof(RebarDisplayDesigner))]
-    public class RebarDisplayDoubleSpacing : Panel
+    public class RebarDisplayCount : Panel
     {
         private Label lblDiameterSign;
-        private Label lblSpacingSign1;
-        private Label lblSpacingSign2;
-        private Label lblSpacingUnit;
+        private TextBox txtCount;
         private TextBox txtDiameter;
-        private TextBox txtSpacing1;
-        private TextBox txtSpacing2;
         private FlowLayoutPanel layoutPanel;
 
+        public int Count { get { return int.Parse(txtCount.Text); } set { txtCount.Text = value.ToString(); } }
         public int Diameter { get { return int.Parse(txtDiameter.Text); } set { txtDiameter.Text = value.ToString(); } }
-        public int Spacing1 { get { return int.Parse(txtSpacing1.Text); } set { txtSpacing1.Text = value.ToString(); } }
-        public int Spacing2 { get { return int.Parse(txtSpacing2.Text); } set { txtSpacing2.Text = value.ToString(); } }
 
         private void InitializeComponent()
         {
             layoutPanel = new FlowLayoutPanel();
 
             lblDiameterSign = new Label();
-            lblSpacingSign1 = new Label();
-            lblSpacingSign2 = new Label();
-            lblSpacingUnit = new Label();
+            txtCount = new TextBox();
             txtDiameter = new TextBox();
-            txtSpacing1 = new TextBox();
-            txtSpacing2 = new TextBox();
 
             SuspendLayout();
             Controls.Add(layoutPanel);
@@ -40,21 +31,13 @@ namespace XCOM.Utility
             layoutPanel.WrapContents = false;
             layoutPanel.Dock = DockStyle.Fill;
 
+            layoutPanel.Controls.Add(txtCount);
             layoutPanel.Controls.Add(lblDiameterSign);
             layoutPanel.Controls.Add(txtDiameter);
-            layoutPanel.Controls.Add(lblSpacingSign1);
-            layoutPanel.Controls.Add(txtSpacing1);
-            layoutPanel.Controls.Add(lblSpacingSign2);
-            layoutPanel.Controls.Add(txtSpacing2);
-            layoutPanel.Controls.Add(lblSpacingUnit);
 
+            txtCount.Text = "1";
             lblDiameterSign.Text = "Φ";
             txtDiameter.Text = "16";
-            lblSpacingSign1.Text = "/";
-            txtSpacing1.Text = "150";
-            lblSpacingSign2.Text = "/";
-            txtSpacing2.Text = "150";
-            lblSpacingUnit.Text = "mm";
 
             foreach (Control ctrl in layoutPanel.Controls)
             {
@@ -74,12 +57,12 @@ namespace XCOM.Utility
                 }
             }
 
-            Size = new Size(180, 20);
+            Size = new Size(100, 20);
             layoutPanel.ResumeLayout(false);
             ResumeLayout(false);
         }
 
-        public RebarDisplayDoubleSpacing()
+        public RebarDisplayCount()
         {
             InitializeComponent();
 

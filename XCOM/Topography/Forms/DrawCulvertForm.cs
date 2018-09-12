@@ -8,7 +8,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Topography
 {
-    public partial class DrawCulvertForm : XCOM.Utility.VersionDisplayForm
+    public partial class DrawCulvertForm : XCOM.CustomControls.VersionDisplayForm
     {
         private bool basePointSelected;
         private Point3d basePt;

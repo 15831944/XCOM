@@ -4,7 +4,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.XCommand
 {
-    public partial class HelpForm : XCOM.Utility.VersionDisplayForm
+    public partial class HelpForm : XCOM.CustomControls.VersionDisplayForm
     {
         public HelpForm()
         {

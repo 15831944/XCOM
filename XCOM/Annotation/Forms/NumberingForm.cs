@@ -2,7 +2,7 @@
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class NumberingForm : XCOM.Utility.VersionDisplayForm
+    public partial class NumberingForm : XCOM.CustomControls.VersionDisplayForm
     {
         public enum SelectNumberingObjects
         {

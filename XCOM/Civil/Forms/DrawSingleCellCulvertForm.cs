@@ -2,7 +2,7 @@
 
 namespace XCOM.Commands.Civil
 {
-    public partial class DrawSingleCellCulvertForm : XCOM.Utility.VersionDisplayForm
+    public partial class DrawSingleCellCulvertForm : XCOM.CustomControls.VersionDisplayForm
     {
         public DrawSingleCellCulvertForm()
         {

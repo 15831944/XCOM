@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using System.Windows.Forms;
 
-namespace XCOM.Utility
+namespace XCOM.CustomControls
 {
     public class VersionDisplayForm : Form
     {

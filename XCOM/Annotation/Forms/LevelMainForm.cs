@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class LevelMainForm : XCOM.Utility.VersionDisplayForm
+    public partial class LevelMainForm : XCOM.CustomControls.VersionDisplayForm
     {
         private bool basePointSelected;
         private Point3d basePt;

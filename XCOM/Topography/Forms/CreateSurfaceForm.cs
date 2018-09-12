@@ -2,7 +2,7 @@
 
 namespace XCOM.Commands.Topography
 {
-    public partial class CreateSurfaceForm : XCOM.Utility.VersionDisplayForm
+    public partial class CreateSurfaceForm : XCOM.CustomControls.VersionDisplayForm
     {
         public double MaxPointSpacing { get { double v = 0; double.TryParse(txtPointSpacing.Text, out v); return v; } set { txtPointSpacing.Text = value.ToString(); } }
 
