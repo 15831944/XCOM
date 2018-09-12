@@ -2,7 +2,7 @@
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
 
-namespace XCOM.Commands.XCommand
+namespace XCOM.Commands.Utility
 {
     public class Command_XCLOSEALL
     {

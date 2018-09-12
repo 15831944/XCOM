@@ -272,7 +272,7 @@
     <Compile Include="XCOM\Actions\FindReplaceText.cs" />
     <Compile Include="XCOM\Actions\ZoomExtents.cs" />
     <Compile Include="XCOM\Command_XCOM.cs" />
-    <Compile Include="XCOM\Command_XCLOSEALL.cs" />
+    <Compile Include="Utility\Command_XCLOSEALL.cs" />
     <Compile Include="XCOM\Forms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>
