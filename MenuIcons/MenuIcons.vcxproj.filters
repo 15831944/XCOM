@@ -217,5 +217,8 @@
     <Image Include="Resources\BLOCKRENAMER.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\NESYAZ.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

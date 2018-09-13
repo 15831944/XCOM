@@ -149,6 +149,9 @@
     <Compile Include="Civil\Forms\DrawSingleCellCulvertForm.Designer.cs">
       <DependentUpon>DrawSingleCellCulvertForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="CustomControls\RichTextLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Drawing\Command_PARABOLA.cs" />
     <Compile Include="Modify\Command_Modify.cs" />
     <Compile Include="Geology\Command_DrawBoreholeDetails.cs" />
@@ -213,6 +216,13 @@
     </Compile>
     <Compile Include="CustomControls\VersionDisplayForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\Command_PRINTENTCOORDS.cs" />
+    <Compile Include="Utility\Forms\PrintEntitiesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Utility\Forms\PrintEntitiesForm.designer.cs">
+      <DependentUpon>PrintEntitiesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="XCOM\ActionForms\BindXREFsForm.cs">
       <SubType>Form</SubType>
@@ -338,6 +348,9 @@
     <EmbeddedResource Include="Civil\Forms\DrawSingleCellCulvertForm.resx">
       <DependentUpon>DrawSingleCellCulvertForm.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="CustomControls\RichTextLabel.resx">
+      <DependentUpon>RichTextLabel.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Geology\Forms\DrawBoreholeDetailsForm.resx">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </EmbeddedResource>
@@ -367,6 +380,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="CustomControls\LineControl.resx">
       <DependentUpon>LineControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Utility\Forms\PrintEntitiesForm.resx">
+      <DependentUpon>PrintEntitiesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="XCOM\ActionForms\BindXREFsForm.resx">
       <DependentUpon>BindXREFsForm.cs</DependentUpon>
@@ -481,7 +497,11 @@
     <None Include="Resources\expand_form.png" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Resources\PrintEntityCoordsHelp.rtf" />
     <None Include="Resources\tick.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\folder.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

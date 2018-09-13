@@ -62,5 +62,35 @@
     <Setting Name="Command_LEVEL_Multiplier" Type="System.Double" Scope="User">
       <Value Profile="(Default)">1</Value>
     </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectPoint" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectLine" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectCircle" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectPolyline" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_Select3DFace" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectText" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_LineFormat" Type="System.String" Scope="User">
+      <Value Profile="(Default)">[#]	[X1]	[Y2]	[X2]	[Y2]</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_Precision" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">4</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_UCS" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Command_PRINTENTCOORDS_SelectBlock" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -112,6 +112,7 @@
     <Image Include="Resources\METRAJ_32.ico" />
     <Image Include="Resources\Multiply.ico" />
     <Image Include="Resources\MULTIPROFILEONCURVE.ico" />
+    <Image Include="Resources\NESYAZ.ico" />
     <Image Include="Resources\NOKTABULUTU.ico" />
     <Image Include="Resources\NUMARALANDIR.ico" />
     <Image Include="Resources\Parabola.ico" />

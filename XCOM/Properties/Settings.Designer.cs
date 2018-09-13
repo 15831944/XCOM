@@ -8,12 +8,11 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XCOM.Properties
-{
-
-
+namespace XCOM.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "14.0.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.6.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -261,6 +260,126 @@ namespace XCOM.Properties
             }
             set {
                 this["Command_LEVEL_Multiplier"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Command_PRINTENTCOORDS_SelectPoint {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectPoint"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectPoint"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_SelectLine {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectLine"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_SelectCircle {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectCircle"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectCircle"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_SelectPolyline {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectPolyline"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectPolyline"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_Select3DFace {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_Select3DFace"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_Select3DFace"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_SelectText {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectText"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectText"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("[#]\t[X1]\t[Y2]\t[X2]\t[Y2]")]
+        public string Command_PRINTENTCOORDS_LineFormat {
+            get {
+                return ((string)(this["Command_PRINTENTCOORDS_LineFormat"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_LineFormat"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("4")]
+        public int Command_PRINTENTCOORDS_Precision {
+            get {
+                return ((int)(this["Command_PRINTENTCOORDS_Precision"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_Precision"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Command_PRINTENTCOORDS_UCS {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_UCS"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_UCS"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Command_PRINTENTCOORDS_SelectBlock {
+            get {
+                return ((bool)(this["Command_PRINTENTCOORDS_SelectBlock"]));
+            }
+            set {
+                this["Command_PRINTENTCOORDS_SelectBlock"] = value;
             }
         }
     }

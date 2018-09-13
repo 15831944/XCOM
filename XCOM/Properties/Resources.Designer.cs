@@ -133,6 +133,16 @@ namespace XCOM.Properties {
         /// <summary>
         ///   Looks up a localized resource of type System.Drawing.Bitmap.
         /// </summary>
+        internal static System.Drawing.Bitmap folder {
+            get {
+                object obj = ResourceManager.GetObject("folder", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized resource of type System.Drawing.Bitmap.
+        /// </summary>
         internal static System.Drawing.Bitmap folder_add {
             get {
                 object obj = ResourceManager.GetObject("folder_add", resourceCulture);
@@ -187,6 +197,19 @@ namespace XCOM.Properties {
             get {
                 object obj = ResourceManager.GetObject("pick", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1254\deff0\nouicompat\deflang1055{\fonttbl{\f0\fnil\fcharset162 Microsoft Sans Serif;}{\f1\fnil\fcharset0 Microsoft Sans Serif;}{\f2\fnil\fcharset238 Microsoft Sans Serif;}}
+        ///{\colortbl ;\red155\green0\blue211;}
+        ///{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+        ///\pard\fi-1420\li1420\sa200\sl276\slmult1\tx1420\cf1\f0\fs17 #:\cf0\tab\f1\lang31 Sat\f2\u305?r numaras\u305?n\u305? ifade eder, otomatik olarak her sat\u305?rda art\u305?r\u305?l\u305?r.\par
+        ///\cf1\f0\lang1055 P:\tab\cf0 POINT, CI [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string PrintEntityCoordsHelp {
+            get {
+                return ResourceManager.GetString("PrintEntityCoordsHelp", resourceCulture);
             }
         }
         

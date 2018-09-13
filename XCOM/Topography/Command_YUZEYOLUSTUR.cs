@@ -207,8 +207,7 @@ namespace XCOM.Commands.Topography
                         else if (SelectTextsWithZ && id.ObjectClass.UnmanagedObject == RXClass.GetClass(typeof(DBText)).UnmanagedObject)
                         {
                             DBText item = (DBText)tr.GetObject(id, OpenMode.ForRead);
-                            double z = 0;
-                            if (double.TryParse(item.TextString, out z))
+                            if (double.TryParse(item.TextString, out double z))
                             {
                                 Point3d pt = item.Position;
                                 points.Add(new Point3d(pt.X, pt.Y, z));
@@ -236,9 +235,8 @@ namespace XCOM.Commands.Topography
                             foreach (ObjectId faceId in item)
                             {
                                 DBObject obj = tr.GetObject(faceId, OpenMode.ForRead);
-                                if (obj is PolyFaceMeshVertex)
+                                if (obj is PolyFaceMeshVertex vertex)
                                 {
-                                    PolyFaceMeshVertex vertex = (PolyFaceMeshVertex)obj;
                                     points.Add(vertex.Position);
                                 }
                             }
