@@ -52,6 +52,18 @@ namespace XCOM.Commands.Block
                 lvBlocks.Items.Add(item);
         }
 
+        public void SelectBlock(string name)
+        {
+            var item = lvBlocks.FindItemWithText(name);
+            if (item != null)
+            {
+                lvBlocks.SelectedItems.Clear();
+                item.Selected = true;
+                item.Focused = true;
+                lvBlocks.EnsureVisible(item.Index);
+            }
+        }
+
         private void CheckNames()
         {
             bool foundDuplicates = false;

@@ -10,13 +10,34 @@ namespace XCOM.Commands.Block
 {
     public class Command_RENAMEBLOCK
     {
-        [Autodesk.AutoCAD.Runtime.CommandMethod("BLOCKRENAMER")]
+        [Autodesk.AutoCAD.Runtime.CommandMethod("BLOCKRENAMER", CommandFlags.UsePickSet)]
         public void RenameBlock()
         {
             if (!CheckLicense.Check()) return;
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
+
+            // Select block name in dialog if there is one picked
+            string selectBlockName = "";
+            PromptSelectionResult selRes = doc.Editor.SelectImplied();
+            if (selRes.Status == PromptStatus.OK)
+            {
+                var selSet = selRes.Value;
+                if (selSet.Count > 0)
+                {
+                    var id = selSet[0].ObjectId;
+                    using (Transaction tr = db.TransactionManager.StartTransaction())
+                    {
+                        BlockReference bref = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
+                        if (bref != null)
+                        {
+                            BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bref.BlockTableRecord, OpenMode.ForRead);
+                            selectBlockName = btr.Name;
+                        }
+                    }
+                }
+            }
 
             Dictionary<string, string> tempNames = new Dictionary<string, string>();
             int tempCount = 1;
@@ -49,6 +70,7 @@ namespace XCOM.Commands.Block
 
                     tr.Commit();
                 }
+                form.SelectBlock(selectBlockName);
 
                 // Rename blocks
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
