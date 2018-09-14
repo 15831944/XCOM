@@ -138,6 +138,7 @@
     <Image Include="Resources\QUADRATICBEZIER.ico" />
     <Image Include="Resources\RD.ico" />
     <Image Include="Resources\RDD.ico" />
+    <Image Include="Resources\ResetDimViewTwist.ico" />
     <Image Include="Resources\RX.ico" />
     <Image Include="Resources\SEKILGOSTER.ico" />
     <Image Include="Resources\SEKILSIL.ico" />

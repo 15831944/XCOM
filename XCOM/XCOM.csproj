@@ -149,6 +149,7 @@
     <Compile Include="Civil\Forms\DrawSingleCellCulvertForm.Designer.cs">
       <DependentUpon>DrawSingleCellCulvertForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Annotation\Command_DIMVIEWTWISTRESET.cs" />
     <Compile Include="CustomControls\RichTextLabel.cs">
       <SubType>Component</SubType>
     </Compile>

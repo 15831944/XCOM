@@ -32,6 +32,7 @@
         <Command Local="COORDGRID" Global="COORDGRID" />
         <Command Local="NUMARALANDIR" Global="NUMARALANDIR" />
         <Command Local="KMYAZ" Global="KMYAZ" />
+        <Command Local="RESETDIMVIEWTWIST" Global="RESETDIMVIEWTWIST" />
 	    <!-- Topography -->
         <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
         <Command Local="SEVTARAMA" Global="SEVTARAMA" />
@@ -49,6 +50,7 @@
         <Command Local="XCOM" Global="XCOM" />
         <Command Local="XPURGE" Global="XPURGE" />
         <Command Local="XCLOSEALL" Global="XCLOSEALL" />
+        <Command Local="NESYAZ" Global="NESYAZ" />
       </Commands>
     </ComponentEntry>
     <ComponentEntry AppName="XCOM" ModuleName="./Resources/XCOM_Menu.cuix" LoadOnAutoCADStartup="True" />	

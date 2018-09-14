@@ -220,5 +220,8 @@
     <Image Include="Resources\NESYAZ.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Resources\ResetDimViewTwist.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>
