@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Drawing;
+using System.Text;
 
 namespace XCOM.Commands.Annotation
 {
@@ -84,6 +86,7 @@ namespace XCOM.Commands.Annotation
         public NumberingForm()
         {
             InitializeComponent();
+            UpdateSample();
         }
 
         private void rbSelectText_CheckedChanged(object sender, EventArgs e)
@@ -94,6 +97,33 @@ namespace XCOM.Commands.Annotation
         private void rbSelectBlock_CheckedChanged(object sender, EventArgs e)
         {
             txtAttributeName.Enabled = true;
+        }
+
+        private void UpdateSample()
+        {
+            try
+            {
+                StringBuilder sb = new StringBuilder();
+                double num = StartNumber;
+                for (int i = 1; i <= 5; i++)
+                {
+                    sb.Append(Prefix + num.ToString(Format) + Suffix);
+                    sb.Append(i < 5 ? ", " : "...");
+                    num += Increment;
+                }
+                lblSample.Text = sb.ToString();
+                lblSample.ForeColor = SystemColors.WindowText;
+            }
+            catch
+            {
+                lblSample.Text = "HATA";
+                lblSample.ForeColor = Color.Red;
+            }
+        }
+
+        private void UpdateSampleOnTextChanged(object sender, EventArgs e)
+        {
+            UpdateSample();
         }
     }
 }

@@ -33,6 +33,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtSuffix = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.lblSample = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.numFormat = new System.Windows.Forms.TextBox();
@@ -83,6 +84,7 @@
             // 
             this.groupBox4.Controls.Add(this.txtSuffix);
             this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Controls.Add(this.lblSample);
             this.groupBox4.Controls.Add(this.label2);
             this.groupBox4.Controls.Add(this.label4);
             this.groupBox4.Controls.Add(this.numFormat);
@@ -104,6 +106,7 @@
             this.txtSuffix.Name = "txtSuffix";
             this.txtSuffix.Size = new System.Drawing.Size(100, 20);
             this.txtSuffix.TabIndex = 9;
+            this.txtSuffix.TextChanged += new System.EventHandler(this.UpdateSampleOnTextChanged);
             // 
             // label5
             // 
@@ -113,6 +116,17 @@
             this.label5.Size = new System.Drawing.Size(42, 13);
             this.label5.TabIndex = 6;
             this.label5.Text = "Format:";
+            // 
+            // lblSample
+            // 
+            this.lblSample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSample.Location = new System.Drawing.Point(20, 168);
+            this.lblSample.Name = "lblSample";
+            this.lblSample.Size = new System.Drawing.Size(218, 62);
+            this.lblSample.TabIndex = 8;
+            this.lblSample.Text = "#SAMPLE#";
             // 
             // label2
             // 
@@ -139,6 +153,7 @@
             this.numFormat.Size = new System.Drawing.Size(100, 20);
             this.numFormat.TabIndex = 7;
             this.numFormat.Text = "0";
+            this.numFormat.TextChanged += new System.EventHandler(this.UpdateSampleOnTextChanged);
             // 
             // numIncrement
             // 
@@ -146,6 +161,7 @@
             this.numIncrement.Name = "numIncrement";
             this.numIncrement.Size = new System.Drawing.Size(100, 20);
             this.numIncrement.TabIndex = 5;
+            this.numIncrement.TextChanged += new System.EventHandler(this.UpdateSampleOnTextChanged);
             // 
             // numStart
             // 
@@ -153,6 +169,7 @@
             this.numStart.Name = "numStart";
             this.numStart.Size = new System.Drawing.Size(100, 20);
             this.numStart.TabIndex = 3;
+            this.numStart.TextChanged += new System.EventHandler(this.UpdateSampleOnTextChanged);
             // 
             // txtPrefix
             // 
@@ -160,6 +177,7 @@
             this.txtPrefix.Name = "txtPrefix";
             this.txtPrefix.Size = new System.Drawing.Size(100, 20);
             this.txtPrefix.TabIndex = 1;
+            this.txtPrefix.TextChanged += new System.EventHandler(this.UpdateSampleOnTextChanged);
             // 
             // label3
             // 
@@ -330,5 +348,6 @@
         private System.Windows.Forms.TextBox numIncrement;
         private System.Windows.Forms.TextBox numStart;
         private System.Windows.Forms.TextBox numFormat;
+        private System.Windows.Forms.Label lblSample;
     }
 }
