@@ -97,6 +97,13 @@
     <Compile Include="Annotation\Command_COORDGRID.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
     <Compile Include="Annotation\Command_KMYAZ.cs" />
+    <Compile Include="Annotation\Command_DRAWAXES.cs" />
+    <Compile Include="Annotation\Forms\DrawAxesForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Annotation\Forms\DrawAxesForm.designer.cs">
+      <DependentUpon>DrawAxesForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Annotation\Forms\PrintChainageForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -162,6 +169,7 @@
     <Compile Include="Geology\Forms\DrawBoreholeDetailsForm.Designer.cs">
       <DependentUpon>DrawBoreholeDetailsForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="Settings.cs" />
     <Compile Include="Topography\Command_HENDEKKAZISI.cs" />
     <Compile Include="Topography\Command_KONTUR.cs" />
     <Compile Include="Topography\Command_DRAPE.cs" />
@@ -325,6 +333,9 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Annotation\Forms\DrawAxesForm.resx">
+      <DependentUpon>DrawAxesForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Annotation\Forms\PrintChainageForm.resx">
       <DependentUpon>PrintChainageForm.cs</DependentUpon>
     </EmbeddedResource>

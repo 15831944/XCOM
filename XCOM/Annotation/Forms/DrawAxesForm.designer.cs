@@ -1,0 +1,351 @@
+﻿namespace XCOM.Commands.Annotation
+{
+    partial class DrawAxesForm
+    {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
+        private System.ComponentModel.IContainer components = null;
+
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && (components != null))
+            {
+                components.Dispose();
+            }
+            base.Dispose(disposing);
+        }
+
+        #region Windows Form Designer generated code
+
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
+        private void InitializeComponent()
+        {
+            this.cmdCancel = new System.Windows.Forms.Button();
+            this.cmdOK = new System.Windows.Forms.Button();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.pnlBlock = new System.Windows.Forms.Panel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblPrecision = new System.Windows.Forms.Label();
+            this.label2 = new System.Windows.Forms.Label();
+            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.txtAxisAttribute = new System.Windows.Forms.TextBox();
+            this.cbBlockName = new System.Windows.Forms.ComboBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtChAttribute = new System.Windows.Forms.TextBox();
+            this.pnlDraw = new System.Windows.Forms.Panel();
+            this.label1 = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtTextHeight = new System.Windows.Forms.TextBox();
+            this.cbTextStyle = new System.Windows.Forms.ComboBox();
+            this.rbAxisLine = new System.Windows.Forms.RadioButton();
+            this.rbAxisBlock = new System.Windows.Forms.RadioButton();
+            this.txtChPrefix = new System.Windows.Forms.TextBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.groupBox3.SuspendLayout();
+            this.pnlBlock.SuspendLayout();
+            this.pnlDraw.SuspendLayout();
+            this.SuspendLayout();
+            // 
+            // cmdCancel
+            // 
+            this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
+            this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmdCancel.Location = new System.Drawing.Point(240, 289);
+            this.cmdCancel.Name = "cmdCancel";
+            this.cmdCancel.Size = new System.Drawing.Size(75, 23);
+            this.cmdCancel.TabIndex = 2;
+            this.cmdCancel.Text = "İptal";
+            this.cmdCancel.UseVisualStyleBackColor = true;
+            // 
+            // cmdOK
+            // 
+            this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
+            this.cmdOK.Location = new System.Drawing.Point(159, 289);
+            this.cmdOK.Name = "cmdOK";
+            this.cmdOK.Size = new System.Drawing.Size(75, 23);
+            this.cmdOK.TabIndex = 1;
+            this.cmdOK.Text = "Tamam";
+            this.cmdOK.UseVisualStyleBackColor = true;
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox3.Controls.Add(this.pnlBlock);
+            this.groupBox3.Controls.Add(this.pnlDraw);
+            this.groupBox3.Controls.Add(this.rbAxisLine);
+            this.groupBox3.Controls.Add(this.rbAxisBlock);
+            this.groupBox3.Location = new System.Drawing.Point(12, 12);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(301, 262);
+            this.groupBox3.TabIndex = 0;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Seçenekler";
+            // 
+            // pnlBlock
+            // 
+            this.pnlBlock.Controls.Add(this.label5);
+            this.pnlBlock.Controls.Add(this.lblPrecision);
+            this.pnlBlock.Controls.Add(this.label2);
+            this.pnlBlock.Controls.Add(this.cbPrecision);
+            this.pnlBlock.Controls.Add(this.txtAxisAttribute);
+            this.pnlBlock.Controls.Add(this.cbBlockName);
+            this.pnlBlock.Controls.Add(this.label6);
+            this.pnlBlock.Controls.Add(this.label4);
+            this.pnlBlock.Controls.Add(this.txtChPrefix);
+            this.pnlBlock.Controls.Add(this.txtChAttribute);
+            this.pnlBlock.Location = new System.Drawing.Point(40, 127);
+            this.pnlBlock.Name = "pnlBlock";
+            this.pnlBlock.Size = new System.Drawing.Size(242, 130);
+            this.pnlBlock.TabIndex = 3;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(0, 3);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Blok Adı";
+            // 
+            // lblPrecision
+            // 
+            this.lblPrecision.AutoSize = true;
+            this.lblPrecision.Location = new System.Drawing.Point(0, 108);
+            this.lblPrecision.Name = "lblPrecision";
+            this.lblPrecision.Size = new System.Drawing.Size(100, 13);
+            this.lblPrecision.TabIndex = 8;
+            this.lblPrecision.Text = "KM Basamak Sayısı";
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(0, 30);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.TabIndex = 2;
+            this.label2.Text = "Aks Attribute";
+            // 
+            // cbPrecision
+            // 
+            this.cbPrecision.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPrecision.FormattingEnabled = true;
+            this.cbPrecision.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbPrecision.Location = new System.Drawing.Point(107, 105);
+            this.cbPrecision.Name = "cbPrecision";
+            this.cbPrecision.Size = new System.Drawing.Size(132, 21);
+            this.cbPrecision.TabIndex = 9;
+            // 
+            // txtAxisAttribute
+            // 
+            this.txtAxisAttribute.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAxisAttribute.Location = new System.Drawing.Point(107, 27);
+            this.txtAxisAttribute.Name = "txtAxisAttribute";
+            this.txtAxisAttribute.Size = new System.Drawing.Size(132, 20);
+            this.txtAxisAttribute.TabIndex = 3;
+            // 
+            // cbBlockName
+            // 
+            this.cbBlockName.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbBlockName.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbBlockName.FormattingEnabled = true;
+            this.cbBlockName.Location = new System.Drawing.Point(107, 0);
+            this.cbBlockName.Name = "cbBlockName";
+            this.cbBlockName.Size = new System.Drawing.Size(132, 21);
+            this.cbBlockName.TabIndex = 1;
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(0, 56);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.TabIndex = 4;
+            this.label4.Text = "KM Attribute";
+            // 
+            // txtChAttribute
+            // 
+            this.txtChAttribute.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtChAttribute.Location = new System.Drawing.Point(107, 53);
+            this.txtChAttribute.Name = "txtChAttribute";
+            this.txtChAttribute.Size = new System.Drawing.Size(132, 20);
+            this.txtChAttribute.TabIndex = 5;
+            // 
+            // pnlDraw
+            // 
+            this.pnlDraw.Controls.Add(this.label1);
+            this.pnlDraw.Controls.Add(this.label3);
+            this.pnlDraw.Controls.Add(this.txtTextHeight);
+            this.pnlDraw.Controls.Add(this.cbTextStyle);
+            this.pnlDraw.Location = new System.Drawing.Point(40, 48);
+            this.pnlDraw.Name = "pnlDraw";
+            this.pnlDraw.Size = new System.Drawing.Size(242, 50);
+            this.pnlDraw.TabIndex = 1;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(0, 3);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.TabIndex = 0;
+            this.label1.Text = "Yazı Yüksekliği";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(0, 29);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Yazı Stili";
+            // 
+            // txtTextHeight
+            // 
+            this.txtTextHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtTextHeight.Location = new System.Drawing.Point(107, 0);
+            this.txtTextHeight.Name = "txtTextHeight";
+            this.txtTextHeight.Size = new System.Drawing.Size(132, 20);
+            this.txtTextHeight.TabIndex = 1;
+            // 
+            // cbTextStyle
+            // 
+            this.cbTextStyle.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbTextStyle.FormattingEnabled = true;
+            this.cbTextStyle.Items.AddRange(new object[] {
+            "0 - 0.",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
+            this.cbTextStyle.Location = new System.Drawing.Point(107, 26);
+            this.cbTextStyle.Name = "cbTextStyle";
+            this.cbTextStyle.Size = new System.Drawing.Size(132, 21);
+            this.cbTextStyle.TabIndex = 3;
+            // 
+            // rbAxisLine
+            // 
+            this.rbAxisLine.AutoSize = true;
+            this.rbAxisLine.Checked = true;
+            this.rbAxisLine.Location = new System.Drawing.Point(20, 25);
+            this.rbAxisLine.Name = "rbAxisLine";
+            this.rbAxisLine.Size = new System.Drawing.Size(115, 17);
+            this.rbAxisLine.TabIndex = 0;
+            this.rbAxisLine.TabStop = true;
+            this.rbAxisLine.Text = "Sadece Aks Çizgisi";
+            this.rbAxisLine.UseVisualStyleBackColor = true;
+            this.rbAxisLine.CheckedChanged += new System.EventHandler(this.DrawingType_Check_Changed);
+            // 
+            // rbAxisBlock
+            // 
+            this.rbAxisBlock.AutoSize = true;
+            this.rbAxisBlock.Location = new System.Drawing.Point(20, 104);
+            this.rbAxisBlock.Name = "rbAxisBlock";
+            this.rbAxisBlock.Size = new System.Drawing.Size(73, 17);
+            this.rbAxisBlock.TabIndex = 2;
+            this.rbAxisBlock.Text = "Aks Bloğu";
+            this.rbAxisBlock.UseVisualStyleBackColor = true;
+            this.rbAxisBlock.CheckedChanged += new System.EventHandler(this.DrawingType_Check_Changed);
+            // 
+            // txtChPrefix
+            // 
+            this.txtChPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtChPrefix.Location = new System.Drawing.Point(107, 79);
+            this.txtChPrefix.Name = "txtChPrefix";
+            this.txtChPrefix.Size = new System.Drawing.Size(132, 20);
+            this.txtChPrefix.TabIndex = 7;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(0, 82);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(56, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "KM Ön Ek";
+            // 
+            // DrawAxesForm
+            // 
+            this.AcceptButton = this.cmdOK;
+            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+            this.CancelButton = this.cmdCancel;
+            this.ClientSize = new System.Drawing.Size(327, 324);
+            this.Controls.Add(this.groupBox3);
+            this.Controls.Add(this.cmdCancel);
+            this.Controls.Add(this.cmdOK);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+            this.Name = "DrawAxesForm";
+            this.ShowInTaskbar = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
+            this.Text = "Aks Çizimi";
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
+            this.pnlBlock.ResumeLayout(false);
+            this.pnlBlock.PerformLayout();
+            this.pnlDraw.ResumeLayout(false);
+            this.pnlDraw.PerformLayout();
+            this.ResumeLayout(false);
+
+        }
+
+        #endregion
+
+        private System.Windows.Forms.Button cmdCancel;
+        private System.Windows.Forms.Button cmdOK;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.RadioButton rbAxisLine;
+        private System.Windows.Forms.RadioButton rbAxisBlock;
+        private System.Windows.Forms.ComboBox cbBlockName;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.ComboBox cbTextStyle;
+        private System.Windows.Forms.Label lblPrecision;
+        private System.Windows.Forms.ComboBox cbPrecision;
+        private System.Windows.Forms.TextBox txtTextHeight;
+        private System.Windows.Forms.Label label1;
+        private System.Windows.Forms.Panel pnlBlock;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtAxisAttribute;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtChAttribute;
+        private System.Windows.Forms.Panel pnlDraw;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.TextBox txtChPrefix;
+    }
+}

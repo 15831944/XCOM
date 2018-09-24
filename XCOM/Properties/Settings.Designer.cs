@@ -12,7 +12,7 @@ namespace XCOM.Properties {
     
     
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
-    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.6.0.0")]
+    [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
         
         private static Settings defaultInstance = ((Settings)(global::System.Configuration.ApplicationSettingsBase.Synchronized(new Settings())));
@@ -380,6 +380,102 @@ namespace XCOM.Properties {
             }
             set {
                 this["Command_PRINTENTCOORDS_SelectBlock"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool Command_DRAWAXES_DrawOnlyLine {
+            get {
+                return ((bool)(this["Command_DRAWAXES_DrawOnlyLine"]));
+            }
+            set {
+                this["Command_DRAWAXES_DrawOnlyLine"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string Command_DRAWAXES_BlockName {
+            get {
+                return ((string)(this["Command_DRAWAXES_BlockName"]));
+            }
+            set {
+                this["Command_DRAWAXES_BlockName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0.5")]
+        public double Command_DRAWAXES_TextHeight {
+            get {
+                return ((double)(this["Command_DRAWAXES_TextHeight"]));
+            }
+            set {
+                this["Command_DRAWAXES_TextHeight"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("2")]
+        public int Command_DRAWAXES_Precision {
+            get {
+                return ((int)(this["Command_DRAWAXES_Precision"]));
+            }
+            set {
+                this["Command_DRAWAXES_Precision"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("Standard")]
+        public string Command_DRAWAXES_TextStyleName {
+            get {
+                return ((string)(this["Command_DRAWAXES_TextStyleName"]));
+            }
+            set {
+                this["Command_DRAWAXES_TextStyleName"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("AKS")]
+        public string Command_DRAWAXES_AxisAttribute {
+            get {
+                return ((string)(this["Command_DRAWAXES_AxisAttribute"]));
+            }
+            set {
+                this["Command_DRAWAXES_AxisAttribute"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KM")]
+        public string Command_DRAWAXES_ChAttribute {
+            get {
+                return ((string)(this["Command_DRAWAXES_ChAttribute"]));
+            }
+            set {
+                this["Command_DRAWAXES_ChAttribute"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("KM: ")]
+        public string Command_DRAWAXES_ChPrefix {
+            get {
+                return ((string)(this["Command_DRAWAXES_ChPrefix"]));
+            }
+            set {
+                this["Command_DRAWAXES_ChPrefix"] = value;
             }
         }
     }

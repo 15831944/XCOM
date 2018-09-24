@@ -1,4 +1,5 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using AcadUtility;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using System;
@@ -17,12 +18,13 @@ namespace XCOM.Commands.Annotation
         [Autodesk.AutoCAD.Runtime.CommandMethod("KMYAZ")]
         public void PrintChainage()
         {
-            if (!CheckLicense.Check()) return;
+            if (!CheckLicense.Check())
+            {
+                return;
+            }
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
-
-            bool flag = true;
 
             ObjectId textStyleId = ObjectId.Null;
             using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -39,6 +41,7 @@ namespace XCOM.Commands.Annotation
             Matrix3d wcs2ucs = AcadUtility.AcadGraphics.WcsToUcs;
 
             // Pick polyline
+            bool flag = true;
             ObjectId centerlineId = ObjectId.Null;
             while (flag)
             {
@@ -68,7 +71,7 @@ namespace XCOM.Commands.Annotation
             PromptPointResult pointRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint("\nBaşlangıç Noktası: ");
             if (pointRes.Status == PromptStatus.OK)
             {
-                startPoint = pointRes.Value;
+                startPoint = pointRes.Value.TransformBy(ucs2wcs);
             }
             else
             {
@@ -91,17 +94,18 @@ namespace XCOM.Commands.Annotation
             // Print chainages
             using (Transaction tr = db.TransactionManager.StartTransaction())
             using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
+            using (TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
             {
                 Autodesk.AutoCAD.DatabaseServices.Curve centerline = tr.GetObject(centerlineId, OpenMode.ForRead) as Autodesk.AutoCAD.DatabaseServices.Curve;
                 if (centerline != null)
                 {
-                    double curveStartCH = ChainageToDist(startCH) - centerline.GetDistAtPoint(startPoint);
+                    double curveStartCH = AcadText.ChainageFromString(startCH) - centerline.GetDistAtPoint(startPoint);
                     double distToNearestInterval = Math.Ceiling(curveStartCH / Interval) * Interval - curveStartCH;
                     double currentDistance = distToNearestInterval;
                     double curveLength = centerline.GetDistanceAtParameter(centerline.EndParam);
                     while (currentDistance < curveLength)
                     {
-                        string currentCH = DistToChainage(currentDistance + curveStartCH, Precision);
+                        string currentCH = AcadText.ChainageToString(currentDistance + curveStartCH, Precision);
                         Point3d currentPoint = centerline.GetPointAtDist(currentDistance);
                         Vector3d perp = centerline.GetFirstDerivative(currentPoint).RotateBy(Math.PI / 2.0, Vector3d.ZAxis);
                         perp /= perp.Length;
@@ -117,21 +121,20 @@ namespace XCOM.Commands.Annotation
                         tr.AddNewlyCreatedDBObject(line, true);
 
                         // CH text
-                        DBText text = MakeDBText(tr, db, btr, textStart, currentCH, TextHeight, 0);
                         double textRotation = Vector3d.XAxis.GetAngleTo(perp, Vector3d.ZAxis);
                         double rot = textRotation * 180 / Math.PI;
-
+                        TextHorizontalMode textHorizontalMode = TextHorizontalMode.TextLeft;
                         if (rot > 90.0 && rot < 270.0)
                         {
                             textRotation = textRotation + Math.PI;
-                            text.HorizontalMode = TextHorizontalMode.TextRight;
+                            textHorizontalMode = TextHorizontalMode.TextRight;
                         }
-                        else
+                        textStyleId = ObjectId.Null;
+                        if (tt.Has(TextStyleName))
                         {
-                            text.HorizontalMode = TextHorizontalMode.TextLeft;
+                            textStyleId = tt[TextStyleName];
                         }
-
-                        text.Rotation = textRotation;
+                        DBText text = AcadEntity.CreateText(db, textStart, currentCH, TextHeight, textRotation, 0.8, textHorizontalMode, TextVerticalMode.TextVerticalMid, textStyleId);
 
                         btr.AppendEntity(text);
                         tr.AddNewlyCreatedDBObject(text, true);
@@ -151,57 +154,6 @@ namespace XCOM.Commands.Annotation
             Prefix = Properties.Settings.Default.Command_KMYAZ_Prefix;
             Interval = Properties.Settings.Default.Command_KMYAZ_Interval;
             TextStyleName = "MTT";
-        }
-
-        private string DistToChainage(double dist, int precision)
-        {
-            double km = Math.Floor(dist / 1000.0);
-            double m = Math.Round(dist - km * 1000.0, precision);
-            if (precision == 0)
-                return km.ToString("F0") + "+" + m.ToString("000");
-            else
-                return km.ToString("F0") + "+" + m.ToString("000." + new string('0', precision));
-        }
-
-        private double ChainageToDist(string ch)
-        {
-            string[] parts = ch.Split('+');
-            if (parts.Length == 0)
-            {
-                return 0;
-            }
-            else if (parts.Length == 1)
-            {
-                double v = 0;
-                double.TryParse(parts[0], out v);
-                return v;
-            }
-            else
-            {
-                double km = 0;
-                double.TryParse(parts[0], out km);
-                double m = 0;
-                double.TryParse(parts[1], out m);
-                return km * 1000.0 + m;
-            }
-        }
-
-        private DBText MakeDBText(Transaction tr, Database db, BlockTableRecord btr, Point3d position, string text, double height, double rotation)
-        {
-            DBText dbtext = new DBText();
-            dbtext.VerticalMode = TextVerticalMode.TextVerticalMid;
-            dbtext.AlignmentPoint = position;
-            dbtext.Height = height;
-            dbtext.Rotation = rotation;
-            dbtext.TextString = text;
-            TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
-            if (tt.Has(TextStyleName))
-            {
-                dbtext.TextStyleId = tt[TextStyleName];
-            }
-            dbtext.WidthFactor = 0.8;
-
-            return dbtext;
         }
 
         private bool ShowSettings()

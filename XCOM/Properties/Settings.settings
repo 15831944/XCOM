@@ -92,5 +92,29 @@
     <Setting Name="Command_PRINTENTCOORDS_SelectBlock" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
+    <Setting Name="Command_DRAWAXES_DrawOnlyLine" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">True</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_BlockName" Type="System.String" Scope="User">
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="Command_DRAWAXES_TextHeight" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">0.5</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_Precision" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">2</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_TextStyleName" Type="System.String" Scope="User">
+      <Value Profile="(Default)">Standard</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_AxisAttribute" Type="System.String" Scope="User">
+      <Value Profile="(Default)">AKS</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_ChAttribute" Type="System.String" Scope="User">
+      <Value Profile="(Default)">KM</Value>
+    </Setting>
+    <Setting Name="Command_DRAWAXES_ChPrefix" Type="System.String" Scope="User">
+      <Value Profile="(Default)">KM: </Value>
+    </Setting>
   </Settings>
 </SettingsFile>

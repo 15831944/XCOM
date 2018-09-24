@@ -113,9 +113,9 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(20, 105);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(42, 13);
+            this.label5.Size = new System.Drawing.Size(39, 13);
             this.label5.TabIndex = 6;
-            this.label5.Text = "Format:";
+            this.label5.Text = "Format";
             // 
             // lblSample
             // 
@@ -133,18 +133,18 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(20, 131);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 8;
-            this.label2.Text = "Son Ek:";
+            this.label2.Text = "Son Ek";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(20, 79);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.Size = new System.Drawing.Size(30, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "Artım:";
+            this.label4.Text = "Artım";
             // 
             // numFormat
             // 
@@ -184,18 +184,18 @@
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(20, 53);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(103, 13);
+            this.label3.Size = new System.Drawing.Size(100, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Başlangıç Numarası:";
+            this.label3.Text = "Başlangıç Numarası";
             // 
             // label1
             // 
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(20, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(40, 13);
+            this.label1.Size = new System.Drawing.Size(37, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Ön Ek:";
+            this.label1.Text = "Ön Ek";
             // 
             // groupBox1
             // 
