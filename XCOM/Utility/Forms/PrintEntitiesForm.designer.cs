@@ -28,11 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PrintEntitiesForm));
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.rtlHelp = new XCOM.CustomControls.RichTextLabel();
+            this.rtlHelp = new AcadUtility.WinForms.RichTextLabel();
             this.lblPrecision = new System.Windows.Forms.Label();
             this.cbPrecision = new System.Windows.Forms.ComboBox();
             this.txtLineFormat = new System.Windows.Forms.TextBox();
@@ -110,11 +109,10 @@
             this.rtlHelp.Location = new System.Drawing.Point(23, 54);
             this.rtlHelp.Name = "rtlHelp";
             this.rtlHelp.ReadOnly = true;
-            this.rtlHelp.RtfResource = "PrintEntityCoordsHelp";
             this.rtlHelp.Size = new System.Drawing.Size(387, 170);
             this.rtlHelp.TabIndex = 18;
             this.rtlHelp.TabStop = false;
-            this.rtlHelp.Text = resources.GetString("rtlHelp.Text");
+            this.rtlHelp.Text = "";
             // 
             // lblPrecision
             // 
@@ -393,6 +391,6 @@
         private System.Windows.Forms.RadioButton rbWCS;
         private System.Windows.Forms.RadioButton rbUCS;
         private System.Windows.Forms.CheckBox chBlock;
-        private CustomControls.RichTextLabel rtlHelp;
+        private AcadUtility.WinForms.RichTextLabel rtlHelp;
     }
 }

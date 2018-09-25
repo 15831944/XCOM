@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Utility
 {
-    public partial class PrintEntitiesForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class PrintEntitiesForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public bool SelectPoint { get => chPoint.Checked; set => chPoint.Checked = value; }
         public bool SelectCircle { get => chCircle.Checked; set => chCircle.Checked = value; }

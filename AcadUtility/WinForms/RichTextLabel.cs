@@ -1,32 +1,9 @@
 ﻿using System.Windows.Forms;
 
-namespace XCOM.CustomControls
+namespace AcadUtility.WinForms
 {
     public class RichTextLabel : RichTextBox
     {
-        private string rtfResource;
-
-        public string RtfResource
-        {
-            get
-            {
-                return rtfResource;
-            }
-            set
-            {
-                try
-                {
-                    rtfResource = value;
-                    Rtf = Properties.Resources.ResourceManager.GetString(value);
-                }
-                catch
-                {
-                    rtfResource = "";
-                    Rtf = "";
-                }
-            }
-        }
-
         public RichTextLabel()
         {
             ReadOnly = true;

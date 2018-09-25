@@ -4,7 +4,7 @@ using System.Text;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class NumberingForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class NumberingForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public enum SelectNumberingObjects
         {

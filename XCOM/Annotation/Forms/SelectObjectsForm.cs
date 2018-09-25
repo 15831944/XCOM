@@ -1,6 +1,6 @@
 ﻿namespace XCOM.Commands.Annotation
 {
-    public partial class SelectObjectsForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class SelectObjectsForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public enum SelectCoordinateObjects
         {

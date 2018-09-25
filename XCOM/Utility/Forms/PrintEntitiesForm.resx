@@ -117,12 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="rtlHelp.Text" xml:space="preserve">
-    <value>[#]	Satır numarasını ifade eder, otomatik olarak her satırda artırılır.
-[X] [Y] [Z]	POINT, CIRCLE, POLYLINE, BLOCK ve TEXT türü nesneler için merkez koordinatlarını ifade eder.
-[X1] [Y1] [X2] [Y2]	LINE türü nesneler için sırasıyla başlangıç ve bitiş koordinatlarını ifade eder.
-[X1]...[X4] [Y1]...[Y4]	3DFACE türü nesneler için köşe koordinatlarını ifade eder.</value>
-  </data>
   <metadata name="sfdOutput.TrayLocation" type="System.Drawing.Point, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a">
     <value>17, 17</value>
   </metadata>

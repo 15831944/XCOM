@@ -3,7 +3,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class SelectGroupForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class SelectGroupForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public bool HasXY { get; set; }
         public bool UseXY { get { return rbXY.Checked; } set { rbXY.Checked = value; rbPrefix.Checked = !value; } }

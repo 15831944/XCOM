@@ -1,8 +1,8 @@
 ﻿using System;
 
-namespace AcadUtility
+namespace AcadUtility.WinForms
 {
-    public static class WinForms
+    public static class ExtensionMethods
     {
         public static void SetSelectedItemFromText(this System.Windows.Forms.ComboBox comboBox, string value)
         {

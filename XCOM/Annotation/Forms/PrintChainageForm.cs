@@ -1,9 +1,9 @@
-﻿using System;
-using AcadUtility;
+﻿using AcadUtility.WinForms;
+using System;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class PrintChainageForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class PrintChainageForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public double TextHeight { get { double.TryParse(txtTextHeight.Text, out double v); return v; } set { txtTextHeight.Text = value.ToString(); } }
         public int Precision { get { return cbPrecision.SelectedIndex; } set { cbPrecision.SelectedIndex = Math.Min(cbPrecision.Items.Count - 1, Math.Max(0, value)); } }

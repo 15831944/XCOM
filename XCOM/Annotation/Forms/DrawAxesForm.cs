@@ -1,9 +1,9 @@
-﻿using AcadUtility;
+﻿using AcadUtility.WinForms;
 using System;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class DrawAxesForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class DrawAxesForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public bool DrawOnlyLine
         {

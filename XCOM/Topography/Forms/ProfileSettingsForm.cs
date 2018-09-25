@@ -2,7 +2,7 @@
 
 namespace XCOM.Commands.Topography
 {
-    public partial class ProfileSettingsForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class ProfileSettingsForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public double GridH { get { double v = 0; double.TryParse(txtH.Text, out v); return v; } set { txtH.Text = value.ToString(); } }
         public double GridV { get { double v = 0; double.TryParse(txtV.Text, out v); return v; } set { txtV.Text = value.ToString(); } }

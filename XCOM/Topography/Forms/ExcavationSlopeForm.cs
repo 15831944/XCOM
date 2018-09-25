@@ -2,7 +2,7 @@
 
 namespace XCOM.Commands.Topography
 {
-    public partial class ExcavationSlopeForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class ExcavationSlopeForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public double H { get { double v = 0; double.TryParse(txtH.Text, out v); return v; } set { txtH.Text = value.ToString(); } }
         public double V { get { double v = 0; double.TryParse(txtV.Text, out v); return v; } set { txtV.Text = value.ToString(); } }

@@ -7,7 +7,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.XCommand
 {
-    public partial class MainForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class MainForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public MainForm()
         {

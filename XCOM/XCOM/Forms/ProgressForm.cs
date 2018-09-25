@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace XCOM.Commands.XCommand
 {
-    public partial class ProgressForm : XCOM.CustomControls.VersionDisplayForm
+    public partial class ProgressForm : AcadUtility.WinForms.VersionDisplayForm
     {
         public ProgressForm()
         {
