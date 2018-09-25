@@ -117,9 +117,9 @@
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label2.Location = new System.Drawing.Point(9, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(45, 13);
+            this.label2.Size = new System.Drawing.Size(42, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Değiştir:";
+            this.label2.Text = "Değiştir";
             // 
             // txtFind
             // 
@@ -135,9 +135,9 @@
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label1.Location = new System.Drawing.Point(9, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(25, 13);
+            this.label1.Size = new System.Drawing.Size(22, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Bul:";
+            this.label1.Text = "Bul";
             // 
             // cmdCancel
             // 
@@ -184,9 +184,9 @@
             this.cbBlock.AutoSize = true;
             this.cbBlock.Location = new System.Drawing.Point(148, 77);
             this.cbBlock.Name = "cbBlock";
-            this.cbBlock.Size = new System.Drawing.Size(84, 17);
+            this.cbBlock.Size = new System.Drawing.Size(83, 17);
             this.cbBlock.TabIndex = 5;
-            this.cbBlock.Text = "Block İçeriği";
+            this.cbBlock.Text = "Block içeriği";
             this.cbBlock.UseVisualStyleBackColor = true;
             // 
             // cbTable
@@ -259,9 +259,9 @@
             this.cbCaseSensitive.AutoSize = true;
             this.cbCaseSensitive.Location = new System.Drawing.Point(23, 31);
             this.cbCaseSensitive.Name = "cbCaseSensitive";
-            this.cbCaseSensitive.Size = new System.Drawing.Size(150, 17);
+            this.cbCaseSensitive.Size = new System.Drawing.Size(145, 17);
             this.cbCaseSensitive.TabIndex = 0;
-            this.cbCaseSensitive.Text = "Büyük/Küçük Harf Duyarlı";
+            this.cbCaseSensitive.Text = "Büyük/küçük harf duyarlı";
             this.cbCaseSensitive.UseVisualStyleBackColor = true;
             // 
             // cbWholeWords
@@ -269,9 +269,9 @@
             this.cbWholeWords.AutoSize = true;
             this.cbWholeWords.Location = new System.Drawing.Point(23, 54);
             this.cbWholeWords.Name = "cbWholeWords";
-            this.cbWholeWords.Size = new System.Drawing.Size(152, 17);
+            this.cbWholeWords.Size = new System.Drawing.Size(146, 17);
             this.cbWholeWords.TabIndex = 1;
-            this.cbWholeWords.Text = "Sadece Tam Kelimeleri Bul";
+            this.cbWholeWords.Text = "Sadece tam kelimeleri bul";
             this.cbWholeWords.UseVisualStyleBackColor = true;
             // 
             // cbWildcards

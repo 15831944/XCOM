@@ -136,7 +136,7 @@ namespace XCOM.Commands.XCommand
             lvSourceFiles.Items.Clear();
         }
 
-        void lbActions_ButtonClick(object sender, CheckedListBoxWithButtons.ButtonClickEventArgs e)
+        void lbActions_ButtonClick(object sender, AcadUtility.WinForms.CheckedListBoxWithButtons.ButtonClickEventArgs e)
         {
             IXCOMAction action = (IXCOMAction)lbActions.Items[e.ItemIndex];
             if (string.IsNullOrEmpty(e.ButtonText) && (action.Interface & ActionInterface.Dialog) != ActionInterface.None)
@@ -145,7 +145,7 @@ namespace XCOM.Commands.XCommand
             }
             else if (e.ButtonText == "?" && !string.IsNullOrEmpty(action.HelpText))
             {
-                HelpForm.ShowDialog(action.Name, action.HelpText);
+                AcadUtility.WinForms.HelpForm.ShowDialog(action.Name, action.HelpText);
             }
         }
 

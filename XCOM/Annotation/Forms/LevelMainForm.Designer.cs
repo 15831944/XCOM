@@ -87,27 +87,27 @@
             this.label8.AutoSize = true;
             this.label8.Location = new System.Drawing.Point(16, 168);
             this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(61, 13);
+            this.label8.Size = new System.Drawing.Size(59, 13);
             this.label8.TabIndex = 7;
-            this.label8.Text = "Blok Ölçeği";
+            this.label8.Text = "Blok ölçeği";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
             this.label7.Location = new System.Drawing.Point(16, 141);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(53, 13);
+            this.label7.Size = new System.Drawing.Size(50, 13);
             this.label7.TabIndex = 5;
-            this.label7.Text = "Kot Bloğu";
+            this.label7.Text = "Kot boğu";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(16, 102);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(81, 13);
+            this.label3.Size = new System.Drawing.Size(79, 13);
             this.label3.TabIndex = 3;
-            this.label3.Text = "Basamak Sayısı";
+            this.label3.Text = "Basamak sayısı";
             // 
             // rbMillimeter
             // 
@@ -244,9 +244,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(17, 142);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 8;
-            this.label6.Text = "Baz Kotu";
+            this.label6.Text = "Baz kotu";
             // 
             // txtZ
             // 
@@ -304,9 +304,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(47, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Baz Noktasını Seç";
+            this.label1.Text = "Baz noktasını seç";
             // 
             // btnPickBasePoint
             // 

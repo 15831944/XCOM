@@ -93,9 +93,9 @@
             this.cbGroundwater.AutoSize = true;
             this.cbGroundwater.Location = new System.Drawing.Point(20, 28);
             this.cbGroundwater.Name = "cbGroundwater";
-            this.cbGroundwater.Size = new System.Drawing.Size(128, 17);
+            this.cbGroundwater.Size = new System.Drawing.Size(124, 17);
             this.cbGroundwater.TabIndex = 0;
-            this.cbGroundwater.Text = "Yeraltı Suyu Gösterimi";
+            this.cbGroundwater.Text = "Yeraltı suyu gösterimi";
             this.cbGroundwater.UseVisualStyleBackColor = true;
             // 
             // txtGroundwater
@@ -134,9 +134,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(17, 60);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(78, 13);
+            this.label9.Size = new System.Drawing.Size(76, 13);
             this.label9.TabIndex = 2;
-            this.label9.Text = "Yazı Yüksekliği";
+            this.label9.Text = "Yazı yüksekliği";
             // 
             // txtLayer
             // 

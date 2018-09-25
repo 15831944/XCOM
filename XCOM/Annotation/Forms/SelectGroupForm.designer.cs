@@ -44,9 +44,9 @@
             this.lblPrefix.AutoSize = true;
             this.lblPrefix.Location = new System.Drawing.Point(39, 77);
             this.lblPrefix.Name = "lblPrefix";
-            this.lblPrefix.Size = new System.Drawing.Size(37, 13);
+            this.lblPrefix.Size = new System.Drawing.Size(36, 13);
             this.lblPrefix.TabIndex = 2;
-            this.lblPrefix.Text = "Ön Ek";
+            this.lblPrefix.Text = "Ön ek";
             // 
             // cbPrefix
             // 
@@ -85,10 +85,10 @@
             this.rbXY.AutoSize = true;
             this.rbXY.Location = new System.Drawing.Point(20, 25);
             this.rbXY.Name = "rbXY";
-            this.rbXY.Size = new System.Drawing.Size(126, 17);
+            this.rbXY.Size = new System.Drawing.Size(123, 17);
             this.rbXY.TabIndex = 0;
             this.rbXY.TabStop = true;
-            this.rbXY.Text = "X Y Koordinat Yazıları";
+            this.rbXY.Text = "X Y koordinat yazıları";
             this.rbXY.UseVisualStyleBackColor = true;
             // 
             // rbPrefix
@@ -96,10 +96,10 @@
             this.rbPrefix.AutoSize = true;
             this.rbPrefix.Location = new System.Drawing.Point(20, 51);
             this.rbPrefix.Name = "rbPrefix";
-            this.rbPrefix.Size = new System.Drawing.Size(143, 17);
+            this.rbPrefix.Size = new System.Drawing.Size(139, 17);
             this.rbPrefix.TabIndex = 1;
             this.rbPrefix.TabStop = true;
-            this.rbPrefix.Text = "Ön Ekli Koordinat Yazıları";
+            this.rbPrefix.Text = "Ön ekli koordinat yazıları";
             this.rbPrefix.UseVisualStyleBackColor = true;
             // 
             // cmdCancel

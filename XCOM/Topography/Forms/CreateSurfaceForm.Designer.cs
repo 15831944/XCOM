@@ -183,9 +183,9 @@
             this.chEraseEntities.AutoSize = true;
             this.chEraseEntities.Location = new System.Drawing.Point(12, 319);
             this.chEraseEntities.Name = "chEraseEntities";
-            this.chEraseEntities.Size = new System.Drawing.Size(122, 17);
+            this.chEraseEntities.Size = new System.Drawing.Size(118, 17);
             this.chEraseEntities.TabIndex = 3;
-            this.chEraseEntities.Text = "Seçilen Nesneleri Sil";
+            this.chEraseEntities.Text = "Seçilen nesneleri sil";
             this.chEraseEntities.UseVisualStyleBackColor = true;
             // 
             // txtPointSpacing

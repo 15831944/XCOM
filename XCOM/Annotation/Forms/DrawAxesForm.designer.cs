@@ -38,7 +38,9 @@
             this.cbPrecision = new System.Windows.Forms.ComboBox();
             this.txtAxisAttribute = new System.Windows.Forms.TextBox();
             this.cbBlockName = new System.Windows.Forms.ComboBox();
+            this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.txtChPrefix = new System.Windows.Forms.TextBox();
             this.txtChAttribute = new System.Windows.Forms.TextBox();
             this.pnlDraw = new System.Windows.Forms.Panel();
             this.label1 = new System.Windows.Forms.Label();
@@ -47,8 +49,6 @@
             this.cbTextStyle = new System.Windows.Forms.ComboBox();
             this.rbAxisLine = new System.Windows.Forms.RadioButton();
             this.rbAxisBlock = new System.Windows.Forms.RadioButton();
-            this.txtChPrefix = new System.Windows.Forms.TextBox();
-            this.label6 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.pnlBlock.SuspendLayout();
             this.pnlDraw.SuspendLayout();
@@ -115,27 +115,27 @@
             this.label5.AutoSize = true;
             this.label5.Location = new System.Drawing.Point(0, 3);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(46, 13);
+            this.label5.Size = new System.Drawing.Size(45, 13);
             this.label5.TabIndex = 0;
-            this.label5.Text = "Blok Adı";
+            this.label5.Text = "Blok adı";
             // 
             // lblPrecision
             // 
             this.lblPrecision.AutoSize = true;
             this.lblPrecision.Location = new System.Drawing.Point(0, 108);
             this.lblPrecision.Name = "lblPrecision";
-            this.lblPrecision.Size = new System.Drawing.Size(100, 13);
+            this.lblPrecision.Size = new System.Drawing.Size(97, 13);
             this.lblPrecision.TabIndex = 8;
-            this.lblPrecision.Text = "KM Basamak Sayısı";
+            this.lblPrecision.Text = "KM basamak sayısı";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(0, 30);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(67, 13);
+            this.label2.Size = new System.Drawing.Size(66, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Aks Attribute";
+            this.label2.Text = "Aks attribute";
             // 
             // cbPrecision
             // 
@@ -178,14 +178,32 @@
             this.cbBlockName.Size = new System.Drawing.Size(132, 21);
             this.cbBlockName.TabIndex = 1;
             // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(0, 82);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(55, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "KM ön eki";
+            // 
             // label4
             // 
             this.label4.AutoSize = true;
             this.label4.Location = new System.Drawing.Point(0, 56);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(65, 13);
+            this.label4.Size = new System.Drawing.Size(64, 13);
             this.label4.TabIndex = 4;
-            this.label4.Text = "KM Attribute";
+            this.label4.Text = "KM attribute";
+            // 
+            // txtChPrefix
+            // 
+            this.txtChPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtChPrefix.Location = new System.Drawing.Point(107, 79);
+            this.txtChPrefix.Name = "txtChPrefix";
+            this.txtChPrefix.Size = new System.Drawing.Size(132, 20);
+            this.txtChPrefix.TabIndex = 7;
             // 
             // txtChAttribute
             // 
@@ -212,18 +230,18 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(0, 3);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Yazı Yüksekliği";
+            this.label1.Text = "Yazı yüksekliği";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(0, 29);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 2;
-            this.label3.Text = "Yazı Stili";
+            this.label3.Text = "Yazı stili";
             // 
             // txtTextHeight
             // 
@@ -261,10 +279,10 @@
             this.rbAxisLine.Checked = true;
             this.rbAxisLine.Location = new System.Drawing.Point(20, 25);
             this.rbAxisLine.Name = "rbAxisLine";
-            this.rbAxisLine.Size = new System.Drawing.Size(115, 17);
+            this.rbAxisLine.Size = new System.Drawing.Size(113, 17);
             this.rbAxisLine.TabIndex = 0;
             this.rbAxisLine.TabStop = true;
-            this.rbAxisLine.Text = "Sadece Aks Çizgisi";
+            this.rbAxisLine.Text = "Sadece aks çizgisi";
             this.rbAxisLine.UseVisualStyleBackColor = true;
             this.rbAxisLine.CheckedChanged += new System.EventHandler(this.DrawingType_Check_Changed);
             // 
@@ -273,29 +291,11 @@
             this.rbAxisBlock.AutoSize = true;
             this.rbAxisBlock.Location = new System.Drawing.Point(20, 104);
             this.rbAxisBlock.Name = "rbAxisBlock";
-            this.rbAxisBlock.Size = new System.Drawing.Size(73, 17);
+            this.rbAxisBlock.Size = new System.Drawing.Size(72, 17);
             this.rbAxisBlock.TabIndex = 2;
-            this.rbAxisBlock.Text = "Aks Bloğu";
+            this.rbAxisBlock.Text = "Aks bloğu";
             this.rbAxisBlock.UseVisualStyleBackColor = true;
             this.rbAxisBlock.CheckedChanged += new System.EventHandler(this.DrawingType_Check_Changed);
-            // 
-            // txtChPrefix
-            // 
-            this.txtChPrefix.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtChPrefix.Location = new System.Drawing.Point(107, 79);
-            this.txtChPrefix.Name = "txtChPrefix";
-            this.txtChPrefix.Size = new System.Drawing.Size(132, 20);
-            this.txtChPrefix.TabIndex = 7;
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(0, 82);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(56, 13);
-            this.label6.TabIndex = 6;
-            this.label6.Text = "KM Ön Ek";
             // 
             // DrawAxesForm
             // 

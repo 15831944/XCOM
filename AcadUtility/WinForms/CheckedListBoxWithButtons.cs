@@ -4,7 +4,7 @@ using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XCOM.Commands.XCommand
+namespace AcadUtility.WinForms
 {
     public enum ButtonAlignment
     {

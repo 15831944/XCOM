@@ -96,9 +96,9 @@
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label1.Location = new System.Drawing.Point(9, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(49, 13);
+            this.label1.Size = new System.Drawing.Size(45, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Blok Adı:";
+            this.label1.Text = "Blok adı";
             // 
             // cmdCancel
             // 
@@ -130,9 +130,9 @@
             this.cbBlock.AutoSize = true;
             this.cbBlock.Location = new System.Drawing.Point(12, 282);
             this.cbBlock.Name = "cbBlock";
-            this.cbBlock.Size = new System.Drawing.Size(78, 17);
+            this.cbBlock.Size = new System.Drawing.Size(77, 17);
             this.cbBlock.TabIndex = 5;
-            this.cbBlock.Text = "Blok İçeriği";
+            this.cbBlock.Text = "Blok içeriği";
             this.cbBlock.UseVisualStyleBackColor = true;
             // 
             // cbWhere

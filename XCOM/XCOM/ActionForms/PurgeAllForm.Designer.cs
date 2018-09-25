@@ -120,9 +120,9 @@
             this.cbSectionViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbSectionViewStyles.Location = new System.Drawing.Point(193, 240);
             this.cbSectionViewStyles.Name = "cbSectionViewStyles";
-            this.cbSectionViewStyles.Size = new System.Drawing.Size(119, 17);
+            this.cbSectionViewStyles.Size = new System.Drawing.Size(116, 17);
             this.cbSectionViewStyles.TabIndex = 17;
-            this.cbSectionViewStyles.Text = "Section View Styles";
+            this.cbSectionViewStyles.Text = "Section view styles";
             this.cbSectionViewStyles.UseVisualStyleBackColor = true;
             // 
             // cbDetailViewStyles
@@ -132,9 +132,9 @@
             this.cbDetailViewStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbDetailViewStyles.Location = new System.Drawing.Point(193, 217);
             this.cbDetailViewStyles.Name = "cbDetailViewStyles";
-            this.cbDetailViewStyles.Size = new System.Drawing.Size(110, 17);
+            this.cbDetailViewStyles.Size = new System.Drawing.Size(107, 17);
             this.cbDetailViewStyles.TabIndex = 16;
-            this.cbDetailViewStyles.Text = "Detail View Styles";
+            this.cbDetailViewStyles.Text = "Detail view styles";
             this.cbDetailViewStyles.UseVisualStyleBackColor = true;
             // 
             // cbVisualStyles
@@ -144,9 +144,9 @@
             this.cbVisualStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbVisualStyles.Location = new System.Drawing.Point(193, 171);
             this.cbVisualStyles.Name = "cbVisualStyles";
-            this.cbVisualStyles.Size = new System.Drawing.Size(85, 17);
+            this.cbVisualStyles.Size = new System.Drawing.Size(83, 17);
             this.cbVisualStyles.TabIndex = 15;
-            this.cbVisualStyles.Text = "Visual Styles";
+            this.cbVisualStyles.Text = "Visual styles";
             this.cbVisualStyles.UseVisualStyleBackColor = true;
             // 
             // cbViews
@@ -180,9 +180,9 @@
             this.cbUCSSettings.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbUCSSettings.Location = new System.Drawing.Point(193, 102);
             this.cbUCSSettings.Name = "cbUCSSettings";
-            this.cbUCSSettings.Size = new System.Drawing.Size(89, 17);
+            this.cbUCSSettings.Size = new System.Drawing.Size(87, 17);
             this.cbUCSSettings.TabIndex = 12;
-            this.cbUCSSettings.Text = "UCS Settings";
+            this.cbUCSSettings.Text = "UCS settings";
             this.cbUCSSettings.UseVisualStyleBackColor = true;
             // 
             // cbTextStyles
@@ -192,9 +192,9 @@
             this.cbTextStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbTextStyles.Location = new System.Drawing.Point(19, 240);
             this.cbTextStyles.Name = "cbTextStyles";
-            this.cbTextStyles.Size = new System.Drawing.Size(78, 17);
+            this.cbTextStyles.Size = new System.Drawing.Size(76, 17);
             this.cbTextStyles.TabIndex = 9;
-            this.cbTextStyles.Text = "Text Styles";
+            this.cbTextStyles.Text = "Text styles";
             this.cbTextStyles.UseVisualStyleBackColor = true;
             // 
             // cbTableStyles
@@ -204,9 +204,9 @@
             this.cbTableStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbTableStyles.Location = new System.Drawing.Point(19, 217);
             this.cbTableStyles.Name = "cbTableStyles";
-            this.cbTableStyles.Size = new System.Drawing.Size(84, 17);
+            this.cbTableStyles.Size = new System.Drawing.Size(82, 17);
             this.cbTableStyles.TabIndex = 8;
-            this.cbTableStyles.Text = "Table Styles";
+            this.cbTableStyles.Text = "Table styles";
             this.cbTableStyles.UseVisualStyleBackColor = true;
             // 
             // cbShapes
@@ -228,9 +228,9 @@
             this.cbPlotStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbPlotStyles.Location = new System.Drawing.Point(193, 33);
             this.cbPlotStyles.Name = "cbPlotStyles";
-            this.cbPlotStyles.Size = new System.Drawing.Size(75, 17);
+            this.cbPlotStyles.Size = new System.Drawing.Size(73, 17);
             this.cbPlotStyles.TabIndex = 10;
-            this.cbPlotStyles.Text = "Plot Styles";
+            this.cbPlotStyles.Text = "Plot styles";
             this.cbPlotStyles.UseVisualStyleBackColor = true;
             // 
             // cbMultileaderStyles
@@ -240,9 +240,9 @@
             this.cbMultileaderStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMultileaderStyles.Location = new System.Drawing.Point(19, 194);
             this.cbMultileaderStyles.Name = "cbMultileaderStyles";
-            this.cbMultileaderStyles.Size = new System.Drawing.Size(108, 17);
+            this.cbMultileaderStyles.Size = new System.Drawing.Size(106, 17);
             this.cbMultileaderStyles.TabIndex = 7;
-            this.cbMultileaderStyles.Text = "Multileader Styles";
+            this.cbMultileaderStyles.Text = "Multileader styles";
             this.cbMultileaderStyles.UseVisualStyleBackColor = true;
             // 
             // cbMlineStyles
@@ -252,9 +252,9 @@
             this.cbMlineStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbMlineStyles.Location = new System.Drawing.Point(19, 171);
             this.cbMlineStyles.Name = "cbMlineStyles";
-            this.cbMlineStyles.Size = new System.Drawing.Size(82, 17);
+            this.cbMlineStyles.Size = new System.Drawing.Size(80, 17);
             this.cbMlineStyles.TabIndex = 6;
-            this.cbMlineStyles.Text = "Mline Styles";
+            this.cbMlineStyles.Text = "Mline styles";
             this.cbMlineStyles.UseVisualStyleBackColor = true;
             // 
             // cbMaterials
@@ -312,9 +312,9 @@
             this.cbDimensionStyles.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbDimensionStyles.Location = new System.Drawing.Point(19, 56);
             this.cbDimensionStyles.Name = "cbDimensionStyles";
-            this.cbDimensionStyles.Size = new System.Drawing.Size(106, 17);
+            this.cbDimensionStyles.Size = new System.Drawing.Size(104, 17);
             this.cbDimensionStyles.TabIndex = 1;
-            this.cbDimensionStyles.Text = "Dimension Styles";
+            this.cbDimensionStyles.Text = "Dimension styles";
             this.cbDimensionStyles.UseVisualStyleBackColor = true;
             // 
             // cbBlocks
@@ -347,9 +347,9 @@
             this.cbZeroLengthGeometry.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbZeroLengthGeometry.Location = new System.Drawing.Point(19, 29);
             this.cbZeroLengthGeometry.Name = "cbZeroLengthGeometry";
-            this.cbZeroLengthGeometry.Size = new System.Drawing.Size(132, 17);
+            this.cbZeroLengthGeometry.Size = new System.Drawing.Size(126, 17);
             this.cbZeroLengthGeometry.TabIndex = 0;
-            this.cbZeroLengthGeometry.Text = "Zero Length Geometry";
+            this.cbZeroLengthGeometry.Text = "Sıfır uzunluklu çizgiler";
             this.cbZeroLengthGeometry.UseVisualStyleBackColor = true;
             // 
             // cbEmptyTexts
@@ -359,9 +359,9 @@
             this.cbEmptyTexts.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbEmptyTexts.Location = new System.Drawing.Point(19, 52);
             this.cbEmptyTexts.Name = "cbEmptyTexts";
-            this.cbEmptyTexts.Size = new System.Drawing.Size(84, 17);
+            this.cbEmptyTexts.Size = new System.Drawing.Size(139, 17);
             this.cbEmptyTexts.TabIndex = 1;
-            this.cbEmptyTexts.Text = "Empty Texts";
+            this.cbEmptyTexts.Text = "İçeriği boş text nesneleri";
             this.cbEmptyTexts.UseVisualStyleBackColor = true;
             // 
             // cbRegApps

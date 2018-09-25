@@ -2,9 +2,9 @@
 using System.Drawing;
 using System.Windows.Forms;
 
-namespace XCOM.Commands.XCommand
+namespace AcadUtility.WinForms
 {
-    public partial class HelpForm : AcadUtility.WinForms.VersionDisplayForm
+    public partial class HelpForm : VersionDisplayForm
     {
         public HelpForm()
         {

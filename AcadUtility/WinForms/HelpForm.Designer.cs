@@ -1,4 +1,4 @@
-﻿namespace XCOM.Commands.XCommand
+﻿namespace AcadUtility.WinForms
 {
     partial class HelpForm
     {

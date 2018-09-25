@@ -104,9 +104,9 @@
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label2.Location = new System.Drawing.Point(9, 46);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(31, 13);
+            this.label2.Size = new System.Drawing.Size(28, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Yeni:";
+            this.label2.Text = "Yeni";
             // 
             // txtFind
             // 
@@ -122,9 +122,9 @@
             this.label1.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label1.Location = new System.Drawing.Point(9, 17);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(30, 13);
+            this.label1.Size = new System.Drawing.Size(27, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Eski:";
+            this.label1.Text = "Eski";
             // 
             // cmdCancel
             // 

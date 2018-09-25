@@ -106,9 +106,9 @@
             this.cbDrawCulvertInfo.CheckState = System.Windows.Forms.CheckState.Checked;
             this.cbDrawCulvertInfo.Location = new System.Drawing.Point(18, 246);
             this.cbDrawCulvertInfo.Name = "cbDrawCulvertInfo";
-            this.cbDrawCulvertInfo.Size = new System.Drawing.Size(157, 17);
+            this.cbDrawCulvertInfo.Size = new System.Drawing.Size(153, 17);
             this.cbDrawCulvertInfo.TabIndex = 14;
-            this.cbDrawCulvertInfo.Text = "Menfez Bilgilerini Profile Yaz";
+            this.cbDrawCulvertInfo.Text = "Menfez bilgilerini profile yaz";
             this.cbDrawCulvertInfo.UseVisualStyleBackColor = true;
             // 
             // groupBox1
@@ -186,9 +186,9 @@
             this.label6.AutoSize = true;
             this.label6.Location = new System.Drawing.Point(17, 170);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(50, 13);
+            this.label6.Size = new System.Drawing.Size(49, 13);
             this.label6.TabIndex = 10;
-            this.label6.Text = "Baz Kotu";
+            this.label6.Text = "Baz kotu";
             // 
             // txtZ
             // 
@@ -246,9 +246,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(47, 28);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(94, 13);
+            this.label1.Size = new System.Drawing.Size(90, 13);
             this.label1.TabIndex = 1;
-            this.label1.Text = "Baz Noktasını Seç";
+            this.label1.Text = "Baz noktasını seç";
             // 
             // btnPickBasePoint
             // 
@@ -309,9 +309,9 @@
             this.label10.AutoSize = true;
             this.label10.Location = new System.Drawing.Point(17, 86);
             this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(73, 13);
+            this.label10.Size = new System.Drawing.Size(71, 13);
             this.label10.TabIndex = 4;
-            this.label10.Text = "Tarama Sıklığı";
+            this.label10.Text = "Tarama sıklığı";
             // 
             // txtTextHeight
             // 
@@ -327,9 +327,9 @@
             this.label9.AutoSize = true;
             this.label9.Location = new System.Drawing.Point(17, 60);
             this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(78, 13);
+            this.label9.Size = new System.Drawing.Size(76, 13);
             this.label9.TabIndex = 2;
-            this.label9.Text = "Yazı Yüksekliği";
+            this.label9.Text = "Yazı yüksekliği";
             // 
             // label8
             // 

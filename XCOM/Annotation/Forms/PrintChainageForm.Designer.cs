@@ -56,27 +56,27 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(15, 105);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 4;
-            this.label1.Text = "Yazı Yüksekliği";
+            this.label1.Text = "Yazı yüksekliği";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(17, 131);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 6;
-            this.label3.Text = "Yazı Stili";
+            this.label3.Text = "Yazı stili";
             // 
             // lblPrecision
             // 
             this.lblPrecision.AutoSize = true;
             this.lblPrecision.Location = new System.Drawing.Point(17, 158);
             this.lblPrecision.Name = "lblPrecision";
-            this.lblPrecision.Size = new System.Drawing.Size(81, 13);
+            this.lblPrecision.Size = new System.Drawing.Size(79, 13);
             this.lblPrecision.TabIndex = 8;
-            this.lblPrecision.Text = "Basamak Sayısı";
+            this.lblPrecision.Text = "Basamak sayısı";
             // 
             // cbTextStyle
             // 
@@ -145,9 +145,9 @@
             this.lblPrefix.AutoSize = true;
             this.lblPrefix.Location = new System.Drawing.Point(17, 31);
             this.lblPrefix.Name = "lblPrefix";
-            this.lblPrefix.Size = new System.Drawing.Size(37, 13);
+            this.lblPrefix.Size = new System.Drawing.Size(36, 13);
             this.lblPrefix.TabIndex = 0;
-            this.lblPrefix.Text = "Ön Ek";
+            this.lblPrefix.Text = "Ön ek";
             // 
             // txtPrefix
             // 

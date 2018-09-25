@@ -81,9 +81,9 @@
             this.cbAutoRotateText.AutoSize = true;
             this.cbAutoRotateText.Location = new System.Drawing.Point(20, 102);
             this.cbAutoRotateText.Name = "cbAutoRotateText";
-            this.cbAutoRotateText.Size = new System.Drawing.Size(162, 17);
+            this.cbAutoRotateText.Size = new System.Drawing.Size(157, 17);
             this.cbAutoRotateText.TabIndex = 4;
-            this.cbAutoRotateText.Text = "Yazıyı Çizgi Yönünde Döndür";
+            this.cbAutoRotateText.Text = "Yazıyı çizgi yönünde döndür";
             this.cbAutoRotateText.UseVisualStyleBackColor = true;
             // 
             // cbZCoord
@@ -91,9 +91,9 @@
             this.cbZCoord.AutoSize = true;
             this.cbZCoord.Location = new System.Drawing.Point(20, 208);
             this.cbZCoord.Name = "cbZCoord";
-            this.cbZCoord.Size = new System.Drawing.Size(123, 17);
+            this.cbZCoord.Size = new System.Drawing.Size(120, 17);
             this.cbZCoord.TabIndex = 8;
-            this.cbZCoord.Text = "Z Koordinatını Yazdır";
+            this.cbZCoord.Text = "Z koordinatını yazdır";
             this.cbZCoord.UseVisualStyleBackColor = true;
             // 
             // cbDirection
@@ -101,9 +101,9 @@
             this.cbDirection.AutoSize = true;
             this.cbDirection.Location = new System.Drawing.Point(20, 146);
             this.cbDirection.Name = "cbDirection";
-            this.cbDirection.Size = new System.Drawing.Size(123, 17);
+            this.cbDirection.Size = new System.Drawing.Size(120, 17);
             this.cbDirection.TabIndex = 5;
-            this.cbDirection.Text = "Yön Belirleyerek Yaz";
+            this.cbDirection.Text = "Yön belirleyerek yaz";
             this.cbDirection.UseVisualStyleBackColor = true;
             // 
             // txtLineLength
@@ -118,9 +118,9 @@
             this.lblLineLength.AutoSize = true;
             this.lblLineLength.Location = new System.Drawing.Point(33, 172);
             this.lblLineLength.Name = "lblLineLength";
-            this.lblLineLength.Size = new System.Drawing.Size(77, 13);
+            this.lblLineLength.Size = new System.Drawing.Size(75, 13);
             this.lblLineLength.TabIndex = 6;
-            this.lblLineLength.Text = "Çizgi Uzunluğu";
+            this.lblLineLength.Text = "Çizgi uzunluğu";
             // 
             // txtTextAngle
             // 
@@ -134,9 +134,9 @@
             this.label2.AutoSize = true;
             this.label2.Location = new System.Drawing.Point(17, 76);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(52, 13);
+            this.label2.Size = new System.Drawing.Size(51, 13);
             this.label2.TabIndex = 2;
-            this.label2.Text = "Yazı Açısı";
+            this.label2.Text = "Yazı açısı";
             // 
             // txtTextHeight
             // 
@@ -150,27 +150,27 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(17, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(78, 13);
+            this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Yazı Yüksekliği";
+            this.label1.Text = "Yazı yüksekliği";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
             this.label3.Location = new System.Drawing.Point(17, 34);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(46, 13);
+            this.label3.Size = new System.Drawing.Size(44, 13);
             this.label3.TabIndex = 0;
-            this.label3.Text = "Yazı Stili";
+            this.label3.Text = "Yazı stili";
             // 
             // lblPrecision
             // 
             this.lblPrecision.AutoSize = true;
             this.lblPrecision.Location = new System.Drawing.Point(17, 61);
             this.lblPrecision.Name = "lblPrecision";
-            this.lblPrecision.Size = new System.Drawing.Size(81, 13);
+            this.lblPrecision.Size = new System.Drawing.Size(79, 13);
             this.lblPrecision.TabIndex = 2;
-            this.lblPrecision.Text = "Basamak Sayısı";
+            this.lblPrecision.Text = "Basamak sayısı";
             // 
             // cbTextStyle
             // 
@@ -237,9 +237,9 @@
             this.lblPrefix.AutoSize = true;
             this.lblPrefix.Location = new System.Drawing.Point(31, 106);
             this.lblPrefix.Name = "lblPrefix";
-            this.lblPrefix.Size = new System.Drawing.Size(37, 13);
+            this.lblPrefix.Size = new System.Drawing.Size(36, 13);
             this.lblPrefix.TabIndex = 4;
-            this.lblPrefix.Text = "Ön Ek";
+            this.lblPrefix.Text = "Ön ek";
             // 
             // txtStartNum
             // 
@@ -253,19 +253,19 @@
             this.lblStartNum.AutoSize = true;
             this.lblStartNum.Location = new System.Drawing.Point(29, 80);
             this.lblStartNum.Name = "lblStartNum";
-            this.lblStartNum.Size = new System.Drawing.Size(100, 13);
+            this.lblStartNum.Size = new System.Drawing.Size(98, 13);
             this.lblStartNum.TabIndex = 2;
-            this.lblStartNum.Text = "Başlangıç Numarası";
+            this.lblStartNum.Text = "Başlangıç numarası";
             // 
             // rbNoNumbering
             // 
             this.rbNoNumbering.AutoSize = true;
             this.rbNoNumbering.Location = new System.Drawing.Point(20, 25);
             this.rbNoNumbering.Name = "rbNoNumbering";
-            this.rbNoNumbering.Size = new System.Drawing.Size(123, 17);
+            this.rbNoNumbering.Size = new System.Drawing.Size(121, 17);
             this.rbNoNumbering.TabIndex = 0;
             this.rbNoNumbering.TabStop = true;
-            this.rbNoNumbering.Text = "Numaralandırma Yok";
+            this.rbNoNumbering.Text = "Numaralandırma yok";
             this.rbNoNumbering.UseVisualStyleBackColor = true;
             // 
             // rbAutoNumber
@@ -273,10 +273,10 @@
             this.rbAutoNumber.AutoSize = true;
             this.rbAutoNumber.Location = new System.Drawing.Point(20, 51);
             this.rbAutoNumber.Name = "rbAutoNumber";
-            this.rbAutoNumber.Size = new System.Drawing.Size(146, 17);
+            this.rbAutoNumber.Size = new System.Drawing.Size(144, 17);
             this.rbAutoNumber.TabIndex = 1;
             this.rbAutoNumber.TabStop = true;
-            this.rbAutoNumber.Text = "Otomatik Numaralandırma";
+            this.rbAutoNumber.Text = "Otomatik numaralandırma";
             this.rbAutoNumber.UseVisualStyleBackColor = true;
             // 
             // cmdCancel

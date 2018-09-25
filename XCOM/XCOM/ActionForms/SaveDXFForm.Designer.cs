@@ -92,9 +92,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(23, 35);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(77, 13);
+            this.label1.Size = new System.Drawing.Size(76, 13);
             this.label1.TabIndex = 3;
-            this.label1.Text = "DXF Versiyonu";
+            this.label1.Text = "DXF versiyonu";
             // 
             // SaveDXFForm
             // 

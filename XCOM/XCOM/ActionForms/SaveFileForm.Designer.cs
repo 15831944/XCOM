@@ -54,9 +54,9 @@
             this.label2.ImeMode = System.Windows.Forms.ImeMode.NoControl;
             this.label2.Location = new System.Drawing.Point(19, 105);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(86, 13);
+            this.label2.Size = new System.Drawing.Size(81, 13);
             this.label2.TabIndex = 1;
-            this.label2.Text = "Dosya Adına Ek:";
+            this.label2.Text = "Dosya adına ek";
             // 
             // cbVersion
             // 
@@ -126,9 +126,9 @@
             this.rbChangeVersion.AutoSize = true;
             this.rbChangeVersion.Location = new System.Drawing.Point(5, 26);
             this.rbChangeVersion.Name = "rbChangeVersion";
-            this.rbChangeVersion.Size = new System.Drawing.Size(154, 17);
+            this.rbChangeVersion.Size = new System.Drawing.Size(151, 17);
             this.rbChangeVersion.TabIndex = 1;
-            this.rbChangeVersion.Text = "Dosya Versiyonunu Değiştir";
+            this.rbChangeVersion.Text = "Dosya versiyonunu değiştir";
             this.rbChangeVersion.UseVisualStyleBackColor = true;
             // 
             // rbKeepCurrentVersion
@@ -137,10 +137,10 @@
             this.rbKeepCurrentVersion.Checked = true;
             this.rbKeepCurrentVersion.Location = new System.Drawing.Point(5, 3);
             this.rbKeepCurrentVersion.Name = "rbKeepCurrentVersion";
-            this.rbKeepCurrentVersion.Size = new System.Drawing.Size(180, 17);
+            this.rbKeepCurrentVersion.Size = new System.Drawing.Size(176, 17);
             this.rbKeepCurrentVersion.TabIndex = 0;
             this.rbKeepCurrentVersion.TabStop = true;
-            this.rbKeepCurrentVersion.Text = "Mevcut Dosya Versiyonunu Koru";
+            this.rbKeepCurrentVersion.Text = "Mevcut dosya versiyonunu koru";
             this.rbKeepCurrentVersion.UseVisualStyleBackColor = true;
             // 
             // SaveFileForm

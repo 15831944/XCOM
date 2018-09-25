@@ -40,7 +40,7 @@
             this.browseDWG = new System.Windows.Forms.OpenFileDialog();
             this.cmdClose = new System.Windows.Forms.Button();
             this.cmdStart = new System.Windows.Forms.Button();
-            this.lbActions = new XCOM.Commands.XCommand.CheckedListBoxWithButtons();
+            this.lbActions = new AcadUtility.WinForms.CheckedListBoxWithButtons();
             this.browseFolder = new System.Windows.Forms.FolderBrowserDialog();
             this.gbSource.SuspendLayout();
             this.SuspendLayout();
@@ -131,11 +131,11 @@
             // lbActions
             // 
             resources.ApplyResources(this.lbActions, "lbActions");
-            this.lbActions.ButtonAlignment = XCOM.Commands.XCommand.ButtonAlignment.Right;
+            this.lbActions.ButtonAlignment = AcadUtility.WinForms.ButtonAlignment.Right;
             this.lbActions.CheckOnClick = true;
             this.lbActions.FormattingEnabled = true;
             this.lbActions.Name = "lbActions";
-            this.lbActions.ButtonClick += new XCOM.Commands.XCommand.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
+            this.lbActions.ButtonClick += new AcadUtility.WinForms.CheckedListBoxWithButtons.ButtonClickEventHandler(this.lbActions_ButtonClick);
             // 
             // browseFolder
             // 
@@ -170,7 +170,7 @@
         private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.Button cmdStart;
         private System.Windows.Forms.ListView lvSourceFiles;
-        private CheckedListBoxWithButtons lbActions;
+        private AcadUtility.WinForms.CheckedListBoxWithButtons lbActions;
         private System.Windows.Forms.Button cmdAddFolder;
         private System.Windows.Forms.FolderBrowserDialog browseFolder;
 

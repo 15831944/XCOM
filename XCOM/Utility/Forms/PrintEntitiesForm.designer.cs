@@ -120,9 +120,9 @@
             this.lblPrecision.AutoSize = true;
             this.lblPrecision.Location = new System.Drawing.Point(20, 233);
             this.lblPrecision.Name = "lblPrecision";
-            this.lblPrecision.Size = new System.Drawing.Size(81, 13);
+            this.lblPrecision.Size = new System.Drawing.Size(79, 13);
             this.lblPrecision.TabIndex = 16;
-            this.lblPrecision.Text = "Basamak Sayısı";
+            this.lblPrecision.Text = "Basamak sayısı";
             // 
             // cbPrecision
             // 
@@ -159,9 +159,9 @@
             this.label1.AutoSize = true;
             this.label1.Location = new System.Drawing.Point(20, 27);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(65, 13);
+            this.label1.Size = new System.Drawing.Size(62, 13);
             this.label1.TabIndex = 0;
-            this.label1.Text = "Satır Formatı";
+            this.label1.Text = "Satır formatı";
             // 
             // groupBox2
             // 
@@ -281,9 +281,9 @@
             this.label12.AutoSize = true;
             this.label12.Location = new System.Drawing.Point(17, 27);
             this.label12.Name = "label12";
-            this.label12.Size = new System.Drawing.Size(55, 13);
+            this.label12.Size = new System.Drawing.Size(54, 13);
             this.label12.TabIndex = 0;
-            this.label12.Text = "Dosya Adı";
+            this.label12.Text = "Dosya adı";
             // 
             // txtFilename
             // 
