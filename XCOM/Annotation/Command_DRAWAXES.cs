@@ -10,6 +10,27 @@ namespace XCOM.Commands.Annotation
 {
     public class Command_DRAWAXES
     {
+        private enum InputState
+        {
+            OK,
+            Exit,
+            Continue
+        }
+
+        private enum AlignmentType
+        {
+            None,
+            Plan,
+            Profile
+        }
+
+        private enum AxisSelectionMethod
+        {
+            Distance,
+            Point,
+            Chainage
+        }
+
         private bool DrawOnlyLine { get; set; }
         private double TextHeight { get; set; }
         private string TextStyleName { get; set; }
@@ -23,6 +44,7 @@ namespace XCOM.Commands.Annotation
         private string Suffix { get; set; }
         private int Number { get; set; }
         private string AxisName => Prefix + Number.ToString() + Suffix;
+        private AxisSelectionMethod SelectionMethod { get; set; }
         private double AxisDistance { get; set; }
         private string StartCH { get; set; }
         private double AxisLength { get; set; }
@@ -40,7 +62,8 @@ namespace XCOM.Commands.Annotation
             Prefix = "A";
             Suffix = "";
             Number = 1;
-            AxisDistance = 0;
+            AxisDistance = 40;
+            SelectionMethod = AxisSelectionMethod.Point;
             StartCH = "0+000.00";
             AxisLength = 20;
         }
@@ -60,39 +83,22 @@ namespace XCOM.Commands.Annotation
             Matrix3d wcs2ucs = AcadGraphics.WcsToUcs;
 
             // Alignment type
-            PromptKeywordOptions opts = new PromptKeywordOptions("\nYerleşim [Plan/pRofil] <Plan>: ", "Plan pRofile");
-            opts.Keywords.Default = "Plan";
-            opts.AllowNone = true;
-            PromptResult res = doc.Editor.GetKeywords(opts);
-            string alignmentStr = res.StringResult;
-            if (res.Status == PromptStatus.None)
-            {
-                alignmentStr = "Plan";
-            }
-            else if (res.Status != PromptStatus.OK)
+            AlignmentType alignmentType = GetAlignmentType();
+            if (alignmentType == AlignmentType.None)
             {
                 return;
             }
-            bool planAlignment = (alignmentStr == "Plan");
 
-            // Pick polyline
-            ObjectId centerlineId = ObjectId.Null;
-            PromptEntityOptions entityOpts = new PromptEntityOptions("\nEksen: ");
-            entityOpts.SetRejectMessage("\nSelect a curve.");
-            entityOpts.AddAllowedClass(typeof(Curve), false);
-            PromptEntityResult entityRes = ed.GetEntity(entityOpts);
-            if (entityRes.Status == PromptStatus.OK)
-            {
-                centerlineId = entityRes.ObjectId;
-            }
-            else
+            // Pick alignment
+            ObjectId centerlineId = GetAlignment();
+            if (centerlineId.IsNull)
             {
                 return;
             }
 
             // Start point
             Point3d startPoint;
-            PromptPointResult ptRes = ed.GetPoint("\nBaşlangıç Noktası: ");
+            PromptPointResult ptRes = ed.GetPoint("\nBaşlangıç noktası: ");
             if (ptRes.Status == PromptStatus.OK)
             {
                 startPoint = ptRes.Value.TransformBy(ucs2wcs);
@@ -103,23 +109,25 @@ namespace XCOM.Commands.Annotation
             }
 
             // Start CH
-            PromptStringOptions chOpts = new PromptStringOptions("\nBaşlangıç KM: ");
+            AcadEditor.PromptChainageOptions chOpts = new AcadEditor.PromptChainageOptions("\nBaşlangıç kilometresi: ");
             chOpts.DefaultValue = StartCH;
-            PromptResult stringRes = ed.GetString(chOpts);
-            string chRes = stringRes.StringResult;
-            if (stringRes.Status == PromptStatus.None)
+            chOpts.UseDefaultValue = true;
+            AcadEditor.PromptChainageResult chRes = ed.GetChainage(chOpts);
+            string chStr = chRes.StringResult;
+            if (chRes.Status == PromptStatus.None)
             {
-                chRes = StartCH;
+                chStr = StartCH;
             }
-            else if (stringRes.Status != PromptStatus.OK)
+            else if (chRes.Status != PromptStatus.OK)
             {
                 return;
             }
-            StartCH = chRes;
+            StartCH = chStr;
 
             // Print axes
             double totalDistance = 0;
             bool flag = true;
+            bool hasFirstPoint = false;
             while (flag)
             {
                 using (Transaction tr = db.TransactionManager.StartTransaction())
@@ -127,73 +135,28 @@ namespace XCOM.Commands.Annotation
                 using (TextStyleTable tt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
                 using (BlockTableRecord btr = (BlockTableRecord)tr.GetObject(db.CurrentSpaceId, OpenMode.ForWrite))
                 {
-                    // Read block and text style settings
-                    ObjectId blockId = ObjectId.Null;
-                    ObjectId textStyleId = ObjectId.Null;
-                    if (bt.Has(BlockName))
-                    {
-                        blockId = bt[BlockName];
-                    }
-                    if (tt.Has(TextStyleName))
-                    {
-                        textStyleId = tt[TextStyleName];
-                    }
-
-                    // Axis distance
-                    PromptDoubleOptions distOpts = new PromptDoubleOptions("\nAks mesafesi [Seçenekler/çıKış]: ", "Settings Exit");
-                    distOpts.AllowNegative = false;
-                    distOpts.DefaultValue = AxisDistance;
-                    distOpts.UseDefaultValue = true;
-                    PromptDoubleResult distRes = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetDouble(distOpts);
-                    if (distRes.Status == PromptStatus.Keyword && distRes.StringResult == "Settings")
-                    {
-                        ShowSettings();
-                        continue;
-                    }
-                    else if (distRes.Status == PromptStatus.Keyword && distRes.StringResult == "Exit")
-                    {
-                        break;
-                    }
-                    else if (distRes.Status != PromptStatus.OK)
-                    {
-                        break;
-                    }
-
-                    // Calcuate axis insertion point and chainage
-                    AxisDistance = distRes.Value;
-                    if (GetAxisInsertionPoint(tr, centerlineId, startPoint, AxisDistance, totalDistance, planAlignment, out double currentDistance, out Point3d axisPoint, out Vector3d tangentVector))
+                    // Calculate axis insertion point and chainage
+                    if (GetAxisInsertionPoint(tr, alignmentType, centerlineId, startPoint, hasFirstPoint, totalDistance, out double currentDistance, out Point3d axisPoint, out Vector3d tangentVector))
                     {
                         string ch = ChPrefix + AcadText.ChainageToString(currentDistance + AcadText.ChainageFromString(StartCH), Precision);
                         Vector3d perpendicularVector = tangentVector.RotateBy(Math.PI / 2, Vector3d.ZAxis);
                         double rotation = Vector3d.XAxis.GetAngleTo(tangentVector, Vector3d.ZAxis);
 
                         // Axis name
-                        PromptStringOptions strOpts = new PromptStringOptions("Aks Adı: ");
-                        strOpts.DefaultValue = AxisName;
-                        PromptResult strRes = ed.GetString(strOpts);
-                        string nameRes = strRes.StringResult;
-                        if (strRes.Status == PromptStatus.None)
+                        if (!GetAxisName())
                         {
-                            nameRes = AxisName;
-                        }
-                        else if (strRes.Status != PromptStatus.OK)
-                        {
-                            break;
-                        }
-
-                        // Break axis name into parts
-                        var regex = new System.Text.RegularExpressions.Regex(@"\d");
-                        if (regex.IsMatch(nameRes))
-                        {
-                            var match = regex.Match(nameRes);
-                            Prefix = nameRes.Substring(0, match.Index);
-                            Number = int.Parse(nameRes.Substring(match.Index, match.Length));
-                            Suffix = nameRes.Substring(match.Index + match.Length);
+                            return;
                         }
 
                         if (DrawOnlyLine)
                         {
                             // Draw axis
+                            ObjectId textStyleId = ObjectId.Null;
+                            if (tt.Has(TextStyleName))
+                            {
+                                textStyleId = tt[TextStyleName];
+                            }
+
                             // Line
                             Point3d pt1 = axisPoint - perpendicularVector * AxisLength / 2;
                             Point3d pt2 = axisPoint + perpendicularVector * AxisLength / 2;
@@ -209,6 +172,13 @@ namespace XCOM.Commands.Annotation
                         }
                         else
                         {
+                            // Draw block
+                            ObjectId blockId = ObjectId.Null;
+                            if (bt.Has(BlockName))
+                            {
+                                blockId = bt[BlockName];
+                            }
+
                             // Insert block
                             BlockReference bref = new BlockReference(axisPoint, blockId);
                             bref.Rotation = rotation;
@@ -243,9 +213,15 @@ namespace XCOM.Commands.Annotation
                             }
                         }
 
-                    }
+                        hasFirstPoint = true;
 
-                    tr.Commit();
+                        tr.Commit();
+                    }
+                    else
+                    {
+                        tr.Commit();
+                        return;
+                    }
                 }
 
                 // Increment axis number
@@ -254,17 +230,122 @@ namespace XCOM.Commands.Annotation
             }
         }
 
-        private bool GetAxisInsertionPoint(Transaction tr, ObjectId curveId, Point3d startPoint, double axisDistance, double totalDistance, bool isPlan, out double currentDistance, out Point3d axisPoint, out Vector3d tangent)
+        private AlignmentType GetAlignmentType()
+        {
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var ed = doc.Editor;
+
+            PromptKeywordOptions opts = new PromptKeywordOptions("\nYerleşim [Plan/pRofil] <Plan>: ", "Plan pRofile");
+            opts.Keywords.Default = "Plan";
+            opts.AllowNone = true;
+            PromptResult res = ed.GetKeywords(opts);
+            string alignmentStr = res.StringResult;
+            if (res.Status == PromptStatus.None)
+            {
+                return AlignmentType.Plan;
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return AlignmentType.None;
+            }
+
+            return (alignmentStr == "Plan" ? AlignmentType.Plan : AlignmentType.Profile);
+        }
+
+        private ObjectId GetAlignment()
+        {
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var ed = doc.Editor;
+
+            PromptEntityOptions entityOpts = new PromptEntityOptions("\nEksen: ");
+            entityOpts.SetRejectMessage("\nSelect a curve.");
+            entityOpts.AddAllowedClass(typeof(Curve), false);
+            PromptEntityResult entityRes = ed.GetEntity(entityOpts);
+            if (entityRes.Status == PromptStatus.OK)
+            {
+                return entityRes.ObjectId;
+            }
+            else
+            {
+                return ObjectId.Null;
+            }
+        }
+
+        private bool GetAxisInsertionPoint(Transaction tr, AlignmentType alignmentType, ObjectId curveId, Point3d startPoint, bool allowDistance, double totalDistance, out double currentDistance, out Point3d axisPoint, out Vector3d tangent)
         {
             try
             {
                 Curve centerline = tr.GetObject(curveId, OpenMode.ForRead) as Curve;
                 startPoint = centerline.GetClosestPointTo(startPoint, false);
 
-                if (isPlan)
+                while (true)
+                {
+                    if (!allowDistance && SelectionMethod == AxisSelectionMethod.Distance)
+                    {
+                        SelectionMethod = AxisSelectionMethod.Point;
+                    }
+
+                    InputState state;
+                    switch (SelectionMethod)
+                    {
+                        case AxisSelectionMethod.Distance:
+                            state = GetAxisByDistance(out double distance);
+                            if (state == InputState.OK)
+                            {
+                                AxisDistance = distance;
+                            }
+                            break;
+                        case AxisSelectionMethod.Chainage:
+                            state = GetAxisByChainage(allowDistance, out double chainage);
+                            if (state == InputState.OK)
+                            {
+                                AxisDistance = chainage - AcadText.ChainageFromString(StartCH) - totalDistance;
+                            }
+                            break;
+                        case AxisSelectionMethod.Point:
+                            state = GetAxisByPoint(allowDistance, out Point3d point);
+                            if (state == InputState.OK)
+                            {
+                                if (alignmentType == AlignmentType.Plan)
+                                {
+                                    AxisDistance = centerline.GetDistAtPoint(point) - centerline.GetDistAtPoint(startPoint) - totalDistance;
+                                }
+                                else
+                                {
+                                    using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                                    {
+                                        Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
+                                        startPoint = planCurve.GetClosestPointTo(startPoint, false);
+                                        double startDistance = planCurve.GetDistAtPoint(startPoint);
+
+                                        Point3d axisPointPlan = centerline.GetClosestPointTo(point, Vector3d.YAxis, false);
+                                        AxisDistance = planCurve.GetDistAtPoint(axisPointPlan) - startDistance - totalDistance;
+                                    }
+                                }
+                            }
+                            break;
+                        default:
+                            state = InputState.Exit;
+                            break;
+                    }
+
+                    if (state == InputState.Exit)
+                    {
+                        currentDistance = 0;
+                        axisPoint = Point3d.Origin;
+                        tangent = Vector3d.XAxis;
+                        return false;
+                    }
+                    else if (state == InputState.OK)
+                    {
+                        break;
+                    }
+                }
+
+                if (alignmentType == AlignmentType.Plan)
                 {
                     double startDistance = centerline.GetDistAtPoint(startPoint);
-                    currentDistance = startDistance + totalDistance + axisDistance;
+                    currentDistance = startDistance + totalDistance + AxisDistance;
                     double currentParam = centerline.GetParameterAtDistance(currentDistance);
                     axisPoint = centerline.GetPointAtParameter(currentParam);
                     tangent = centerline.GetFirstDerivative(currentParam).GetNormal();
@@ -277,7 +358,7 @@ namespace XCOM.Commands.Annotation
                         startPoint = planCurve.GetClosestPointTo(startPoint, false);
 
                         double startDistance = planCurve.GetDistAtPoint(startPoint);
-                        currentDistance = startDistance + totalDistance + axisDistance;
+                        currentDistance = startDistance + totalDistance + AxisDistance;
                         double currentParam = planCurve.GetParameterAtDistance(currentDistance);
                         Point3d axisPointPlan = planCurve.GetPointAtParameter(currentParam);
                         axisPoint = centerline.GetClosestPointTo(axisPointPlan, Vector3d.YAxis, false);
@@ -297,6 +378,164 @@ namespace XCOM.Commands.Annotation
 
                 return false;
             }
+        }
+
+        private InputState GetAxisByDistance(out double distance)
+        {
+            distance = 0;
+            PromptDoubleOptions opts = new PromptDoubleOptions("\nAks mesafesi [Nokta/Kilometre/Seçenekler/çıKış]: ", "Point Chainage Settings Exit");
+            opts.AllowNegative = false;
+            opts.DefaultValue = AxisDistance;
+            opts.UseDefaultValue = true;
+            PromptDoubleResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetDouble(opts);
+            if (res.Status == PromptStatus.Keyword && res.StringResult == "Point")
+            {
+                SelectionMethod = AxisSelectionMethod.Point;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Chainage")
+            {
+                SelectionMethod = AxisSelectionMethod.Chainage;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Settings")
+            {
+                ShowSettings();
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Exit")
+            {
+                return InputState.Exit;
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return InputState.Exit;
+            }
+
+            distance = res.Value;
+            return InputState.OK;
+        }
+
+        private InputState GetAxisByPoint(bool allowDistance, out Point3d point)
+        {
+            point = Point3d.Origin;
+            PromptPointOptions opts;
+            if (allowDistance)
+            {
+                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [Mesafe/Kilometre/Seçenekler/çıKış]: ", "Distance Chainage Settings Exit");
+            }
+            else
+            {
+                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [Kilometre/Seçenekler/çıKış]: ", "Chainage Settings Exit");
+            }
+
+            PromptPointResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(opts);
+            if (res.Status == PromptStatus.Keyword && res.StringResult == "Distance")
+            {
+                SelectionMethod = AxisSelectionMethod.Distance;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Chainage")
+            {
+                SelectionMethod = AxisSelectionMethod.Chainage;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Settings")
+            {
+                ShowSettings();
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Exit")
+            {
+                return InputState.Exit;
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return InputState.Exit;
+            }
+
+            point = res.Value;
+            return InputState.OK;
+        }
+
+        private InputState GetAxisByChainage(bool allowDistance, out double ch)
+        {
+            ch = 0;
+            AcadEditor.PromptChainageOptions opts;
+            if (allowDistance)
+            {
+                opts = new AcadEditor.PromptChainageOptions("\nAks kilometresi [Mesafe/Nokta/Seçenekler/çıKış]: ", "Distance Point Settings Exit");
+            }
+            else
+            {
+                opts = new AcadEditor.PromptChainageOptions("\nAks kilometresi [Nokta/Seçenekler/çıKış]: ", "Point Settings Exit");
+            }
+
+            AcadEditor.PromptChainageResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetChainage(opts);
+            if (res.Status == PromptStatus.Keyword && res.StringResult == "Distance")
+            {
+                SelectionMethod = AxisSelectionMethod.Distance;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Point")
+            {
+                SelectionMethod = AxisSelectionMethod.Point;
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Settings")
+            {
+                ShowSettings();
+                return InputState.Continue;
+            }
+            else if (res.Status == PromptStatus.Keyword && res.StringResult == "Exit")
+            {
+                return InputState.Exit;
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return InputState.Exit;
+            }
+
+            if (AcadUtility.AcadText.TryChainageFromString(res.StringResult, out ch))
+            {
+                return InputState.OK;
+            }
+            else
+            {
+                return InputState.Continue;
+            }
+        }
+
+        private bool GetAxisName()
+        {
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var ed = doc.Editor;
+
+            PromptStringOptions opts = new PromptStringOptions("Aks adı: ");
+            opts.DefaultValue = AxisName;
+            PromptResult res = ed.GetString(opts);
+            string name = res.StringResult;
+            if (res.Status == PromptStatus.None)
+            {
+                name = AxisName;
+            }
+            else if (res.Status != PromptStatus.OK)
+            {
+                return false;
+            }
+
+            // Break axis name into parts
+            var regex = new System.Text.RegularExpressions.Regex(@"\d");
+            if (regex.IsMatch(name))
+            {
+                var match = regex.Match(name);
+                Prefix = name.Substring(0, match.Index);
+                Number = int.Parse(name.Substring(match.Index, match.Length));
+                Suffix = name.Substring(match.Index + match.Length);
+                return true;
+            }
+
+            return false;
         }
 
         private bool ShowSettings()
