@@ -120,7 +120,7 @@ namespace XCOM.Commands.Drawing
             private Point3d mt0 = new Point3d();
             private Point3d mp2 = new Point3d();
             private Point3d mt2 = new Point3d();
-            private int mSegments = 1;
+            private readonly int mSegments = 1;
 
             private BezierJig(Entity en, Point3d p0, Point3d t0, Point3d p2, int segments)
                 : base(en)
@@ -250,7 +250,7 @@ namespace XCOM.Commands.Drawing
         {
             private Point3d mp0 = new Point3d();
             private Point3d mp2 = new Point3d();
-            private int mSegments = 1;
+            private readonly int mSegments = 1;
 
             private ParabolaJig(Entity en, Point3d p0, int segments)
                 : base(en)
