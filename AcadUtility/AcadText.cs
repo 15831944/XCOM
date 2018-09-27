@@ -20,7 +20,10 @@ namespace AcadUtility
         public static bool TryChainageFromString(string text, out double value)
         {
             value = 0;
-            if (string.IsNullOrEmpty(text)) return false;
+            if (string.IsNullOrEmpty(text))
+            {
+                return false;
+            }
 
             text = text.Replace(',', '.');
             text = text.Replace("+", "");
@@ -30,7 +33,10 @@ namespace AcadUtility
 
         public static string ChainageToString(double value)
         {
-            return ChainageToString(value, 2);
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+
+            return ChainageToString(value, db.Luprec);
         }
 
         public static string ChainageToString(double value, int precision)
@@ -41,9 +47,25 @@ namespace AcadUtility
             return string.Format(format, km, m);
         }
 
+        public static string ChainageToString(string value)
+        {
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+
+            return ChainageToString(value, db.Luprec);
+        }
+
+        public static string ChainageToString(string value, int precision)
+        {
+            return ChainageToString(ChainageFromString(value), precision);
+        }
+
         public static string LevelToString(double value)
         {
-            return LevelToString(value, 2);
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+
+            return LevelToString(value, db.Luprec);
         }
 
         public static string LevelToString(double value, int precision)
@@ -53,11 +75,17 @@ namespace AcadUtility
             string str = Math.Abs(value).ToString(format);
 
             if (str == format)
+            {
                 str = "%%p" + str;
+            }
             else if (value < 0)
+            {
                 str = "-" + str;
+            }
             else
+            {
                 str = "+" + str;
+            }
 
             return str;
         }

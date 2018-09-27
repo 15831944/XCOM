@@ -49,6 +49,8 @@
             this.cbTextStyle = new System.Windows.Forms.ComboBox();
             this.rbAxisLine = new System.Windows.Forms.RadioButton();
             this.rbAxisBlock = new System.Windows.Forms.RadioButton();
+            this.txtAxisLineLength = new System.Windows.Forms.TextBox();
+            this.label7 = new System.Windows.Forms.Label();
             this.groupBox3.SuspendLayout();
             this.pnlBlock.SuspendLayout();
             this.pnlDraw.SuspendLayout();
@@ -59,7 +61,7 @@
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdCancel.Location = new System.Drawing.Point(240, 289);
+            this.cmdCancel.Location = new System.Drawing.Point(240, 315);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 2;
@@ -71,7 +73,7 @@
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdOK.Location = new System.Drawing.Point(159, 289);
+            this.cmdOK.Location = new System.Drawing.Point(159, 315);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 1;
@@ -88,7 +90,7 @@
             this.groupBox3.Controls.Add(this.rbAxisBlock);
             this.groupBox3.Location = new System.Drawing.Point(12, 12);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(301, 262);
+            this.groupBox3.Size = new System.Drawing.Size(301, 286);
             this.groupBox3.TabIndex = 0;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Seçenekler";
@@ -105,7 +107,7 @@
             this.pnlBlock.Controls.Add(this.label4);
             this.pnlBlock.Controls.Add(this.txtChPrefix);
             this.pnlBlock.Controls.Add(this.txtChAttribute);
-            this.pnlBlock.Location = new System.Drawing.Point(40, 127);
+            this.pnlBlock.Location = new System.Drawing.Point(40, 153);
             this.pnlBlock.Name = "pnlBlock";
             this.pnlBlock.Size = new System.Drawing.Size(242, 130);
             this.pnlBlock.TabIndex = 3;
@@ -216,41 +218,43 @@
             // 
             // pnlDraw
             // 
+            this.pnlDraw.Controls.Add(this.label7);
             this.pnlDraw.Controls.Add(this.label1);
             this.pnlDraw.Controls.Add(this.label3);
+            this.pnlDraw.Controls.Add(this.txtAxisLineLength);
             this.pnlDraw.Controls.Add(this.txtTextHeight);
             this.pnlDraw.Controls.Add(this.cbTextStyle);
             this.pnlDraw.Location = new System.Drawing.Point(40, 48);
             this.pnlDraw.Name = "pnlDraw";
-            this.pnlDraw.Size = new System.Drawing.Size(242, 50);
+            this.pnlDraw.Size = new System.Drawing.Size(242, 76);
             this.pnlDraw.TabIndex = 1;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(0, 3);
+            this.label1.Location = new System.Drawing.Point(0, 29);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(76, 13);
-            this.label1.TabIndex = 0;
+            this.label1.TabIndex = 2;
             this.label1.Text = "Yazı yüksekliği";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(0, 29);
+            this.label3.Location = new System.Drawing.Point(0, 55);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 2;
+            this.label3.TabIndex = 4;
             this.label3.Text = "Yazı stili";
             // 
             // txtTextHeight
             // 
             this.txtTextHeight.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtTextHeight.Location = new System.Drawing.Point(107, 0);
+            this.txtTextHeight.Location = new System.Drawing.Point(107, 26);
             this.txtTextHeight.Name = "txtTextHeight";
             this.txtTextHeight.Size = new System.Drawing.Size(132, 20);
-            this.txtTextHeight.TabIndex = 1;
+            this.txtTextHeight.TabIndex = 3;
             // 
             // cbTextStyle
             // 
@@ -268,10 +272,10 @@
             "6 - 0.000000",
             "7 - 0.0000000",
             "8 - 0.00000000"});
-            this.cbTextStyle.Location = new System.Drawing.Point(107, 26);
+            this.cbTextStyle.Location = new System.Drawing.Point(107, 52);
             this.cbTextStyle.Name = "cbTextStyle";
             this.cbTextStyle.Size = new System.Drawing.Size(132, 21);
-            this.cbTextStyle.TabIndex = 3;
+            this.cbTextStyle.TabIndex = 5;
             // 
             // rbAxisLine
             // 
@@ -289,7 +293,7 @@
             // rbAxisBlock
             // 
             this.rbAxisBlock.AutoSize = true;
-            this.rbAxisBlock.Location = new System.Drawing.Point(20, 104);
+            this.rbAxisBlock.Location = new System.Drawing.Point(20, 130);
             this.rbAxisBlock.Name = "rbAxisBlock";
             this.rbAxisBlock.Size = new System.Drawing.Size(72, 17);
             this.rbAxisBlock.TabIndex = 2;
@@ -297,13 +301,31 @@
             this.rbAxisBlock.UseVisualStyleBackColor = true;
             this.rbAxisBlock.CheckedChanged += new System.EventHandler(this.DrawingType_Check_Changed);
             // 
+            // txtAxisLineLength
+            // 
+            this.txtAxisLineLength.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.txtAxisLineLength.Location = new System.Drawing.Point(107, 0);
+            this.txtAxisLineLength.Name = "txtAxisLineLength";
+            this.txtAxisLineLength.Size = new System.Drawing.Size(132, 20);
+            this.txtAxisLineLength.TabIndex = 1;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(0, 3);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(75, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "Çizgi uzunluğu";
+            // 
             // DrawAxesForm
             // 
             this.AcceptButton = this.cmdOK;
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(327, 324);
+            this.ClientSize = new System.Drawing.Size(327, 350);
             this.Controls.Add(this.groupBox3);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
@@ -347,5 +369,7 @@
         private System.Windows.Forms.Panel pnlDraw;
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtChPrefix;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.TextBox txtAxisLineLength;
     }
 }

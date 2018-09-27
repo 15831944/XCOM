@@ -33,6 +33,7 @@
         <Command Local="NUMARALANDIR" Global="NUMARALANDIR" />
         <Command Local="KMYAZ" Global="KMYAZ" />
         <Command Local="RESETDIMVIEWTWIST" Global="RESETDIMVIEWTWIST" />
+        <Command Local="DRAWAXES" Global="DRAWAXES" />
 	    <!-- Topography -->
         <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
         <Command Local="SEVTARAMA" Global="SEVTARAMA" />

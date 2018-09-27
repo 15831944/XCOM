@@ -67,7 +67,11 @@ namespace AcadUtility
                 {
                     LayerTableRecord layer = new LayerTableRecord();
                     layer.Name = layerName;
-                    if (color != null) layer.Color = color;
+                    if (color != null)
+                    {
+                        layer.Color = color;
+                    }
+
                     table.UpgradeOpen();
                     id = table.Add(layer);
                     table.DowngradeOpen();
@@ -193,57 +197,97 @@ namespace AcadUtility
                 if (horizontalMode == TextHorizontalMode.TextLeft)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         dbtext.Justify = AttachmentPoint.TopLeft;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         dbtext.Justify = AttachmentPoint.BaseLeft;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         dbtext.Justify = AttachmentPoint.BottomLeft;
+                    }
                     else
+                    {
                         dbtext.Justify = AttachmentPoint.MiddleLeft;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextRight)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         dbtext.Justify = AttachmentPoint.TopRight;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         dbtext.Justify = AttachmentPoint.BaseRight;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         dbtext.Justify = AttachmentPoint.BottomRight;
+                    }
                     else
+                    {
                         dbtext.Justify = AttachmentPoint.MiddleRight;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextMid || horizontalMode == TextHorizontalMode.TextCenter)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         dbtext.Justify = AttachmentPoint.TopCenter;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         dbtext.Justify = AttachmentPoint.BaseCenter;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         dbtext.Justify = AttachmentPoint.BottomCenter;
+                    }
                     else
+                    {
                         dbtext.Justify = AttachmentPoint.MiddleCenter;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextAlign)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         dbtext.Justify = AttachmentPoint.TopAlign;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         dbtext.Justify = AttachmentPoint.BaseAlign;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         dbtext.Justify = AttachmentPoint.BottomAlign;
+                    }
                     else
+                    {
                         dbtext.Justify = AttachmentPoint.MiddleAlign;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextFit)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         dbtext.Justify = AttachmentPoint.TopFit;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         dbtext.Justify = AttachmentPoint.BaseFit;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         dbtext.Justify = AttachmentPoint.BottomFit;
+                    }
                     else
+                    {
                         dbtext.Justify = AttachmentPoint.MiddleFit;
+                    }
                 }
 
                 if (horizontalMode != TextHorizontalMode.TextLeft || verticalMode != TextVerticalMode.TextBase)
@@ -252,8 +296,15 @@ namespace AcadUtility
                     dbtext.AdjustAlignment(db);
                 }
 
-                if (!textStyleId.IsNull) dbtext.TextStyleId = textStyleId;
-                if (!layerId.IsNull) dbtext.LayerId = layerId;
+                if (!textStyleId.IsNull)
+                {
+                    dbtext.TextStyleId = textStyleId;
+                }
+
+                if (!layerId.IsNull)
+                {
+                    dbtext.LayerId = layerId;
+                }
 
                 return dbtext;
             }
@@ -297,8 +348,15 @@ namespace AcadUtility
                 mtext.Rotation = rotation;
                 mtext.Attachment = attachmentPoint;
 
-                if (!textStyleId.IsNull) mtext.TextStyleId = textStyleId;
-                if (!layerId.IsNull) mtext.LayerId = layerId;
+                if (!textStyleId.IsNull)
+                {
+                    mtext.TextStyleId = textStyleId;
+                }
+
+                if (!layerId.IsNull)
+                {
+                    mtext.LayerId = layerId;
+                }
 
                 return mtext;
             }
@@ -343,57 +401,97 @@ namespace AcadUtility
                 if (horizontalMode == TextHorizontalMode.TextLeft)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         attdef.Justify = AttachmentPoint.TopLeft;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         attdef.Justify = AttachmentPoint.BaseLeft;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         attdef.Justify = AttachmentPoint.BottomLeft;
+                    }
                     else
+                    {
                         attdef.Justify = AttachmentPoint.MiddleLeft;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextRight)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         attdef.Justify = AttachmentPoint.TopRight;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         attdef.Justify = AttachmentPoint.BaseRight;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         attdef.Justify = AttachmentPoint.BottomRight;
+                    }
                     else
+                    {
                         attdef.Justify = AttachmentPoint.MiddleRight;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextMid || horizontalMode == TextHorizontalMode.TextCenter)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         attdef.Justify = AttachmentPoint.TopCenter;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         attdef.Justify = AttachmentPoint.BaseCenter;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         attdef.Justify = AttachmentPoint.BottomCenter;
+                    }
                     else
+                    {
                         attdef.Justify = AttachmentPoint.MiddleCenter;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextAlign)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         attdef.Justify = AttachmentPoint.TopAlign;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         attdef.Justify = AttachmentPoint.BaseAlign;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         attdef.Justify = AttachmentPoint.BottomAlign;
+                    }
                     else
+                    {
                         attdef.Justify = AttachmentPoint.MiddleAlign;
+                    }
                 }
                 else if (horizontalMode == TextHorizontalMode.TextFit)
                 {
                     if (verticalMode == TextVerticalMode.TextTop)
+                    {
                         attdef.Justify = AttachmentPoint.TopFit;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBase)
+                    {
                         attdef.Justify = AttachmentPoint.BaseFit;
+                    }
                     else if (verticalMode == TextVerticalMode.TextBottom)
+                    {
                         attdef.Justify = AttachmentPoint.BottomFit;
+                    }
                     else
+                    {
                         attdef.Justify = AttachmentPoint.MiddleFit;
+                    }
                 }
 
                 if (horizontalMode != TextHorizontalMode.TextLeft || verticalMode != TextVerticalMode.TextBase)
@@ -402,8 +500,15 @@ namespace AcadUtility
                     attdef.AdjustAlignment(db);
                 }
 
-                if (!textStyleId.IsNull) attdef.TextStyleId = textStyleId;
-                if (!layerId.IsNull) attdef.LayerId = layerId;
+                if (!textStyleId.IsNull)
+                {
+                    attdef.TextStyleId = textStyleId;
+                }
+
+                if (!layerId.IsNull)
+                {
+                    attdef.LayerId = layerId;
+                }
 
                 return attdef;
             }
@@ -419,7 +524,10 @@ namespace AcadUtility
                 line.StartPoint = pt1;
                 line.EndPoint = pt2;
 
-                if (!layerId.IsNull) line.LayerId = layerId;
+                if (!layerId.IsNull)
+                {
+                    line.LayerId = layerId;
+                }
 
                 return line;
             }
@@ -459,7 +567,10 @@ namespace AcadUtility
                 circle.Radius = radius;
                 circle.Normal = normal;
 
-                if (!layerId.IsNull) circle.LayerId = layerId;
+                if (!layerId.IsNull)
+                {
+                    circle.LayerId = layerId;
+                }
 
                 return circle;
             }
@@ -493,7 +604,10 @@ namespace AcadUtility
                 arc.StartAngle = startAngle;
                 arc.EndAngle = endAngle;
 
-                if (!layerId.IsNull) arc.LayerId = layerId;
+                if (!layerId.IsNull)
+                {
+                    arc.LayerId = layerId;
+                }
 
                 return arc;
             }
@@ -626,10 +740,32 @@ namespace AcadUtility
             }
         }
 
-        // Returns all text styles
-        public static Dictionary<string, ObjectId> GetTextStyles(Database db)
+        // Returns all block definitions
+        public static IEnumerable<KeyValuePair<string, ObjectId>> GetBlocks(Database db)
         {
-            Dictionary<string, ObjectId> list = new Dictionary<string, ObjectId>();
+            SortedDictionary<string, ObjectId> list = new SortedDictionary<string, ObjectId>();
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                BlockTable table = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                SymbolTableEnumerator it = table.GetEnumerator();
+                while (it.MoveNext())
+                {
+                    ObjectId id = it.Current;
+                    BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
+                    list.Add(block.Name, id);
+                }
+
+                tr.Commit();
+            }
+
+            return list;
+        }
+
+        // Returns all text styles
+        public static IEnumerable<KeyValuePair<string, ObjectId>> GetTextStyles(Database db)
+        {
+            SortedDictionary<string, ObjectId> list = new SortedDictionary<string, ObjectId>();
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -668,7 +804,10 @@ namespace AcadUtility
                         block = tr.GetObject(blockRef.BlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
                     }
 
-                    if (block != null) return block.Name;
+                    if (block != null)
+                    {
+                        return block.Name;
+                    }
                 }
                 catch
                 {

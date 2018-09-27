@@ -116,5 +116,8 @@
     <Setting Name="Command_DRAWAXES_ChPrefix" Type="System.String" Scope="User">
       <Value Profile="(Default)">KM: </Value>
     </Setting>
+    <Setting Name="Command_DRAWAXES_AxisLineLength" Type="System.Double" Scope="User">
+      <Value Profile="(Default)">20</Value>
+    </Setting>
   </Settings>
 </SettingsFile>

@@ -18,6 +18,7 @@ namespace XCOM.Commands.Annotation
             }
         }
 
+        public double AxisLineLength { get { double.TryParse(txtAxisLineLength.Text, out double v); return v; } set { txtAxisLineLength.Text = value.ToString(); } }
         public double TextHeight { get { double.TryParse(txtTextHeight.Text, out double v); return v; } set { txtTextHeight.Text = value.ToString(); } }
         public string TextStyleName
         {

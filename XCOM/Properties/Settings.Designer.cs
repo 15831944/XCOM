@@ -8,10 +8,9 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XCOM.Properties
-{
-
-
+namespace XCOM.Properties {
+    
+    
     [global::System.Runtime.CompilerServices.CompilerGeneratedAttribute()]
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.Editors.SettingsDesigner.SettingsSingleFileGenerator", "15.8.0.0")]
     internal sealed partial class Settings : global::System.Configuration.ApplicationSettingsBase {
@@ -477,6 +476,18 @@ namespace XCOM.Properties
             }
             set {
                 this["Command_DRAWAXES_ChPrefix"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("20")]
+        public double Command_DRAWAXES_AxisLineLength {
+            get {
+                return ((double)(this["Command_DRAWAXES_AxisLineLength"]));
+            }
+            set {
+                this["Command_DRAWAXES_AxisLineLength"] = value;
             }
         }
     }
