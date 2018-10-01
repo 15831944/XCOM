@@ -1,7 +1,7 @@
 ﻿using AcadUtility.WinForms;
 using System;
 
-namespace XCOM.Commands.Annotation
+namespace XCOM.Commands.Bridge
 {
     public partial class DrawAxesForm : AcadUtility.WinForms.VersionDisplayForm
     {

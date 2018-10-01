@@ -33,7 +33,6 @@
         <Command Local="NUMARALANDIR" Global="NUMARALANDIR" />
         <Command Local="KMYAZ" Global="KMYAZ" />
         <Command Local="RESETDIMVIEWTWIST" Global="RESETDIMVIEWTWIST" />
-        <Command Local="DRAWAXES" Global="DRAWAXES" />
 	    <!-- Topography -->
         <Command Local="PROFILMENFEZ" Global="PROFILMENFEZ" />
         <Command Local="SEVTARAMA" Global="SEVTARAMA" />
@@ -45,6 +44,8 @@
         <Command Local="MULTIPLEPROFILEONCURVE" Global="MULTIPLEPROFILEONCURVE" />
         <Command Local="HAVUZKAZISI" Global="HAVUZKAZISI" />
         <Command Local="HENDEKKAZISI" Global="HENDEKKAZISI" />		
+	    <!-- Bridge  -->
+        <Command Local="DRAWAXES" Global="DRAWAXES" />
 	    <!-- Geology -->
         <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
 	    <!-- Utilities -->

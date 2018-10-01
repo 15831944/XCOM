@@ -1,4 +1,4 @@
-﻿namespace XCOM.Commands.Annotation
+﻿namespace XCOM.Commands.Bridge
 {
     partial class DrawAxesForm
     {

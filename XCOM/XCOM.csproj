@@ -97,11 +97,11 @@
     <Compile Include="Annotation\Command_COORDGRID.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
     <Compile Include="Annotation\Command_KMYAZ.cs" />
-    <Compile Include="Annotation\Command_DRAWAXES.cs" />
-    <Compile Include="Annotation\Forms\DrawAxesForm.cs">
+    <Compile Include="Bridge\Command_DRAWAXES.cs" />
+    <Compile Include="Bridge\Forms\DrawAxesForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Annotation\Forms\DrawAxesForm.designer.cs">
+    <Compile Include="Bridge\Forms\DrawAxesForm.designer.cs">
       <DependentUpon>DrawAxesForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Annotation\Forms\PrintChainageForm.cs">
@@ -299,7 +299,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Annotation\Forms\DrawAxesForm.resx">
+    <EmbeddedResource Include="Bridge\Forms\DrawAxesForm.resx">
       <DependentUpon>DrawAxesForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Annotation\Forms\PrintChainageForm.resx">

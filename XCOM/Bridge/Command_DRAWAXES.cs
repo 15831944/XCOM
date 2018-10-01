@@ -6,7 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-namespace XCOM.Commands.Annotation
+namespace XCOM.Commands.Bridge
 {
     public class Command_DRAWAXES
     {
