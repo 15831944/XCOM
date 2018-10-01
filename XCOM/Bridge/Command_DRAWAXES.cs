@@ -19,13 +19,6 @@ namespace XCOM.Commands.Bridge
             Continue
         }
 
-        private enum AlignmentType
-        {
-            None,
-            Plan,
-            Profile
-        }
-
         private enum AxisSelectionMethod
         {
             Distance,
@@ -56,7 +49,7 @@ namespace XCOM.Commands.Bridge
         private int Number { get; set; }
         private string AxisName => Prefix + Number.ToString() + Suffix;
 
-        private AlignmentType Alignment { get; set; }
+        private Bridge.AlignmentType Alignment { get; set; }
         private ObjectId CenterlineId { get; set; }
         private Point3d StartPoint { get; set; }
         private double StartCH { get; set; }
@@ -89,7 +82,7 @@ namespace XCOM.Commands.Bridge
             }
 
             // Reset parameters
-            Alignment = AlignmentType.None;
+            Alignment = Bridge.AlignmentType.None;
             CenterlineId = ObjectId.Null;
             StartPoint = Point3d.Origin;
             StartCH = 0;
@@ -151,24 +144,8 @@ namespace XCOM.Commands.Bridge
             Matrix3d wcs2ucs = AcadGraphics.WcsToUcs;
 
             // Alignment type
-            PromptKeywordOptions opts = new PromptKeywordOptions("\nYerleşim [Plan/pRofil] <Plan>: ", "Plan pRofile");
-            opts.Keywords.Default = "Plan";
-            opts.AllowNone = true;
-            PromptResult res = ed.GetKeywords(opts);
-            string alignmentStr = res.StringResult;
-            if (res.Status == PromptStatus.None)
-            {
-                Alignment = AlignmentType.Plan;
-            }
-            else if (res.Status != PromptStatus.OK)
-            {
-                return false;
-            }
-            else
-            {
-                Alignment = (alignmentStr == "Plan" ? AlignmentType.Plan : AlignmentType.Profile);
-            }
-            if (Alignment == AlignmentType.None)
+            Alignment = Bridge.PickAlignment();
+            if (Alignment == Bridge.AlignmentType.None)
             {
                 return false;
             }
@@ -251,7 +228,7 @@ namespace XCOM.Commands.Bridge
                                 if (state == InputState.OK)
                                 {
                                     AxisDistance = distance;
-                                    if (Alignment == AlignmentType.Plan)
+                                    if (Alignment == Bridge.AlignmentType.Plan)
                                     {
                                         axisDistanceFromStartPoint = centerline.GetDistAtPoint(LastAxisPoint) + AxisDistance;
                                         axisPoint = centerline.GetPointAtDist(axisDistanceFromStartPoint);
@@ -273,7 +250,7 @@ namespace XCOM.Commands.Bridge
                                 state = GetAxisByChainage(out double chainage);
                                 if (state == InputState.OK)
                                 {
-                                    if (Alignment == AlignmentType.Plan)
+                                    if (Alignment == Bridge.AlignmentType.Plan)
                                     {
                                         axisPoint = centerline.GetPointAtDist(chainage - StartCH);
                                         axisDistanceFromStartPoint = chainage - StartCH;
@@ -305,7 +282,7 @@ namespace XCOM.Commands.Bridge
                                 if (state == InputState.OK)
                                 {
                                     axisPoint = point;
-                                    if (Alignment == AlignmentType.Plan)
+                                    if (Alignment == Bridge.AlignmentType.Plan)
                                     {
                                         axisDistanceFromStartPoint = centerline.GetDistAtPoint(point);
                                         AxisDistance = FirstRun ? DefaultAxisDistance : axisDistanceFromStartPoint - centerline.GetDistAtPoint(LastAxisPoint);
@@ -347,7 +324,7 @@ namespace XCOM.Commands.Bridge
                         }
                     }
 
-                    if (Alignment == AlignmentType.Plan)
+                    if (Alignment == Bridge.AlignmentType.Plan)
                     {
                         double param = centerline.GetParameterAtPoint(axisPoint);
                         Vector3d tangent = centerline.GetFirstDerivative(param).GetNormal();

@@ -97,6 +97,7 @@
     <Compile Include="Annotation\Command_COORDGRID.cs" />
     <Compile Include="Annotation\Command_LEVEL.cs" />
     <Compile Include="Annotation\Command_KMYAZ.cs" />
+    <Compile Include="Bridge\Bridge.cs" />
     <Compile Include="Bridge\Command_DRAWAXES.cs" />
     <Compile Include="Bridge\Forms\DrawAxesForm.cs">
       <SubType>Form</SubType>
