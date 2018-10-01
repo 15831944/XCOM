@@ -80,8 +80,11 @@
     <Setting Name="Command_PRINTENTCOORDS_SelectText" Type="System.Boolean" Scope="User">
       <Value Profile="(Default)">False</Value>
     </Setting>
-    <Setting Name="Command_PRINTENTCOORDS_LineFormat" Type="System.String" Scope="User">
-      <Value Profile="(Default)">[#]	[X1]	[Y2]	[X2]	[Y2]</Value>
+    <Setting Name="Command_PRINTENTCOORDS_LineFormat" Type="System.Collections.Specialized.StringCollection" Scope="User">
+      <Value Profile="(Default)">&lt;?xml version="1.0" encoding="utf-16"?&gt;
+&lt;ArrayOfString xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema"&gt;
+  &lt;string&gt;[#]	[X1]	[Y1]	[X2]	[Y2]&lt;/string&gt;
+&lt;/ArrayOfString&gt;</Value>
     </Setting>
     <Setting Name="Command_PRINTENTCOORDS_Precision" Type="System.Int32" Scope="User">
       <Value Profile="(Default)">4</Value>

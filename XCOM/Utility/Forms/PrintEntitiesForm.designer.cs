@@ -34,7 +34,6 @@
             this.rtlHelp = new AcadUtility.WinForms.RichTextLabel();
             this.lblPrecision = new System.Windows.Forms.Label();
             this.cbPrecision = new System.Windows.Forms.ComboBox();
-            this.txtLineFormat = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chText = new System.Windows.Forms.CheckBox();
@@ -52,6 +51,7 @@
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.rbWCS = new System.Windows.Forms.RadioButton();
             this.rbUCS = new System.Windows.Forms.RadioButton();
+            this.cbLineFormat = new System.Windows.Forms.ComboBox();
             this.groupBox4.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
@@ -88,10 +88,10 @@
             this.groupBox4.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox4.Controls.Add(this.cbLineFormat);
             this.groupBox4.Controls.Add(this.rtlHelp);
             this.groupBox4.Controls.Add(this.lblPrecision);
             this.groupBox4.Controls.Add(this.cbPrecision);
-            this.groupBox4.Controls.Add(this.txtLineFormat);
             this.groupBox4.Controls.Add(this.label1);
             this.groupBox4.Location = new System.Drawing.Point(13, 123);
             this.groupBox4.Name = "groupBox4";
@@ -143,16 +143,6 @@
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
             this.cbPrecision.TabIndex = 17;
-            // 
-            // txtLineFormat
-            // 
-            this.txtLineFormat.AcceptsTab = true;
-            this.txtLineFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
-            | System.Windows.Forms.AnchorStyles.Right)));
-            this.txtLineFormat.Location = new System.Drawing.Point(138, 24);
-            this.txtLineFormat.Name = "txtLineFormat";
-            this.txtLineFormat.Size = new System.Drawing.Size(273, 20);
-            this.txtLineFormat.TabIndex = 1;
             // 
             // label1
             // 
@@ -334,6 +324,16 @@
             this.rbUCS.Text = "UCS";
             this.rbUCS.UseVisualStyleBackColor = true;
             // 
+            // cbLineFormat
+            // 
+            this.cbLineFormat.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this.cbLineFormat.FormattingEnabled = true;
+            this.cbLineFormat.Location = new System.Drawing.Point(138, 24);
+            this.cbLineFormat.Name = "cbLineFormat";
+            this.cbLineFormat.Size = new System.Drawing.Size(273, 21);
+            this.cbLineFormat.TabIndex = 19;
+            // 
             // PrintEntitiesForm
             // 
             this.AcceptButton = this.cmdOK;
@@ -372,7 +372,6 @@
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.TextBox txtLineFormat;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.CheckBox chText;
         private System.Windows.Forms.CheckBox ch3DFace;
@@ -392,5 +391,6 @@
         private System.Windows.Forms.RadioButton rbUCS;
         private System.Windows.Forms.CheckBox chBlock;
         private AcadUtility.WinForms.RichTextLabel rtlHelp;
+        private System.Windows.Forms.ComboBox cbLineFormat;
     }
 }

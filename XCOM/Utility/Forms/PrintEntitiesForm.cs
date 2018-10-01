@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows.Forms;
 
 namespace XCOM.Commands.Utility
@@ -22,13 +23,17 @@ namespace XCOM.Commands.Utility
             set
             {
                 if (value)
+                {
                     rbUCS.Checked = true;
+                }
                 else
+                {
                     rbWCS.Checked = true;
+                }
             }
         }
 
-        public string LineFormat { get => txtLineFormat.Text; set => txtLineFormat.Text = value; }
+        public string LineFormat { get => cbLineFormat.Text; set => cbLineFormat.Text = value; }
 
         public int Precision { get => cbPrecision.SelectedIndex; set => cbPrecision.SelectedIndex = Math.Min(cbPrecision.Items.Count - 1, Math.Max(0, value)); }
 
@@ -39,6 +44,19 @@ namespace XCOM.Commands.Utility
             InitializeComponent();
 
             rtlHelp.Rtf = Properties.Resources.PrintEntityCoordsHelp;
+        }
+
+        public void SetLineFormats(IEnumerable<string> formats)
+        {
+            cbLineFormat.Items.Clear();
+            foreach (string format in formats)
+            {
+                cbLineFormat.Items.Add(format);
+            }
+            if (cbLineFormat.Items.Count > 0)
+            {
+                cbLineFormat.SelectedIndex = 0;
+            }
         }
 
         private void btnOpenFile_Click(object sender, EventArgs e)

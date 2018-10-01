@@ -337,10 +337,12 @@ namespace XCOM.Properties {
         
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("[#]\t[X1]\t[Y2]\t[X2]\t[Y2]")]
-        public string Command_PRINTENTCOORDS_LineFormat {
+        [global::System.Configuration.DefaultSettingValueAttribute("<?xml version=\"1.0\" encoding=\"utf-16\"?>\r\n<ArrayOfString xmlns:xsi=\"http://www.w3." +
+            "org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\">\r\n  <s" +
+            "tring>[#]\t[X1]\t[Y1]\t[X2]\t[Y2]</string>\r\n</ArrayOfString>")]
+        public global::System.Collections.Specialized.StringCollection Command_PRINTENTCOORDS_LineFormat {
             get {
-                return ((string)(this["Command_PRINTENTCOORDS_LineFormat"]));
+                return ((global::System.Collections.Specialized.StringCollection)(this["Command_PRINTENTCOORDS_LineFormat"]));
             }
             set {
                 this["Command_PRINTENTCOORDS_LineFormat"] = value;

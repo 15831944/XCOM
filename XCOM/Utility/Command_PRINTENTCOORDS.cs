@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.Runtime;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace XCOM.Commands.Utility
@@ -13,7 +14,10 @@ namespace XCOM.Commands.Utility
         [Autodesk.AutoCAD.Runtime.CommandMethod("NESYAZ")]
         public void PrintEntityCoordinates()
         {
-            if (!CheckLicense.Check()) return;
+            if (!CheckLicense.Check())
+            {
+                return;
+            }
 
             Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
             Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
@@ -33,7 +37,7 @@ namespace XCOM.Commands.Utility
 
                 form.UseUCS = Properties.Settings.Default.Command_PRINTENTCOORDS_UCS;
 
-                form.LineFormat = Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat;
+                form.SetLineFormats(Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat.Cast<string>());
                 form.Precision = Properties.Settings.Default.Command_PRINTENTCOORDS_Precision;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
@@ -49,7 +53,24 @@ namespace XCOM.Commands.Utility
 
                     Properties.Settings.Default.Command_PRINTENTCOORDS_UCS = form.UseUCS;
 
-                    Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat = form.LineFormat;
+                    string selectedFormat = form.LineFormat;
+                    bool found = false;
+                    foreach (string format in Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat)
+                    {
+                        if (string.Compare(format, selectedFormat) == 0)
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+                    if (!found)
+                    {
+                        Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat.Insert(0, selectedFormat);
+                    }
+                    while (Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat.Count > 40)
+                    {
+                        Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat.RemoveAt(Properties.Settings.Default.Command_PRINTENTCOORDS_LineFormat.Count - 1);
+                    }
                     Properties.Settings.Default.Command_PRINTENTCOORDS_Precision = form.Precision;
 
                     Properties.Settings.Default.Save();
@@ -57,15 +78,50 @@ namespace XCOM.Commands.Utility
                     // Select objects
                     List<TypedValue> tvs = new List<TypedValue>();
                     tvs.Add(new TypedValue((int)DxfCode.Operator, "<OR"));
-                    if (form.SelectPoint) tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
-                    if (form.SelectCircle) tvs.Add(new TypedValue((int)DxfCode.Start, "CIRCLE"));
-                    if (form.SelectLine) tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
-                    if (form.SelectPolyline) tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
-                    if (form.SelectPolyline) tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
-                    if (form.Select3DFace) tvs.Add(new TypedValue((int)DxfCode.Start, "3DFACE"));
-                    if (form.SelectText) tvs.Add(new TypedValue((int)DxfCode.Start, "TEXT"));
-                    if (form.SelectText) tvs.Add(new TypedValue((int)DxfCode.Start, "MTEXT"));
-                    if (form.SelectBlock) tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
+                    if (form.SelectPoint)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "POINT"));
+                    }
+
+                    if (form.SelectCircle)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "CIRCLE"));
+                    }
+
+                    if (form.SelectLine)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "LINE"));
+                    }
+
+                    if (form.SelectPolyline)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "POLYLINE"));
+                    }
+
+                    if (form.SelectPolyline)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "LWPOLYLINE"));
+                    }
+
+                    if (form.Select3DFace)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "3DFACE"));
+                    }
+
+                    if (form.SelectText)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "TEXT"));
+                    }
+
+                    if (form.SelectText)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "MTEXT"));
+                    }
+
+                    if (form.SelectBlock)
+                    {
+                        tvs.Add(new TypedValue((int)DxfCode.Start, "INSERT"));
+                    }
                     tvs.Add(new TypedValue((int)DxfCode.Operator, "OR>"));
                     SelectionFilter filter = new SelectionFilter(tvs.ToArray());
 
@@ -252,7 +308,7 @@ namespace XCOM.Commands.Utility
                                                 str = str.Replace("[X1]", PrintCoord(polyline[j].X));
                                                 str = str.Replace("[Y1]", PrintCoord(polyline[j].Y));
                                                 str = str.Replace("[Z1]", PrintCoord(polyline[j].Z));
-                                            str = ClearLine(str);
+                                                str = ClearLine(str);
                                                 file.WriteLine(str);
                                             }
 
