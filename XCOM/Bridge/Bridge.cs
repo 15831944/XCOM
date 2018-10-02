@@ -20,16 +20,18 @@ namespace XCOM.Commands.Bridge
             opts.AllowNone = true;
             PromptResult res = doc.Editor.GetKeywords(opts);
 
-            string surfaceType = res.StringResult;
-            if (res.Status == PromptStatus.None)
+            if (res.Status == PromptStatus.OK)
             {
-                surfaceType = "Plan";
+                return (res.StringResult == "Plan" ? AlignmentType.Plan : AlignmentType.Profile);
             }
-            else if (res.Status != PromptStatus.OK)
+            else if (res.Status == PromptStatus.None)
+            {
+                return AlignmentType.Plan;
+            }
+            else
             {
                 return AlignmentType.None;
             }
-            return (surfaceType == "Plan" ? AlignmentType.Plan : AlignmentType.Profile);
         }
     }
 }

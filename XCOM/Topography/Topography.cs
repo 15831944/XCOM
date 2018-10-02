@@ -18,7 +18,7 @@ namespace XCOM.Commands.Topography
         /// <summary>
         /// The key under which the topography object is saved in document user data.
         /// </summary>
-        private static string UserDataKey = "OZOZ_XCOM_Topography";
+        private static readonly string UserDataKey = "OZOZ_XCOM_Topography";
 
         /// <summary>
         /// The type of surface being operated on.
@@ -40,8 +40,7 @@ namespace XCOM.Commands.Topography
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Hashtable ud = doc.UserData;
 
-                Topography topo = ud[UserDataKey] as Topography;
-                if (topo == null)
+                if (!(ud[UserDataKey] is Topography topo))
                 {
                     // First time called, create and save topography
                     topo = new Topography();
@@ -82,21 +81,23 @@ namespace XCOM.Commands.Topography
             opts.AllowNone = true;
             PromptResult res = doc.Editor.GetKeywords(opts);
 
-            string surfaceType = res.StringResult;
-            if (res.Status == PromptStatus.None)
+            if (res.Status == PromptStatus.OK)
             {
-                surfaceType = "Original";
+                return (res.StringResult == "Original" ? SurfaceType.Original : SurfaceType.Proposed);
             }
-            else if (res.Status != PromptStatus.OK)
+            else if (res.Status == PromptStatus.None)
             {
-                return Topography.SurfaceType.None;
+                return SurfaceType.Original;
             }
-            return (surfaceType == "Original" ? Topography.SurfaceType.Original : Topography.SurfaceType.Proposed);
+            else
+            {
+                return SurfaceType.None;
+            }
         }
 
-        public static bool EnsureSurfaceNotEmpty(Topography.SurfaceType surface)
+        public static bool EnsureSurfaceNotEmpty(SurfaceType surface)
         {
-            Topography topo = Topography.Instance;
+            Topography topo = Instance;
 
             if (surface == SurfaceType.None)
             {
@@ -128,9 +129,13 @@ namespace XCOM.Commands.Topography
             mesh.Triangulate(geometry);
 
             if (surface == SurfaceType.Original)
+            {
                 originalSurface = mesh;
+            }
             else
+            {
                 proposedSurface = mesh;
+            }
         }
 
         /// <summary>
@@ -166,7 +171,7 @@ namespace XCOM.Commands.Topography
             double ep = curve.EndParam;
             double len = curve.GetLength();
             int nmax = (int)Math.Ceiling(len / curveDiscretizationLength);
-            double distStep = len / ((double)nmax);
+            double distStep = len / nmax;
 
             // Intersects slope vectors with surface triangles
             Extents3d ex = curve.GeometricExtents;
@@ -176,10 +181,26 @@ namespace XCOM.Commands.Topography
                 TriangleNet.Data.Vertex v1 = tri.GetVertex(0);
                 TriangleNet.Data.Vertex v2 = tri.GetVertex(1);
                 TriangleNet.Data.Vertex v3 = tri.GetVertex(2);
-                if (v1.X < ex.MinPoint.X && v2.X < ex.MinPoint.X && v3.X < ex.MinPoint.X) continue;
-                if (v1.X > ex.MaxPoint.X && v2.X > ex.MaxPoint.X && v3.X > ex.MaxPoint.X) continue;
-                if (v1.Y < ex.MinPoint.Y && v2.Y < ex.MinPoint.Y && v3.Y < ex.MinPoint.Y) continue;
-                if (v1.Y > ex.MaxPoint.Y && v2.Y > ex.MaxPoint.Y && v3.Y > ex.MaxPoint.Y) continue;
+                if (v1.X < ex.MinPoint.X && v2.X < ex.MinPoint.X && v3.X < ex.MinPoint.X)
+                {
+                    continue;
+                }
+
+                if (v1.X > ex.MaxPoint.X && v2.X > ex.MaxPoint.X && v3.X > ex.MaxPoint.X)
+                {
+                    continue;
+                }
+
+                if (v1.Y < ex.MinPoint.Y && v2.Y < ex.MinPoint.Y && v3.Y < ex.MinPoint.Y)
+                {
+                    continue;
+                }
+
+                if (v1.Y > ex.MaxPoint.Y && v2.Y > ex.MaxPoint.Y && v3.Y > ex.MaxPoint.Y)
+                {
+                    continue;
+                }
+
                 Point3d p1 = new Point3d(v1.X, v1.Y, v1.Attributes[0]);
                 Point3d p2 = new Point3d(v2.X, v2.Y, v2.Attributes[0]);
                 Point3d p3 = new Point3d(v3.X, v3.Y, v3.Attributes[0]);
@@ -188,8 +209,16 @@ namespace XCOM.Commands.Topography
                 for (int i = 0; i <= (curve.Closed ? nmax - 1 : nmax); i++)
                 {
                     double param = curve.GetParameterAtDistance(dist);
-                    if (param < sp) param = sp;
-                    if (param > ep) param = ep;
+                    if (param < sp)
+                    {
+                        param = sp;
+                    }
+
+                    if (param > ep)
+                    {
+                        param = ep;
+                    }
+
                     Point3d pt = curve.GetPointAtParameter(param);
 
                     if (RayTriangleIntersection(pt, dir, p1, p2, p3, out _, out Point3d ptOut))
@@ -329,7 +358,9 @@ namespace XCOM.Commands.Topography
                             added = true;
                         }
                         else
+                        {
                             segments.Enqueue(segment);
+                        }
                     }
                 } while (added);
                 Polyline pline = AcadEntity.CreatePolyLine(db, curvePoints.First().IsEqualTo(curvePoints.Last(), tol), curvePoints.ToArray());
@@ -360,7 +391,7 @@ namespace XCOM.Commands.Topography
             {
                 IEnumerable<Polyline> contoursAtLevel = ContourAt(surface, z);
                 contours.AddRange(contoursAtLevel);
-                z = z + (double)interval;
+                z = z + interval;
             }
 
             return contours;
@@ -407,7 +438,11 @@ namespace XCOM.Commands.Topography
             /* if determinant is near zero, ray lies in plane of triangle */
             double det = edge1.DotProduct(pvec);
 
-            if (det > -epsilon && det < epsilon) return false;
+            if (det > -epsilon && det < epsilon)
+            {
+                return false;
+            }
+
             double inv_det = 1.0 / det;
 
             /* calculate distance from vert0 to ray origin */
@@ -415,14 +450,20 @@ namespace XCOM.Commands.Topography
 
             /* calculate U parameter and test bounds */
             double u = tvec.DotProduct(pvec) * inv_det;
-            if (u < 0.0 || u > 1.0) return false;
+            if (u < 0.0 || u > 1.0)
+            {
+                return false;
+            }
 
             /* prepare to test V parameter */
             Vector3d qvec = tvec.CrossProduct(edge1);
 
             /* calculate V parameter and test bounds */
             double v = rayDir.DotProduct(qvec) * inv_det;
-            if (v < 0.0 || u + v > 1.0) return false;
+            if (v < 0.0 || u + v > 1.0)
+            {
+                return false;
+            }
 
             /* calculate t, ray intersects triangle */
             t = edge2.DotProduct(qvec) * inv_det;
@@ -457,7 +498,10 @@ namespace XCOM.Commands.Topography
 
             double det = planeDir.DotProduct(rayDir);
 
-            if (det > -epsilon && det < epsilon) return false;
+            if (det > -epsilon && det < epsilon)
+            {
+                return false;
+            }
 
             double dist = planeDir.DotProduct(planePoint - rayStart);
 
@@ -488,9 +532,20 @@ namespace XCOM.Commands.Topography
             bool int3 = RayPlaneIntersection(vert1, edge3, planeStart, planeNormal, out double t3, out Point3d p3);
 
             // Disregard intersections outside vertices
-            if (t1 < 0.0 || t1 > 1.0) int1 = false;
-            if (t2 < 0.0 || t2 > 1.0) int2 = false;
-            if (t3 < 0.0 || t3 > 1.0) int3 = false;
+            if (t1 < 0.0 || t1 > 1.0)
+            {
+                int1 = false;
+            }
+
+            if (t2 < 0.0 || t2 > 1.0)
+            {
+                int2 = false;
+            }
+
+            if (t3 < 0.0 || t3 > 1.0)
+            {
+                int3 = false;
+            }
 
             // intersection points
             if (int1 && int2)
