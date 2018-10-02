@@ -46,6 +46,7 @@
         <Command Local="HENDEKKAZISI" Global="HENDEKKAZISI" />		
 	    <!-- Bridge  -->
         <Command Local="DRAWAXES" Global="DRAWAXES" />
+        <Command Local="DRAWDECK" Global="DRAWDECK" />
 	    <!-- Geology -->
         <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
 	    <!-- Utilities -->

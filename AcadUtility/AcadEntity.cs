@@ -679,6 +679,26 @@ namespace AcadUtility
             }
         }
 
+        public static Polyline CreatePolyLine(Database db, bool closed, params Curve[] entities)
+        {
+            using (CurrentDB curr = new CurrentDB(db))
+            {
+                Polyline pline = new Polyline(1);
+                pline.TransformBy(entities[0].Ecs);
+                Point3d start = entities[0].StartPoint.TransformBy(pline.Ecs.Inverse());
+                pline.AddVertexAt(0, new Point2d(start.X, start.Y), 0, 0, 0);
+
+                pline.JoinEntities(entities);
+
+                pline.Closed = closed;
+
+                pline.SetDatabaseDefaults(db);
+                pline.SetPropertiesFrom(entities[0]);
+
+                return pline;
+            }
+        }
+
         public static Polyline3d CreatePolyLine3d(Database db, bool closed, Point3dCollection points)
         {
             using (CurrentDB curr = new CurrentDB(db))
