@@ -75,6 +75,7 @@ namespace XCOM.Commands.Bridge
         public void UpdateUI()
         {
             pnlDraw.Enabled = rbAxisLine.Checked;
+            rbAxisBlock.Enabled = (cbBlockName.Items.Count > 0);
             pnlBlock.Enabled = rbAxisBlock.Checked;
         }
     }

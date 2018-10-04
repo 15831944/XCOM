@@ -211,31 +211,32 @@ namespace XCOM.Commands.Bridge
                     }
                     else
                     {
-                        var topline = centerline.GetTransformedCopy(Matrix3d.Displacement(Vector3d.YAxis * -AsphaltThickness)) as Curve;
-                        var bottomline = topline.GetTransformedCopy(Matrix3d.Displacement(Vector3d.YAxis * -DeckThickness)) as Curve;
-                        var sidewalkline = topline.GetTransformedCopy(Matrix3d.Displacement(Vector3d.YAxis * SidewalkThickness)) as Curve;
+                        Vector3d upDir = db.Ucsydir;
+                        var topline = centerline.GetTransformedCopy(Matrix3d.Displacement(upDir * -AsphaltThickness)) as Curve;
+                        var bottomline = topline.GetTransformedCopy(Matrix3d.Displacement(upDir * -DeckThickness)) as Curve;
+                        var sidewalkline = topline.GetTransformedCopy(Matrix3d.Displacement(upDir * SidewalkThickness)) as Curve;
 
-                        using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
                         {
                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
 
                             Point3d startPointOnPlan = planCurve.GetClosestPointTo(StartPoint, true);
                             double startDistance = planCurve.GetDistAtPoint(startPointOnPlan) - OverhangDistance;
                             startPointOnPlan = planCurve.GetPointAtDist(startDistance);
-                            StartPoint = centerline.GetClosestPointTo(startPointOnPlan, Vector3d.YAxis, true);
+                            StartPoint = centerline.GetClosestPointTo(startPointOnPlan, upDir, true);
 
                             Point3d endPointOnPlan = planCurve.GetClosestPointTo(EndPoint, true);
                             double endDistance = planCurve.GetDistAtPoint(endPointOnPlan) + OverhangDistance;
                             endPointOnPlan = planCurve.GetPointAtDist(endDistance);
-                            EndPoint = centerline.GetClosestPointTo(endPointOnPlan, Vector3d.YAxis, true);
+                            EndPoint = centerline.GetClosestPointTo(endPointOnPlan, upDir, true);
                         }
 
-                        topline = topline.GetTrimmedCurve(topline.GetClosestPointTo(StartPoint, Vector3d.YAxis, true),
-                            topline.GetClosestPointTo(EndPoint, Vector3d.YAxis, true), true);
-                        bottomline = bottomline.GetTrimmedCurve(bottomline.GetClosestPointTo(StartPoint, Vector3d.YAxis, true),
-                            bottomline.GetClosestPointTo(EndPoint, Vector3d.YAxis, true), true);
-                        sidewalkline = sidewalkline.GetTrimmedCurve(sidewalkline.GetClosestPointTo(StartPoint, Vector3d.YAxis, true),
-                            sidewalkline.GetClosestPointTo(EndPoint, Vector3d.YAxis, true), true);
+                        topline = topline.GetTrimmedCurve(topline.GetClosestPointTo(StartPoint, upDir, true),
+                            topline.GetClosestPointTo(EndPoint, upDir, true), true);
+                        bottomline = bottomline.GetTrimmedCurve(bottomline.GetClosestPointTo(StartPoint, upDir, true),
+                            bottomline.GetClosestPointTo(EndPoint, upDir, true), true);
+                        sidewalkline = sidewalkline.GetTrimmedCurve(sidewalkline.GetClosestPointTo(StartPoint, upDir, true),
+                            sidewalkline.GetClosestPointTo(EndPoint, upDir, true), true);
 
                         // Sidewalk
                         var finalSWCurve = AcadEntity.CreatePolyLine(db, false,

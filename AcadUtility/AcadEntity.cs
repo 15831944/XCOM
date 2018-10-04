@@ -773,6 +773,10 @@ namespace AcadUtility
                 {
                     ObjectId id = it.Current;
                     BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
+                    if (block.IsFromExternalReference || block.IsFromOverlayReference || block.IsLayout)
+                    {
+                        continue;
+                    }
                     list.Add(block.Name, id);
                 }
 
@@ -838,6 +842,20 @@ namespace AcadUtility
             }
 
             return "";
+        }
+
+        // Determines if the block with the given name exists
+        public static bool BlockExists(Database db, string name)
+        {
+            bool exists = false;
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                BlockTable table = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
+                exists = table.Has(name);
+
+                tr.Commit();
+            }
+            return exists;
         }
     }
 }

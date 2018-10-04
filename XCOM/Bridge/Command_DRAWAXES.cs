@@ -81,6 +81,9 @@ namespace XCOM.Commands.Bridge
                 return;
             }
 
+            var doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
+            var db = doc.Database;
+
             // Reset parameters
             Alignment = Bridge.AlignmentType.None;
             CenterlineId = ObjectId.Null;
@@ -114,7 +117,7 @@ namespace XCOM.Commands.Bridge
                         return;
                     }
 
-                    if (DrawingType == AxisDrawingType.Line)
+                    if (DrawingType == AxisDrawingType.Line || !AcadEntity.BlockExists(db, BlockName))
                     {
                         DrawAxisLine(axisPoint, axisDirection, StartCH + axisDistanceFromStartPoint);
                     }
@@ -204,7 +207,8 @@ namespace XCOM.Commands.Bridge
 
             axisPoint = Point3d.Origin;
             axisDistanceFromStartPoint = 0;
-            direction = Vector3d.YAxis;
+            Vector3d upDir = db.Ucsydir;
+            direction = upDir;
 
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
@@ -235,13 +239,13 @@ namespace XCOM.Commands.Bridge
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
                                             Point3d lastAxisPointOnPlan = planCurve.GetClosestPointTo(LastAxisPoint, false);
                                             axisDistanceFromStartPoint = planCurve.GetDistAtPoint(lastAxisPointOnPlan) + AxisDistance;
                                             Point3d axisPointOnPlan = planCurve.GetPointAtDist(axisDistanceFromStartPoint);
-                                            axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, Vector3d.YAxis, false);
+                                            axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, upDir, false);
                                         }
                                     }
                                 }
@@ -258,12 +262,12 @@ namespace XCOM.Commands.Bridge
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
                                             axisDistanceFromStartPoint = chainage - StartCH;
                                             Point3d axisPointOnPlan = planCurve.GetPointAtDist(axisDistanceFromStartPoint);
-                                            axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, Vector3d.YAxis, false);
+                                            axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, upDir, false);
                                             if (FirstRun)
                                             {
                                                 AxisDistance = DefaultAxisDistance;
@@ -289,7 +293,7 @@ namespace XCOM.Commands.Bridge
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
                                             if (FirstRun)
@@ -300,7 +304,7 @@ namespace XCOM.Commands.Bridge
                                             {
                                                 Point3d axisPointOnPlan = planCurve.GetClosestPointTo(axisPoint, false);
                                                 Point3d lastAxisPointOnPlan = planCurve.GetClosestPointTo(LastAxisPoint, false);
-                                                Point3d axisPointPlan = centerline.GetClosestPointTo(point, Vector3d.YAxis, false);
+                                                Point3d axisPointPlan = centerline.GetClosestPointTo(point, upDir, false);
                                                 axisDistanceFromStartPoint = planCurve.GetDistAtPoint(axisPointPlan);
                                                 AxisDistance = axisDistanceFromStartPoint - planCurve.GetDistAtPoint(lastAxisPointOnPlan);
                                             }
@@ -332,7 +336,7 @@ namespace XCOM.Commands.Bridge
                     }
                     else
                     {
-                        using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.YAxis))
+                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
                         {
                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
                             Point3d axisPointPlan = planCurve.GetClosestPointTo(axisPoint, false);
@@ -620,7 +624,7 @@ namespace XCOM.Commands.Bridge
                 form.SetTextStyleNames(styleNames.ToArray());
 
                 // Read settings
-                form.DrawOnlyLine = (DrawingType == AxisDrawingType.Line);
+                form.DrawOnlyLine = (DrawingType == AxisDrawingType.Line || blockNames.Count() == 0);
 
                 form.AxisLineLength = AxisLineLength;
                 form.TextHeight = TextHeight;
