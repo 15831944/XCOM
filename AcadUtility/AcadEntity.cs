@@ -746,18 +746,23 @@ namespace AcadUtility
             }
         }
 
-        public static BlockReference CreateBlockReference(Database db, ObjectId blockId, Point3d insertionPoint, double scale, double rotation)
+        public static BlockReference CreateBlockReference(Database db, ObjectId blockId, Point3d insertionPoint, Scale3d scaleFactors, double rotation)
         {
             using (CurrentDB curr = new CurrentDB(db))
             {
                 BlockReference blockRef = new BlockReference(insertionPoint, blockId);
                 blockRef.SetDatabaseDefaults(db);
 
-                blockRef.ScaleFactors = new Scale3d(scale);
+                blockRef.ScaleFactors = scaleFactors;
                 blockRef.Rotation = rotation;
 
                 return blockRef;
             }
+        }
+
+        public static BlockReference CreateBlockReference(Database db, ObjectId blockId, Point3d insertionPoint, double scale, double rotation)
+        {
+            return CreateBlockReference(db, blockId, insertionPoint, new Scale3d(scale), rotation);
         }
 
         // Returns all block definitions
@@ -811,6 +816,8 @@ namespace AcadUtility
         // Returns the name of the block
         public static string GetBlockName(Database db, ObjectId id)
         {
+            string name = "";
+
             using (Transaction tr = db.TransactionManager.StartTransaction())
             {
                 try
@@ -821,7 +828,6 @@ namespace AcadUtility
                     if (blockRef.IsDynamicBlock)
                     {
                         block = tr.GetObject(blockRef.DynamicBlockTableRecord, OpenMode.ForRead) as BlockTableRecord;
-
                     }
                     else
                     {
@@ -830,7 +836,7 @@ namespace AcadUtility
 
                     if (block != null)
                     {
-                        return block.Name;
+                        name = block.Name;
                     }
                 }
                 catch
@@ -841,7 +847,38 @@ namespace AcadUtility
                 tr.Commit();
             }
 
-            return "";
+            return name;
+        }
+
+        // Returns the block definition for the given reference
+        public static ObjectId GetBlockDefinitionFromReference(Database db, ObjectId referenceId)
+        {
+            ObjectId definitionId = ObjectId.Null;
+
+            using (Transaction tr = db.TransactionManager.StartTransaction())
+            {
+                try
+                {
+                    BlockReference blockRef = tr.GetObject(referenceId, OpenMode.ForRead) as BlockReference;
+                    if (blockRef.IsDynamicBlock)
+                    {
+                        definitionId = blockRef.DynamicBlockTableRecord;
+
+                    }
+                    else
+                    {
+                        definitionId = blockRef.BlockTableRecord;
+                    }
+                }
+                catch
+                {
+                    ;
+                }
+
+                tr.Commit();
+            }
+
+            return definitionId;
         }
 
         // Determines if the block with the given name exists

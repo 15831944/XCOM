@@ -98,6 +98,7 @@
     <Image Include="Resources\BY.ico" />
     <Image Include="Resources\COORDGRID.ico" />
     <Image Include="Resources\DRAPE.ico" />
+    <Image Include="Resources\DRAWGIRDER.ico" />
     <Image Include="Resources\HAVUZKAZISI.ico" />
     <Image Include="Resources\HENDEKKAZISI.ico" />
     <Image Include="Resources\KMYAZ.ico" />

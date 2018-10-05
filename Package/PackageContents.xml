@@ -47,6 +47,7 @@
 	    <!-- Bridge  -->
         <Command Local="DRAWAXES" Global="DRAWAXES" />
         <Command Local="DRAWDECK" Global="DRAWDECK" />
+        <Command Local="DRAWGIRDER" Global="DRAWGIRDER" />
 	    <!-- Geology -->
         <Command Local="SONDAJDETAY" Global="SONDAJDETAY" />
 	    <!-- Utilities -->
