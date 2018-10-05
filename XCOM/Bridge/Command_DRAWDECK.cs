@@ -16,8 +16,7 @@ namespace XCOM.Commands.Bridge
         private Point3d EndPoint { get; set; }
         private double OverhangDistance { get; set; } = 0.5;
 
-        private double RightOffset { get; set; } = 5;
-        private double LeftOffset { get; set; } = 5;
+        private double DeckWidth { get; set; } = 10;
 
         private double AsphaltThickness { get; set; } = 0.06;
         private double DeckThickness { get; set; } = 0.25;
@@ -26,8 +25,8 @@ namespace XCOM.Commands.Bridge
         private static readonly string DeckLayerName = "K_DOSEME";
         private static readonly string SidewalkLayerName = "K_KALDIRIM";
         private static readonly string HatchLayerName = "K_TARAMA";
-        private static readonly string HatchPattern = "DOTS";
-        private static readonly double HatchScale = 0.1;
+        private static readonly string HatchPattern = "SOLID";
+        private static readonly double HatchScale = 1;
 
         [Autodesk.AutoCAD.Runtime.CommandMethod("DRAWDECK")]
         public void DrawDeck()
@@ -89,10 +88,10 @@ namespace XCOM.Commands.Bridge
 
             if (Alignment == Bridge.AlignmentType.Plan)
             {
-                var opts1 = new PromptDistanceOptions("\nSağ offset: ");
+                var opts1 = new PromptDistanceOptions("\nTabliye genişliği: ");
                 opts1.AllowNegative = false;
                 opts1.AllowZero = false;
-                opts1.DefaultValue = RightOffset;
+                opts1.DefaultValue = DeckWidth;
                 opts1.UseDefaultValue = true;
                 opts1.BasePoint = resp1.Value;
                 var reso1 = ed.GetDistance(opts1);
@@ -100,20 +99,7 @@ namespace XCOM.Commands.Bridge
                 {
                     return;
                 }
-                RightOffset = reso1.Value;
-
-                var opts2 = new PromptDistanceOptions("\nSol offset: ");
-                opts2.AllowNegative = false;
-                opts2.AllowZero = false;
-                opts2.DefaultValue = LeftOffset;
-                opts2.UseDefaultValue = true;
-                opts2.BasePoint = resp1.Value;
-                var reso2 = ed.GetDistance(opts2);
-                if (reso2.Status != PromptStatus.OK)
-                {
-                    return;
-                }
-                LeftOffset = reso2.Value;
+                DeckWidth = reso1.Value;
             }
             else
             {
@@ -181,10 +167,10 @@ namespace XCOM.Commands.Bridge
                             Vector3d dir = planCurve.GetFirstDerivative(planCurve.StartParam).CrossProduct(Vector3d.ZAxis);
                             dir /= dir.Length;
 
-                            var rightCurve = planCurve.GetOffsetCurves(planCurve.StartPoint + dir * RightOffset)[0] as Curve;
+                            var rightCurve = planCurve.GetOffsetCurves(planCurve.StartPoint + dir * DeckWidth / 2)[0] as Curve;
                             rightCurve = rightCurve.GetTrimmedCurve(StartPoint, EndPoint, true);
 
-                            var leftCurve = planCurve.GetOffsetCurves(planCurve.StartPoint - dir * LeftOffset)[0] as Curve;
+                            var leftCurve = planCurve.GetOffsetCurves(planCurve.StartPoint - dir * DeckWidth / 2)[0] as Curve;
                             leftCurve = leftCurve.GetTrimmedCurve(StartPoint, EndPoint, true);
 
                             // Join curves and close ends with lines
@@ -265,7 +251,7 @@ namespace XCOM.Commands.Bridge
                         hatch.Associative = true;
                         hatch.AppendLoop(HatchLoopTypes.Outermost, new ObjectIdCollection() { finalCurveId });
                         hatch.PatternScale = HatchScale;
-                        hatch.SetHatchPattern(HatchPatternType.PreDefined, "SOLID");
+                        hatch.SetHatchPattern(HatchPatternType.PreDefined, HatchPattern);
                         hatch.EvaluateHatch(true);
                     }
                 }
