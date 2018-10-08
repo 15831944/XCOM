@@ -215,7 +215,6 @@ namespace XCOM.Commands.Bridge
                 try
                 {
                     Curve centerline = tr.GetObject(CenterlineId, OpenMode.ForRead) as Curve;
-                    StartPoint = centerline.GetClosestPointTo(StartPoint, false);
 
                     while (true)
                     {
@@ -234,17 +233,19 @@ namespace XCOM.Commands.Bridge
                                     AxisDistance = distance;
                                     if (Alignment == Bridge.AlignmentType.Plan)
                                     {
-                                        axisDistanceFromStartPoint = centerline.GetDistAtPoint(LastAxisPoint) + AxisDistance;
-                                        axisPoint = centerline.GetPointAtDist(axisDistanceFromStartPoint);
+                                        Point3d startPointOnPlan = centerline.GetClosestPointTo(StartPoint, false);
+                                        axisDistanceFromStartPoint = centerline.GetDistAtPoint(LastAxisPoint) + AxisDistance - centerline.GetDistAtPoint(startPointOnPlan);
+                                        axisPoint = centerline.GetPointAtDist(axisDistanceFromStartPoint + StartCH);
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
+                                        using (Plane horizontal = new Plane(centerline.StartPoint, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
                                             Point3d lastAxisPointOnPlan = planCurve.GetClosestPointTo(LastAxisPoint, false);
-                                            axisDistanceFromStartPoint = planCurve.GetDistAtPoint(lastAxisPointOnPlan) + AxisDistance;
-                                            Point3d axisPointOnPlan = planCurve.GetPointAtDist(axisDistanceFromStartPoint);
+                                            Point3d startPointOnPlan = planCurve.GetClosestPointTo(StartPoint, false);
+                                            axisDistanceFromStartPoint = planCurve.GetDistAtPoint(lastAxisPointOnPlan) + AxisDistance - planCurve.GetDistAtPoint(startPointOnPlan);
+                                            Point3d axisPointOnPlan = planCurve.GetPointAtDist(axisDistanceFromStartPoint + planCurve.GetDistAtPoint(startPointOnPlan));
                                             axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, upDir, false);
                                         }
                                     }
@@ -256,17 +257,19 @@ namespace XCOM.Commands.Bridge
                                 {
                                     if (Alignment == Bridge.AlignmentType.Plan)
                                     {
-                                        axisPoint = centerline.GetPointAtDist(chainage - StartCH);
+                                        Point3d startPointOnPlan = centerline.GetClosestPointTo(StartPoint, false);
                                         axisDistanceFromStartPoint = chainage - StartCH;
-                                        AxisDistance = FirstRun ? DefaultAxisDistance : axisDistanceFromStartPoint - centerline.GetDistAtPoint(LastAxisPoint);
+                                        axisPoint = centerline.GetPointAtDist(centerline.GetDistAtPoint(startPointOnPlan) + axisDistanceFromStartPoint);
+                                        AxisDistance = FirstRun ? DefaultAxisDistance : chainage - centerline.GetDistAtPoint(LastAxisPoint);
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
+                                        using (Plane horizontal = new Plane(centerline.StartPoint, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
+                                            Point3d startPointOnPlan = planCurve.GetClosestPointTo(StartPoint, false);
                                             axisDistanceFromStartPoint = chainage - StartCH;
-                                            Point3d axisPointOnPlan = planCurve.GetPointAtDist(axisDistanceFromStartPoint);
+                                            Point3d axisPointOnPlan = planCurve.GetPointAtDist(planCurve.GetDistAtPoint(startPointOnPlan) + axisDistanceFromStartPoint);
                                             axisPoint = centerline.GetClosestPointTo(axisPointOnPlan, upDir, false);
                                             if (FirstRun)
                                             {
@@ -285,28 +288,31 @@ namespace XCOM.Commands.Bridge
                                 state = GetAxisByPoint(out Point3d point);
                                 if (state == InputState.OK)
                                 {
-                                    axisPoint = point;
                                     if (Alignment == Bridge.AlignmentType.Plan)
                                     {
-                                        axisDistanceFromStartPoint = centerline.GetDistAtPoint(point);
-                                        AxisDistance = FirstRun ? DefaultAxisDistance : axisDistanceFromStartPoint - centerline.GetDistAtPoint(LastAxisPoint);
+                                        axisPoint = centerline.GetClosestPointTo(point, false);
+                                        Point3d startPointOnPlan = centerline.GetClosestPointTo(StartPoint, false);
+                                        axisDistanceFromStartPoint = centerline.GetDistAtPoint(axisPoint) - centerline.GetDistAtPoint(startPointOnPlan);
+                                        AxisDistance = FirstRun ? DefaultAxisDistance : centerline.GetDistAtPoint(axisPoint) - centerline.GetDistAtPoint(LastAxisPoint);
                                     }
                                     else
                                     {
-                                        using (Plane horizontal = new Plane(Point3d.Origin, upDir))
+                                        axisPoint = centerline.GetClosestPointTo(point, upDir, false);
+                                        using (Plane horizontal = new Plane(centerline.StartPoint, upDir))
                                         {
                                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
+                                            Point3d axisPointOnPlan = planCurve.GetClosestPointTo(axisPoint, false);
+                                            Point3d startPointOnPlan = planCurve.GetClosestPointTo(StartPoint, false);
+                                            axisDistanceFromStartPoint = planCurve.GetDistAtPoint(axisPointOnPlan) - planCurve.GetDistAtPoint(startPointOnPlan);
+
                                             if (FirstRun)
                                             {
                                                 AxisDistance = DefaultAxisDistance;
                                             }
                                             else
                                             {
-                                                Point3d axisPointOnPlan = planCurve.GetClosestPointTo(axisPoint, false);
                                                 Point3d lastAxisPointOnPlan = planCurve.GetClosestPointTo(LastAxisPoint, false);
-                                                Point3d axisPointPlan = centerline.GetClosestPointTo(point, upDir, false);
-                                                axisDistanceFromStartPoint = planCurve.GetDistAtPoint(axisPointPlan);
-                                                AxisDistance = axisDistanceFromStartPoint - planCurve.GetDistAtPoint(lastAxisPointOnPlan);
+                                                AxisDistance = planCurve.GetDistAtPoint(axisPointOnPlan) - planCurve.GetDistAtPoint(lastAxisPointOnPlan);
                                             }
                                         }
                                     }
