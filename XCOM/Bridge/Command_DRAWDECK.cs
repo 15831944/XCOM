@@ -164,14 +164,13 @@ namespace XCOM.Commands.Bridge
                         using (Plane horizontal = new Plane(Point3d.Origin, Vector3d.ZAxis))
                         {
                             Curve planCurve = centerline.GetOrthoProjectedCurve(horizontal);
+                            planCurve = planCurve.GetTrimmedCurve(StartPoint, EndPoint, true);
+
                             Vector3d dir = planCurve.GetFirstDerivative(planCurve.StartParam).CrossProduct(Vector3d.ZAxis);
                             dir /= dir.Length;
 
                             var rightCurve = planCurve.GetOffsetCurves(planCurve.StartPoint + dir * DeckWidth / 2)[0] as Curve;
-                            rightCurve = rightCurve.GetTrimmedCurve(StartPoint, EndPoint, true);
-
                             var leftCurve = planCurve.GetOffsetCurves(planCurve.StartPoint - dir * DeckWidth / 2)[0] as Curve;
-                            leftCurve = leftCurve.GetTrimmedCurve(StartPoint, EndPoint, true);
 
                             // Join curves and close ends with lines
                             var finalCurve = AcadEntity.CreatePolyLine(db, true,
