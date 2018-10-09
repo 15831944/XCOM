@@ -368,7 +368,7 @@ namespace XCOM.Commands.Bridge
         private InputState GetAxisByDistance(out double distance)
         {
             distance = 0;
-            PromptDoubleOptions opts = new PromptDoubleOptions("\nAks mesafesi [Nokta/Kilometre/Seçenekler/çıKış]: ", "Point Chainage Settings Exit");
+            PromptDoubleOptions opts = new PromptDoubleOptions("\nAks mesafesi [Nokta/kiLometre/Seçenekler/çıKış]: ", "Point Chainage Settings Exit");
             opts.AllowNegative = false;
             opts.DefaultValue = AxisDistance;
             opts.UseDefaultValue = true;
@@ -410,11 +410,11 @@ namespace XCOM.Commands.Bridge
             PromptPointOptions opts;
             if (!FirstRun)
             {
-                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [Mesafe/Kilometre/Seçenekler/çıKış]: ", "Distance Chainage Settings Exit");
+                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [Mesafe/kiLometre/Seçenekler/çıKış]: ", "Distance Chainage Settings Exit");
             }
             else
             {
-                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [Kilometre/Seçenekler/çıKış]: ", "Chainage Settings Exit");
+                opts = new PromptPointOptions("\nEksen üzerinde aks yeri [kiLometre/Seçenekler/çıKış]: ", "Chainage Settings Exit");
             }
 
             PromptPointResult res = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor.GetPoint(opts);
