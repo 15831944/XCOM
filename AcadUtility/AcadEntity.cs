@@ -1,7 +1,7 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace AcadUtility
 {
@@ -778,7 +778,7 @@ namespace AcadUtility
                 {
                     ObjectId id = it.Current;
                     BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
-                    if (block.IsFromExternalReference || block.IsFromOverlayReference || block.IsLayout)
+                    if (block.IsFromExternalReference || block.IsFromOverlayReference || block.IsLayout || block.IsAnonymous)
                     {
                         continue;
                     }
