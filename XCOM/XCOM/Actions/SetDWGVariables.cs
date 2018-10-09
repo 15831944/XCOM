@@ -8,8 +8,7 @@ namespace XCOM.Commands.XCommand
         public override string Name => "Set DWG Variables";
         public override int Order => 152000;
         public override bool Recommended => true;
-        public override string HelpText => "Aşağıdaki listedeki DWG değişkenlerini sıkça kullanılan değerleri ile değiştirir." + Environment.NewLine +
-            "    REGENMODE: 1 (Zoom ve Pan yaparken gerektiğinde otomatik olarak REGEN yapılmasını sağlar.)";
+        public override string HelpText => Properties.Resources.SetDWGVariables;
 
         public override void Run(string filename, Database db)
         {

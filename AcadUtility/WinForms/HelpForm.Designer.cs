@@ -30,7 +30,7 @@
         {
             this.cmdClose = new System.Windows.Forms.Button();
             this.pbIcon = new System.Windows.Forms.PictureBox();
-            this.txtDialog = new System.Windows.Forms.TextBox();
+            this.txtDialog = new AcadUtility.WinForms.RichTextLabel();
             this.txtCaption = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.pbIcon)).BeginInit();
             this.SuspendLayout();
@@ -40,7 +40,7 @@
             this.cmdClose.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdClose.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdClose.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdClose.Location = new System.Drawing.Point(384, 159);
+            this.cmdClose.Location = new System.Drawing.Point(384, 149);
             this.cmdClose.Name = "cmdClose";
             this.cmdClose.Size = new System.Drawing.Size(75, 23);
             this.cmdClose.TabIndex = 4;
@@ -63,10 +63,11 @@
             this.txtDialog.BackColor = System.Drawing.SystemColors.Control;
             this.txtDialog.BorderStyle = System.Windows.Forms.BorderStyle.None;
             this.txtDialog.Location = new System.Drawing.Point(59, 31);
-            this.txtDialog.Multiline = true;
             this.txtDialog.Name = "txtDialog";
-            this.txtDialog.Size = new System.Drawing.Size(400, 110);
+            this.txtDialog.ReadOnly = true;
+            this.txtDialog.Size = new System.Drawing.Size(400, 100);
             this.txtDialog.TabIndex = 6;
+            this.txtDialog.TabStop = false;
             this.txtDialog.Text = "### Dialog Text ###";
             // 
             // txtCaption
@@ -85,7 +86,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdClose;
-            this.ClientSize = new System.Drawing.Size(471, 194);
+            this.ClientSize = new System.Drawing.Size(471, 184);
             this.Controls.Add(this.txtCaption);
             this.Controls.Add(this.txtDialog);
             this.Controls.Add(this.pbIcon);
@@ -108,7 +109,7 @@
 
         private System.Windows.Forms.Button cmdClose;
         private System.Windows.Forms.PictureBox pbIcon;
-        private System.Windows.Forms.TextBox txtDialog;
+        private RichTextLabel txtDialog;
         private System.Windows.Forms.Label txtCaption;
     }
 }

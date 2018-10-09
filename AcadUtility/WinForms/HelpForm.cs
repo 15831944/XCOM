@@ -1,5 +1,4 @@
-﻿using System;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Windows.Forms;
 
 namespace AcadUtility.WinForms
@@ -18,12 +17,15 @@ namespace AcadUtility.WinForms
             using (HelpForm form = new HelpForm())
             {
                 form.txtCaption.Text = caption;
-                form.txtDialog.Text = text;
+                if (AcadText.IsRtfText(text))
+                    form.txtDialog.Rtf = text;
+                else
+                    form.txtDialog.Text = text;
 
                 int minWidth = TextRenderer.MeasureText(caption, form.txtCaption.Font).Width;
 
-                Size size = TextRenderer.MeasureText(text, form.txtDialog.Font, new Size(Math.Max(minWidth, form.txtDialog.ClientSize.Width), int.MaxValue), TextFormatFlags.TextBoxControl | TextFormatFlags.WordBreak);
-                form.Size = new Size(size.Width + 87, size.Height + 123);
+                Size size = form.txtDialog.GetPreferredSize(form.txtDialog.Size);
+                form.Size = new Size(size.Width + 97, size.Height + 133);
                 form.ShowDialog();
             }
         }

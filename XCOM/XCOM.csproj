@@ -458,6 +458,8 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\PrintEntityCoordsHelp.rtf" />
+    <None Include="Resources\ProtectDrawing.rtf" />
+    <None Include="Resources\SetDWGVariables.rtf" />
     <None Include="Resources\tick.png" />
   </ItemGroup>
   <ItemGroup>

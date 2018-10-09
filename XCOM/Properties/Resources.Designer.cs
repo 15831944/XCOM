@@ -8,10 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace XCOM.Properties
-{
-
-
+namespace XCOM.Properties {
+    using System;
+    
+    
     /// <summary>
     ///   A strongly-typed resource class, for looking up localized strings, etc.
     /// </summary>
@@ -201,15 +201,35 @@ namespace XCOM.Properties
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1254\deff0\nouicompat\deflang1055{\fonttbl{\f0\fnil\fcharset162 Microsoft Sans Serif;}{\f1\fnil\fcharset0 Microsoft Sans Serif;}{\f2\fnil\fcharset238 Microsoft Sans Serif;}}
-        ///{\colortbl ;\red155\green0\blue211;}
-        ///{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
-        ///\pard\fi-1420\li1420\sa200\sl276\slmult1\tx1420\cf1\f0\fs17 #:\cf0\tab\f1\lang31 Sat\f2\u305?r numaras\u305?n\u305? ifade eder, otomatik olarak her sat\u305?rda art\u305?r\u305?l\u305?r.\par
-        ///\cf1\f0\lang1055 P:\tab\cf0 POINT, CI [rest of string was truncated]&quot;;.
+        ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1254\uc1\adeff0\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi0\deflang1055\deflangfe1055\themelang1055\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset162\fprq2{\*\panose 02020603050405020304}Times New Roman;}
+        ///{\f0\fbidi \froman\fcharset162\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f39\fbidi \fswiss\fcharset162\fprq2{\*\panose 00000000000000000000}Microsoft Sans Serif;}
+        ///{\flomajor\f31500\fbidi \froman\fcharset162\fprq2{\*\panose 02020 [rest of string was truncated]&quot;;.
         /// </summary>
         internal static string PrintEntityCoordsHelp {
             get {
                 return ResourceManager.GetString("PrintEntityCoordsHelp", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\adeflang1025\ansi\ansicpg1254\uc1\adeff31507\deff0\stshfdbch31505\stshfloch31506\stshfhich31506\stshfbi31507\deflang1055\deflangfe1055\themelang1055\themelangfe0\themelangcs0{\fonttbl{\f0\fbidi \froman\fcharset162\fprq2{\*\panose 02020603050405020304}Times New Roman;}{\f34\fbidi \froman\fcharset1\fprq2{\*\panose 02040503050406030204}Cambria Math;}
+        ///{\f39\fbidi \fswiss\fcharset162\fprq2{\*\panose 020b0604020202020204}Microsoft Sans Serif;}{\flomajor\f31500\fbidi \froman\fcharset162\fprq2{\*\panose 020 [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string ProtectDrawing {
+            get {
+                return ResourceManager.GetString("ProtectDrawing", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to {\rtf1\ansi\ansicpg1254\deff0\nouicompat\deflang1055{\fonttbl{\f0\fswiss\fprq2\fcharset162 Microsoft Sans Serif;}{\f1\fswiss\fprq2\fcharset238 Microsoft Sans Serif;}{\f2\fswiss\fprq2\fcharset0 Microsoft Sans Serif;}{\f3\fnil\fcharset0 Calibri;}}
+        ///{\colortbl ;\red155\green0\blue211;}
+        ///{\*\generator Riched20 10.0.17134}\viewkind4\uc1 
+        ///\pard\nowidctlpar\fi-1843\li1843\sa200\sl276\slmult1\tx1843\f0\fs17 A\f1\&apos;baa\u287?\u305?daki listedeki DWG de\u287?i\&apos;bakenlerini s\u305?k\f2\lang1033  kullan\f1\u305?lan de\u [rest of string was truncated]&quot;;.
+        /// </summary>
+        internal static string SetDWGVariables {
+            get {
+                return ResourceManager.GetString("SetDWGVariables", resourceCulture);
             }
         }
         

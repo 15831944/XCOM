@@ -89,5 +89,10 @@ namespace AcadUtility
 
             return str;
         }
+
+        public static bool IsRtfText(string text)
+        {
+            return !string.IsNullOrEmpty(text) && text.StartsWith(@"{\rtf");
+        }
     }
 }
