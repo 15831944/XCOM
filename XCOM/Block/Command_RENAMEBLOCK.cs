@@ -1,8 +1,10 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using AcadUtility;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Runtime;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace XCOM.Commands.Block
 {
@@ -30,44 +32,44 @@ namespace XCOM.Commands.Block
                         BlockReference bref = tr.GetObject(id, OpenMode.ForRead) as BlockReference;
                         if (bref != null)
                         {
-                            BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bref.BlockTableRecord, OpenMode.ForRead);
-                            selectBlockName = btr.Name;
+                            if (bref.IsDynamicBlock)
+                            {
+                                BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bref.DynamicBlockTableRecord, OpenMode.ForRead);
+                                selectBlockName = btr.Name;
+                            }
+                            else
+                            {
+                                BlockTableRecord btr = (BlockTableRecord)tr.GetObject(bref.BlockTableRecord, OpenMode.ForRead);
+                                selectBlockName = btr.Name;
+                            }
                         }
                     }
                 }
             }
 
-            Dictionary<string, string> tempNames = new Dictionary<string, string>();
+            var allNames = AcadSymbolTable.GetBlockTableRecords(db);
+            var tempNames = new Dictionary<string, string>();
             int tempCount = 1;
 
             using (RenameBlockForm form = new RenameBlockForm())
             {
-                // Read block names
-                using (Transaction tr = db.TransactionManager.StartTransaction())
+                foreach (var item in AcadSymbolTable.GetBlockTableRecords(db,
+                    p => !p.IsLayout && !p.IsFromExternalReference && !p.IsFromOverlayReference,
+                    p => new { p.Name, p.IsAnonymous, p.PreviewIcon }))
                 {
-                    BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                    foreach (ObjectId id in bt)
+                    form.AddBlockName(item.Name, item.IsAnonymous, item.PreviewIcon);
+
+                    // Create a temporary name for this block
+                    string tempName = "_TMP_BLOCK_NAME_" + tempCount.ToString();
+                    while (allNames.ContainsKey(tempName))
                     {
-                        BlockTableRecord btr = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                        if (btr.IsLayout || btr.IsFromExternalReference || btr.IsFromOverlayReference)
-                            continue;
-
-                        form.AddBlockName(btr.Name, btr.IsAnonymous, (btr.HasPreviewIcon ? btr.PreviewIcon : null));
-
-                        // Create a temporary name for this block
-                        string tempName = "_TMP_BLOCK_NAME_" + tempCount.ToString();
-                        while (bt.Has(tempName))
-                        {
-                            tempCount++;
-                            tempName = "_TMP_BLOCK_NAME_" + tempCount.ToString();
-                        }
-                        tempNames.Add(btr.Name, tempName);
                         tempCount++;
+                        tempName = "_TMP_BLOCK_NAME_" + tempCount.ToString();
                     }
-
-                    tr.Commit();
+                    tempNames.Add(item.Name, tempName);
+                    tempCount++;
                 }
+
                 form.SelectBlock(selectBlockName);
 
                 // Rename blocks
