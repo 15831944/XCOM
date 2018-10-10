@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.Geometry;
@@ -763,54 +764,6 @@ namespace AcadUtility
         public static BlockReference CreateBlockReference(Database db, ObjectId blockId, Point3d insertionPoint, double scale, double rotation)
         {
             return CreateBlockReference(db, blockId, insertionPoint, new Scale3d(scale), rotation);
-        }
-
-        // Returns all block definitions
-        public static IEnumerable<KeyValuePair<string, ObjectId>> GetBlocks(Database db)
-        {
-            SortedDictionary<string, ObjectId> list = new SortedDictionary<string, ObjectId>();
-
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                BlockTable table = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead);
-                SymbolTableEnumerator it = table.GetEnumerator();
-                while (it.MoveNext())
-                {
-                    ObjectId id = it.Current;
-                    BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
-                    if (block.IsFromExternalReference || block.IsFromOverlayReference || block.IsLayout || block.IsAnonymous)
-                    {
-                        continue;
-                    }
-                    list.Add(block.Name, id);
-                }
-
-                tr.Commit();
-            }
-
-            return list;
-        }
-
-        // Returns all text styles
-        public static IEnumerable<KeyValuePair<string, ObjectId>> GetTextStyles(Database db)
-        {
-            SortedDictionary<string, ObjectId> list = new SortedDictionary<string, ObjectId>();
-
-            using (Transaction tr = db.TransactionManager.StartTransaction())
-            {
-                TextStyleTable table = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead);
-                SymbolTableEnumerator it = table.GetEnumerator();
-                while (it.MoveNext())
-                {
-                    ObjectId id = it.Current;
-                    TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
-                    list.Add(style.Name, id);
-                }
-
-                tr.Commit();
-            }
-
-            return list;
         }
 
         // Returns the name of the block

@@ -55,6 +55,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AcadCurve.cs" />
+    <Compile Include="AcadSymbolTable.cs" />
     <Compile Include="AcadEntity.cs" />
     <Compile Include="AcadGeometry.cs" />
     <Compile Include="AcadEditor.cs" />

@@ -1,10 +1,10 @@
-﻿using AcadUtility;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AcadUtility;
 using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
-using System;
-using System.Collections.Generic;
-using System.Linq;
 
 namespace XCOM.Commands.Bridge
 {
@@ -588,8 +588,6 @@ namespace XCOM.Commands.Bridge
                 btr.AppendEntity(bref);
                 tr.AddNewlyCreatedDBObject(bref, true);
 
-                Dictionary<AttributeReference, AttributeDefinition> dict = new Dictionary<AttributeReference, AttributeDefinition>();
-
                 BlockTableRecord blockDef = tr.GetObject(blockId, OpenMode.ForRead) as BlockTableRecord;
                 foreach (ObjectId id in blockDef)
                 {
@@ -598,7 +596,6 @@ namespace XCOM.Commands.Bridge
                     {
                         // Create a new AttributeReference
                         AttributeReference attRef = new AttributeReference();
-                        dict.Add(attRef, attDef);
                         attRef.SetAttributeFromBlock(attDef, bref.BlockTransform);
                         if (string.Compare(attDef.Tag, AxisAttribute, true) == 0)
                         {
@@ -624,8 +621,10 @@ namespace XCOM.Commands.Bridge
 
             using (DrawAxesForm form = new DrawAxesForm())
             {
-                IEnumerable<string> blockNames = AcadEntity.GetBlocks(db).Select(p => p.Key);
-                IEnumerable<string> styleNames = AcadEntity.GetTextStyles(db).Select(p => p.Key);
+                IEnumerable<string> blockNames = AcadSymbolTable.GetBlockTableRecords(db,
+                    p => !p.IsFromExternalReference && !p.IsFromOverlayReference && !p.IsLayout && !p.IsAnonymous,
+                    p => p.Name);
+                IEnumerable<string> styleNames = AcadSymbolTable.GetTextStyleTableRecords(db, p => p.Name);
                 form.SetBlockNames(blockNames.ToArray());
                 form.SetTextStyleNames(styleNames.ToArray());
 
