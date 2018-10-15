@@ -18,6 +18,9 @@ namespace AcadUtility.WinForms
         [Category("Data"), DefaultValue(false)]
         public bool IncludeLayout { get; set; }
 
+        [Category("Appearance"), DefaultValue(36)]
+        public int MinimumItemHeight = 36;
+
         public BlockComboBox()
         {
             this.DrawMode = DrawMode.OwnerDrawVariable;
@@ -42,7 +45,7 @@ namespace AcadUtility.WinForms
 
                 int iconMargin = 2;
                 int textMargin = 2;
-                var iconWidth = 24;
+                var iconWidth = MinimumItemHeight - 2 * textMargin;
 
                 int dropDownWidth = 0;
                 foreach (var obj in base.Items)
@@ -60,7 +63,7 @@ namespace AcadUtility.WinForms
                 this.MeasureItem += (o, e) =>
                 {
                     var size = TextRenderer.MeasureText(e.Graphics, blockNames[e.Index], this.Font);
-                    e.ItemHeight = size.Height + 2 * textMargin;
+                    e.ItemHeight = Math.Max(MinimumItemHeight, size.Height + 2 * textMargin);
                     e.ItemWidth = iconMargin + iconWidth + textMargin + size.Width + textMargin;
                 };
 
@@ -81,7 +84,6 @@ namespace AcadUtility.WinForms
                             iconRect.Top + (int)((iconRect.Height - scale * iconSize.Height) / 2),
                             (int)(scale * iconSize.Width), (int)(scale * iconSize.Height));
                         e.Graphics.DrawImage(icon, targetRect);
-                        e.Graphics.DrawRectangle(SystemPens.WindowText, iconRect);
                     }
 
                     var textRect = new Rectangle(e.Bounds.Left + iconMargin + iconWidth + textMargin, e.Bounds.Top, e.Bounds.Width - (iconMargin + iconWidth + textMargin), e.Bounds.Height);
