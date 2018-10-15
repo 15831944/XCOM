@@ -34,9 +34,9 @@
             this.label7 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.rbMillimeter = new System.Windows.Forms.RadioButton();
-            this.cbBlock = new System.Windows.Forms.ComboBox();
+            this.cbBlock = new AcadUtility.WinForms.BlockComboBox();
             this.rbCentimeter = new System.Windows.Forms.RadioButton();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.cbPrecision = new AcadUtility.WinForms.PrecisionComboBox();
             this.rbMeter = new System.Windows.Forms.RadioButton();
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
@@ -122,12 +122,15 @@
             // 
             // cbBlock
             // 
+            this.cbBlock.Database = null;
             this.cbBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBlock.FormattingEnabled = true;
+            this.cbBlock.IncludeAnonymous = false;
             this.cbBlock.Location = new System.Drawing.Point(103, 138);
             this.cbBlock.Name = "cbBlock";
             this.cbBlock.Size = new System.Drawing.Size(100, 21);
             this.cbBlock.TabIndex = 6;
+            this.cbBlock.Text = null;
             // 
             // rbCentimeter
             // 
@@ -144,20 +147,12 @@
             // 
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(103, 99);
             this.cbPrecision.Name = "cbPrecision";
+            this.cbPrecision.Precision = -1;
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
             this.cbPrecision.TabIndex = 4;
+            this.cbPrecision.Text = null;
             // 
             // rbMeter
             // 
@@ -347,7 +342,7 @@
         #endregion
 
         private System.Windows.Forms.GroupBox groupBox2;
-        private System.Windows.Forms.ComboBox cbPrecision;
+        private AcadUtility.WinForms.PrecisionComboBox cbPrecision;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.RadioButton rbMeter;
         private System.Windows.Forms.Button cmdCancel;
@@ -366,7 +361,7 @@
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.ComboBox cbBlock;
+        private AcadUtility.WinForms.BlockComboBox cbBlock;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtMultiplier;

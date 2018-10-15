@@ -4,6 +4,7 @@ using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace XCOM.Commands.Annotation
 {
@@ -168,19 +169,6 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                List<string> styleNames = new List<string>();
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
-                {
-                    foreach (ObjectId id in bt)
-                    {
-                        TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                        styleNames.Add(style.Name);
-                    }
-                    tr.Commit();
-                }
-                form.SetTextStyleNames(styleNames.ToArray());
                 form.TextStyleName = TextStyleName;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)

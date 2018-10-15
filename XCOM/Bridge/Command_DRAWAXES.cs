@@ -621,15 +621,8 @@ namespace XCOM.Commands.Bridge
 
             using (DrawAxesForm form = new DrawAxesForm())
             {
-                IEnumerable<string> blockNames = AcadSymbolTable.GetBlockTableRecords(db,
-                    p => !p.IsFromExternalReference && !p.IsFromOverlayReference && !p.IsLayout && !p.IsAnonymous,
-                    p => p.Name);
-                IEnumerable<string> styleNames = AcadSymbolTable.GetTextStyleTableRecords(db, p => p.Name);
-                form.SetBlockNames(blockNames.ToArray());
-                form.SetTextStyleNames(styleNames.ToArray());
-
                 // Read settings
-                form.DrawOnlyLine = (DrawingType == AxisDrawingType.Line || blockNames.Count() == 0);
+                form.DrawOnlyLine = (DrawingType == AxisDrawingType.Line);
 
                 form.AxisLineLength = AxisLineLength;
                 form.TextHeight = TextHeight;

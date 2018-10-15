@@ -11,8 +11,12 @@ namespace XCOM.Commands.Geology
         private int columnDragIndex = -1;
         private int columnOverIndex = -1;
 
-        public string LayerName { get { return txtLayer.Text; } set { txtLayer.Text = value; } }
-        public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
+        public string LayerName
+        {
+            get => cbLayer.Text;
+            set => cbLayer.Text = value;
+        }
+        public double TextHeight { get { double.TryParse(txtTextHeight.Text, out double v); return v; } set { txtTextHeight.Text = value.ToString(); } }
 
         public bool HasGroundwater { get { return cbGroundwater.Checked; } }
         public double GroundwaterLevel { get { double val = -1; double.TryParse(txtGroundwater.Text, out val); return val; } }
@@ -32,9 +36,8 @@ namespace XCOM.Commands.Geology
                         if (obj == null) return i - 1;
                         val = (string)obj;
                         if (string.IsNullOrEmpty(val)) return i - 1;
-                        double depth = 0;
                         val = val.Replace(',', '.');
-                        if (!double.TryParse(val, out depth)) return i - 1;
+                        if (!double.TryParse(val, out double depth)) return i - 1;
                     }
                     return boreholeGrid.ColumnsCount - 1;
                 }
@@ -234,8 +237,8 @@ namespace XCOM.Commands.Geology
 
         public class DoubleCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
         {
-            SourceGrid.Cells.Views.Cell cellView;
-            SourceGrid.Cells.Views.Cell errorView;
+            private readonly SourceGrid.Cells.Views.Cell cellView;
+            private readonly SourceGrid.Cells.Views.Cell errorView;
 
             public DoubleCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
                 : base()
@@ -268,8 +271,8 @@ namespace XCOM.Commands.Geology
 
         public class DoubleOrStringCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
         {
-            SourceGrid.Cells.Views.Cell cellView;
-            SourceGrid.Cells.Views.Cell errorView;
+            private readonly SourceGrid.Cells.Views.Cell cellView;
+            private readonly SourceGrid.Cells.Views.Cell errorView;
 
             public DoubleOrStringCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
                 : base()

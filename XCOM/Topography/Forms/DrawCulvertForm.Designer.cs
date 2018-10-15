@@ -48,7 +48,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.btnPickBasePoint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.cbLayer = new System.Windows.Forms.ComboBox();
+            this.cbLayer = new AcadUtility.WinForms.LayerComboBox();
             this.txtHatchScale = new System.Windows.Forms.TextBox();
             this.label10 = new System.Windows.Forms.Label();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
@@ -280,16 +280,6 @@
             // 
             this.cbLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLayer.FormattingEnabled = true;
-            this.cbLayer.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbLayer.Location = new System.Drawing.Point(101, 31);
             this.cbLayer.Name = "cbLayer";
             this.cbLayer.Size = new System.Drawing.Size(100, 21);
@@ -393,6 +383,6 @@
         private System.Windows.Forms.Label label10;
         private System.Windows.Forms.TextBox txtTextHeight;
         private System.Windows.Forms.Label label9;
-        private System.Windows.Forms.ComboBox cbLayer;
+        private AcadUtility.WinForms.LayerComboBox cbLayer;
     }
 }

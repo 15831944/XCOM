@@ -1,28 +1,28 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using Autodesk.AutoCAD.Runtime;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
+using Autodesk.AutoCAD.Runtime;
 
 namespace XCOM.Commands.Annotation
 {
-    public partial class CoordMainForm : AcadUtility.WinForms.VersionDisplayForm 
+    public partial class CoordMainForm : AcadUtility.WinForms.VersionDisplayForm
     {
-        public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
+        public double TextHeight { get { double.TryParse(txtTextHeight.Text, out double v); return v; } set { txtTextHeight.Text = value.ToString(); } }
 
-        public double TextRotation { get { double v = 0; double.TryParse(txtTextAngle.Text, out v); return v; } set { txtTextAngle.Text = value.ToString(); } }
+        public double TextRotation { get { double.TryParse(txtTextAngle.Text, out double v); return v; } set { txtTextAngle.Text = value.ToString(); } }
         public bool AutoRotateText { get { return cbAutoRotateText.Checked; } set { cbAutoRotateText.Checked = value; } }
 
         public bool AutoLineLength { get { return cbDirection.Checked; } set { cbDirection.Checked = value; } }
-        public double LineLength { get { double v = 0; double.TryParse(txtLineLength.Text, out v); return v; } set { txtLineLength.Text = value.ToString(); } }
+        public double LineLength { get { double.TryParse(txtLineLength.Text, out double v); return v; } set { txtLineLength.Text = value.ToString(); } }
 
-        public int Precision { get { return cbPrecision.SelectedIndex; } set { cbPrecision.SelectedIndex = Math.Min(cbPrecision.Items.Count - 1, Math.Max(0, value)); } }
+        public int Precision { get { return cbPrecision.Precision; } set { cbPrecision.Precision = value; } }
 
         public bool AutoNumbering { get { return rbAutoNumber.Checked; } set { rbAutoNumber.Checked = value; rbNoNumbering.Checked = !value; } }
-        public int StartingNumber { get { int v = 0; int.TryParse(txtStartNum.Text, out v); return v; } set { txtStartNum.Text = value.ToString(); } }
+        public int StartingNumber { get { int.TryParse(txtStartNum.Text, out int v); return v; } set { txtStartNum.Text = value.ToString(); } }
         public string Prefix { get { return txtPrefix.Text; } set { txtPrefix.Text = value; } }
 
         public bool ShowZCoordinate { get { return cbZCoord.Checked; } set { cbZCoord.Checked = value; } }
@@ -31,23 +31,8 @@ namespace XCOM.Commands.Annotation
 
         public string TextStyleName
         {
-            get
-            {
-                return (string)cbTextStyle.SelectedItem;
-            }
-            set
-            {
-                for (int i = 0; i < cbTextStyle.Items.Count; i++)
-                {
-                    if (string.Compare((string)cbTextStyle.Items[i], value, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        cbTextStyle.SelectedIndex = i;
-                        return;
-                    }
-                }
-
-                if (cbTextStyle.SelectedIndex == -1 && cbTextStyle.Items.Count > 0) cbTextStyle.SelectedIndex = 0;
-            }
+            get => cbTextStyle.Text;
+            set => cbTextStyle.Text = value;
         }
 
         public CoordMainForm()
@@ -59,7 +44,7 @@ namespace XCOM.Commands.Annotation
             Application.Idle += new EventHandler(Application_Idle);
         }
 
-        void Application_Idle(object sender, EventArgs e)
+        private void Application_Idle(object sender, EventArgs e)
         {
             lblLineLength.Enabled = cbDirection.Checked;
             txtLineLength.Enabled = cbDirection.Checked;
@@ -74,19 +59,6 @@ namespace XCOM.Commands.Annotation
         {
             DialogResult = System.Windows.Forms.DialogResult.OK;
             Close();
-        }
-
-        public void SetTextStyleNames(string[] names)
-        {
-            cbTextStyle.Items.Clear();
-            for (int i = 0; i < names.Length; i++)
-            {
-                cbTextStyle.Items.Add(names[i]);
-                if (string.Compare(names[i], TextStyleName, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    cbTextStyle.SelectedIndex = i;
-                }
-            }
         }
 
         private void btnReadCoords_Click(object sender, EventArgs e)
@@ -262,16 +234,14 @@ namespace XCOM.Commands.Annotation
                         int j = txt.Length;
                         for (int i = txt.Length - 1; i > 0; i--)
                         {
-                            int tmp;
-                            if (int.TryParse(txt.Substring(i, 1), out tmp))
+                            if (int.TryParse(txt.Substring(i, 1), out int tmp))
                             {
                                 continue;
                             }
                             else
                             {
                                 Prefix = txt.Substring(0, i + 1);
-                                int val;
-                                if (int.TryParse(txt.Substring(Prefix.Length), out val))
+                                if (int.TryParse(txt.Substring(Prefix.Length), out int val))
                                 {
                                     Number = val;
                                 }

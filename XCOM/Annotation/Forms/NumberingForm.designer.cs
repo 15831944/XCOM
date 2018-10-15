@@ -122,6 +122,7 @@
             this.lblSample.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.lblSample.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(0)))), ((int)(((byte)(211)))));
             this.lblSample.Location = new System.Drawing.Point(20, 168);
             this.lblSample.Name = "lblSample";
             this.lblSample.Size = new System.Drawing.Size(218, 62);
@@ -213,7 +214,7 @@
             // rbOrderXDec
             // 
             this.rbOrderXDec.AutoSize = true;
-            this.rbOrderXDec.Location = new System.Drawing.Point(20, 74);
+            this.rbOrderXDec.Location = new System.Drawing.Point(20, 71);
             this.rbOrderXDec.Name = "rbOrderXDec";
             this.rbOrderXDec.Size = new System.Drawing.Size(106, 17);
             this.rbOrderXDec.TabIndex = 2;
@@ -223,7 +224,7 @@
             // rbOrderYInc
             // 
             this.rbOrderYInc.AutoSize = true;
-            this.rbOrderYInc.Location = new System.Drawing.Point(20, 100);
+            this.rbOrderYInc.Location = new System.Drawing.Point(20, 94);
             this.rbOrderYInc.Name = "rbOrderYInc";
             this.rbOrderYInc.Size = new System.Drawing.Size(136, 17);
             this.rbOrderYInc.TabIndex = 3;
@@ -245,7 +246,7 @@
             // rbOrderYDec
             // 
             this.rbOrderYDec.AutoSize = true;
-            this.rbOrderYDec.Location = new System.Drawing.Point(20, 51);
+            this.rbOrderYDec.Location = new System.Drawing.Point(20, 48);
             this.rbOrderYDec.Name = "rbOrderYDec";
             this.rbOrderYDec.Size = new System.Drawing.Size(134, 17);
             this.rbOrderYDec.TabIndex = 1;

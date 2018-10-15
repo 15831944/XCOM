@@ -63,6 +63,24 @@
     <Compile Include="CurrentDB.cs" />
     <Compile Include="AcadGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WinForms\BlockComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\DatabaseComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\PrecisionComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\StringListComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\LayerComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\TextStyleComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="WinForms\CheckedListBoxWithButtons.cs">
       <SubType>Component</SubType>
     </Compile>

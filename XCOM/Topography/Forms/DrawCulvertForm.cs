@@ -1,10 +1,11 @@
-﻿using Autodesk.AutoCAD.EditorInput;
-using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.EditorInput;
+using Autodesk.AutoCAD.Geometry;
 
 namespace XCOM.Commands.Topography
 {
@@ -15,33 +16,18 @@ namespace XCOM.Commands.Topography
 
         public Point3d BasePoint { get { return basePt; } set { basePointSelected = true; basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
 
-        public double BaseChainage { get { double v = 0; AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out v); return v; } set { txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(value); } }
-        public double BaseLevel { get { double v = 0; double.TryParse(txtBaseLevel.Text, out v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
-        public double ProfileScale { get { double v = 0; double.TryParse(txtScale.Text, out v); return v; } set { txtScale.Text = value.ToString(); } }
+        public double BaseChainage { get { AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out double v); return v; } set { txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(value); } }
+        public double BaseLevel { get { double.TryParse(txtBaseLevel.Text, out double v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
+        public double ProfileScale { get { double.TryParse(txtScale.Text, out double v); return v; } set { txtScale.Text = value.ToString(); } }
         public bool DrawCulvertInfo { get { return cbDrawCulvertInfo.Checked; } set { cbDrawCulvertInfo.Checked = value; } }
 
-        public double TextHeight { get { double v = 0; double.TryParse(txtTextHeight.Text, out v); return v; } set { txtTextHeight.Text = value.ToString(); } }
-        public double HatchScale { get { double v = 0; double.TryParse(txtHatchScale.Text, out v); return v; } set { txtHatchScale.Text = value.ToString(); } }
+        public double TextHeight { get { double.TryParse(txtTextHeight.Text, out double v); return v; } set { txtTextHeight.Text = value.ToString(); } }
+        public double HatchScale { get { double.TryParse(txtHatchScale.Text, out double v); return v; } set { txtHatchScale.Text = value.ToString(); } }
 
         public string LayerName
         {
-            get
-            {
-                return (string)cbLayer.SelectedItem;
-            }
-            set
-            {
-                for (int i = 0; i < cbLayer.Items.Count; i++)
-                {
-                    if (string.Compare((string)cbLayer.Items[i], value, StringComparison.OrdinalIgnoreCase) == 0)
-                    {
-                        cbLayer.SelectedIndex = i;
-                        return;
-                    }
-                }
-
-                if (cbLayer.SelectedIndex == -1 && cbLayer.Items.Count > 0) cbLayer.SelectedIndex = 0;
-            }
+            get => cbLayer.Text;
+            set => cbLayer.Text = value;
         }
 
         public List<CulvertInfo> GetData()
@@ -87,23 +73,14 @@ namespace XCOM.Commands.Topography
                     MessageBox.Show((i - culvertGrid.FixedRows + 1).ToString() + " nolu satırda KM, kot veya boyut bilgisi okunamadı.", "Menfez Çizimi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     continue;
                 }
-
-                double ch = 0;
-                double level = 0;
-                double length = 0;
-                double grade = 0;
-                double skew = 0;
-                double width = 0;
-                double height = 0;
-                double welllength = 0;
-                AcadUtility.AcadText.TryChainageFromString((string)culvertGrid[i, 0].Value, out ch);
-                double.TryParse((string)culvertGrid[i, 1].Value, out level);
-                double.TryParse((string)culvertGrid[i, 2].Value, out length);
-                double.TryParse((string)culvertGrid[i, 3].Value, out grade);
-                double.TryParse((string)culvertGrid[i, 4].Value, out skew);
-                double.TryParse((string)culvertGrid[i, 5].Value, out width);
-                double.TryParse((string)culvertGrid[i, 6].Value, out height);
-                double.TryParse((string)culvertGrid[i, 7].Value, out welllength);
+                AcadUtility.AcadText.TryChainageFromString((string)culvertGrid[i, 0].Value, out double ch);
+                double.TryParse((string)culvertGrid[i, 1].Value, out double level);
+                double.TryParse((string)culvertGrid[i, 2].Value, out double length);
+                double.TryParse((string)culvertGrid[i, 3].Value, out double grade);
+                double.TryParse((string)culvertGrid[i, 4].Value, out double skew);
+                double.TryParse((string)culvertGrid[i, 5].Value, out double width);
+                double.TryParse((string)culvertGrid[i, 6].Value, out double height);
+                double.TryParse((string)culvertGrid[i, 7].Value, out double welllength);
 
                 CulvertInfo culvert = new CulvertInfo();
                 culvert.Chainage = ch;
@@ -204,19 +181,6 @@ namespace XCOM.Commands.Topography
             culvertGrid.AutoSizeCells();
         }
 
-        public void SetLayerNames(string[] names)
-        {
-            cbLayer.Items.Clear();
-            for (int i = 0; i < names.Length; i++)
-            {
-                cbLayer.Items.Add(names[i]);
-                if (string.Compare(names[i], LayerName, StringComparison.OrdinalIgnoreCase) == 0)
-                {
-                    cbLayer.SelectedIndex = i;
-                }
-            }
-        }
-
         private void btnPickBasePoint_Click(object sender, EventArgs e)
         {
             Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
@@ -229,8 +193,8 @@ namespace XCOM.Commands.Topography
 
         public class ChainageCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
         {
-            SourceGrid.Cells.Views.Cell cellView;
-            SourceGrid.Cells.Views.Cell errorView;
+            private readonly SourceGrid.Cells.Views.Cell cellView;
+            private readonly SourceGrid.Cells.Views.Cell errorView;
 
             public ChainageCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
                 : base()
@@ -263,8 +227,8 @@ namespace XCOM.Commands.Topography
 
         public class DoubleCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
         {
-            SourceGrid.Cells.Views.Cell cellView;
-            SourceGrid.Cells.Views.Cell errorView;
+            private readonly SourceGrid.Cells.Views.Cell cellView;
+            private readonly SourceGrid.Cells.Views.Cell errorView;
 
             public DoubleCellChangedEvent(SourceGrid.Cells.Views.Cell sourceCellView, SourceGrid.Cells.Views.Cell sourceErrorView)
                 : base()
@@ -322,8 +286,7 @@ namespace XCOM.Commands.Topography
 
         private void txtBaseCH_Validating(object sender, CancelEventArgs e)
         {
-            double val = 0;
-            if (AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out val))
+            if (AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out double val))
             {
                 txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(val);
             }
@@ -335,8 +298,7 @@ namespace XCOM.Commands.Topography
 
         private void txtBaseLevel_Validating(object sender, CancelEventArgs e)
         {
-            double val = 0;
-            if (!double.TryParse(txtBaseLevel.Text, out val))
+            if (!double.TryParse(txtBaseLevel.Text, out double val))
             {
                 e.Cancel = true;
             }
@@ -344,8 +306,7 @@ namespace XCOM.Commands.Topography
 
         private void txtScale_Validating(object sender, CancelEventArgs e)
         {
-            double val = 0;
-            if (!double.TryParse(txtScale.Text, out val))
+            if (!double.TryParse(txtScale.Text, out double val))
             {
                 e.Cancel = true;
             }
@@ -353,8 +314,7 @@ namespace XCOM.Commands.Topography
 
         private void txtTextHeight_Validating(object sender, CancelEventArgs e)
         {
-            double val = 0;
-            if (!double.TryParse(txtTextHeight.Text, out val) || val < 0.00001)
+            if (!double.TryParse(txtTextHeight.Text, out double val) || val < 0.00001)
             {
                 e.Cancel = true;
             }
@@ -362,8 +322,7 @@ namespace XCOM.Commands.Topography
 
         private void txtHatchScale_Validating(object sender, CancelEventArgs e)
         {
-            double val = 0;
-            if (!double.TryParse(txtHatchScale.Text, out val) || val < 0.00001)
+            if (!double.TryParse(txtHatchScale.Text, out double val) || val < 0.00001)
             {
                 e.Cancel = true;
             }

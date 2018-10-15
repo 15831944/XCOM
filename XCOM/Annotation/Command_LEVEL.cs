@@ -1,10 +1,12 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Windows.Forms;
+using AcadUtility;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
-using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
 
 namespace XCOM.Commands.Annotation
 {
@@ -218,29 +220,15 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                List<string> blockNames = new List<string>();
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (BlockTable bt = (BlockTable)tr.GetObject(db.BlockTableId, OpenMode.ForRead))
-                {
-                    foreach (ObjectId id in bt)
-                    {
-                        BlockTableRecord block = (BlockTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                        if (string.Compare(block.Name, BlockTableRecord.ModelSpace, StringComparison.OrdinalIgnoreCase) == 0) continue;
-                        if (block.IsLayout) continue;
-
-                        blockNames.Add(block.Name);
-                    }
-                    tr.Commit();
-                }
-
-                if (blockNames.Count == 0)
+                var blockNames = AcadSymbolTable.GetBlockTableRecords(db,
+                    p => !p.IsFromExternalReference && !p.IsFromOverlayReference && !p.IsLayout && !p.IsAnonymous,
+                    p => p.Name).OrderBy(p => p);
+                if (!blockNames.Any())
                 {
                     MessageBox.Show("Çizimde kot bloğu bulunamadı. Kot bloğunu INSERT yapıp yeniden deneyin.", "Level", MessageBoxButtons.OK, MessageBoxIcon.Error);
                     return false;
                 }
 
-                form.SetBlockNames(blockNames.ToArray());
                 form.BlockName = BlockName;
                 form.BlockScale = BlockScale;
 
@@ -288,7 +276,7 @@ namespace XCOM.Commands.Annotation
             private Point3d mpText = new Point3d();
             private Line line = null;
             private Matrix3d lastTransform = Matrix3d.Identity;
-            private Dictionary<AttributeReference, AttributeDefinition> mAttDict = new Dictionary<AttributeReference, AttributeDefinition>();
+            private readonly Dictionary<AttributeReference, AttributeDefinition> mAttDict = new Dictionary<AttributeReference, AttributeDefinition>();
 
             private LevelJig(Entity en, Point3d pBase, Dictionary<AttributeReference, AttributeDefinition> attDict)
                 : base(en)

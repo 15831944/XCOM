@@ -1,8 +1,8 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.Geometry;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
+using Autodesk.AutoCAD.DatabaseServices;
+using Autodesk.AutoCAD.Geometry;
 
 namespace XCOM.Commands.Topography
 {
@@ -18,7 +18,7 @@ namespace XCOM.Commands.Topography
         private double TextHeight { get; set; }
         private double HatchScale { get; set; }
 
-        IEnumerable<DrawCulvertForm.CulvertInfo> Data { get; set; }
+        private IEnumerable<DrawCulvertForm.CulvertInfo> Data { get; set; }
 
         public Command_PROFILMENFEZ()
         {
@@ -159,19 +159,6 @@ namespace XCOM.Commands.Topography
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                List<string> layerNames = new List<string>();
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (LayerTable bt = (LayerTable)tr.GetObject(db.LayerTableId, OpenMode.ForRead))
-                {
-                    foreach (ObjectId id in bt)
-                    {
-                        LayerTableRecord layer = (LayerTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                        layerNames.Add(layer.Name);
-                    }
-                    tr.Commit();
-                }
-                form.SetLayerNames(layerNames.ToArray());
                 form.LayerName = LayerName;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(null, form, false) == System.Windows.Forms.DialogResult.OK)

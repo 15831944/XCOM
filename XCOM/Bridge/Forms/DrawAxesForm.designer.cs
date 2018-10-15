@@ -35,9 +35,9 @@
             this.label5 = new System.Windows.Forms.Label();
             this.lblPrecision = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.cbPrecision = new AcadUtility.WinForms.PrecisionComboBox();
             this.txtAxisAttribute = new System.Windows.Forms.TextBox();
-            this.cbBlockName = new System.Windows.Forms.ComboBox();
+            this.cbBlockName = new AcadUtility.WinForms.BlockComboBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.txtChPrefix = new System.Windows.Forms.TextBox();
@@ -46,7 +46,7 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
-            this.cbTextStyle = new System.Windows.Forms.ComboBox();
+            this.cbTextStyle = new AcadUtility.WinForms.TextStyleComboBox();
             this.rbAxisLine = new System.Windows.Forms.RadioButton();
             this.rbAxisBlock = new System.Windows.Forms.RadioButton();
             this.txtAxisLineLength = new System.Windows.Forms.TextBox();
@@ -145,16 +145,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(107, 105);
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(132, 21);
@@ -262,16 +252,6 @@
             | System.Windows.Forms.AnchorStyles.Right)));
             this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTextStyle.FormattingEnabled = true;
-            this.cbTextStyle.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbTextStyle.Location = new System.Drawing.Point(107, 52);
             this.cbTextStyle.Name = "cbTextStyle";
             this.cbTextStyle.Size = new System.Drawing.Size(132, 21);
@@ -353,11 +333,11 @@
         private System.Windows.Forms.GroupBox groupBox3;
         private System.Windows.Forms.RadioButton rbAxisLine;
         private System.Windows.Forms.RadioButton rbAxisBlock;
-        private System.Windows.Forms.ComboBox cbBlockName;
+        private AcadUtility.WinForms.BlockComboBox cbBlockName;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbTextStyle;
+        private AcadUtility.WinForms.TextStyleComboBox cbTextStyle;
         private System.Windows.Forms.Label lblPrecision;
-        private System.Windows.Forms.ComboBox cbPrecision;
+        private AcadUtility.WinForms.PrecisionComboBox cbPrecision;
         private System.Windows.Forms.TextBox txtTextHeight;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Panel pnlBlock;

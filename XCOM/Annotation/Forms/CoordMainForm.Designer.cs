@@ -40,8 +40,8 @@
             this.label1 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.lblPrecision = new System.Windows.Forms.Label();
-            this.cbTextStyle = new System.Windows.Forms.ComboBox();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.cbTextStyle = new AcadUtility.WinForms.TextStyleComboBox();
+            this.cbPrecision = new AcadUtility.WinForms.PrecisionComboBox();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.txtPrefix = new System.Windows.Forms.TextBox();
             this.lblPrefix = new System.Windows.Forms.Label();
@@ -176,16 +176,6 @@
             // 
             this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTextStyle.FormattingEnabled = true;
-            this.cbTextStyle.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbTextStyle.Location = new System.Drawing.Point(121, 31);
             this.cbTextStyle.Name = "cbTextStyle";
             this.cbTextStyle.Size = new System.Drawing.Size(100, 21);
@@ -195,16 +185,6 @@
             // 
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(121, 58);
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
@@ -370,7 +350,7 @@
         private System.Windows.Forms.TextBox txtTextAngle;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox txtTextHeight;
-        private System.Windows.Forms.ComboBox cbPrecision;
+        private AcadUtility.WinForms.PrecisionComboBox cbPrecision;
         private System.Windows.Forms.Label lblPrecision;
         private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.TextBox txtPrefix;
@@ -382,7 +362,7 @@
         private System.Windows.Forms.Button cmdCancel;
         private System.Windows.Forms.Button cmdOK;
         private System.Windows.Forms.Label label3;
-        private System.Windows.Forms.ComboBox cbTextStyle;
+        private AcadUtility.WinForms.TextStyleComboBox cbTextStyle;
         private System.Windows.Forms.Button btnReadCoords;
         private System.Windows.Forms.CheckBox cbAutoRotateText;
         private System.Windows.Forms.GroupBox groupBox1;

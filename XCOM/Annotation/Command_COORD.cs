@@ -1,9 +1,11 @@
-﻿using Autodesk.AutoCAD.DatabaseServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using AcadUtility;
+using Autodesk.AutoCAD.DatabaseServices;
 using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 using Autodesk.AutoCAD.GraphicsInterface;
-using System;
-using System.Collections.Generic;
 
 namespace XCOM.Commands.Annotation
 {
@@ -79,8 +81,8 @@ namespace XCOM.Commands.Annotation
         {
             private Matrix3d wcs2ucs;
             private Matrix3d ucs2wcs;
-            private double rotation;
-            private double length;
+            private readonly double rotation;
+            private readonly double length;
             private List<Point3d> points;
 
             public TextPositioner(Matrix3d ucs, double textRotation, double lineLength)
@@ -439,18 +441,6 @@ namespace XCOM.Commands.Annotation
                 Autodesk.AutoCAD.ApplicationServices.Document doc = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument;
                 Autodesk.AutoCAD.DatabaseServices.Database db = doc.Database;
 
-                List<string> styleNames = new List<string>();
-                using (Transaction tr = db.TransactionManager.StartTransaction())
-                using (TextStyleTable bt = (TextStyleTable)tr.GetObject(db.TextStyleTableId, OpenMode.ForRead))
-                {
-                    foreach (ObjectId id in bt)
-                    {
-                        TextStyleTableRecord style = (TextStyleTableRecord)tr.GetObject(id, OpenMode.ForRead);
-
-                        styleNames.Add(style.Name);
-                    }
-                }
-                form.SetTextStyleNames(styleNames.ToArray());
                 form.TextStyleName = TextStyleName;
 
                 if (Autodesk.AutoCAD.ApplicationServices.Application.ShowModalDialog(form) == System.Windows.Forms.DialogResult.OK)
@@ -571,7 +561,7 @@ namespace XCOM.Commands.Annotation
 
             Matrix3d ucs2wcs = AcadUtility.AcadGraphics.UcsToWcs;
             double rotation = Vector3d.XAxis.TransformBy(ucs2wcs).GetAngleTo(Vector3d.XAxis);
-            
+
             double height = TextHeight;
             double margin = 0.2 * TextHeight;
             double row = height + 2 * margin;
@@ -624,10 +614,10 @@ namespace XCOM.Commands.Annotation
         {
             private Point3d mpBase = new Point3d();
             private Point3d mpText = new Point3d();
-            private bool mAutoRotateText = false;
-            private double mTextRotation = 0;
-            private bool mAutoLine = false;
-            private double mLineLength = 1.0;
+            private readonly bool mAutoRotateText = false;
+            private readonly double mTextRotation = 0;
+            private readonly bool mAutoLine = false;
+            private readonly double mLineLength = 1.0;
             private Line line = null;
 
             private CoordinateJig(Entity en, Point3d pBase, bool autoLine, double lineLength, bool autoRotateText, double textRotation)
