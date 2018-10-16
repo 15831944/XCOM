@@ -33,7 +33,7 @@
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.rtlHelp = new AcadUtility.WinForms.RichTextLabel();
             this.lblPrecision = new System.Windows.Forms.Label();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.cbPrecision = new AcadUtility.WinForms.PrecisionComboBox();
             this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.chText = new System.Windows.Forms.CheckBox();
@@ -129,16 +129,6 @@
             this.cbPrecision.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(138, 230);
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
@@ -380,7 +370,7 @@
         private System.Windows.Forms.CheckBox chCircle;
         private System.Windows.Forms.CheckBox chPoint;
         private System.Windows.Forms.Label lblPrecision;
-        private System.Windows.Forms.ComboBox cbPrecision;
+        private AcadUtility.WinForms.PrecisionComboBox cbPrecision;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox txtFilename;

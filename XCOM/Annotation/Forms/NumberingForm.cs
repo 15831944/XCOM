@@ -112,7 +112,7 @@ namespace XCOM.Commands.Annotation
                     num += Increment;
                 }
                 lblSample.Text = sb.ToString();
-                lblSample.ForeColor = SystemColors.WindowText;
+                lblSample.ForeColor = Color.FromArgb(155, 0, 211);
             }
             catch
             {

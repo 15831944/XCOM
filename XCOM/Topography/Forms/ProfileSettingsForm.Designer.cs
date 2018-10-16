@@ -31,8 +31,8 @@
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.label6 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
-            this.cbTextStyle = new System.Windows.Forms.ComboBox();
-            this.cbPrecision = new System.Windows.Forms.ComboBox();
+            this.cbTextStyle = new AcadUtility.WinForms.TextStyleComboBox();
+            this.cbPrecision = new AcadUtility.WinForms.PrecisionComboBox();
             this.txtTextHeight = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtVScale = new System.Windows.Forms.TextBox();
@@ -88,16 +88,6 @@
             // 
             this.cbTextStyle.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbTextStyle.FormattingEnabled = true;
-            this.cbTextStyle.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbTextStyle.Location = new System.Drawing.Point(141, 121);
             this.cbTextStyle.Name = "cbTextStyle";
             this.cbTextStyle.Size = new System.Drawing.Size(100, 21);
@@ -107,16 +97,6 @@
             // 
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrecision.FormattingEnabled = true;
-            this.cbPrecision.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(141, 174);
             this.cbPrecision.Name = "cbPrecision";
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
@@ -244,10 +224,10 @@
         private System.Windows.Forms.TextBox txtTextHeight;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.ComboBox cbPrecision;
+        private AcadUtility.WinForms.PrecisionComboBox cbPrecision;
         private System.Windows.Forms.TextBox txtVScale;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.ComboBox cbTextStyle;
+        private AcadUtility.WinForms.TextStyleComboBox cbTextStyle;
     }
 }

@@ -55,7 +55,7 @@ namespace AcadUtility.WinForms
 
         private void StringListComboBox_MeasureItem(object sender, MeasureItemEventArgs e)
         {
-            if (e.Index > base.Items.Count - 1)
+            if (e.Index < 0 || e.Index > base.Items.Count - 1)
                 return;
 
             Size textSize = TextRenderer.MeasureText(e.Graphics, (string)base.Items[e.Index], this.Font);
@@ -81,7 +81,7 @@ namespace AcadUtility.WinForms
 
         private void StringListComboBox_DrawItem(object sender, DrawItemEventArgs e)
         {
-            if (e.Index > base.Items.Count - 1)
+            if (e.Index < 0 || e.Index > base.Items.Count - 1)
                 return;
 
             e.DrawBackground();

@@ -50,7 +50,7 @@
             this.cmdCancel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
             this.cmdCancel.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdCancel.Location = new System.Drawing.Point(320, 186);
+            this.cmdCancel.Location = new System.Drawing.Point(320, 177);
             this.cmdCancel.Name = "cmdCancel";
             this.cmdCancel.Size = new System.Drawing.Size(75, 23);
             this.cmdCancel.TabIndex = 3;
@@ -62,7 +62,7 @@
             this.cmdOK.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.cmdOK.DialogResult = System.Windows.Forms.DialogResult.OK;
             this.cmdOK.ImeMode = System.Windows.Forms.ImeMode.NoControl;
-            this.cmdOK.Location = new System.Drawing.Point(239, 186);
+            this.cmdOK.Location = new System.Drawing.Point(239, 177);
             this.cmdOK.Name = "cmdOK";
             this.cmdOK.Size = new System.Drawing.Size(75, 23);
             this.cmdOK.TabIndex = 2;
@@ -72,7 +72,7 @@
             // rbSelectCircle
             // 
             this.rbSelectCircle.AutoSize = true;
-            this.rbSelectCircle.Location = new System.Drawing.Point(20, 51);
+            this.rbSelectCircle.Location = new System.Drawing.Point(20, 48);
             this.rbSelectCircle.Name = "rbSelectCircle";
             this.rbSelectCircle.Size = new System.Drawing.Size(112, 17);
             this.rbSelectCircle.TabIndex = 1;
@@ -100,7 +100,7 @@
             this.groupBox4.Controls.Add(this.rbSelectCircle);
             this.groupBox4.Location = new System.Drawing.Point(12, 12);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(188, 157);
+            this.groupBox4.Size = new System.Drawing.Size(188, 147);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Seçilecek Nesneler";
@@ -108,7 +108,7 @@
             // rbSelectBlock
             // 
             this.rbSelectBlock.AutoSize = true;
-            this.rbSelectBlock.Location = new System.Drawing.Point(20, 74);
+            this.rbSelectBlock.Location = new System.Drawing.Point(20, 71);
             this.rbSelectBlock.Name = "rbSelectBlock";
             this.rbSelectBlock.Size = new System.Drawing.Size(52, 17);
             this.rbSelectBlock.TabIndex = 2;
@@ -118,7 +118,7 @@
             // rbSelectLine
             // 
             this.rbSelectLine.AutoSize = true;
-            this.rbSelectLine.Location = new System.Drawing.Point(20, 123);
+            this.rbSelectLine.Location = new System.Drawing.Point(20, 117);
             this.rbSelectLine.Name = "rbSelectLine";
             this.rbSelectLine.Size = new System.Drawing.Size(45, 17);
             this.rbSelectLine.TabIndex = 4;
@@ -128,7 +128,7 @@
             // rbSelectPoint
             // 
             this.rbSelectPoint.AutoSize = true;
-            this.rbSelectPoint.Location = new System.Drawing.Point(20, 100);
+            this.rbSelectPoint.Location = new System.Drawing.Point(20, 94);
             this.rbSelectPoint.Name = "rbSelectPoint";
             this.rbSelectPoint.Size = new System.Drawing.Size(49, 17);
             this.rbSelectPoint.TabIndex = 3;
@@ -143,7 +143,7 @@
             this.groupBox1.Controls.Add(this.rbOrderYDec);
             this.groupBox1.Location = new System.Drawing.Point(206, 12);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(188, 157);
+            this.groupBox1.Size = new System.Drawing.Size(188, 147);
             this.groupBox1.TabIndex = 1;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Sıralama";
@@ -151,7 +151,7 @@
             // rbOrderXDec
             // 
             this.rbOrderXDec.AutoSize = true;
-            this.rbOrderXDec.Location = new System.Drawing.Point(20, 74);
+            this.rbOrderXDec.Location = new System.Drawing.Point(20, 71);
             this.rbOrderXDec.Name = "rbOrderXDec";
             this.rbOrderXDec.Size = new System.Drawing.Size(106, 17);
             this.rbOrderXDec.TabIndex = 2;
@@ -161,7 +161,7 @@
             // rbOrderYInc
             // 
             this.rbOrderYInc.AutoSize = true;
-            this.rbOrderYInc.Location = new System.Drawing.Point(20, 100);
+            this.rbOrderYInc.Location = new System.Drawing.Point(20, 94);
             this.rbOrderYInc.Name = "rbOrderYInc";
             this.rbOrderYInc.Size = new System.Drawing.Size(136, 17);
             this.rbOrderYInc.TabIndex = 3;
@@ -183,7 +183,7 @@
             // rbOrderYDec
             // 
             this.rbOrderYDec.AutoSize = true;
-            this.rbOrderYDec.Location = new System.Drawing.Point(20, 51);
+            this.rbOrderYDec.Location = new System.Drawing.Point(20, 48);
             this.rbOrderYDec.Name = "rbOrderYDec";
             this.rbOrderYDec.Size = new System.Drawing.Size(134, 17);
             this.rbOrderYDec.TabIndex = 1;
@@ -196,7 +196,7 @@
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.CancelButton = this.cmdCancel;
-            this.ClientSize = new System.Drawing.Size(407, 221);
+            this.ClientSize = new System.Drawing.Size(407, 212);
             this.Controls.Add(this.cmdCancel);
             this.Controls.Add(this.cmdOK);
             this.Controls.Add(this.groupBox1);
