@@ -43,8 +43,10 @@
       <HintPath>..\..\..\..\..\..\..\Autodesk\ObjectARX 2018\inc\AcMgd.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="PresentationFramework" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
@@ -63,13 +65,22 @@
     <Compile Include="CurrentDB.cs" />
     <Compile Include="AcadGraphics.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
     <Compile Include="WinForms\BlockComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WinForms\DatabaseComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="WinForms\PickCoordinateControlDesigner.cs" />
     <Compile Include="WinForms\PrecisionComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="WinForms\PickCoordinateControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="WinForms\StringListComboBox.cs">
@@ -99,12 +110,22 @@
     <Compile Include="WinForms\WinForms.cs" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="WinForms\HelpForm.resx">
       <DependentUpon>HelpForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="WinForms\PickCoordinateControl.resx">
+      <DependentUpon>PickCoordinateControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WinForms\RichTextLabel.resx">
       <DependentUpon>RichTextLabel.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\pick.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

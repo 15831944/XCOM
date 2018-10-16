@@ -3,18 +3,13 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
-using Autodesk.AutoCAD.DatabaseServices;
-using Autodesk.AutoCAD.EditorInput;
 using Autodesk.AutoCAD.Geometry;
 
 namespace XCOM.Commands.Topography
 {
     public partial class DrawCulvertForm : AcadUtility.WinForms.VersionDisplayForm
     {
-        private bool basePointSelected;
-        private Point3d basePt;
-
-        public Point3d BasePoint { get { return basePt; } set { basePointSelected = true; basePt = value; txtX.Text = basePt.X.ToString(); txtY.Text = basePt.Y.ToString(); txtZ.Text = basePt.Z.ToString(); } }
+        public Point3d BasePoint { get { return pickBasePoint.PickPoint; } set { pickBasePoint.PickPoint = value; } }
 
         public double BaseChainage { get { AcadUtility.AcadText.TryChainageFromString(txtBaseCH.Text, out double v); return v; } set { txtBaseCH.Text = AcadUtility.AcadText.ChainageToString(value); } }
         public double BaseLevel { get { double.TryParse(txtBaseLevel.Text, out double v); return v; } set { txtBaseLevel.Text = value.ToString(); } }
@@ -103,9 +98,6 @@ namespace XCOM.Commands.Topography
         {
             InitializeComponent();
 
-            basePointSelected = false;
-            basePt = Point3d.Origin;
-
             SourceGrid.Cells.Views.Cell cellView = new SourceGrid.Cells.Views.Cell();
             cellView.TextAlignment = DevAge.Drawing.ContentAlignment.MiddleRight;
             cellView.BackColor = Color.White;
@@ -179,16 +171,6 @@ namespace XCOM.Commands.Topography
             }
 
             culvertGrid.AutoSizeCells();
-        }
-
-        private void btnPickBasePoint_Click(object sender, EventArgs e)
-        {
-            Editor ed = Autodesk.AutoCAD.ApplicationServices.Application.DocumentManager.MdiActiveDocument.Editor;
-            using (EditorUserInteraction UI = ed.StartUserInteraction(this))
-            {
-                PromptPointResult ptRes = ed.GetPoint("\nBaz noktası: ");
-                if (ptRes.Status == PromptStatus.OK) BasePoint = ptRes.Value;
-            }
         }
 
         public class ChainageCellChangedEvent : SourceGrid.Cells.Controllers.ControllerBase
@@ -275,7 +257,7 @@ namespace XCOM.Commands.Topography
 
         private void btnOK_Click(object sender, EventArgs e)
         {
-            if (!basePointSelected)
+            if (!pickBasePoint.IsPointSet)
             {
                 MessageBox.Show("Baz noktasını seçin.", "Menfez Çizimi", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 return;

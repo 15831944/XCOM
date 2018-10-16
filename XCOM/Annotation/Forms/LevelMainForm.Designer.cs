@@ -41,18 +41,11 @@
             this.cmdCancel = new System.Windows.Forms.Button();
             this.cmdOK = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pickBasePoint = new AcadUtility.WinForms.PickCoordinateControl();
             this.txtMultiplier = new System.Windows.Forms.TextBox();
             this.label9 = new System.Windows.Forms.Label();
             this.txtBaseLevel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtZ = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtY = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtX = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnPickBasePoint = new System.Windows.Forms.Button();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.SuspendLayout();
@@ -123,9 +116,10 @@
             // cbBlock
             // 
             this.cbBlock.Database = null;
+            this.cbBlock.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cbBlock.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbBlock.FormattingEnabled = true;
-            this.cbBlock.IncludeAnonymous = false;
+            this.cbBlock.HasIcons = true;
             this.cbBlock.Location = new System.Drawing.Point(103, 138);
             this.cbBlock.Name = "cbBlock";
             this.cbBlock.Size = new System.Drawing.Size(100, 21);
@@ -145,14 +139,34 @@
             // 
             // cbPrecision
             // 
+            this.cbPrecision.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cbPrecision.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cbPrecision.DropDownWidth = 121;
             this.cbPrecision.FormattingEnabled = true;
+            this.cbPrecision.Items.AddRange(new object[] {
+            "0 - 0",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000",
+            "0 - 0",
+            "1 - 0.0",
+            "2 - 0.00",
+            "3 - 0.000",
+            "4 - 0.0000",
+            "5 - 0.00000",
+            "6 - 0.000000",
+            "7 - 0.0000000",
+            "8 - 0.00000000"});
             this.cbPrecision.Location = new System.Drawing.Point(103, 99);
             this.cbPrecision.Name = "cbPrecision";
-            this.cbPrecision.Precision = -1;
+            this.cbPrecision.Precision = 0;
             this.cbPrecision.Size = new System.Drawing.Size(100, 21);
             this.cbPrecision.TabIndex = 4;
-            this.cbPrecision.Text = null;
             // 
             // rbMeter
             // 
@@ -191,18 +205,11 @@
             // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.pickBasePoint);
             this.groupBox1.Controls.Add(this.txtMultiplier);
             this.groupBox1.Controls.Add(this.label9);
             this.groupBox1.Controls.Add(this.txtBaseLevel);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.txtZ);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtY);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtX);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnPickBasePoint);
             this.groupBox1.Location = new System.Drawing.Point(239, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(194, 206);
@@ -210,12 +217,20 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Baz Noktası";
             // 
+            // pickBasePoint
+            // 
+            this.pickBasePoint.DividerLocation = 53;
+            this.pickBasePoint.Location = new System.Drawing.Point(20, 26);
+            this.pickBasePoint.Name = "pickBasePoint";
+            this.pickBasePoint.Size = new System.Drawing.Size(153, 96);
+            this.pickBasePoint.TabIndex = 0;
+            // 
             // txtMultiplier
             // 
             this.txtMultiplier.Location = new System.Drawing.Point(73, 165);
             this.txtMultiplier.Name = "txtMultiplier";
             this.txtMultiplier.Size = new System.Drawing.Size(100, 20);
-            this.txtMultiplier.TabIndex = 11;
+            this.txtMultiplier.TabIndex = 4;
             this.txtMultiplier.TextChanged += new System.EventHandler(this.txtMultiplier_TextChanged);
             // 
             // label9
@@ -224,7 +239,7 @@
             this.label9.Location = new System.Drawing.Point(17, 169);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(41, 13);
-            this.label9.TabIndex = 10;
+            this.label9.TabIndex = 3;
             this.label9.Text = "Çarpan";
             // 
             // txtBaseLevel
@@ -232,7 +247,7 @@
             this.txtBaseLevel.Location = new System.Drawing.Point(73, 138);
             this.txtBaseLevel.Name = "txtBaseLevel";
             this.txtBaseLevel.Size = new System.Drawing.Size(100, 20);
-            this.txtBaseLevel.TabIndex = 9;
+            this.txtBaseLevel.TabIndex = 2;
             // 
             // label6
             // 
@@ -240,78 +255,8 @@
             this.label6.Location = new System.Drawing.Point(17, 142);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 8;
+            this.label6.TabIndex = 1;
             this.label6.Text = "Baz kotu";
-            // 
-            // txtZ
-            // 
-            this.txtZ.Location = new System.Drawing.Point(73, 99);
-            this.txtZ.Name = "txtZ";
-            this.txtZ.ReadOnly = true;
-            this.txtZ.Size = new System.Drawing.Size(100, 20);
-            this.txtZ.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 103);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(14, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Z";
-            // 
-            // txtY
-            // 
-            this.txtY.Location = new System.Drawing.Point(73, 73);
-            this.txtY.Name = "txtY";
-            this.txtY.ReadOnly = true;
-            this.txtY.Size = new System.Drawing.Size(100, 20);
-            this.txtY.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(14, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Y";
-            // 
-            // txtX
-            // 
-            this.txtX.Location = new System.Drawing.Point(73, 47);
-            this.txtX.Name = "txtX";
-            this.txtX.ReadOnly = true;
-            this.txtX.Size = new System.Drawing.Size(100, 20);
-            this.txtX.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "X";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(47, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Baz noktasını seç";
-            // 
-            // btnPickBasePoint
-            // 
-            this.btnPickBasePoint.Image = global::XCOM.Properties.Resources.pick;
-            this.btnPickBasePoint.Location = new System.Drawing.Point(18, 23);
-            this.btnPickBasePoint.Name = "btnPickBasePoint";
-            this.btnPickBasePoint.Size = new System.Drawing.Size(23, 23);
-            this.btnPickBasePoint.TabIndex = 0;
-            this.btnPickBasePoint.UseVisualStyleBackColor = true;
-            this.btnPickBasePoint.Click += new System.EventHandler(this.btnPickBasePoint_Click);
             // 
             // LevelMainForm
             // 
@@ -350,21 +295,14 @@
         private System.Windows.Forms.RadioButton rbMillimeter;
         private System.Windows.Forms.RadioButton rbCentimeter;
         private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.Button btnPickBasePoint;
         private System.Windows.Forms.TextBox txtBaseLevel;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtZ;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtY;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtX;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label7;
         private AcadUtility.WinForms.BlockComboBox cbBlock;
         private System.Windows.Forms.TextBox txtScale;
         private System.Windows.Forms.Label label8;
         private System.Windows.Forms.TextBox txtMultiplier;
         private System.Windows.Forms.Label label9;
+        private AcadUtility.WinForms.PickCoordinateControl pickBasePoint;
     }
 }

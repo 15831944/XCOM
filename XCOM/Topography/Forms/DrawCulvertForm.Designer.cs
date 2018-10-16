@@ -33,20 +33,13 @@
             this.culvertGrid = new SourceGrid.Grid();
             this.cbDrawCulvertInfo = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.pickBasePoint = new AcadUtility.WinForms.PickCoordinateControl();
             this.txtBaseCH = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.txtScale = new System.Windows.Forms.TextBox();
             this.label7 = new System.Windows.Forms.Label();
             this.txtBaseLevel = new System.Windows.Forms.TextBox();
             this.label6 = new System.Windows.Forms.Label();
-            this.txtZ = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
-            this.txtY = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.txtX = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.btnPickBasePoint = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.cbLayer = new AcadUtility.WinForms.LayerComboBox();
             this.txtHatchScale = new System.Windows.Forms.TextBox();
@@ -107,13 +100,14 @@
             this.cbDrawCulvertInfo.Location = new System.Drawing.Point(18, 246);
             this.cbDrawCulvertInfo.Name = "cbDrawCulvertInfo";
             this.cbDrawCulvertInfo.Size = new System.Drawing.Size(153, 17);
-            this.cbDrawCulvertInfo.TabIndex = 14;
+            this.cbDrawCulvertInfo.TabIndex = 7;
             this.cbDrawCulvertInfo.Text = "Menfez bilgilerini profile yaz";
             this.cbDrawCulvertInfo.UseVisualStyleBackColor = true;
             // 
             // groupBox1
             // 
             this.groupBox1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.groupBox1.Controls.Add(this.pickBasePoint);
             this.groupBox1.Controls.Add(this.txtBaseCH);
             this.groupBox1.Controls.Add(this.cbDrawCulvertInfo);
             this.groupBox1.Controls.Add(this.label3);
@@ -121,14 +115,6 @@
             this.groupBox1.Controls.Add(this.label7);
             this.groupBox1.Controls.Add(this.txtBaseLevel);
             this.groupBox1.Controls.Add(this.label6);
-            this.groupBox1.Controls.Add(this.txtZ);
-            this.groupBox1.Controls.Add(this.label5);
-            this.groupBox1.Controls.Add(this.txtY);
-            this.groupBox1.Controls.Add(this.label4);
-            this.groupBox1.Controls.Add(this.txtX);
-            this.groupBox1.Controls.Add(this.label2);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Controls.Add(this.btnPickBasePoint);
             this.groupBox1.Location = new System.Drawing.Point(648, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(217, 280);
@@ -136,12 +122,19 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Seçenekler";
             // 
+            // pickBasePoint
+            // 
+            this.pickBasePoint.Location = new System.Drawing.Point(18, 23);
+            this.pickBasePoint.Name = "pickBasePoint";
+            this.pickBasePoint.Size = new System.Drawing.Size(183, 96);
+            this.pickBasePoint.TabIndex = 0;
+            // 
             // txtBaseCH
             // 
             this.txtBaseCH.Location = new System.Drawing.Point(73, 140);
             this.txtBaseCH.Name = "txtBaseCH";
             this.txtBaseCH.Size = new System.Drawing.Size(128, 20);
-            this.txtBaseCH.TabIndex = 9;
+            this.txtBaseCH.TabIndex = 2;
             this.txtBaseCH.Text = "0+000.00";
             this.txtBaseCH.Validating += new System.ComponentModel.CancelEventHandler(this.txtBaseCH_Validating);
             // 
@@ -151,7 +144,7 @@
             this.label3.Location = new System.Drawing.Point(17, 144);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(44, 13);
-            this.label3.TabIndex = 8;
+            this.label3.TabIndex = 1;
             this.label3.Text = "Baz KM";
             // 
             // txtScale
@@ -159,7 +152,7 @@
             this.txtScale.Location = new System.Drawing.Point(73, 206);
             this.txtScale.Name = "txtScale";
             this.txtScale.Size = new System.Drawing.Size(128, 20);
-            this.txtScale.TabIndex = 13;
+            this.txtScale.TabIndex = 6;
             this.txtScale.Text = "10";
             this.txtScale.Validating += new System.ComponentModel.CancelEventHandler(this.txtScale_Validating);
             // 
@@ -169,7 +162,7 @@
             this.label7.Location = new System.Drawing.Point(17, 210);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(35, 13);
-            this.label7.TabIndex = 12;
+            this.label7.TabIndex = 5;
             this.label7.Text = "Ölçek";
             // 
             // txtBaseLevel
@@ -177,7 +170,7 @@
             this.txtBaseLevel.Location = new System.Drawing.Point(73, 166);
             this.txtBaseLevel.Name = "txtBaseLevel";
             this.txtBaseLevel.Size = new System.Drawing.Size(128, 20);
-            this.txtBaseLevel.TabIndex = 11;
+            this.txtBaseLevel.TabIndex = 4;
             this.txtBaseLevel.Text = "0";
             this.txtBaseLevel.Validating += new System.ComponentModel.CancelEventHandler(this.txtBaseLevel_Validating);
             // 
@@ -187,78 +180,8 @@
             this.label6.Location = new System.Drawing.Point(17, 170);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(49, 13);
-            this.label6.TabIndex = 10;
+            this.label6.TabIndex = 3;
             this.label6.Text = "Baz kotu";
-            // 
-            // txtZ
-            // 
-            this.txtZ.Location = new System.Drawing.Point(73, 99);
-            this.txtZ.Name = "txtZ";
-            this.txtZ.ReadOnly = true;
-            this.txtZ.Size = new System.Drawing.Size(128, 20);
-            this.txtZ.TabIndex = 7;
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(17, 103);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(14, 13);
-            this.label5.TabIndex = 6;
-            this.label5.Text = "Z";
-            // 
-            // txtY
-            // 
-            this.txtY.Location = new System.Drawing.Point(73, 73);
-            this.txtY.Name = "txtY";
-            this.txtY.ReadOnly = true;
-            this.txtY.Size = new System.Drawing.Size(128, 20);
-            this.txtY.TabIndex = 5;
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(17, 77);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(14, 13);
-            this.label4.TabIndex = 4;
-            this.label4.Text = "Y";
-            // 
-            // txtX
-            // 
-            this.txtX.Location = new System.Drawing.Point(73, 47);
-            this.txtX.Name = "txtX";
-            this.txtX.ReadOnly = true;
-            this.txtX.Size = new System.Drawing.Size(128, 20);
-            this.txtX.TabIndex = 3;
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(17, 51);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(14, 13);
-            this.label2.TabIndex = 2;
-            this.label2.Text = "X";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(47, 28);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(90, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Baz noktasını seç";
-            // 
-            // btnPickBasePoint
-            // 
-            this.btnPickBasePoint.Image = global::XCOM.Properties.Resources.pick;
-            this.btnPickBasePoint.Location = new System.Drawing.Point(18, 23);
-            this.btnPickBasePoint.Name = "btnPickBasePoint";
-            this.btnPickBasePoint.Size = new System.Drawing.Size(23, 23);
-            this.btnPickBasePoint.TabIndex = 0;
-            this.btnPickBasePoint.UseVisualStyleBackColor = true;
-            this.btnPickBasePoint.Click += new System.EventHandler(this.btnPickBasePoint_Click);
             // 
             // groupBox2
             // 
@@ -278,12 +201,17 @@
             // 
             // cbLayer
             // 
+            this.cbLayer.Database = null;
+            this.cbLayer.DrawMode = System.Windows.Forms.DrawMode.OwnerDrawVariable;
             this.cbLayer.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbLayer.FormattingEnabled = true;
+            this.cbLayer.HasIcons = true;
+            this.cbLayer.IconSize = new System.Drawing.Size(16, 16);
             this.cbLayer.Location = new System.Drawing.Point(101, 31);
             this.cbLayer.Name = "cbLayer";
             this.cbLayer.Size = new System.Drawing.Size(100, 21);
             this.cbLayer.TabIndex = 8;
+            this.cbLayer.Text = null;
             // 
             // txtHatchScale
             // 
@@ -365,14 +293,6 @@
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TextBox txtBaseLevel;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.TextBox txtZ;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TextBox txtY;
-        private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox txtX;
-        private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.Button btnPickBasePoint;
         private System.Windows.Forms.TextBox txtBaseCH;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.TextBox txtScale;
@@ -384,5 +304,6 @@
         private System.Windows.Forms.TextBox txtTextHeight;
         private System.Windows.Forms.Label label9;
         private AcadUtility.WinForms.LayerComboBox cbLayer;
+        private AcadUtility.WinForms.PickCoordinateControl pickBasePoint;
     }
 }
