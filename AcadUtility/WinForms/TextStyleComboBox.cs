@@ -17,7 +17,7 @@ namespace AcadUtility.WinForms
                 var textStyleNames = AcadSymbolTable.GetTextStyleTableRecords(this.Database,
                     p => (IncludeXRef || !p.IsDependent) && !p.IsShapeFile,
                     p => p.Name).OrderBy(p => p);
-                this.SetItems(textStyleNames);
+                this.Items.AddRange(textStyleNames.ToArray());
             }
             catch
             {

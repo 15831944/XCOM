@@ -12,7 +12,7 @@ namespace AcadUtility.WinForms
 
         public PrecisionComboBox()
         {
-            this.SetItems(new string[] {
+            this.Items.AddRange(new string[] {
                 "0 - 0",
                 "1 - 0.0",
                 "2 - 0.00",
