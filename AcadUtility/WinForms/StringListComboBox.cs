@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -7,7 +8,7 @@ namespace AcadUtility.WinForms
 {
     public class StringListComboBox : ComboBox
     {
-        [EditorBrowsable(EditorBrowsableState.Never)]
+        [EditorBrowsable(EditorBrowsableState.Never), DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
         public new ComboBoxStyle DropDownStyle
         {
             get => ComboBoxStyle.DropDownList;
@@ -29,8 +30,10 @@ namespace AcadUtility.WinForms
         [Category("Appearance"), DefaultValue(240)]
         public int MaxDropDownWidth { get; set; }
 
+        [Category("Behavior")]
         public event DrawItemEventHandler DrawIcon;
 
+        [Category("Appearance")]
         public override string Text
         {
             get => (string)base.SelectedItem;
@@ -40,7 +43,6 @@ namespace AcadUtility.WinForms
         public StringListComboBox()
         {
             base.DropDownStyle = ComboBoxStyle.DropDownList;
-            this.MaxDropDownWidth = 240;
 
             this.DrawMode = DrawMode.OwnerDrawVariable;
 
@@ -48,6 +50,7 @@ namespace AcadUtility.WinForms
             this.IconSize = new Size(24, 24);
             this.TextMargin = 2;
             this.IconMargin = 2;
+            this.MaxDropDownWidth = 240;
 
             this.MeasureItem += StringListComboBox_MeasureItem;
             this.DrawItem += StringListComboBox_DrawItem;

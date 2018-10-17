@@ -1,9 +1,11 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace AcadUtility.WinForms
 {
     public class PrecisionComboBox : StringListComboBox
     {
+        [Category("Data"), DefaultValue(2)]
         public int Precision
         {
             get => SelectedIndex;
@@ -12,6 +14,8 @@ namespace AcadUtility.WinForms
 
         public PrecisionComboBox()
         {
+            Precision = 2;
+
             this.Items.AddRange(new string[] {
                 "0 - 0",
                 "1 - 0.0",

@@ -4,6 +4,9 @@ namespace AcadUtility.WinForms
 {
     public class RichTextLabel : RichTextBox
     {
+        private const int WM_RBUTTONDOWN = 0x204;
+        private const int WM_RBUTTONUP = 0x205;
+
         public RichTextLabel()
         {
             ReadOnly = true;
@@ -18,9 +21,10 @@ namespace AcadUtility.WinForms
 
         protected override void WndProc(ref Message m)
         {
-            if (m.Msg == 0x204) return; // WM_RBUTTONDOWN
-            if (m.Msg == 0x205) return; // WM_RBUTTONUP
-            base.WndProc(ref m);
+            if (m.Msg == WM_RBUTTONDOWN || m.Msg == WM_RBUTTONUP)
+                return;
+            else
+                base.WndProc(ref m);
         }
     }
 }

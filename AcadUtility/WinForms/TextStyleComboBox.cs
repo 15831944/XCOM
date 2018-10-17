@@ -8,6 +8,7 @@ namespace AcadUtility.WinForms
         [Category("Data"), DefaultValue(false)]
         public bool IncludeXRef { get; set; }
 
+
         public TextStyleComboBox()
         {
             IncludeXRef = false;
@@ -16,7 +17,7 @@ namespace AcadUtility.WinForms
             {
                 var textStyleNames = AcadSymbolTable.GetTextStyleTableRecords(this.Database,
                     p => (IncludeXRef || !p.IsDependent) && !p.IsShapeFile,
-                    p => p.Name).OrderBy(p => p);
+                    p => p.Name).OrderBy(p => p).ToList();
                 this.Items.AddRange(textStyleNames.ToArray());
             }
             catch

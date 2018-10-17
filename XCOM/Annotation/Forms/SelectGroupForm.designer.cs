@@ -52,16 +52,6 @@
             // 
             this.cbPrefix.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cbPrefix.FormattingEnabled = true;
-            this.cbPrefix.Items.AddRange(new object[] {
-            "0 - 0.",
-            "1 - 0.0",
-            "2 - 0.00",
-            "3 - 0.000",
-            "4 - 0.0000",
-            "5 - 0.00000",
-            "6 - 0.000000",
-            "7 - 0.0000000",
-            "8 - 0.00000000"});
             this.cbPrefix.Location = new System.Drawing.Point(124, 74);
             this.cbPrefix.Name = "cbPrefix";
             this.cbPrefix.Size = new System.Drawing.Size(100, 21);
